@@ -1,0 +1,489 @@
+{
+  "mozilla-firefox": {
+    "featured": true,
+    "brandColor": "#ff6a1f",
+    "categories": [
+      "browsers"
+    ],
+    "alternatives": [
+      "brave-brave",
+      "google-chrome",
+      "vivaldi-vivaldi"
+    ],
+    "installerFeatures": [
+      {
+        "id": "startMenu",
+        "argsOff": "/StartMenuShortcut=false",
+        "default": true
+      },
+      {
+        "id": "desktopShortcut",
+        "argsOff": "/DesktopShortcut=false",
+        "default": true
+      }
+    ]
+  },
+  "google-chrome": {
+    "brandColor": "#1a73e8",
+    "categories": [
+      "browsers"
+    ],
+    "alternatives": [
+      "mozilla-firefox",
+      "brave-brave",
+      "vivaldi-vivaldi",
+      "thebrowsercompany-arc"
+    ]
+  },
+  "brave-brave": {
+    "brandColor": "#fb542b",
+    "categories": [
+      "browsers",
+      "security"
+    ],
+    "alternatives": [
+      "mozilla-firefox",
+      "vivaldi-vivaldi",
+      "google-chrome"
+    ]
+  },
+  "vivaldi-vivaldi": {
+    "brandColor": "#ef3939",
+    "categories": [
+      "browsers"
+    ],
+    "alternatives": [
+      "brave-brave",
+      "mozilla-firefox",
+      "thebrowsercompany-arc"
+    ]
+  },
+  "thebrowsercompany-arc": {
+    "brandColor": "#3139fb",
+    "categories": [
+      "browsers",
+      "productivity"
+    ],
+    "alternatives": [
+      "vivaldi-vivaldi",
+      "brave-brave"
+    ]
+  },
+  "microsoft-visualstudiocode": {
+    "featured": true,
+    "brandColor": "#0078d4",
+    "categories": [
+      "development"
+    ],
+    "alternatives": [
+      "zed-zed",
+      "jetbrains-intellijidea-community",
+      "notepadplusplus-notepadplusplus"
+    ],
+    "installerFeatures": [
+      {
+        "id": "addToPath",
+        "args": "/MERGETASKS=addtopath",
+        "default": true
+      },
+      {
+        "id": "desktopShortcut",
+        "args": "/MERGETASKS=desktopicon",
+        "default": false
+      },
+      {
+        "id": "contextMenu",
+        "args": "/MERGETASKS=addcontextmenufiles,addcontextmenufolders",
+        "default": false
+      }
+    ]
+  },
+  "git-git": {
+    "brandColor": "#f05033",
+    "categories": [
+      "development"
+    ],
+    "installerFeatures": [
+      {
+        "id": "addToPath",
+        "args": "/o:PathOption=Cmd",
+        "argsOff": "/o:PathOption=BashOnly",
+        "default": true
+      },
+      {
+        "id": "desktopShortcut",
+        "args": "/COMPONENTS=icons,icons\\desktop",
+        "default": false
+      },
+      {
+        "id": "contextMenu",
+        "args": "/COMPONENTS=ext,ext\\shellhere,ext\\guihere",
+        "default": true
+      }
+    ]
+  },
+  "openjs-nodejs-lts": {
+    "brandColor": "#3c873a",
+    "categories": [
+      "development"
+    ]
+  },
+  "python-python-3-13": {
+    "brandColor": "#3776ab",
+    "categories": [
+      "development"
+    ],
+    "installerFeatures": [
+      {
+        "id": "addToPath",
+        "args": "PrependPath=1",
+        "argsOff": "PrependPath=0",
+        "default": true
+      },
+      {
+        "id": "startMenu",
+        "args": "Shortcuts=1",
+        "argsOff": "Shortcuts=0",
+        "default": true
+      }
+    ]
+  },
+  "jetbrains-intellijidea-community": {
+    "categories": [
+      "development"
+    ]
+  },
+  "docker-dockerdesktop": {
+    "brandColor": "#1d63ed",
+    "categories": [
+      "development",
+      "system"
+    ]
+  },
+  "microsoft-windowsterminal": {
+    "iconUrl": "https://raw.githubusercontent.com/microsoft/terminal/main/res/terminal/images/Square44x44Logo.targetsize-256.png",
+    "categories": [
+      "development",
+      "utilities"
+    ]
+  },
+  "zed-zed": {
+    "featured": true,
+    "brandColor": "#084ccf",
+    "categories": [
+      "development"
+    ],
+    "alternatives": [
+      "microsoft-visualstudiocode"
+    ]
+  },
+  "discord-discord": {
+    "brandColor": "#5865f2",
+    "categories": [
+      "communication",
+      "games"
+    ],
+    "alternatives": [
+      "slacktechnologies-slack",
+      "telegram-telegramdesktop",
+      "openwhispersystems-signal"
+    ]
+  },
+  "slacktechnologies-slack": {
+    "brandColor": "#4a154b",
+    "categories": [
+      "communication",
+      "productivity"
+    ],
+    "alternatives": [
+      "discord-discord",
+      "zoom-zoom"
+    ]
+  },
+  "zoom-zoom": {
+    "brandColor": "#0b5cff",
+    "categories": [
+      "communication"
+    ]
+  },
+  "openwhispersystems-signal": {
+    "brandColor": "#3a76f0",
+    "categories": [
+      "communication",
+      "security"
+    ],
+    "alternatives": [
+      "telegram-telegramdesktop"
+    ]
+  },
+  "telegram-telegramdesktop": {
+    "brandColor": "#2aabee",
+    "categories": [
+      "communication"
+    ],
+    "alternatives": [
+      "openwhispersystems-signal",
+      "discord-discord"
+    ]
+  },
+  "valve-steam": {
+    "featured": true,
+    "brandColor": "#1b2838",
+    "categories": [
+      "games"
+    ],
+    "alternatives": [
+      "epicgames-epicgameslauncher",
+      "gog-galaxy",
+      "prismlauncher-prismlauncher"
+    ]
+  },
+  "epicgames-epicgameslauncher": {
+    "categories": [
+      "games"
+    ],
+    "alternatives": [
+      "valve-steam",
+      "gog-galaxy"
+    ]
+  },
+  "gog-galaxy": {
+    "brandColor": "#86328a",
+    "categories": [
+      "games"
+    ],
+    "alternatives": [
+      "valve-steam",
+      "epicgames-epicgameslauncher"
+    ]
+  },
+  "prismlauncher-prismlauncher": {
+    "categories": [
+      "games"
+    ]
+  },
+  "videolan-vlc": {
+    "featured": true,
+    "brandColor": "#ff8800",
+    "categories": [
+      "multimedia"
+    ]
+  },
+  "spotify-spotify": {
+    "brandColor": "#1db954",
+    "categories": [
+      "multimedia"
+    ]
+  },
+  "obsproject-obsstudio": {
+    "brandColor": "#302e31",
+    "categories": [
+      "multimedia"
+    ]
+  },
+  "audacity-audacity": {
+    "iconUrl": "https://raw.githubusercontent.com/audacity/audacity/master/share/icons/AppIcon/AU4_AppIcon_512x512.png",
+    "categories": [
+      "multimedia"
+    ]
+  },
+  "handbrake-handbrake": {
+    "categories": [
+      "multimedia"
+    ]
+  },
+  "gimp-gimp-3": {
+    "brandColor": "#5c5543",
+    "categories": [
+      "graphics"
+    ],
+    "alternatives": [
+      "inkscape-inkscape",
+      "figma-figma"
+    ]
+  },
+  "inkscape-inkscape": {
+    "categories": [
+      "graphics"
+    ]
+  },
+  "blenderfoundation-blender": {
+    "featured": true,
+    "brandColor": "#e87d0d",
+    "categories": [
+      "graphics",
+      "multimedia"
+    ]
+  },
+  "figma-figma": {
+    "brandColor": "#a259ff",
+    "categories": [
+      "graphics",
+      "productivity"
+    ]
+  },
+  "notion-notion": {
+    "categories": [
+      "productivity"
+    ],
+    "alternatives": [
+      "obsidian-obsidian"
+    ]
+  },
+  "obsidian-obsidian": {
+    "brandColor": "#7c3aed",
+    "categories": [
+      "productivity"
+    ],
+    "alternatives": [
+      "notion-notion"
+    ]
+  },
+  "thedocumentfoundation-libreoffice": {
+    "brandColor": "#18a303",
+    "categories": [
+      "productivity"
+    ]
+  },
+  "7zip-7zip": {
+    "categories": [
+      "utilities"
+    ]
+  },
+  "kde-kdiff3": {
+    "iconUrl": "https://apps.kde.org/app-icons/org.kde.kdiff3.svg"
+  },
+  "microsoft-appinstaller": {
+    "iconUrl": "https://raw.githubusercontent.com/microsoft/winget-cli/master/src/AppInstallerCLIPackage/Images/AppList.targetsize-256_altform-unplated.png"
+  },
+  "rarlab-winrar": {
+    "iconUrl": "https://cdn.jsdelivr.net/gh/mkevenaar/chocolatey-packages@646ffab0085403b1476d1d7e4ad50a1a82203e67/icons/winrar.png"
+  },
+  "microsoft-powertoys": {
+    "featured": true,
+    "categories": [
+      "utilities",
+      "system"
+    ]
+  },
+  "voidtools-everything": {
+    "categories": [
+      "utilities"
+    ]
+  },
+  "sharex-sharex": {
+    "brandColor": "#2d8be8",
+    "categories": [
+      "utilities",
+      "multimedia"
+    ]
+  },
+  "notepadplusplus-notepadplusplus": {
+    "brandColor": "#90e59a",
+    "categories": [
+      "utilities",
+      "development"
+    ]
+  },
+  "bitwarden-bitwarden": {
+    "brandColor": "#175ddc",
+    "categories": [
+      "security"
+    ],
+    "alternatives": [
+      "keepassxcteam-keepassxc"
+    ]
+  },
+  "keepassxcteam-keepassxc": {
+    "brandColor": "#6cac4d",
+    "categories": [
+      "security"
+    ],
+    "alternatives": [
+      "bitwarden-bitwarden"
+    ]
+  },
+  "malwarebytes-malwarebytes": {
+    "brandColor": "#0d3ecc",
+    "categories": [
+      "security"
+    ]
+  },
+  "wireguard-wireguard": {
+    "brandColor": "#88171a",
+    "categories": [
+      "security",
+      "system"
+    ]
+  },
+  "cpuid-cpu-z": {
+    "categories": [
+      "system"
+    ],
+    "alternatives": [
+      "windirstat-windirstat"
+    ]
+  },
+  "windirstat-windirstat": {
+    "categories": [
+      "system",
+      "utilities"
+    ],
+    "alternatives": [
+      "voidtools-everything"
+    ]
+  },
+  "rufus-rufus": {
+    "categories": [
+      "system",
+      "utilities"
+    ]
+  },
+  "pnpm-pnpm": {
+    "brandColor": "#f69220",
+    "categories": [
+      "development"
+    ],
+    "alternatives": [
+      "microsoft-typescript"
+    ]
+  },
+  "yt-dlp": {
+    "brandColor": "#cc0000",
+    "categories": [
+      "multimedia",
+      "utilities"
+    ]
+  },
+  "burntsushi-ripgrep": {
+    "categories": [
+      "development",
+      "utilities"
+    ]
+  },
+  "sharkdp-bat": {
+    "categories": [
+      "utilities",
+      "development"
+    ]
+  },
+  "astral-sh-uv": {
+    "brandColor": "#261230",
+    "categories": [
+      "development"
+    ],
+    "alternatives": [
+      "psf-black"
+    ]
+  },
+  "guru3d-afterburner": {
+    "brandColor": "#c8102e",
+    "categories": [
+      "games",
+      "system"
+    ],
+    "alternatives": [
+      "cpuid-cpu-z"
+    ]
+  }
+}

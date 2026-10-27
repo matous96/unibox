@@ -1,0 +1,23 @@
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/schemas/
+data-pipeline/node_modules/
+data-pipeline/.cache/
+data-pipeline/out/
+# Katalog vygenerovaný pipeline pro místní testování (pnpm pipeline --local)
+public/catalog.json
+*.log
+*.tsbuildinfo
+.env.local
+# Místní nastavení Claude Code (náhledové servery, oprávnění)
+.claude/
+# Certifikáty pro podpis kódu a klíče nikdy do repozitáře (README → Podpis kódu)
+*.pfx
+*.p12
+*.key
+# Stažené a rozšifrované zálohy Supabase obsahují data uživatelů (README → Údržba a zálohy)
+unibox-supabase-*
+/roles.sql
+/schema.sql
+/data.sql

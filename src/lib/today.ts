@@ -1,0 +1,252 @@
+/**
+ * Dnešní výběr pro sekci „Dnes“ na domovské stránce. Kromě ručně psaných
+ * příběhů a kolekcí (data/editorial.ts) bere i známé aplikace z celého
+ * katalogu, aby se obsah neopakoval po pár dnech:
+ *  - známá aplikace = populární nebo s mnoha hvězdami na GitHubu, s ikonou
+ *    a popisem, bez balastu (opravy Windows, knihovny, agenti…), mezi 400
+ *    nejpopulárnějšími (běžný uživatel bez nástrojů pro vývojáře a správce),
+ *  - velký příběh: každý 4. den ručně psaný, jinak tip na známou aplikaci,
+ *  - kolekce: ručně psané a výběry z kategorií – pokaždé jiná šestice
+ *    z 30 nejoblíbenějších aplikací kategorie,
+ *  - aplikace dne: známá ověřená aplikace (s fajkou), která dnes není
+ *    v příběhu ani v kolekcích,
+ *  - automaticky vybrané aplikace jen s ikonou ve vysokém rozlišení (aspoň
+ *    256 px nebo vektor) – v sekci Dnes jsou ikony velké.
+ * Pro daný den je výběr vždy stejný (číslo dne); sousední dny jsou od sebe
+ * v seznamu daleko a nic se nezopakuje, dokud se neprojde celý seznam.
+ * Šipky na kartách listují výběry dalších / předchozích dní – každá karta zvlášť;
+ * aplikace dne je jedna na celý den a nelistuje se.
+ */
+import { APP_STORIES, COLLECTIONS, dayIndex, type AppStory, type CollectionStory } from "@/data/editorial";
+import { CATEGORIES } from "@/data/categories";
+import i18n from "@/i18n";
+import { isVerified } from "@/lib/verified";
+import { getSource } from "@/services/managers";
+import type { CatalogEntry, CategoryId } from "@/types";
+
+/** Kolik nejpopulárnějších aplikací se počítá mezi „známé“. */
+const KNOWN = 400;
+/** Velikost výběru z kategorie a z kolika nejoblíbenějších se vybírá. */
+const CHUNK = 6;
+const CATEGORY_TOP = 30;
+/** Každý kolikátý den je velký příběh ručně psaný. */
+const HANDWRITTEN_EVERY = 4;
+
+/** Barva karty výběru z kategorie (hex – karta z ní skládá přechod). */
+const CATEGORY_COLORS: Record<CategoryId, string> = {
+  browsers: "#1d4ed8",
+  development: "#4338ca",
+  // Komunikace a bezpečnost se ukazují stejný den – jiný odstín než zelená bezpečnost
+  communication: "#6d28d9",
+  games: "#be123c",
+  multimedia: "#c2410c",
+  graphics: "#a21caf",
+  productivity: "#b45309",
+  utilities: "#334155",
+  // Zelená jako štít „Bezpečné“ – červená by působila jako varování
+  security: "#047857",
+  system: "#0e7490",
+};
+
+export interface TodayPicks {
+  story: AppStory;
+  storyEntry: CatalogEntry | undefined;
+  collections: { story: CollectionStory; entries: CatalogEntry[] }[];
+  appOfDay: CatalogEntry | undefined;
+  /** Vybrané aplikace, u kterých ještě není změřené rozlišení ikony. */
+  unmeasured: CatalogEntry[];
+}
+
+/** Nejmenší rozlišení ikony (px) pro sekci Dnes – ikony se tu ukazují velké. */
+export const SHARP_ICON = 256;
+
+/** Posun karet sekce Dnes při listování (o kolik „dní“ dopředu / dozadu); aplikace dne se nelistuje. */
+export interface TodayShift {
+  story: number;
+  collections: [number, number];
+}
+export const NO_SHIFT: TodayShift = { story: 0, collections: [0, 0] };
+
+const gcd = (a: number, b: number): number => (b ? gcd(b, a % b) : a);
+/** Zbytek po dělení i pro záporná čísla (listování dozadu). */
+const mod = (value: number, n: number) => ((value % n) + n) % n;
+
+/**
+ * Prvek seznamu pro den: krok přes seznam ≈ zlatý řez jeho délky (nesoudělný
+ * s ní) – sousední dny vyberou vzdálené prvky a každý přijde na řadu jednou,
+ * než se začne znovu.
+ */
+function dailyOrder<T>(pool: T[], day: number, skip: (item: T) => boolean = () => false): T[] {
+  const n = pool.length;
+  if (!n) return [];
+  let step = Math.max(1, Math.round(n * 0.618));
+  while (gcd(step, n) !== 1) step++;
+  // Obsazený prvek (dnes už jinde, malá ikona) → další v seznamu; seznam se nemění, takže se dny neposouvají
+  const start = mod(day * step, n);
+  return Array.from({ length: n }, (_, i) => pool[(start + i) % n]).filter((item) => !skip(item));
+}
+
+/** Kolik dalších kandidátů změřit zároveň s vybraným (kdyby měl malou ikonu). */
+const LOOKAHEAD = 6;
+
+/**
+ * Známá aplikace: popularita v katalogu (0–100) aspoň tolik, nebo tolik hvězd
+ * na GitHubu (Joplin, Logseq… mají nižší popularitu, ale zná je každý).
+ * Ověření vydavatele samo nestačí – ověřené bývají i málo známé nástroje.
+ */
+const KNOWN_POPULARITY = 72;
+const KNOWN_STARS = 10_000;
+/** Hvězdy se počítají až od této popularity (jinak by prošly knihovny s mnoha hvězdami). */
+const STARS_MIN_POPULARITY = 60;
+/** Aplikace bez kategorie (často nástroje příkazové řádky) se ukáže jen s vyšší popularitou. */
+const UNCATEGORIZED_POPULARITY = 75;
+
+/** Opravy Windows, knihovny a běhová prostředí, agenti, ovladače, testovací verze… – na titulní stránku nepatří. */
+const NOT_SHOWCASE =
+  /\bKB\d{6,}|security update|security advisory|vulnerability|update for|system update|command \| update|\bdrivers?\b|\bruntime\b|redistributable|\bsdk\b|\bcli\b|\bagent\b|\bhost\b|bootstrapper|build tools|workload|help pack|deprecated|\beol\b|\(install\)|machine-wide|flash player|shockwave|plug-?in\b|\.net\b|dot net|\b(beta|dev|developer|nightly|canary|insider|preview)\b/i;
+
+/** Štítky nástrojů pro vývojáře a správce (cloud, terminál, databáze…) – běžnému uživateli se na titulní stránce nenabízejí. */
+const ADMIN_TAG =
+  /^(azure|aws|gcp|cloud|hashicorp|terraform|kubernetes|kubectl|docker|devops|cli|command-line|terminal|shell|ssh|telnet|sql|database|elasticsearch|kibana|developing|development|programming|sdk|api|compiler|git|server|infrastructure)$/i;
+
+/** Servery a databáze, které štítky neoznačují (Elasticsearch…). */
+const ADMIN_NAME = /\b(elasticsearch|kibana|logstash|mongodb|redis|mysql|mariadb|postgresql|sql server)\b/i;
+
+const devOnly = (e: CatalogEntry) => e.sources.length > 0 && e.sources.every((s) => getSource(s.source).group === "dev");
+
+const known = (e: CatalogEntry) =>
+  e.popularity >= KNOWN_POPULARITY || ((e.githubStars ?? 0) >= KNOWN_STARS && e.popularity >= STARS_MIN_POPULARITY);
+
+/** Pro běžného uživatele: bez vývojářských kategorií, nástrojů pro správce a málo známých aplikací bez kategorie. */
+const forRegularUser = (e: CatalogEntry) =>
+  !e.categories.includes("development") &&
+  !e.tags.some((tag) => ADMIN_TAG.test(tag)) &&
+  !ADMIN_NAME.test(e.name) &&
+  (e.categories.length > 0 || e.popularity >= UNCATEGORIZED_POPULARITY);
+
+/** Hodí se aplikace na titulní stránku? Známá, s ikonou a popisem, bez balastu (NOT_SHOWCASE). */
+const showcase = (e: CatalogEntry, developer: boolean) =>
+  !!e.iconUrl && !!e.description && !devOnly(e) && known(e) && !NOT_SHOWCASE.test(e.name) && (developer || forRegularUser(e));
+const byPopularity = (a: CatalogEntry, b: CatalogEntry) => b.popularity - a.popularity || a.id.localeCompare(b.id);
+
+/** Krátký podtitulek z popisu aplikace (první věta, nejvýš ~120 znaků). */
+function shortText(text: string): string {
+  const sentence = text.split(/(?<=[.!?])\s/)[0] ?? text;
+  return sentence.length <= 120 ? sentence : `${sentence.slice(0, 117).trimEnd()}…`;
+}
+
+/** Tip na známou aplikaci jako velký příběh (texty v aktuálním jazyce). */
+function spotlight(entry: CatalogEntry, day: number): AppStory {
+  const category = entry.categories[0];
+  return {
+    kind: "app",
+    id: `spotlight-${entry.id}`,
+    appId: entry.id,
+    eyebrow: { cs: category ? i18n.t(`categories.${category}`) : i18n.t("home.spotlight.eyebrow") },
+    title: { cs: i18n.t(`home.spotlight.title${day % 3}`, { name: entry.name }) },
+    subtitle: { cs: shortText(entry.description) },
+  };
+}
+
+/** Výběr z kategorie: `round` = kolikrát už kolekce přišla na řadu – pokaždé jiná šestice. */
+function categoryCollection(category: CategoryId, top: CatalogEntry[], round: number): { story: CollectionStory; entries: CatalogEntry[] } {
+  const chunks = Math.max(1, Math.floor(top.length / CHUNK));
+  const start = (round % chunks) * CHUNK;
+  const entries = top.slice(start, start + CHUNK);
+  const name = i18n.t(`categories.${category}`);
+  return {
+    story: {
+      kind: "collection",
+      id: `category-${category}-${start}`,
+      eyebrow: { cs: i18n.t("home.categoryCollection.eyebrow") },
+      title: { cs: i18n.t("home.categoryCollection.title", { category: name }) },
+      subtitle: { cs: i18n.t("home.categoryCollection.subtitle", { names: entries.slice(0, 3).map((e) => e.name).join(", ") }) },
+      description: { cs: i18n.t("home.categoryCollection.description", { category: name }) },
+      appIds: entries.map((e) => e.id),
+      color: CATEGORY_COLORS[category],
+    },
+    entries,
+  };
+}
+
+/**
+ * Dnešní příběh, dvě kolekce a aplikace dne. `iconSize` = změřené rozlišení
+ * ikony (store/iconQuality.ts), undefined = ještě neznámé: aplikace s malou
+ * ikonou se v tipech, výběrech z kategorií a aplikaci dne přeskočí, neznámé
+ * se vrátí v `unmeasured` ke změření (pak se výběr případně posune dál).
+ */
+export function todayPicks(
+  all: CatalogEntry[],
+  index: Map<string, CatalogEntry>,
+  developer: boolean,
+  iconSize: (entry: CatalogEntry) => number | undefined = () => undefined,
+  date = new Date(),
+  shift: TodayShift = NO_SHIFT,
+): TodayPicks {
+  const day = dayIndex(date);
+  const resolve = (ids: string[]) => ids.map((id) => index.get(id)).filter((e): e is CatalogEntry => !!e);
+  const blurry = (e: CatalogEntry) => {
+    const size = iconSize(e);
+    return size !== undefined && size < SHARP_ICON;
+  };
+  const usable = all.filter((e) => showcase(e, developer)).sort(byPopularity);
+  const known = usable.slice(0, KNOWN);
+  const handwritten = APP_STORIES.filter((s) => index.has(s.appId));
+  // Malé ikony pryč ještě před pořadím – přeskočená by jinak posunula výběr na stejného souseda
+  const sharp = known.filter((e) => !blurry(e));
+  const categories = CATEGORIES.map((c) => c.id).filter((id) => developer || id !== "development");
+  const sources = [...COLLECTIONS.map((c) => ({ kind: "fixed" as const, story: c })), ...categories.map((id) => ({ kind: "category" as const, id }))];
+
+  /** Příběh a dvě kolekce pro daný posun (listování šipkami – každá karta ukáže výběr jiného dne). */
+  const cards = (s: TodayShift) => {
+    // Velký příběh: ručně psaný, nebo tip na známou aplikaci
+    const storyDay = day + s.story;
+    const spotlightOrder = mod(storyDay, HANDWRITTEN_EVERY) !== 0 ? dailyOrder(sharp, storyDay) : [];
+    const story = spotlightOrder[0]
+      ? spotlight(spotlightOrder[0], storyDay)
+      : (handwritten[mod(Math.floor(storyDay / HANDWRITTEN_EVERY), Math.max(1, handwritten.length))] ?? APP_STORIES[0]);
+
+    // Kolekce: ručně psané + výběry z kategorií (běžný uživatel bez vývojářských)
+    const pick = (position: number) => {
+      const source = sources[mod(position, sources.length)];
+      if (source.kind === "fixed") return { story: source.story, entries: resolve(source.story.appIds) };
+      const top = usable.filter((e) => e.categories.includes(source.id) && e.id !== story.appId && !blurry(e)).slice(0, CATEGORY_TOP);
+      return { ...categoryCollection(source.id, top, Math.floor(position / sources.length)), generated: true };
+    };
+    // Druhá kolekce o půl seznamu dál; když ji listování dovede na stejnou jako první, vezme další
+    const first = day + s.collections[0];
+    let second = day + s.collections[1] + Math.max(1, Math.floor(sources.length / 2));
+    if (mod(second, sources.length) === mod(first, sources.length)) second += s.collections[1] < 0 ? -1 : 1;
+    return { story, spotlightOrder, collections: [pick(first), pick(second)] };
+  };
+
+  const { story, spotlightOrder, collections } = cards(shift);
+
+  // Aplikace dne: jedna na celý den (bez listování) – známá ověřená aplikace (fajka u názvu),
+  // která není v dnešním příběhu ani kolekcích; listování ostatních karet ji nemění
+  const unshifted = shift === NO_SHIFT ? { story, collections } : cards(NO_SHIFT);
+  const used = new Set([unshifted.story.appId, ...unshifted.collections.flatMap((c) => c.entries.map((e) => e.id))]);
+  const appOfDayOrder = dailyOrder(
+    sharp.filter((e) => isVerified(e)),
+    day + 7,
+    (e) => used.has(e.id),
+  );
+  const appOfDay = appOfDayOrder[0];
+
+  // Ikony vybrané automaticky, jejichž rozlišení ještě není známé (ručně psané se neměří) – i s dalšími
+  // kandidáty, ať se výběr po jednom měření ustálí
+  const chosen = [
+    ...spotlightOrder.slice(0, LOOKAHEAD),
+    ...appOfDayOrder.slice(0, LOOKAHEAD),
+    ...collections.flatMap((c) => ("generated" in c ? c.entries : [])),
+  ];
+  const unmeasured = [...new Set(chosen.filter((e) => iconSize(e) === undefined))];
+
+  return {
+    story,
+    storyEntry: index.get(story.appId),
+    collections: collections.map(({ story, entries }) => ({ story, entries })),
+    appOfDay,
+    unmeasured,
+  };
+}

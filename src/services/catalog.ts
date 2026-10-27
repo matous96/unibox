@@ -1,0 +1,105 @@
+/**
+ * Načítání katalogu (catalog.json – vytváří ho data-pipeline).
+ *
+ * Pořadí zdrojů:
+ *  1. vzdálená URL (VITE_CATALOG_URL) – nejčerstvější data,
+ *  2. ve vývoji místní /catalog.json (vygenerovaný příkazem `pnpm pipeline --local`),
+ *  3. poslední úspěšně stažená kopie v mezipaměti prohlížeče (Cache Storage –
+ *     katalog má přes 10 MB, do localStorage se nevejde; v Tauri později soubor v %APPDATA%),
+ *  4. v produkčním sestavení /catalog.json přibalený k aplikaci (z public/ při sestavení),
+ *  5. malý ukázkový katalog ze zdrojového kódu – funguje vždy.
+ */
+import type { Catalog } from "@/types";
+import { sortBySourceOrder } from "@/services/managers/sources";
+
+const CACHE_NAME = "unibox-catalog";
+const CACHE_URL = "/__unibox/catalog.json";
+const REMOTE_URL = import.meta.env.VITE_CATALOG_URL as string | undefined;
+/** Katalog z public/ – ve vývoji „místní“, v sestavené aplikaci „přibalený“. */
+const CATALOG_FILE = "/catalog.json";
+
+export type CatalogSource = "remote" | "local" | "cache" | "packaged" | "bundled";
+
+export interface LoadedCatalog {
+  catalog: Catalog;
+  source: CatalogSource;
+}
+
+// Kontrola i verze schématu – starší katalog (v1, jen winget) nemá pole `sources`.
+const isValid = (data: unknown): data is Catalog =>
+  !!data &&
+  typeof data === "object" &&
+  (data as Catalog).schemaVersion === 2 &&
+  Array.isArray((data as Catalog).packages);
+
+/** Načte katalog a seřadí zdroje každé aplikace podle pořadí správců v aplikaci. */
+export async function loadCatalog(): Promise<LoadedCatalog> {
+  const loaded = await loadRawCatalog();
+  const packages = loaded.catalog.packages.map((p) => ({ ...p, sources: sortBySourceOrder(p.sources) }));
+  return { ...loaded, catalog: { ...loaded.catalog, packages } };
+}
+
+/** Stáhne a ověří katalog z adresy; null při chybě nebo neplatných datech. */
+async function fetchCatalog(url: string, timeoutMs: number): Promise<{ data: Catalog; text: string } | null> {
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(timeoutMs) });
+    if (!res.ok) return null;
+    const text = await res.text();
+    const data: unknown = JSON.parse(text);
+    return isValid(data) ? { data, text } : null;
+  } catch {
+    return null; // offline, chyba sítě nebo soubor neexistuje
+  }
+}
+
+async function saveToCache(text: string) {
+  try {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.put(CACHE_URL, new Response(text, { headers: { "Content-Type": "application/json" } }));
+  } catch {
+    /* mezipaměť nedostupná – příště se použije přibalená kopie */
+  }
+}
+
+async function loadFromCache(): Promise<Catalog | null> {
+  try {
+    const cache = await caches.open(CACHE_NAME);
+    const res = await cache.match(CACHE_URL);
+    if (!res) return null;
+    const data: unknown = await res.json();
+    return isValid(data) ? data : null;
+  } catch {
+    return null;
+  }
+}
+
+async function loadRawCatalog(): Promise<LoadedCatalog> {
+  // 1) Vzdálený katalog
+  if (REMOTE_URL) {
+    const remote = await fetchCatalog(REMOTE_URL, 15_000);
+    if (remote) {
+      void saveToCache(remote.text);
+      return { catalog: remote.data, source: "remote" };
+    }
+  }
+
+  // 2) Místní katalog z pipeline (jen ve vývoji)
+  if (import.meta.env.DEV) {
+    const local = await fetchCatalog(CATALOG_FILE, 15_000);
+    if (local) return { catalog: local.data, source: "local" };
+  }
+
+  // 3) Kopie z posledního úspěšného stažení
+  const cached = await loadFromCache();
+  if (cached) return { catalog: cached, source: "cache" };
+
+  // 4) Katalog přibalený k sestavené aplikaci
+  if (!import.meta.env.DEV) {
+    const packaged = await fetchCatalog(CATALOG_FILE, 15_000);
+    if (packaged) return { catalog: packaged.data, source: "packaged" };
+  }
+
+  // 5) Ukázkový katalog ze zdrojového kódu – načte se až teď (480 kB, jinak by zdržel každý start)
+  const { default: bundled } = await import("@/data/catalog.sample.json");
+  return { catalog: bundled as Catalog, source: "bundled" };
+}

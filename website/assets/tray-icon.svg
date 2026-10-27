@@ -1,0 +1,24 @@
+<!--
+  Ikona Uniboxu pro oznamovací oblast (u hodin): jednobarevná verze loga –
+  otevřená krabice se třemi aplikacemi – na průhledném pozadí, jako systémové
+  ikony Windows. Mřížka 32 × 32 využitá skoro celá, tahy 3 px – zřetelná
+  i v 16–24 px, kam ji Windows zmenšuje. Vpravo dole nechává místo pro tečku
+  stavu (kreslí ji tray.rs). Bílá pro tmavý hlavní panel; tmavá varianta je
+  tray-icon-dark.svg.
+  PNG:  pnpm tauri icon assets/tray-icon.svg -o <složka> -p 64  → 64x64.png do src-tauri/icons/tray.png
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 32 32">
+  <g fill="none" stroke="#ffffff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Krabice -->
+    <rect x="5.5" y="17" width="21" height="12" rx="2.5"/>
+    <!-- Otevřené klopy -->
+    <path d="M5.5 17 L2 12 H13.5 L16 17"/>
+    <path d="M26.5 17 L30 12 H18.5 L16 17"/>
+  </g>
+  <!-- Tři aplikace nad krabicí -->
+  <g fill="#ffffff">
+    <rect x="5.75" y="3.25" width="5.5" height="5.5" rx="1.5" transform="rotate(-15 8.5 6)"/>
+    <rect x="13.25" y="1" width="5.5" height="5.5" rx="1.5"/>
+    <rect x="20.75" y="3.25" width="5.5" height="5.5" rx="1.5" transform="rotate(15 23.5 6)"/>
+  </g>
+</svg>

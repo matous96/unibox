@@ -1,0 +1,190 @@
+# Vydání Uniboxu: sestavení na GitHub Actions, digitální podpis přes SignPath
+# (zdarma pro open source – SignPath Foundation) a koncept GitHub Release.
+#
+# Spuštění: značka v<verze> (git tag v0.1.14 && git push --tags), nebo ručně
+# (Actions → Vydání → Run workflow). Verze se bere z src-tauri/tauri.conf.json.
+#
+# Podpis je ve dvou krocích, protože instalátor obsahuje unibox.exe:
+#   1. unibox.exe (tauri build --no-bundle) → SignPath → podepsaný zpět,
+#   2. instalátory NSIS a MSI z podepsaného unibox.exe → SignPath.
+# Každý podpis musí v SignPathu schválit správce projektu (podmínka SignPath
+# Foundation) – workflow na schválení čeká. Podpis aktualizací (.sig, latest.json)
+# se počítá až z podepsaného instalátoru.
+#
+# Nastavení (README → Podpis kódu → SignPath Foundation):
+#   tajné údaje (Settings → Secrets): SIGNPATH_API_TOKEN, TAURI_SIGNING_PRIVATE_KEY,
+#     TAURI_SIGNING_PRIVATE_KEY_PASSWORD
+#   proměnné (Settings → Variables): SIGNPATH_ORGANIZATION_ID, SIGNPATH_PROJECT_SLUG,
+#     SIGNPATH_POLICY_SLUG, volitelně VITE_SUPABASE_URL, VITE_SUPABASE_KEY,
+#     VITE_AUTH_PROVIDERS, VITE_GITHUB_CLIENT_ID, VITE_GITHUB_URL, VITE_CATALOG_URL
+# Bez SIGNPATH_API_TOKEN vznikne nepodepsané vydání (SmartScreen bude varovat).
+
+name: Vydání
+
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write # koncept GitHub Release
+  actions: read # SignPath čte nahrané artefakty
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-latest
+    timeout-minutes: 300
+    env:
+      SIGNPATH_API_TOKEN: ${{ secrets.SIGNPATH_API_TOKEN }}
+      TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+      TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+      VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_KEY: ${{ vars.VITE_SUPABASE_KEY }}
+      VITE_AUTH_PROVIDERS: ${{ vars.VITE_AUTH_PROVIDERS }}
+      VITE_GITHUB_CLIENT_ID: ${{ vars.VITE_GITHUB_CLIENT_ID }}
+      VITE_GITHUB_URL: ${{ vars.VITE_GITHUB_URL }}
+      VITE_CATALOG_URL: ${{ vars.VITE_CATALOG_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Verze
+        id: version
+        shell: pwsh
+        run: |
+          $version = (Get-Content src-tauri/tauri.conf.json -Raw | ConvertFrom-Json).version
+          if ($env:GITHUB_REF_TYPE -eq "tag" -and $env:GITHUB_REF_NAME -ne "v$version") {
+            throw "Značka $env:GITHUB_REF_NAME nesedí s verzí $version v src-tauri/tauri.conf.json"
+          }
+          "version=$version" >> $env:GITHUB_OUTPUT
+
+      # ── 1. Aplikace ────────────────────────────────────────────────────
+      - name: Sestavení aplikace (bez instalátorů)
+        run: pnpm tauri build --no-bundle
+
+      - name: Nahrát nepodepsaný unibox.exe
+        id: unsigned-app
+        if: env.SIGNPATH_API_TOKEN != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: unibox-app-unsigned
+          path: src-tauri/target/release/unibox.exe
+          if-no-files-found: error
+
+      - name: Podpis unibox.exe (SignPath)
+        if: env.SIGNPATH_API_TOKEN != ''
+        uses: signpath/github-action-submit-signing-request@v3
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
+          artifact-configuration-slug: app
+          github-artifact-id: ${{ steps.unsigned-app.outputs.artifact-id }}
+          wait-for-completion: true
+          # Čeká na ruční schválení v SignPathu
+          wait-for-completion-timeout-in-seconds: 7200
+          output-artifact-directory: signed/app
+          parameters: |
+            version: ${{ toJSON(steps.version.outputs.version) }}
+
+      - name: Podepsaný unibox.exe do sestavení
+        if: env.SIGNPATH_API_TOKEN != ''
+        shell: pwsh
+        run: Copy-Item signed/app/unibox.exe src-tauri/target/release/unibox.exe -Force
+
+      # ── 2. Instalátory ─────────────────────────────────────────────────
+      - name: Instalátory NSIS a MSI
+        # Bez podpisu aktualizací – .sig se počítá až z podepsaného instalátoru (krok 3)
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ""
+        # Dva argumenty – „nsis,msi“ by PowerShell (výchozí shell na Windows) předal jako „nsis msi“
+        run: pnpm tauri bundle --bundles nsis msi
+
+      - name: Nahrát nepodepsané instalátory
+        id: unsigned-installers
+        if: env.SIGNPATH_API_TOKEN != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: unibox-installers-unsigned
+          path: |
+            src-tauri/target/release/bundle/nsis/*.exe
+            src-tauri/target/release/bundle/msi/*.msi
+          if-no-files-found: error
+
+      - name: Podpis instalátorů (SignPath)
+        if: env.SIGNPATH_API_TOKEN != ''
+        uses: signpath/github-action-submit-signing-request@v3
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
+          artifact-configuration-slug: installers
+          github-artifact-id: ${{ steps.unsigned-installers.outputs.artifact-id }}
+          wait-for-completion: true
+          wait-for-completion-timeout-in-seconds: 7200
+          output-artifact-directory: signed/installers
+          parameters: |
+            version: ${{ toJSON(steps.version.outputs.version) }}
+
+      - name: Podepsané instalátory do sestavení
+        if: env.SIGNPATH_API_TOKEN != ''
+        shell: pwsh
+        run: |
+          # Artefakt obsahuje složky nsis/ a msi/ (společný předek nahraných cest)
+          Get-ChildItem signed/installers -Recurse -Include *.exe, *.msi | ForEach-Object {
+            $target = if ($_.Extension -eq ".msi") { "msi" } else { "nsis" }
+            Copy-Item $_.FullName "src-tauri/target/release/bundle/$target/$($_.Name)" -Force
+          }
+
+      # ── 3. Aktualizace a vydání ────────────────────────────────────────
+      - name: Podpis aktualizací a latest.json
+        if: env.TAURI_SIGNING_PRIVATE_KEY != ''
+        shell: pwsh
+        run: |
+          $installer = "src-tauri/target/release/bundle/nsis/Unibox_${{ steps.version.outputs.version }}_x64-setup.exe"
+          pnpm tauri signer sign $installer
+          if ($LASTEXITCODE -ne 0) { throw "Podpis aktualizací se nepovedl" }
+          node scripts/updater-manifest.mjs
+
+      - name: Ověření podpisu kódu
+        if: env.SIGNPATH_API_TOKEN != ''
+        shell: pwsh
+        run: |
+          $files = @("src-tauri/target/release/unibox.exe") + (Get-ChildItem src-tauri/target/release/bundle -Recurse -Include *.exe, *.msi).FullName
+          foreach ($file in $files) {
+            $signature = Get-AuthenticodeSignature $file
+            "$($signature.Status)  $($signature.SignerCertificate.Subject)  $file"
+            if ($signature.Status -ne "Valid") { throw "Soubor není platně podepsaný: $file" }
+          }
+
+      - name: Koncept GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = "${{ steps.version.outputs.version }}"
+          $files = @(Get-ChildItem src-tauri/target/release/bundle -Recurse -Include *.exe, *.msi, *.sig, latest.json).FullName
+          $signed = if ($env:SIGNPATH_API_TOKEN) { "Podepsáno přes SignPath (certifikát SignPath Foundation)." } else { "Bez digitálního podpisu." }
+          gh release create "v$version" @files --draft --title "Unibox $version" --notes "Unibox $version – $signed"

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ochrana soukromí – Unibox</title>
+  <meta name="description" content="Jaká data Unibox používá: bez telemetrie a reklam, síť jen pro katalog, ikony, správce balíčků a volitelné přihlášení.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d0f14" media="(prefers-color-scheme: dark)">
+  <link vite-ignore rel="alternate" hreflang="cs" href="soukromi.html">
+  <link vite-ignore rel="alternate" hreflang="en" href="en/privacy.html">
+  <link rel="icon" href="assets/unibox-logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    try { const t = localStorage.getItem("unibox-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#obsah">Přeskočit na obsah</a>
+
+  <header class="nav" id="nav">
+    <div class="wrap nav__inner">
+      <a class="brand" href="index.html" aria-label="Unibox – úvod">
+        <img src="assets/unibox-logo.svg" alt="" width="32" height="32">
+        <span>Unibox</span>
+      </a>
+      <nav class="nav__links" aria-label="Hlavní navigace">
+        <a href="index.html#funkce">Funkce</a>
+        <a href="index.html#spravci">Správci balíčků</a>
+        <a href="novinky.html">Novinky</a>
+        <a href="index.html#faq">Otázky</a>
+      </nav>
+      <div class="nav__actions">
+        <a class="lang-switch" href="en/privacy.html" hreflang="en" lang="en" data-lang-switch title="English" aria-label="Switch to English">EN</a>
+        <a class="btn btn--primary btn--sm" href="index.html#stahnout">Stáhnout</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="obsah">
+    <section class="page-head">
+      <div class="wrap">
+        <div class="page-head__inner">
+          <p class="eyebrow">Ochrana soukromí</p>
+          <h1>Co Unibox dělá s&nbsp;daty</h1>
+          <p class="lead">Žádná telemetrie, analytika ani reklamy. Co máte nainstalované, zůstává ve vašem počítači.</p>
+        </div>
+      </div>
+    </section>
+
+    <article class="wrap legal">
+      <p class="note"><strong>Zkráceně:</strong> Unibox neodesílá žádné údaje o vás ani o vašem počítači. Síť používá jen k&nbsp;funkcím popsaným níže – každý server přitom vidí běžné údaje požadavku (IP adresu, čas, verzi programu). Přihlášení je dobrovolné a bez něj Unibox funguje celý kromě hodnocení a synchronizace.</p>
+
+      <h2>Bez přihlášení</h2>
+      <ul>
+        <li><strong>Katalog aplikací</strong> (soubor catalog.json) se stahuje z webu projektu. Neobsahuje nic o vás – je pro všechny stejný.</li>
+        <li><strong>Ikony a screenshoty aplikací</strong> se načítají z adres uvedených v katalogu (weby vydavatelů, GitHub, jsDelivr, Chocolatey, Wikimedia, Steam) a ukládají do mezipaměti v počítači. Favicony webů aplikací Unibox za běhu nehledá – služby jako Google se tak nedozvědí, které aplikace si prohlížíte.</li>
+        <li><strong>Správci balíčků</strong> (WinGet, Chocolatey, Scoop, npm, pip, Cargo, vcpkg, .NET, PowerShell Gallery) hledají, instalují a aktualizují přes své vlastní servery a řídí se svými zásadami. Unibox jim předává jen to, co hledáte nebo instalujete.</li>
+        <li><strong>Hvězdičky z GitHubu</strong> v detailu aplikace: dotaz na api.github.com s názvem repozitáře aplikace.</li>
+        <li><strong>Aktualizace Uniboxu</strong>: kontrola souboru latest.json v GitHub Releases. Automatickou kontrolu vypnete v&nbsp;Nastavení → Obecné.</li>
+        <li><strong>Odkazy</strong> (web aplikace, podpora, GitHub) se otevírají ve vašem prohlížeči.</li>
+      </ul>
+
+      <h2>S přihlášením (dobrovolné)</h2>
+      <ul>
+        <li><strong>Přihlášení</strong> přes GitHub nebo Google proběhne v prohlížeči – Unibox nikdy nevidí vaše heslo. Od poskytovatele dostane jméno, e-mail a obrázek účtu. Relace je v počítači uložená šifrovaně (Windows DPAPI).</li>
+        <li><strong>Hodnocení hvězdičkami</strong> se zobrazuje jen jako souhrn (průměr a počet), bez jmen.</li>
+        <li><strong>Recenze</strong> jsou veřejné pod jménem z vašeho účtu – Unibox to při psaní ukáže. Recenzi můžete kdykoli upravit nebo smazat.</li>
+        <li><strong>Synchronizace</strong> ukládá do účtu oblíbené, sadu balíčků, předvolby vzhledu a jazyka a předvolby oznámení. Jednotlivé oblasti i celou synchronizaci vypnete v&nbsp;Nastavení → Obecné → Synchronizace, tamtéž data z účtu smažete. Vlastní příkazy instalace, oprávnění a plán automatických aktualizací do účtu nejdou.</li>
+        <li>Data účtu jsou v databázi <a href="https://supabase.com/privacy" rel="noopener">Supabase</a> a vidí je jen jejich vlastník. Smazáním účtu se smažou i hodnocení, recenze a synchronizovaná data. Šifrované zálohy databáze se uchovávají nejvýš 90 dní, takže smazaná data z nich zmizí nejpozději do 90 dnů.</li>
+      </ul>
+
+      <h2>Pro vývojáře: publikování aplikace</h2>
+      <p>Průvodce publikováním ve WinGetu stáhne instalátor ze zadané adresy (jen ke zjištění údajů, nespouští ho). Odeslání do repozitáře microsoft/winget-pkgs proběhne z vašeho účtu na GitHubu; přístupový token zůstane jen v paměti po dobu průvodce.</p>
+
+      <h2>Co zůstává v počítači</h2>
+      <p>Nastavení, mezipaměť katalogu a ikon, historie operací a protokoly jsou jen ve vašem počítači (složka aplikace v %LOCALAPPDATA% a úložiště okna). Unibox je nikam neposílá – protokol pro nahlášení chyby odešlete jen vy sami.</p>
+
+      <h2>Kontakt</h2>
+      <p>Otázky k ochraně soukromí pište na <a data-link="email" href="#">e-mail projektu</a> nebo na <a data-link="github" href="#">GitHub</a>. Viz také <a href="podpis-kodu.html">Zásady podepisování kódu</a>.</p>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="footer__brand">
+        <a class="brand" href="index.html"><img src="assets/unibox-logo.svg" alt="" width="28" height="28"><span>Unibox</span></a>
+        <p>Obchod s aplikacemi pro Windows. Open source, licence MIT.</p>
+      </div>
+      <nav class="footer__links" aria-label="Odkazy">
+        <a data-link="github" href="#">GitHub</a>
+        <a href="novinky.html">Novinky</a>
+        <a href="soukromi.html">Ochrana soukromí</a>
+        <a href="podpis-kodu.html">Podepisování kódu</a>
+        <a href="en/privacy.html" hreflang="en" lang="en" data-lang-switch>English</a>
+      </nav>
+    </div>
+    <div class="wrap footer__note">
+      <p>Unibox není spojen se společností Microsoft ani s projekty WinGet, Chocolatey a Scoop. Windows je ochranná známka společnosti Microsoft.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

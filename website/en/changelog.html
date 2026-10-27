@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What’s new – Unibox</title>
+  <meta name="description" content="The Unibox changelog since the first public version 0.1.0: what’s new in every release, what we improved and fixed, and what’s coming next.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d0f14" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="What’s new – Unibox">
+  <meta property="og:description" content="What’s new in Unibox – the changelog since version 0.1.0.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <!-- Jazykové verze stránky; po spuštění webu nahradit relativní adresy absolutními (s doménou) -->
+  <link vite-ignore rel="alternate" hreflang="cs" href="../novinky.html">
+  <link vite-ignore rel="alternate" hreflang="en" href="changelog.html">
+  <!-- Jazyk: ruční volba (unibox-lang) platí vždy; bez ní jen jednou přesměrovat na angličtinu podle jazyka prohlížeče -->
+  <script>
+    try {
+      const page = document.documentElement.lang;
+      let want = localStorage.getItem("unibox-lang");
+      if (!want && !localStorage.getItem("unibox-lang-auto") && !/bot|crawl|spider|slurp|lighthouse/i.test(navigator.userAgent)) {
+        localStorage.setItem("unibox-lang-auto", "1");
+        if (!/^(cs|sk)\b/i.test((navigator.languages || [])[0] || navigator.language || "")) want = "en";
+      }
+      const alt = want && want !== page && document.querySelector('link[rel=alternate][hreflang="' + want + '"]');
+      if (alt) location.replace(alt.href + location.hash);
+    } catch {}
+  </script>
+  <link rel="icon" href="../assets/unibox-logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../styles.css">
+  <!-- Motiv nastavit ještě před vykreslením, ať stránka nebliká -->
+  <script>
+    try { const t = localStorage.getItem("unibox-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#obsah">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="wrap nav__inner">
+      <a class="brand" href="index.html" aria-label="Unibox – home">
+        <img src="../assets/unibox-logo.svg" alt="" width="32" height="32">
+        <span>Unibox</span>
+      </a>
+      <nav class="nav__links" aria-label="Main navigation">
+        <a href="index.html#funkce">Features</a>
+        <a href="index.html#spravci">Package managers</a>
+        <a href="changelog.html" aria-current="page">What’s new</a>
+        <a href="index.html#co-chystame">Roadmap</a>
+        <a href="index.html#faq">FAQ</a>
+      </nav>
+      <div class="nav__actions">
+        <a class="lang-switch" href="../novinky.html" hreflang="cs" lang="cs" data-lang-switch title="Česky" aria-label="Přepnout do češtiny">CZ</a>
+        <a class="icon-btn" data-link="github" href="#" aria-label="Unibox on GitHub" title="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+        </a>
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch light / dark theme" title="Theme">
+          <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+        </button>
+        <a class="btn btn--primary btn--sm" href="index.html#stahnout">Download</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="obsah">
+    <!-- ============ ÚVOD ============ -->
+    <section class="page-head">
+      <div class="wrap">
+        <div class="page-head__inner reveal">
+          <p class="eyebrow">What’s new</p>
+          <h1>What’s new in&nbsp;Unibox</h1>
+          <p class="lead">Every change since the first public version 0.1.0, newest first. Thirteen updates shipped in the six days after its release.</p>
+          <nav class="versions-nav" aria-label="Jump to version">
+            <a class="chip" href="#v0-1-13">0.1.13</a>
+            <a class="chip" href="#v0-1-12">0.1.12</a>
+            <a class="chip" href="#v0-1-11">0.1.11</a>
+            <a class="chip" href="#v0-1-10">0.1.10</a>
+            <a class="chip" href="#v0-1-9">0.1.9</a>
+            <a class="chip" href="#v0-1-8">0.1.8</a>
+            <a class="chip" href="#v0-1-7">0.1.7</a>
+            <a class="chip" href="#v0-1-6">0.1.6</a>
+            <a class="chip" href="#v0-1-5">0.1.5</a>
+            <a class="chip" href="#v0-1-4">0.1.4</a>
+            <a class="chip" href="#v0-1-3">0.1.3</a>
+            <a class="chip" href="#v0-1-2">0.1.2</a>
+            <a class="chip" href="#v0-1-1">0.1.1</a>
+            <a class="chip" href="#v0-1-0">0.1.0</a>
+          </nav>
+        </div>
+        <dl class="stats reveal">
+          <div><dt>Current version</dt><dd>0.1.13</dd></div>
+          <div><dt>Updates since 0.1.0</dt><dd>13</dd></div>
+          <div><dt>Apps in the catalog</dt><dd>25,100+</dd></div>
+          <div><dt>Package managers for real</dt><dd>WinGet · Chocolatey · Scoop + 8 for developers</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============ V KOSTCE ============ -->
+    <section class="section" id="v-kostce">
+      <div class="wrap">
+        <div class="section__head reveal">
+          <p class="eyebrow">At a glance</p>
+          <h2>The biggest changes since version 0.1.0</h2>
+        </div>
+        <div class="highlights">
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.1</span>
+            <h3>Windows&nbsp;11-style window and background mode</h3>
+            <p>A custom title bar, a tray icon with a quick menu, and installs that finish even after you close the window.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.3</span>
+            <h3>Bulk install, export and&nbsp;import</h3>
+            <p>Several apps at once, moving your app list to a new PC, version pinning and cleanup after uninstall.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.4</span>
+            <h3>Install options and SHA-256 verification</h3>
+            <p>Silent install, run as administrator, install for all users and a visible checksum verification.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.9</span>
+            <h3>App Store-style collections</h3>
+            <p>A full-screen collection page with a description, the list of apps and a button to install them all at once.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.10</span>
+            <h3>Fallback install source</h3>
+            <p>When WinGet has a broken download link, Unibox automatically tries Chocolatey or Scoop.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.11</span>
+            <h3>Chocolatey and Scoop for real</h3>
+            <p>Install, update and uninstall right in Unibox, single-source mode and unibox:// links from the web.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.11</span>
+            <h3>Startup apps</h3>
+            <p>Programs that start at sign-in from the registry, the Startup folder and Task Scheduler – enable, disable, remove and see their startup impact.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.11</span>
+            <h3>Clean uninstall</h3>
+            <p>Advanced uninstall finds leftovers on disk and in the registry. With install monitoring it removes everything the installer created.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.11</span>
+            <h3>Updates and profiles your way</h3>
+            <p>Ignored and postponed updates, and a profile export with settings as JSON or a readable HTML page.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.13</span>
+            <h3>Developer package managers for real</h3>
+            <p>npm, Bun, pip, Cargo, vcpkg, .NET Tool and PowerShell – search, install, update and uninstall. Installs a missing Node.js, Python or Rust in one click.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.13</span>
+            <h3>Updates under control</h3>
+            <p>Checks and installs at a set time and days, a minimum age for updates, battery and metered-connection exceptions, and saved options for updates too.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HISTORIE ZMĚN ============ -->
+    <section class="section section--alt" id="historie">
+      <div class="wrap">
+        <div class="section__head reveal">
+          <p class="eyebrow">Changelog</p>
+          <h2>Release by release</h2>
+          <p class="section__lead">What’s new in each version, what we improved and what we fixed.</p>
+        </div>
+
+        <div class="timeline">
+          <!-- 0.1.13 -->
+          <article class="release" id="v0-1-13">
+            <div class="release__meta">
+              <span class="release__ver">0.1.13</span>
+              <time class="release__date" datetime="2026-10-27">Oct 27, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>Developer package managers for real and updates under control</h2>
+                <span class="badge badge--live">Latest</span>
+              </div>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li><strong>npm, Bun, pip, Cargo, vcpkg, .NET Tool, PowerShell 7 and&nbsp;5.1</strong> – search their registries directly, and install, update and uninstall libraries and tools in Developer mode. Available updates for global packages show up with all your other updates.</li>
+                  <li><strong>Tools in one click</strong> – missing Node.js, Python, Rust, the .NET SDK or PowerShell 7? Unibox installs them via WinGet. For vcpkg it shows short instructions.</li>
+                  <li><strong>A filter for developers too</strong> – click npm, pip, Cargo… in the sidebar to see the manager’s overview: installed packages, search in its registry only and popular tools.</li>
+                  <li><strong>Scheduled updates</strong> – checks at an interval from 30 minutes to a week, or every day or on selected days at a set time. Automatic installs can have their own schedule, and a missed time is caught up with a delay, right after start, or skipped.</li>
+                  <li><strong>Minimum age for updates</strong> – a new version is offered only after the set number of days since its release, globally or per package manager.</li>
+                  <li><strong>Saved options for updates too</strong> – as administrator, interactive, architecture, folder, arguments and commands apply when updating. New: uninstall the previous version and custom arguments just for updates.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li>Automatic update installs also wait while battery saver is on. Unibox reports postponed updates and tries to install them again in 15 minutes.</li>
+                  <li>An update that doesn’t apply after several attempts (the manager keeps offering it) stops being offered. You can offer it again on the app page.</li>
+                  <li><strong>Welcome tour</strong> – on the first launch, Unibox walks you through the catalog, the source filter, advanced uninstall, startup apps and backups in five steps. Skip it any time and replay it in Settings → General.</li>
+                  <li><strong>Available updates for Chocolatey too</strong> – in the update list, the counts, and bulk and automatic updates. The repository check runs in the background and doesn’t slow down the app list.</li>
+                  <li><strong>A warning when the installer host changes</strong> – when the new version’s installer from WinGet is downloaded from a different place than the installed version’s, the update is marked orange, the app page shows both addresses and automatic updates skip it.</li>
+                  <li>In Settings → Notification preferences, turn off update notifications from selected package managers.</li>
+                  <li>The update list can have all updates checked by default.</li>
+                  <li>The Today section picks from hundreds of well-known apps across the catalog – daily tips, category picks and the app of the day no longer repeat after a few days. The app of the day is always verified and stays the same all day, and only apps with a sharp icon are shown. Browse more picks with the arrows on the other cards, and collection cards take the color that prevails in their icons – a set of blue apps is blue.</li>
+                  <li><strong>Only sharp icons</strong> – the catalog picks the sharpest icon for each app from all sources, now including the app's website. Small favicons that would look blurry on cards and in app details are replaced by an initials avatar. Icons no longer switch after loading (the high-resolution catalog icon takes priority, OneDrive for example), and Audacity, WinRAR and Windows Terminal have their current icons.</li>
+                  <li>Verified apps (with the check mark) come first in search results – “terminal” shows Windows Terminal first, not lesser-known tools that merely start with the word.</li>
+                  <li>More stable and smoother: an error on one page no longer takes down the whole window (just “Try again”), Unibox reports when a package manager fails instead of silently leaving it out, and lists scroll without stutter.</li>
+                  <li>Developer packages are checked only in Developer mode – Regular user mode stays fast and free of libraries.</li>
+                  <li>Switch to Developer mode with one button in Settings → Package managers.</li>
+                  <li>Searching from a link (such as a tag on an app page) fills in the search box at the top too.</li>
+                  <li><strong>For developers: publishing to WinGet</strong> – the wizard in Publish reads the SHA-256, type and details from the installer URL, prepares the manifest and checks it with winget validate.</li>
+                  <li>The installer shows the <a href="privacy.html">privacy policy</a> and license before installing. App website favicons are no longer looked up through Google and DuckDuckGo services.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.12 -->
+          <article class="release" id="v0-1-12">
+            <div class="release__meta">
+              <span class="release__ver">0.1.12</span>
+              <time class="release__date" datetime="2026-10-27">Oct 27, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>A new installer in Unibox style</h2>
+              </div>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li><strong>A modern installer</strong> – welcome and finish screens with a high-resolution Unibox logo and the app’s colors, the logo in the header of the other screens too, and the Segoe UI font instead of the dated system one.</li>
+                  <li><strong>What’s new in Settings</strong> – reopen the What’s new window any time, for example if you closed it by accident after an update. The history of every version is there too.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li>The installer graphics stay sharp at any display scaling – 100%, 150% or 200%.</li>
+                  <li>The installer picks its language from Windows, with no language selection window up front.</li>
+                  <li>After the install, the finish screen appears right away; the Details button shows the full progress.</li>
+                  <li>The uninstaller uses the Unibox icon instead of the default NSIS one, and Windows Settings → Apps lists Unibox as the publisher.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.11 -->
+          <article class="release" id="v0-1-11">
+            <div class="release__meta">
+              <span class="release__ver">0.1.11</span>
+              <time class="release__date" datetime="2026-10-26">Oct 26, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>Chocolatey and Scoop for real, single-source mode and background updates</h2>
+              </div>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li><strong>Chocolatey and Scoop for real</strong> – search, install, update and uninstall right in Unibox. A missing package manager is installed in one click using its official install script.</li>
+                  <li><strong>Single-source mode</strong> – click WinGet, Chocolatey or Scoop in the sidebar and the whole catalog shows only apps from that source and installs only from it. A bar at the top shows the mode and clears it in one click.</li>
+                  <li><strong>Smart fallback source</strong> – when an install fails (broken link, another install running, the package is missing from the source…), Unibox offers the same app from Chocolatey or Scoop. If that package manager is missing, it offers to install it first.</li>
+                  <li><strong>unibox:// links</strong> – collections and apps from the web open right in Unibox with a pre-filled list to install. You always confirm the installation.</li>
+                  <li>Installed apps show an <strong>Installed via</strong> label in the package manager’s color (WinGet, Chocolatey, Scoop) instead of the source picker. It persists across restarts.</li>
+                  <li><strong>Automatic background update checks</strong> – hourly, daily or weekly, with a “Run this task now” button. Optionally installs all updates or only selected apps automatically, mindful of battery and metered connections.</li>
+                  <li><strong>Notification center</strong> – a bell in the top bar with a history of events and errors, a count of new errors, copying error messages and clearing the history.</li>
+                  <li><strong>Notification preferences</strong> – a master switch, a summary after a batch of operations, available updates, operation progress, failures and successes. When Unibox runs in the background, you get Windows notifications.</li>
+                  <li>A section for <strong>Administrator rights and other dangerous settings</strong> – admin rights for every operation or just once, no elevation, custom command-line arguments, pre- and post-install commands, custom package manager paths and importing them from bundles. All off by default.</li>
+                  <li>Updating a running app: Unibox finds its open windows and processes, offers to close them and retries the update.</li>
+                  <li>Choose a WinGet package variant – language or installer type (for example Firefox in more than 100 languages).</li>
+                  <li>A blue <strong>verified checkmark</strong> for apps from well-known publishers – on app pages and on cards.</li>
+                  <li><strong>Custom accent color</strong> – ready-made palettes or any HEX code.</li>
+                  <li><strong>A running app no longer blocks an install</strong> – Unibox ends a background process (such as OBS in the tray or a process stuck in memory) before an install, update or uninstall. It offers to close an open app in one click, and after an uninstall it ends processes still running from the app’s folder.</li>
+                  <li><strong>Advanced uninstall</strong> (Settings, off by default) – after an uninstall it finds leftovers in Program Files, ProgramData, Start menu and desktop shortcuts and the Windows registry and offers to delete them, or deletes them automatically. Files go to the Recycle Bin; registry keys are backed up before they’re deleted.</li>
+                  <li>A <strong>What’s new in Unibox</strong> window – after an update it appears once with the news from every release you skipped. The full history is in the ⋯ menu → Release notes.</li>
+                  <li>A new <strong>Startup apps</strong> section – programs that start when you sign in to Windows, from the registry, the Startup folder and Task Scheduler, in one place. Enable or disable them (just like in Task Manager – the entry stays in the list) or remove them for good with a backup. Unibox reads the startup impact (high, medium, low) from Windows’ own measurement and flags programs that are missing from disk.</li>
+                  <li><strong>Install monitoring</strong> (Settings, or right-click → Install with monitoring) – Unibox takes a disk and registry snapshot before and after an install and remembers what the installer created. After an uninstall it offers to remove all of it, even without advanced uninstall.</li>
+                  <li><strong>Ignore updates</strong> for any app, or <strong>postpone</strong> them for a day, a week or a month – then they’re offered again. Ignored and postponed apps are left out of bulk and automatic updates too; review and undo them in Settings.</li>
+                  <li><strong>Profile export to HTML</strong> – besides JSON, a readable page with the list of apps and commands for a manual install, which can be imported as well. The profile carries your update settings, and after an import you install the missing apps in one click.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li>The catalog contains <strong>all 15,776 WinGet packages</strong>, including language versions and installer types – more than 25,100 apps in total. The counter in the top bar shows the exact number.</li>
+                  <li>More accurate matching of the same app across WinGet, Chocolatey and Scoop.</li>
+                  <li>GitHub star counts on the cards of more than 4,100 open-source apps, and the correct repository even for moved projects (such as OBS Studio).</li>
+                  <li>The interface uses the full width of the window – a large monitor gets more columns of cards.</li>
+                  <li>A more prominent tray icon with a colored status dot: blue while working, red on error, green when done.</li>
+                  <li>Snappier page switching – a short cross-fade instead of a slide.</li>
+                  <li><strong>Faster response</strong> – WinGet search takes a tenth of a second instead of tens of seconds, and install progress no longer slows the window down.</li>
+                  <li>The app name on the app page can be selected and copied.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Fixed</h3>
+                <ul>
+                  <li><strong>More reliable detection of installed apps</strong>, on any PC. Unibox checks that the app’s executable really exists on disk – registry leftovers after an uninstall (such as Ollama) no longer show as “Installed”. It also finds apps in the user profile (Discord in %LocalAppData%) and reads the Windows registry directly when the WinGet module is missing. The Open button appears only when the app’s executable exists.</li>
+                  <li>A long license or version on the app page no longer spills into the next column, and the verified checkmark sits right by the publisher’s name.</li>
+                  <li>Scoop installs Git by itself before adding a bucket (such as extras), and its errors are readable.</li>
+                  <li>A long error message in a notification no longer outgrows the window.</li>
+                  <li>The “Install all” button on collection cards fits even in a narrow window.</li>
+                  <li>The logo in the side panel lines up with the top bar, and the checkmark next to App of the Day sits right after the name.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.10 -->
+          <article class="release" id="v0-1-10">
+            <div class="release__meta">
+              <span class="release__ver">0.1.10</span>
+              <time class="release__date" datetime="2026-10-23">Oct 23, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Fallback install source</h2></div>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li>When WinGet reports a broken download link (error 404), Unibox automatically tries to install the app via Chocolatey and then via Scoop. If every source fails, it clearly explains what to do next.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Fixed</h3>
+                <ul>
+                  <li>Large cards on the home page are clickable as a whole, not just their bottom strip.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.9 -->
+          <article class="release" id="v0-1-9">
+            <div class="release__meta">
+              <span class="release__ver">0.1.9</span>
+              <time class="release__date" datetime="2026-10-23">Oct 23, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>App Store-style collections</h2></div>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li>Clicking a collection card opens a full-screen collection page: name, description, an “Install all” button and the list of apps with Install and Open buttons. Close it with the cross, the Esc key or by clicking outside.</li>
+                  <li>The “Install all” button right on a collection card installs immediately, without opening the page.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.8 -->
+          <article class="release" id="v0-1-8">
+            <div class="release__meta">
+              <span class="release__ver">0.1.8</span>
+              <time class="release__date" datetime="2026-10-23">Oct 23, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Instant feedback and starting with Windows</h2></div>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li>Start with Windows – a switch in Settings. Unibox starts hidden in the notification area.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li>After an install or uninstall, the app’s state updates instantly, including the Open button – no need to open the app page or restart Unibox.</li>
+                  <li>Faster response across the app, search as you type and loading of the installed apps list.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Fixed</h3>
+                <ul>
+                  <li>Large app icons on home page cards are clickable.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.7 -->
+          <article class="release" id="v0-1-7">
+            <div class="release__meta">
+              <span class="release__ver">0.1.7</span>
+              <time class="release__date" datetime="2026-10-22">Oct 22, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>WinGet by its proper name</h2></div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li>The correct WinGet name throughout the app.</li>
+                  <li>Microsoft Store apps are labeled “WinGet (Microsoft Store)”.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.6 -->
+          <article class="release" id="v0-1-6">
+            <div class="release__meta">
+              <span class="release__ver">0.1.6</span>
+              <time class="release__date" datetime="2026-10-22">Oct 22, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Banners in icon colors</h2></div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li>The banner color on the app page is based on the icon the app actually shows. The brand color is used only when the icon contains it.</li>
+                  <li>Banner labels are white wherever they’re easy to read – dark only on light colors.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.5 -->
+          <article class="release" id="v0-1-5">
+            <div class="release__meta">
+              <span class="release__ver">0.1.5</span>
+              <time class="release__date" datetime="2026-10-22">Oct 22, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>A cleaner app page</h2></div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li>Install options on the app page are tucked behind an “Install options” link. Changed options appear in a short summary.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.4 -->
+          <article class="release" id="v0-1-4">
+            <div class="release__meta">
+              <span class="release__ver">0.1.4</span>
+              <time class="release__date" datetime="2026-10-22">Oct 22, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Install options and SHA-256 verification</h2></div>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li>Right below the Install button: silent install, run as administrator and install for me or for all users.</li>
+                  <li>An indicator of the installer’s SHA-256 checksum verification next to “Safe install”.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.3 -->
+          <article class="release" id="v0-1-3">
+            <div class="release__meta">
+              <span class="release__ver">0.1.3</span>
+              <time class="release__date" datetime="2026-10-22">Oct 22, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Bulk install, export and cleanup after uninstall</h2></div>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li><strong>Bulk install</strong> – check several apps and install them all at once.</li>
+                  <li><strong>Export and import</strong> of your app list – easy to move to a new PC.</li>
+                  <li>Skip an offered version or pin an app’s version – Unibox then stops offering that update.</li>
+                  <li><strong>Cleanup after uninstall</strong> – Unibox finds folders an app left behind and offers to move them to the Recycle Bin.</li>
+                  <li>GitHub star counts on the pages of open-source apps.</li>
+                  <li>We’ve prepared app ratings (1–5 stars) with GitHub and Google sign-in, and automatic updates of Unibox itself. We’ll turn them on once the ratings server and update channel are live.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.2 -->
+          <article class="release" id="v0-1-2">
+            <div class="release__meta">
+              <span class="release__ver">0.1.2</span>
+              <time class="release__date" datetime="2026-10-22">Oct 22, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Better detection of installed apps</h2></div>
+              <div class="changes changes--fix">
+                <h3>Fixed</h3>
+                <ul>
+                  <li>Unibox recognizes an installed Google Chrome and other apps installed as a different package variant.</li>
+                  <li>App icons no longer disappear because of overloaded servers.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.1 -->
+          <article class="release" id="v0-1-1">
+            <div class="release__meta">
+              <span class="release__ver">0.1.1</span>
+              <time class="release__date" datetime="2026-10-22">Oct 22, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Windows 11-style window, background mode and screenshots</h2></div>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li><strong>A window without the system frame</strong>, with a custom Windows 11-style title bar.</li>
+                  <li><strong>Background mode in the tray</strong> – running installs finish after you close the window. Icon menu: Browse packages, Available updates, Installed, Show Unibox and Quit.</li>
+                  <li><strong>An Open button</strong> launches an installed app straight from its card or page.</li>
+                  <li><strong>Screenshots</strong> on app pages – a gallery with a full-screen viewer, from the UniGetUI and Chocolatey community databases.</li>
+                  <li>Download progress in percent.</li>
+                  <li>The banner color on the app page adapts to the app’s icon colors.</li>
+                  <li>A light and dark theme switch in the top bar.</li>
+                  <li>The Unibox installer in Czech, and every release with its own version number.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li>Icons everywhere: from the installed program, from the publisher’s website, or as a colored icon with initials. Downloaded icons are cached.</li>
+                  <li>More accurate detection of installed apps using the Windows registry and files on disk. The Open button only appears when the app really exists.</li>
+                  <li>Cards have the same height, an aligned bottom bar and shortened descriptions.</li>
+                  <li>Pages load much faster.</li>
+                  <li>Links and command-line commands sit above the screenshots on the app page.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Fixed</h3>
+                <ul>
+                  <li>Updates no longer get stuck at 0&nbsp;%, and uninstalling works reliably.</li>
+                  <li>Apps that aren’t on the PC no longer show up as installed (and vice versa).</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.0 -->
+          <article class="release release--first" id="v0-1-0">
+            <div class="release__meta">
+              <span class="release__ver">0.1.0</span>
+              <time class="release__date" datetime="2026-10-21">Oct 21, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>First public preview</h2>
+                <span class="badge badge--accent">First release</span>
+              </div>
+              <p class="release__lead">One store for every app on Windows.</p>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li>A catalog of more than 25,000 apps from WinGet, Chocolatey and Scoop. An app available from several sources has a single card.</li>
+                  <li>A Today home page with App of the Day, categories with a package manager filter, a chart of the most downloaded apps, collections by focus and recently viewed apps.</li>
+                  <li>App pages with a banner, technical details, architectures and older versions. Every app comes with copy-ready command-line commands.</li>
+                  <li>WinGet for real: search, install, update, uninstall and installer download. An operation queue and, when permissions are missing, an automatic retry as administrator.</li>
+                  <li>An overview of installed apps, including programs outside WinGet, Microsoft Store apps and Steam games. An Update all button.</li>
+                  <li>Package bundles (.ubundle file and PowerShell script), favorites, quick actions on cards, operation history and logs.</li>
+                  <li>Regular user and Developer modes, Czech and English, light and dark theme.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="changelog-cta reveal">
+          <h2>Try the latest version</h2>
+          <p>Unibox is free and open source. You’ll find older installers among all releases.</p>
+          <div class="changelog-cta__actions">
+            <a class="btn btn--primary btn--lg" href="index.html#stahnout">Download Unibox</a>
+            <a class="btn btn--ghost btn--lg" data-link="releases" href="#">All releases</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="footer__brand">
+        <a class="brand" href="index.html"><img src="../assets/unibox-logo.svg" alt="" width="28" height="28"><span>Unibox</span></a>
+        <p>The app store for Windows. Open source, MIT license.</p>
+      </div>
+      <nav class="footer__links" aria-label="Links">
+        <a data-link="github" href="#">GitHub</a>
+        <a href="changelog.html">What’s new</a>
+        <a data-link="releases" href="#">All releases</a>
+        <a data-link="discord" href="#">Discord</a>
+        <a data-link="email" href="#">Email</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="code-signing.html">Code signing</a>
+        <a href="../novinky.html" hreflang="cs" lang="cs" data-lang-switch>Česky</a>
+      </nav>
+    </div>
+    <div class="wrap footer__note">
+      <p>Unibox is not affiliated with Microsoft or with the WinGet, Chocolatey and Scoop projects. Windows is a trademark of Microsoft Corporation.</p>
+    </div>
+  </footer>
+
+  <!-- Jako modul – jinak ho Vite při sestavení webu do dist nepřibalí -->
+  <script type="module" src="../main.js"></script>
+</body>
+</html>

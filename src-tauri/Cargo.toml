@@ -1,0 +1,84 @@
+[package]
+name = "unibox"
+version = "0.1.13"
+description = "Unibox – obchod s aplikacemi pro Windows nad správci balíčků"
+authors = ["Unibox"]
+license = "MIT"
+edition = "2021"
+rust-version = "1.80"
+
+# Knihovna kvůli Tauri (sdílený kód desktopu a případně mobilních platforem)
+[lib]
+name = "unibox_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+# tray-icon: ikona v oznamovací oblasti (u hodin); image-png: tmavá varianta ikony za běhu
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+tauri-plugin-opener = "2"
+# Druhé spuštění jen ukáže běžící okno (i schované v oznamovací oblasti);
+# s deep-link předá běžícímu Uniboxu i odkaz unibox://, kterým byl spuštěn
+tauri-plugin-single-instance = { version = "2", features = ["deep-link"] }
+# Odkazy unibox:// z webu a sdílených sad (unibox://import?apps=…, unibox://bundle?d=…)
+tauri-plugin-deep-link = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+base64 = "0.22"
+# Ověření předem staženého instalátoru (SHA-256 z manifestu wingetu)
+sha2 = "0.10"
+# Ikony: převod ICO → PNG, rozpoznání prázdných obrázků (icons.rs)
+image = { version = "0.25", default-features = false, features = ["ico", "png"] }
+# Systémový dialog „Uložit jako“ (export seznamu aplikací, sady balíčků, protokolů)
+tauri-plugin-dialog = "2"
+# Aktualizace samotného Uniboxu (podepsané vydání z GitHub Releases) a restart po ní
+tauri-plugin-updater = "2"
+tauri-plugin-process = "2"
+# Spouštění při startu Windows (registr HKCU\…\Run, bez práv správce)
+tauri-plugin-autostart = "2"
+# Oznámení Windows (výsledky operací, nalezené aktualizace) podle Nastavení → Oznámení
+tauri-plugin-notification = "2"
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.55"
+# ShellExecuteEx („Spustit jako správce“) a čekání na povýšený proces;
+# DPAPI (CryptProtectData) pro šifrované uložení přihlášení (secure_store.rs)
+# Běžící procesy aplikace (ToolHelp) a stav napájení z baterie (Power);
+# SID uživatele (Security) a popis programu z informací o verzi (Storage_FileSystem) – startup.rs;
+# vlastnosti instalátoru MSI při publikování aplikace (ApplicationInstallationAndServicing) – publish.rs
+windows-sys = { version = "0.61", features = [
+  "Win32_Foundation",
+  "Win32_System_ApplicationInstallationAndServicing",
+  "Win32_Security",
+  "Win32_Security_Authorization",
+  "Win32_Security_Cryptography",
+  "Win32_Storage_FileSystem",
+  "Win32_System_Diagnostics_ToolHelp",
+  "Win32_System_Power",
+  "Win32_System_Registry",
+  "Win32_System_Threading",
+  "Win32_UI_Shell",
+  "Win32_UI_WindowsAndMessaging",
+] }
+# Ikony nainstalovaných aplikací z nabídky Start (IShellItemImageFactory);
+# měřené připojení (NetworkInformation) pro automatické aktualizace;
+# cíl zástupců ve složce Po spuštění (IShellLink – GetPath potřebuje Storage_FileSystem)
+windows = { version = "0.62", features = [
+  "Foundation",
+  "Networking_Connectivity",
+  "Win32_Foundation",
+  "Win32_Graphics_Gdi",
+  "Win32_Storage_FileSystem",
+  "Win32_System_Com",
+  "Win32_UI_Shell",
+] }
+
+[profile.release]
+# Menší a rychlejší výsledná aplikace
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

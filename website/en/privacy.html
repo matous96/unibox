@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy – Unibox</title>
+  <meta name="description" content="What data Unibox uses: no telemetry or ads, network only for the catalog, icons, package managers and optional sign-in.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d0f14" media="(prefers-color-scheme: dark)">
+  <link vite-ignore rel="alternate" hreflang="cs" href="../soukromi.html">
+  <link vite-ignore rel="alternate" hreflang="en" href="privacy.html">
+  <link rel="icon" href="../assets/unibox-logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../styles.css">
+  <script>
+    try { const t = localStorage.getItem("unibox-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#obsah">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="wrap nav__inner">
+      <a class="brand" href="index.html" aria-label="Unibox – home">
+        <img src="../assets/unibox-logo.svg" alt="" width="32" height="32">
+        <span>Unibox</span>
+      </a>
+      <nav class="nav__links" aria-label="Main navigation">
+        <a href="index.html#funkce">Features</a>
+        <a href="index.html#spravci">Package managers</a>
+        <a href="changelog.html">What’s new</a>
+        <a href="index.html#faq">FAQ</a>
+      </nav>
+      <div class="nav__actions">
+        <a class="lang-switch" href="../soukromi.html" hreflang="cs" lang="cs" data-lang-switch title="Česky" aria-label="Přepnout do češtiny">CZ</a>
+        <a class="btn btn--primary btn--sm" href="index.html#stahnout">Download</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="obsah">
+    <section class="page-head">
+      <div class="wrap">
+        <div class="page-head__inner">
+          <p class="eyebrow">Privacy</p>
+          <h1>What Unibox does with data</h1>
+          <p class="lead">No telemetry, analytics or ads. What you have installed stays on your computer.</p>
+        </div>
+      </div>
+    </section>
+
+    <article class="wrap legal">
+      <p class="note"><strong>In short:</strong> Unibox doesn't send any information about you or your computer. It uses the network only for the features described below – each server sees the usual request details (IP address, time, program version). Sign-in is optional; without it everything works except ratings and sync.</p>
+
+      <h2>Without signing in</h2>
+      <ul>
+        <li><strong>The app catalog</strong> (catalog.json) is downloaded from the project website. It contains nothing about you – it's the same for everyone.</li>
+        <li><strong>App icons and screenshots</strong> load from the addresses listed in the catalog (publisher websites, GitHub, jsDelivr, Chocolatey, Wikimedia, Steam) and are cached on your computer. Unibox doesn't look up website favicons at runtime – services such as Google don't learn which apps you browse.</li>
+        <li><strong>Package managers</strong> (WinGet, Chocolatey, Scoop, npm, pip, Cargo, vcpkg, .NET, PowerShell Gallery) search, install and update through their own servers under their own policies. Unibox only passes on what you search for or install.</li>
+        <li><strong>GitHub stars</strong> in app details: a request to api.github.com with the app's repository name.</li>
+        <li><strong>Unibox updates</strong>: a check of latest.json on GitHub Releases. Turn off automatic checks in Settings → General.</li>
+        <li><strong>Links</strong> (app website, support, GitHub) open in your browser.</li>
+      </ul>
+
+      <h2>When signed in (optional)</h2>
+      <ul>
+        <li><strong>Sign-in</strong> with GitHub or Google happens in your browser – Unibox never sees your password. It receives your name, email and profile picture from the provider. The session is stored encrypted on your computer (Windows DPAPI).</li>
+        <li><strong>Star ratings</strong> are shown only as a summary (average and count), without names.</li>
+        <li><strong>Reviews</strong> are public under your account name – Unibox shows this while you write. You can edit or delete your review at any time.</li>
+        <li><strong>Sync</strong> stores your favorites, package bundle, appearance and language preferences and notification preferences in your account. Turn off individual areas or sync entirely in Settings → General → Sync, where you can also delete the data from your account. Custom install commands, permissions and the automatic update schedule never go to the account.</li>
+        <li>Account data is stored in a <a href="https://supabase.com/privacy" rel="noopener">Supabase</a> database and only its owner can see it. Deleting your account deletes your ratings, reviews and synced data too. Encrypted database backups are kept for at most 90 days, so deleted data disappears from them within 90 days at the latest.</li>
+      </ul>
+
+      <h2>For developers: publishing an app</h2>
+      <p>The WinGet publishing wizard downloads the installer from the address you enter (only to read its details – it never runs it). Submitting to the microsoft/winget-pkgs repository happens from your GitHub account; the access token stays in memory only while the wizard is open.</p>
+
+      <h2>What stays on your computer</h2>
+      <p>Settings, the catalog and icon cache, operation history and logs live only on your computer (the app folder in %LOCALAPPDATA% and the window storage). Unibox doesn't send them anywhere – you send a log for a bug report yourself.</p>
+
+      <h2>Contact</h2>
+      <p>Send privacy questions to the <a data-link="email" href="#">project email</a> or on <a data-link="github" href="#">GitHub</a>. See also the <a href="code-signing.html">Code signing policy</a>.</p>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="footer__brand">
+        <a class="brand" href="index.html"><img src="../assets/unibox-logo.svg" alt="" width="28" height="28"><span>Unibox</span></a>
+        <p>An app store for Windows. Open source, MIT license.</p>
+      </div>
+      <nav class="footer__links" aria-label="Links">
+        <a data-link="github" href="#">GitHub</a>
+        <a href="changelog.html">What’s new</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="code-signing.html">Code signing</a>
+        <a href="../soukromi.html" hreflang="cs" lang="cs" data-lang-switch>Česky</a>
+      </nav>
+    </div>
+    <div class="wrap footer__note">
+      <p>Unibox is not affiliated with Microsoft or with the WinGet, Chocolatey and Scoop projects. Windows is a trademark of Microsoft Corporation.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="../main.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+# Supabase zdarma: udržení v chodu a šifrovaná záloha databáze.
+#
+# Bezplatný projekt Supabase se po týdnu bez dotazů do databáze uspí a nezálohuje
+# se. Tenhle workflow proto:
+#   - každý den pošle do databáze jeden dotaz (veřejná funkce rating_summaries) –
+#     podle Supabase stačí pár dotazů denně, aby se projekt neuspal,
+#   - každou neděli zazálohuje databázi (role, schéma, data včetně účtů), zašifruje
+#     ji heslem (scripts/backup-crypt.mjs, AES-256-GCM) a uloží jako artefakt na
+#     90 dní. Artefakty veřejného repozitáře si může stáhnout kdokoli – nešifrovaná
+#     data proto z běhu nikdy neodejdou.
+# Spustit jde i ručně: Actions → Supabase → Run workflow.
+#
+# Nastavení (README → Údržba a zálohy Supabase):
+#   proměnné (Settings → Variables): VITE_SUPABASE_URL, VITE_SUPABASE_KEY – tytéž jako pro vydání
+#   tajné údaje (Settings → Secrets): SUPABASE_DB_URL (Session pooler), BACKUP_PASSPHRASE
+# Dokud nejsou nastavené, úlohy se jen přeskočí.
+#
+# Ve veřejném repozitáři GitHub plánované workflow vypne po 60 dnech bez aktivity
+# v repozitáři – znovu se zapne v Actions → Supabase → Enable workflow.
+
+name: Supabase
+
+on:
+  schedule:
+    - cron: "17 4 * * *" # každý den – udržení v chodu
+    - cron: "43 3 * * 0" # neděle – záloha
+  workflow_dispatch:
+    inputs:
+      backup:
+        description: Zazálohovat databázi
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase
+  cancel-in-progress: false
+
+jobs:
+  keepalive:
+    name: Udržení v chodu
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Dotaz do databáze
+        env:
+          SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          SUPABASE_KEY: ${{ vars.VITE_SUPABASE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_KEY" ]; then
+            echo "::notice::Supabase není nastavený (proměnné VITE_SUPABASE_URL a VITE_SUPABASE_KEY) – přeskočeno"
+            exit 0
+          fi
+          # Neexistující aplikace – dotaz projde databází, ale nic nevrátí
+          curl --fail-with-body --silent --show-error --max-time 30 \
+            --retry 4 --retry-delay 30 --retry-all-errors \
+            --header "apikey: $SUPABASE_KEY" \
+            --header "Content-Type: application/json" \
+            --data '{"p_app_id":"unibox-keepalive"}' \
+            "${SUPABASE_URL%/}/rest/v1/rpc/rating_summaries"
+          echo
+
+  backup:
+    name: Šifrovaná záloha
+    if: github.event.schedule == '43 3 * * 0' || (github.event_name == 'workflow_dispatch' && inputs.backup)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      # Tajné údaje dostanou jen kroky, které je potřebují
+      - name: Kontrola nastavení
+        id: check
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          if [ -z "$SUPABASE_DB_URL" ]; then
+            echo "::notice::Záloha přeskočena – chybí tajný údaj SUPABASE_DB_URL"
+            exit 0
+          fi
+          # Bez dost silného hesla se nezálohuje – nešifrovaná data nesmí odejít
+          if [ "${#BACKUP_PASSPHRASE}" -lt 20 ]; then
+            echo "::error::Tajný údaj BACKUP_PASSPHRASE chybí nebo má méně než 20 znaků"
+            exit 1
+          fi
+          echo "enabled=true" >> "$GITHUB_OUTPUT"
+          echo "name=unibox-supabase-$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        if: steps.check.outputs.enabled == 'true'
+        with:
+          sparse-checkout: scripts
+
+      - uses: actions/setup-node@v4
+        if: steps.check.outputs.enabled == 'true'
+        with:
+          node-version: 22
+
+      # Výpis běží v Dockeru s pg_dump stejné verze, jakou má Supabase
+      - uses: supabase/setup-cli@v1
+        if: steps.check.outputs.enabled == 'true'
+        with:
+          version: latest
+
+      - name: Výpis databáze
+        if: steps.check.outputs.enabled == 'true'
+        working-directory: ${{ runner.temp }}
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          mkdir backup && cd backup
+          supabase db dump --db-url "$SUPABASE_DB_URL" -f roles.sql --role-only
+          supabase db dump --db-url "$SUPABASE_DB_URL" -f schema.sql
+          supabase db dump --db-url "$SUPABASE_DB_URL" -f data.sql --use-copy --data-only \
+            -x "storage.buckets_vectors" -x "storage.vector_indexes"
+          ls -l
+          grep -Eq '"?auth"?\."?users"?' data.sql || echo "::warning::Ve výpisu chybí účty (auth.users)"
+          grep -Eq '"?public"?\."?ratings"?' data.sql || echo "::warning::Ve výpisu chybí hodnocení (public.ratings)"
+
+      - name: Šifrování
+        if: steps.check.outputs.enabled == 'true'
+        working-directory: ${{ runner.temp }}/backup
+        env:
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+          NAME: ${{ steps.check.outputs.name }}
+        run: |
+          tar -czf "$NAME.tar.gz" roles.sql schema.sql data.sql
+          node "$GITHUB_WORKSPACE/scripts/backup-crypt.mjs" encrypt "$NAME.tar.gz"
+          rm roles.sql schema.sql data.sql "$NAME.tar.gz"
+          ls -l
+
+      - name: Nahrát zašifrovanou zálohu
+        if: steps.check.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.check.outputs.name }}
+          path: ${{ runner.temp }}/backup/${{ steps.check.outputs.name }}.tar.gz.enc
+          retention-days: 90
+          # Zašifrovaná data už komprimovat nejdou
+          compression-level: 0
+          if-no-files-found: error

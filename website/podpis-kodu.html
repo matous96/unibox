@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zásady podepisování kódu – Unibox</title>
+  <meta name="description" content="Jak a kdo podepisuje Unibox: bezplatný podpis kódu SignPath.io s certifikátem SignPath Foundation, sestavení z veřejného repozitáře a schvalování každého vydání.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d0f14" media="(prefers-color-scheme: dark)">
+  <link vite-ignore rel="alternate" hreflang="cs" href="podpis-kodu.html">
+  <link vite-ignore rel="alternate" hreflang="en" href="en/code-signing.html">
+  <link rel="icon" href="assets/unibox-logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    try { const t = localStorage.getItem("unibox-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#obsah">Přeskočit na obsah</a>
+
+  <header class="nav" id="nav">
+    <div class="wrap nav__inner">
+      <a class="brand" href="index.html" aria-label="Unibox – úvod">
+        <img src="assets/unibox-logo.svg" alt="" width="32" height="32">
+        <span>Unibox</span>
+      </a>
+      <nav class="nav__links" aria-label="Hlavní navigace">
+        <a href="index.html#funkce">Funkce</a>
+        <a href="index.html#spravci">Správci balíčků</a>
+        <a href="novinky.html">Novinky</a>
+        <a href="index.html#faq">Otázky</a>
+      </nav>
+      <div class="nav__actions">
+        <a class="lang-switch" href="en/code-signing.html" hreflang="en" lang="en" data-lang-switch title="English" aria-label="Switch to English">EN</a>
+        <a class="btn btn--primary btn--sm" href="index.html#stahnout">Stáhnout</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="obsah">
+    <section class="page-head">
+      <div class="wrap">
+        <div class="page-head__inner">
+          <p class="eyebrow">Zásady podepisování kódu</p>
+          <h1>Podepsaný Unibox</h1>
+          <p class="lead">Digitální podpis potvrzuje, že instalátor pochází z&nbsp;projektu Unibox a nikdo ho cestou nezměnil.</p>
+        </div>
+      </div>
+    </section>
+
+    <article class="wrap legal">
+      <p class="note"><strong>Free code signing provided by <a href="https://signpath.io" rel="noopener">SignPath.io</a>, certificate by <a href="https://signpath.org" rel="noopener">SignPath Foundation</a>.</strong><br>
+        Bezplatný podpis kódu poskytuje SignPath.io, certifikát vydala SignPath Foundation.</p>
+
+      <h2>Co se podepisuje</h2>
+      <ul>
+        <li>Program <strong>unibox.exe</strong> a instalátory <strong>EXE (NSIS)</strong> a <strong>MSI</strong> z&nbsp;oficiálních vydání na <a data-link="releases" href="#">GitHubu</a>.</li>
+        <li>Každý podepsaný soubor vzniká automatickým sestavením (GitHub Actions) ze zdrojového kódu ve veřejném <a data-link="github" href="#">repozitáři Uniboxu</a> – nikdy z&nbsp;počítače vývojáře.</li>
+        <li>Podepisujeme jen soubory sestavené z&nbsp;vlastního kódu projektu. Nástroje a knihovny třetích stran podepisují jejich autoři.</li>
+        <li>Vydavatelem v&nbsp;podpisu je <strong>SignPath Foundation</strong>, název produktu je <strong>Unibox</strong>.</li>
+      </ul>
+
+      <h2>Kdo za podpisem stojí</h2>
+      <!-- Před žádostí o SignPath doplňte jména / odkazy na účty na GitHubu -->
+      <table>
+        <thead><tr><th>Role</th><th>Kdo</th><th>Co smí</th></tr></thead>
+        <tbody>
+          <tr><td>Autoři</td><td><a data-link="github" href="#">správci repozitáře na GitHubu</a></td><td>Mění zdrojový kód bez další kontroly.</td></tr>
+          <tr><td>Revizoři</td><td><a data-link="github" href="#">správci repozitáře na GitHubu</a></td><td>Kontrolují každý příspěvek od lidí mimo tým (pull request) před sloučením.</td></tr>
+          <tr><td>Schvalovatelé</td><td>vlastník projektu</td><td>Ručně schvalují každý podpis v SignPath – bez schválení se nic nepodepíše.</td></tr>
+        </tbody>
+      </table>
+      <p>Všichni členové týmu používají dvoufázové ověření na GitHubu i v SignPath.</p>
+
+      <h2>Ochrana soukromí</h2>
+      <p>Unibox neodesílá telemetrii ani údaje o vašem počítači. Kdy a proč komunikuje se servery (katalog, ikony, správci balíčků, volitelné přihlášení), popisují <a href="soukromi.html">zásady ochrany soukromí</a>.</p>
+
+      <h2>Jak podpis ověřit</h2>
+      <ul>
+        <li>Pravým tlačítkem na instalátor → <strong>Vlastnosti → Digitální podpisy</strong>: podepsal „SignPath Foundation“.</li>
+        <li>V PowerShellu: <code>Get-AuthenticodeSignature .\Unibox_*_x64-setup.exe</code> – stav <code>Valid</code>.</li>
+        <li>Instalátor stažený odjinud než z&nbsp;oficiálních vydání, bez podpisu nebo s&nbsp;jiným vydavatelem nespouštějte.</li>
+      </ul>
+
+      <h2>Nahlášení problému</h2>
+      <p>Podezřelý podepsaný soubor nebo zneužití podpisu nahlaste na <a data-link="email" href="#">e-mail projektu</a> a také <a href="https://signpath.org" rel="noopener">SignPath Foundation</a>.</p>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="footer__brand">
+        <a class="brand" href="index.html"><img src="assets/unibox-logo.svg" alt="" width="28" height="28"><span>Unibox</span></a>
+        <p>Obchod s aplikacemi pro Windows. Open source, licence MIT.</p>
+      </div>
+      <nav class="footer__links" aria-label="Odkazy">
+        <a data-link="github" href="#">GitHub</a>
+        <a href="novinky.html">Novinky</a>
+        <a href="soukromi.html">Ochrana soukromí</a>
+        <a href="podpis-kodu.html">Podepisování kódu</a>
+        <a href="en/code-signing.html" hreflang="en" lang="en" data-lang-switch>English</a>
+      </nav>
+    </div>
+    <div class="wrap footer__note">
+      <p>Unibox není spojen se společností Microsoft ani s projekty WinGet, Chocolatey a Scoop. Windows je ochranná známka společnosti Microsoft.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

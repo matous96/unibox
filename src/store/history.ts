@@ -1,0 +1,52 @@
+/**
+ * Historie operací – dokončené, zrušené i neúspěšné instalace, aktualizace
+ * a odinstalace. Ukládá se mezi spuštěními.
+ */
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { isSourceId } from "@/services/managers/sources";
+import type { InstallOptions, OperationKind, OperationOutcome, SourceId } from "@/types";
+
+export interface HistoryEntry {
+  id: string;
+  appId: string;
+  appName: string;
+  source: SourceId;
+  packageId: string;
+  kind: OperationKind;
+  version?: string;
+  /** Volby instalace – kvůli zopakování operace se stejným nastavením. */
+  options?: InstallOptions;
+  outcome: OperationOutcome;
+  error?: string;
+  startedAt: string;
+  finishedAt: string;
+}
+
+interface HistoryState {
+  items: HistoryEntry[];
+  add: (entry: HistoryEntry) => void;
+  clear: () => void;
+}
+
+/** Nejvýš tolik záznamů – nejstarší se zahazují. */
+const MAX_ITEMS = 500;
+
+export const useHistory = create<HistoryState>()(
+  persist(
+    (set, get) => ({
+      items: [],
+      // Nejnovější první
+      add: (entry) => set({ items: [entry, ...get().items].slice(0, MAX_ITEMS) }),
+      clear: () => set({ items: [] }),
+    }),
+    {
+      name: "unibox-history",
+      // Záznamy se zdrojem, který Unibox už nepodporuje, zahodit
+      merge: (persisted, current) => {
+        const saved = persisted as Partial<HistoryState> | undefined;
+        return { ...current, ...saved, items: (saved?.items ?? []).filter((i) => isSourceId(i.source)) };
+      },
+    },
+  ),
+);

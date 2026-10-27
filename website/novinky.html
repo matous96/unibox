@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Novinky – Unibox</title>
+  <meta name="description" content="Historie změn Uniboxu od první veřejné verze 0.1.0: co je nového v každé verzi, co jsme vylepšili a opravili a co chystáme dál.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d0f14" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="Novinky – Unibox">
+  <meta property="og:description" content="Co je nového v Uniboxu – historie změn od verze 0.1.0.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="cs_CZ">
+  <!-- Jazykové verze stránky; po spuštění webu nahradit relativní adresy absolutními (s doménou) -->
+  <link vite-ignore rel="alternate" hreflang="cs" href="novinky.html">
+  <link vite-ignore rel="alternate" hreflang="en" href="en/changelog.html">
+  <!-- Jazyk: ruční volba (unibox-lang) platí vždy; bez ní jen jednou přesměrovat na angličtinu podle jazyka prohlížeče -->
+  <script>
+    try {
+      const page = document.documentElement.lang;
+      let want = localStorage.getItem("unibox-lang");
+      if (!want && !localStorage.getItem("unibox-lang-auto") && !/bot|crawl|spider|slurp|lighthouse/i.test(navigator.userAgent)) {
+        localStorage.setItem("unibox-lang-auto", "1");
+        if (!/^(cs|sk)\b/i.test((navigator.languages || [])[0] || navigator.language || "")) want = "en";
+      }
+      const alt = want && want !== page && document.querySelector('link[rel=alternate][hreflang="' + want + '"]');
+      if (alt) location.replace(alt.href + location.hash);
+    } catch {}
+  </script>
+  <link rel="icon" href="assets/unibox-logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Motiv nastavit ještě před vykreslením, ať stránka nebliká -->
+  <script>
+    try { const t = localStorage.getItem("unibox-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#obsah">Přeskočit na obsah</a>
+
+  <header class="nav" id="nav">
+    <div class="wrap nav__inner">
+      <a class="brand" href="index.html" aria-label="Unibox – úvod">
+        <img src="assets/unibox-logo.svg" alt="" width="32" height="32">
+        <span>Unibox</span>
+      </a>
+      <nav class="nav__links" aria-label="Hlavní navigace">
+        <a href="index.html#funkce">Funkce</a>
+        <a href="index.html#spravci">Správci balíčků</a>
+        <a href="novinky.html" aria-current="page">Novinky</a>
+        <a href="index.html#co-chystame">Co chystáme</a>
+        <a href="index.html#faq">Otázky</a>
+      </nav>
+      <div class="nav__actions">
+        <a class="lang-switch" href="en/changelog.html" hreflang="en" lang="en" data-lang-switch title="English" aria-label="Switch to English">EN</a>
+        <a class="icon-btn" data-link="github" href="#" aria-label="Unibox na GitHubu" title="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+        </a>
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Přepnout světlý / tmavý motiv" title="Motiv">
+          <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+        </button>
+        <a class="btn btn--primary btn--sm" href="index.html#stahnout">Stáhnout</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="obsah">
+    <!-- ============ ÚVOD ============ -->
+    <section class="page-head">
+      <div class="wrap">
+        <div class="page-head__inner reveal">
+          <p class="eyebrow">Novinky</p>
+          <h1>Co je nového v&nbsp;Uniboxu</h1>
+          <p class="lead">Všechny změny od první veřejné verze 0.1.0, nejnovější nahoře. Za šest dní od jejího vydání vyšlo třináct aktualizací.</p>
+          <nav class="versions-nav" aria-label="Přejít na verzi">
+            <a class="chip" href="#v0-1-13">0.1.13</a>
+            <a class="chip" href="#v0-1-12">0.1.12</a>
+            <a class="chip" href="#v0-1-11">0.1.11</a>
+            <a class="chip" href="#v0-1-10">0.1.10</a>
+            <a class="chip" href="#v0-1-9">0.1.9</a>
+            <a class="chip" href="#v0-1-8">0.1.8</a>
+            <a class="chip" href="#v0-1-7">0.1.7</a>
+            <a class="chip" href="#v0-1-6">0.1.6</a>
+            <a class="chip" href="#v0-1-5">0.1.5</a>
+            <a class="chip" href="#v0-1-4">0.1.4</a>
+            <a class="chip" href="#v0-1-3">0.1.3</a>
+            <a class="chip" href="#v0-1-2">0.1.2</a>
+            <a class="chip" href="#v0-1-1">0.1.1</a>
+            <a class="chip" href="#v0-1-0">0.1.0</a>
+          </nav>
+        </div>
+        <dl class="stats reveal">
+          <div><dt>Aktuální verze</dt><dd>0.1.13</dd></div>
+          <div><dt>Aktualizací od verze 0.1.0</dt><dd>13</dd></div>
+          <div><dt>Aplikací v katalogu</dt><dd>25&nbsp;100+</dd></div>
+          <div><dt>Správci naostro</dt><dd>WinGet · Chocolatey · Scoop + 8 pro vývojáře</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============ V KOSTCE ============ -->
+    <section class="section" id="v-kostce">
+      <div class="wrap">
+        <div class="section__head reveal">
+          <p class="eyebrow">V kostce</p>
+          <h2>Největší novinky od verze 0.1.0</h2>
+        </div>
+        <div class="highlights">
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.1</span>
+            <h3>Okno ve stylu Windows&nbsp;11 a běh na pozadí</h3>
+            <p>Vlastní titulková lišta, ikona u hodin s rychlou nabídkou a instalace, které doběhnou i po zavření okna.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.3</span>
+            <h3>Hromadná instalace, export a&nbsp;import</h3>
+            <p>Více aplikací najednou, přenos seznamu aplikací na nový počítač, zamykání verzí a úklid po odinstalaci.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.4</span>
+            <h3>Volby instalace a ověření SHA-256</h3>
+            <p>Tichá instalace, spuštění jako správce, instalace pro všechny uživatele a viditelné ověření kontrolního součtu.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.9</span>
+            <h3>Kolekce jako v&nbsp;App Storu</h3>
+            <p>Detail kolekce přes celou obrazovku s popisem, seznamem aplikací a tlačítkem pro instalaci všech najednou.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.10</span>
+            <h3>Záložní zdroj instalace</h3>
+            <p>Když má WinGet nefunkční odkaz na stažení, Unibox sám zkusí Chocolatey nebo Scoop.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.11</span>
+            <h3>Chocolatey a Scoop naostro</h3>
+            <p>Instalace, aktualizace i odinstalace přímo v Uniboxu, režim jednoho zdroje a odkazy unibox:// z webu.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.11</span>
+            <h3>Po spuštění</h3>
+            <p>Programy spouštěné po přihlášení z registru, složky Po spuštění i plánovače úloh – zapnout, vypnout, odstranit a vliv na rychlost startu.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.11</span>
+            <h3>Čistá odinstalace</h3>
+            <p>Pokročilá odinstalace najde zbytky na disku i v registru. Se sledováním instalace smaže vše, co instalátor vytvořil.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.11</span>
+            <h3>Aktualizace a profil po svém</h3>
+            <p>Ignorované a odložené aktualizace, export profilu i s nastavením do JSON nebo přehledné stránky HTML.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.13</span>
+            <h3>Správci pro vývojáře naostro</h3>
+            <p>npm, Bun, pip, Cargo, vcpkg, .NET Tool a PowerShell – hledání, instalace, aktualizace i odinstalace. Chybějící Node.js, Python nebo Rust doinstaluje jedním kliknutím.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.13</span>
+            <h3>Aktualizace pod kontrolou</h3>
+            <p>Kontrola i instalace v daný čas a dny, minimální stáří aktualizací, výjimky pro baterii a měřené připojení a uložené volby i pro aktualizace.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HISTORIE ZMĚN ============ -->
+    <section class="section section--alt" id="historie">
+      <div class="wrap">
+        <div class="section__head reveal">
+          <p class="eyebrow">Historie změn</p>
+          <h2>Verze po verzi</h2>
+          <p class="section__lead">Co je v každé verzi nového, co jsme vylepšili a co opravili.</p>
+        </div>
+
+        <div class="timeline">
+          <!-- 0.1.13 -->
+          <article class="release" id="v0-1-13">
+            <div class="release__meta">
+              <span class="release__ver">0.1.13</span>
+              <time class="release__date" datetime="2026-10-27">27. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>Správci pro vývojáře naostro a aktualizace pod kontrolou</h2>
+                <span class="badge badge--live">Nejnovější</span>
+              </div>
+              <div class="changes changes--new">
+                <h3>Nové</h3>
+                <ul>
+                  <li><strong>npm, Bun, pip, Cargo, vcpkg, .NET Tool, PowerShell 7 i&nbsp;5.1</strong> – hledání přímo v jejich registrech, instalace, aktualizace i odinstalace knihoven a nástrojů v režimu Vývojář. Dostupné aktualizace globálních balíčků najdete mezi ostatními aktualizacemi.</li>
+                  <li><strong>Nástroje jedním kliknutím</strong> – chybí Node.js, Python, Rust, .NET SDK nebo PowerShell 7? Unibox je nainstaluje přes WinGet. U vcpkg ukáže stručný návod.</li>
+                  <li><strong>Filtr i pro vývojáře</strong> – klik na npm, pip, Cargo… v levém panelu ukáže přehled správce: nainstalované balíčky, hledání jen v jeho registru a oblíbené nástroje.</li>
+                  <li><strong>Plánované aktualizace</strong> – kontrola v intervalu od 30 minut po týden, nebo každý den či ve vybrané dny v zadaný čas. Automatická instalace může mít vlastní plán a zmeškaný termín se dožene se zpožděním, hned po spuštění, nebo se přeskočí.</li>
+                  <li><strong>Minimální stáří aktualizací</strong> – nová verze se nabídne až po zadaném počtu dní od vydání, celkově i zvlášť pro jednotlivé správce.</li>
+                  <li><strong>Uložené volby i pro aktualizace</strong> – jako správce, interaktivně, architektura, složka, parametry a příkazy platí i při aktualizaci. Nově i odinstalace předchozí verze a vlastní parametry jen pro aktualizace.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Vylepšeno</h3>
+                <ul>
+                  <li>Automatická instalace aktualizací počká i při zapnuté úspoře baterie. Odložené aktualizace Unibox oznámí a zkusí je nainstalovat znovu za čtvrt hodiny.</li>
+                  <li>Aktualizace, která se po několika pokusech neprojeví (správce ji nabízí dál), se přestane nabízet. V detailu aplikace ji jde nabídnout znovu.</li>
+                  <li><strong>Úvodní průvodce</strong> – při prvním spuštění vás Unibox v pěti krocích provede katalogem, filtrem zdrojů, pokročilou odinstalací, správou Po spuštění a zálohami. Přeskočit jde kdykoli, znovu ho spustíte v Nastavení → Obecné.</li>
+                  <li><strong>Dostupné aktualizace i u Chocolatey</strong> – v přehledu aktualizací, v počtech i v hromadné a automatické aktualizaci. Dotaz na repozitář běží na pozadí a seznam aplikací nezdržuje.</li>
+                  <li><strong>Varování při změně serveru instalátoru</strong> – když se instalátor nové verze z WinGetu stahuje odjinud než u nainstalované verze, aktualizace se označí oranžově, detail ukáže obě adresy a automatická aktualizace ji vynechá.</li>
+                  <li>V Nastavení → Předvolby oznámení vypnete oznámení o aktualizacích od vybraných správců.</li>
+                  <li>Seznam aktualizací může mít všechny aktualizace předem zaškrtnuté.</li>
+                  <li>Sekce Dnes vybírá ze stovek známých aplikací celého katalogu – tipy dne, výběry z kategorií a aplikace dne se už neopakují po pár dnech. Aplikace dne je vždy ověřená a zůstává celý den stejná, ukazují se jen aplikace s ostrou ikonou. Šipkami na ostatních kartách listujete dalšími výběry a karty kolekcí mají barvu, která u jejich ikon převládá – výběr modrých aplikací je modrý.</li>
+                  <li><strong>Jen ostré ikony</strong> – katalog u každé aplikace vybírá nejostřejší ikonu ze všech zdrojů, nově i z webu aplikace. Malé favicony, které by se v kartě a v detailu rozmazaly, nahradí avatar s iniciálami. Ikony se po načtení už nemění (přednost má ikona z katalogu ve vysokém rozlišení, třeba u OneDrivu) a Audacity, WinRAR a Windows Terminal mají aktuální ikony.</li>
+                  <li>Ve výsledcích hledání jsou ověřené aplikace (s fajkou) nahoře – „terminal“ ukáže nejdřív Windows Terminal, ne méně známé nástroje se slovem na začátku názvu.</li>
+                  <li>Stabilnější a plynulejší: chyba na jedné stránce už neshodí celé okno (stačí „Zkusit znovu“), selhání správce balíčků Unibox oznámí místo tichého vynechání a scrollování seznamů běží bez zasekávání.</li>
+                  <li>Balíčky správců pro vývojáře se zjišťují jen v režimu Vývojář – v režimu Běžný uživatel zůstává přehled rychlý a bez knihoven.</li>
+                  <li>V Nastavení → Správci balíčků přepnete na režim Vývojář jedním tlačítkem.</li>
+                  <li>Hledání z odkazu (třeba štítek v detailu aplikace) vyplní i pole vyhledávání nahoře.</li>
+                  <li><strong>Pro vývojáře: publikování ve WinGetu</strong> – průvodce v sekci Publikovat z adresy instalátoru zjistí SHA-256, typ a údaje, připraví manifest a ověří ho příkazem winget validate.</li>
+                  <li>Instalátor před instalací ukáže <a href="soukromi.html">zásady ochrany soukromí</a> a licenci. Favicony webů aplikací se už nehledají přes služby Googlu a DuckDuckGo.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.12 -->
+          <article class="release" id="v0-1-12">
+            <div class="release__meta">
+              <span class="release__ver">0.1.12</span>
+              <time class="release__date" datetime="2026-10-27">27. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>Nový instalátor ve stylu Uniboxu</h2>
+              </div>
+              <div class="changes changes--new">
+                <h3>Nové</h3>
+                <ul>
+                  <li><strong>Moderní instalátor</strong> – úvodní a závěrečná obrazovka s logem Uniboxu ve vysokém rozlišení a barvami aplikace, logo i v záhlaví ostatních obrazovek a písmo Segoe UI místo zastaralého systémového.</li>
+                  <li><strong>Novinky v Nastavení</strong> – okno Co je nového jde kdykoli znovu otevřít, třeba když ho po aktualizaci omylem zavřete. Najdete tam i historii všech verzí.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Vylepšeno</h3>
+                <ul>
+                  <li>Grafika instalátoru je ostrá při jakémkoli zvětšení obrazovky – 100 %, 150 % i 200 %.</li>
+                  <li>Jazyk instalátoru se volí podle Windows, bez úvodního okna s výběrem jazyka.</li>
+                  <li>Po instalaci se rovnou ukáže závěrečná obrazovka; podrobný průběh zobrazí tlačítko Podrobnosti.</li>
+                  <li>Odinstalátor má ikonu Uniboxu místo výchozí ikony NSIS a v Nastavení Windows → Aplikace je jako vydavatel uvedený Unibox.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.11 -->
+          <article class="release" id="v0-1-11">
+            <div class="release__meta">
+              <span class="release__ver">0.1.11</span>
+              <time class="release__date" datetime="2026-10-26">26. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>Chocolatey a Scoop naostro, režim jednoho zdroje a aktualizace na pozadí</h2>
+              </div>
+              <div class="changes changes--new">
+                <h3>Nové</h3>
+                <ul>
+                  <li><strong>Chocolatey a Scoop naostro</strong> – hledání, instalace, aktualizace i odinstalace přímo v Uniboxu. Chybějící správce balíčků nainstaluje jedním kliknutím jeho oficiální instalační skript.</li>
+                  <li><strong>Režim jednoho zdroje</strong> – klik na WinGet, Chocolatey nebo Scoop v levém panelu ukáže v celém katalogu jen aplikace z tohoto zdroje a instaluje jen odtud. Lišta nahoře režim ukazuje a jedním klikem ho zruší.</li>
+                  <li><strong>Chytrý záložní zdroj</strong> – když instalace selže (nefunkční odkaz, běžící jiná instalace, balíček ve zdroji chybí…), Unibox nabídne stejnou aplikaci z Chocolatey nebo Scoopu. Chybějícího správce nejdřív nabídne nainstalovat.</li>
+                  <li><strong>Odkazy unibox://</strong> – kolekce a aplikace z webu se otevřou rovnou v Uniboxu s předvyplněným seznamem k instalaci. Instalaci vždy potvrzujete vy.</li>
+                  <li>U nainstalované aplikace je místo výběru zdroje štítek <strong>Nainstalováno přes</strong> s barvou správce (WinGet, Chocolatey, Scoop). Platí i po restartu.</li>
+                  <li><strong>Automatická kontrola aktualizací na pozadí</strong> – každou hodinu, denně nebo týdně, s tlačítkem „Spustit tuto úlohu nyní“. Volitelně i automatická instalace všech nebo jen vybraných aplikací, s ohledem na baterii a měřené připojení.</li>
+                  <li><strong>Centrum oznámení</strong> – zvoneček v horní liště s historií událostí a chyb, počtem nových chyb, kopírováním chybových hlášek a vymazáním historie.</li>
+                  <li><strong>Předvolby oznámení</strong> – hlavní vypínač, souhrn po dokončení dávky operací, dostupné aktualizace, průběh operací, selhání a úspěch. Když je Unibox na pozadí, dorazí oznámení Windows.</li>
+                  <li>Sekce <strong>Oprávnění správce a další nebezpečná nastavení</strong> – práva správce pro každou operaci nebo jen jednou, zákaz povýšení, vlastní argumenty příkazového řádku, příkazy před a po instalaci, vlastní cesty ke správcům balíčků a jejich import ze sad. Vše je ve výchozím stavu vypnuté.</li>
+                  <li>Aktualizace běžící aplikace: Unibox najde její otevřená okna a procesy, nabídne je zavřít a aktualizaci zopakuje.</li>
+                  <li>Výběr varianty balíčku z WinGetu – jazyka nebo typu instalátoru (například Firefox ve více než 100 jazycích).</li>
+                  <li>Modrá <strong>fajfka u ověřených aplikací</strong> od známých vydavatelů – v detailu i na kartách.</li>
+                  <li><strong>Vlastní barva zvýraznění</strong> – hotové palety nebo libovolný HEX kód.</li>
+                  <li><strong>Běžící aplikace už instalaci nezablokuje</strong> – proces na pozadí (třeba OBS u hodin nebo proces visící v paměti) Unibox před instalací, aktualizací či odinstalací sám ukončí. Otevřenou aplikaci nabídne zavřít jedním kliknutím, po odinstalaci ukončí procesy, které z její složky dál běží.</li>
+                  <li><strong>Pokročilá odinstalace</strong> (Nastavení, výchozí vypnuto) – po odinstalaci najde zbytky v Program Files, ProgramData, zástupcích v nabídce Start a na ploše i v registru Windows a nabídne je smazat, nebo je smaže automaticky. Soubory jdou do Koše, klíče registru se před smazáním zálohují.</li>
+                  <li>Okno <strong>Co je nového v Uniboxu</strong> – po aktualizaci se jednou ukáže s novinkami všech vydání, která jste přeskočili. Celou historii najdete v nabídce ⋯ → Poznámky k vydání.</li>
+                  <li>Nová sekce <strong>Po spuštění</strong> – programy, které se spouštějí po přihlášení do Windows, z registru, složky Po spuštění i plánovače úloh na jednom místě. Zapnete je, vypnete (stejně jako ve Správci úloh – položka zůstane v seznamu) nebo trvale odstraníte se zálohou. Vliv na rychlost startu (vysoký, střední, nízký) Unibox přečte z měření Windows, programy, které na disku chybí, označí.</li>
+                  <li><strong>Sledování instalace</strong> (Nastavení, nebo pravé tlačítko → Nainstalovat se sledováním) – před instalací a po ní Unibox pořídí snímek disku a registru a zapamatuje si, co instalátor vytvořil. Po odinstalaci to nabídne smazat celé, i bez pokročilé odinstalace.</li>
+                  <li><strong>Ignorovat aktualizace</strong> u kterékoli aplikace, nebo je <strong>odložit</strong> o den, týden či měsíc – pak se samy znovu nabídnou. Ignorované a odložené aplikace vynechá i hromadná a automatická aktualizace, přehled se zrušením najdete v Nastavení.</li>
+                  <li><strong>Export profilu do HTML</strong> – kromě JSON i přehledná stránka se seznamem aplikací a příkazy pro ruční instalaci, kterou jde zároveň importovat. Profil nese i nastavení aktualizací a po importu chybějící aplikace nainstalujete jedním kliknutím.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Vylepšeno</h3>
+                <ul>
+                  <li>Katalog obsahuje <strong>všech 15&nbsp;776 balíčků WinGetu</strong> včetně jazykových verzí a typů instalátoru – celkem přes 25&nbsp;100 aplikací. Počítadlo v horní liště ukazuje přesný počet.</li>
+                  <li>Přesnější párování stejných aplikací mezi WinGetem, Chocolatey a Scoopem.</li>
+                  <li>Počet hvězdiček z GitHubu na kartách u více než 4&nbsp;100 open-source aplikací a správný repozitář i u přesunutých projektů (například OBS Studio).</li>
+                  <li>Rozhraní využije celou šířku okna – na velkém monitoru přibudou sloupce karet.</li>
+                  <li>Výraznější ikona u hodin s barevnou tečkou stavu: modrá při práci, červená při chybě, zelená po dokončení.</li>
+                  <li>Svižnější přepínání stránek – jen krátké prolnutí místo posunu.</li>
+                  <li><strong>Rychlejší odezva</strong> – hledání ve WinGetu trvá desetinu sekundy místo desítek sekund a průběh instalace už nezpomaluje okno.</li>
+                  <li>Název aplikace v detailu jde označit a zkopírovat.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Opraveno</h3>
+                <ul>
+                  <li><strong>Spolehlivější rozpoznání nainstalovaných aplikací</strong> i na jiných počítačích. Unibox ověří, že spouštěcí soubor aplikace na disku opravdu je – zbytky v registru po odinstalaci (například Ollama) už nesvítí jako „Nainstalováno“. Najde i aplikace v profilu uživatele (Discord v %LocalAppData%) a bez modulu WinGetu čte přímo registr Windows. Tlačítko Otevřít se ukáže jen u aplikace, jejíž spouštěcí soubor existuje.</li>
+                  <li>Dlouhá licence ani verze v detailu aplikace už nepřetékají do vedlejšího sloupce a fajfka ověření sedí u jména vydavatele.</li>
+                  <li>Scoop si před přidáním bucketu (například extras) sám doplní Git a jeho chyby jsou čitelné.</li>
+                  <li>Dlouhá chybová hláška v upozornění už nepřeroste okno.</li>
+                  <li>Tlačítko „Instalovat vše“ v kartách kolekcí se vejde i do úzkého okna.</li>
+                  <li>Logo v levém panelu je zarovnané s horní lištou a fajfka u Aplikace dne stojí hned za názvem.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.10 -->
+          <article class="release" id="v0-1-10">
+            <div class="release__meta">
+              <span class="release__ver">0.1.10</span>
+              <time class="release__date" datetime="2026-10-23">23. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Záložní zdroj instalace</h2></div>
+              <div class="changes changes--new">
+                <h3>Nové</h3>
+                <ul>
+                  <li>Když WinGet ohlásí nefunkční odkaz na stažení (chyba 404), Unibox sám zkusí nainstalovat aplikaci přes Chocolatey a potom přes Scoop. Pokud selžou všechny zdroje, srozumitelně vysvětlí, co dělat dál.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Opraveno</h3>
+                <ul>
+                  <li>Velké karty na domovské stránce jsou klikatelné celé, ne jen jejich spodní pruh.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.9 -->
+          <article class="release" id="v0-1-9">
+            <div class="release__meta">
+              <span class="release__ver">0.1.9</span>
+              <time class="release__date" datetime="2026-10-23">23. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Kolekce jako v App Storu</h2></div>
+              <div class="changes changes--new">
+                <h3>Nové</h3>
+                <ul>
+                  <li>Kliknutím na kartu kolekce se otevře její detail přes celou obrazovku: název, popis, tlačítko „Nainstalovat vše“ a seznam aplikací s tlačítky Instalovat a Otevřít. Zavře se křížkem, klávesou Esc nebo kliknutím mimo.</li>
+                  <li>Tlačítko „Instalovat vše“ přímo na kartě kolekce instaluje hned, bez otevření detailu.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.8 -->
+          <article class="release" id="v0-1-8">
+            <div class="release__meta">
+              <span class="release__ver">0.1.8</span>
+              <time class="release__date" datetime="2026-10-23">23. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Okamžitá odezva a spouštění s Windows</h2></div>
+              <div class="changes changes--new">
+                <h3>Nové</h3>
+                <ul>
+                  <li>Spouštění při startu Windows – přepínač v Nastavení. Unibox se spustí skrytý v oznamovací oblasti.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Vylepšeno</h3>
+                <ul>
+                  <li>Po instalaci a odinstalaci se stav aplikace změní okamžitě, včetně tlačítka Otevřít – bez otevírání detailu nebo restartu Uniboxu.</li>
+                  <li>Rychlejší odezva celé aplikace, vyhledávání při psaní a načtení seznamu nainstalovaných aplikací.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Opraveno</h3>
+                <ul>
+                  <li>Velké ikony aplikací na kartách domovské stránky jsou klikatelné.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.7 -->
+          <article class="release" id="v0-1-7">
+            <div class="release__meta">
+              <span class="release__ver">0.1.7</span>
+              <time class="release__date" datetime="2026-10-22">22. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>WinGet se správným jménem</h2></div>
+              <div class="changes changes--better">
+                <h3>Vylepšeno</h3>
+                <ul>
+                  <li>Správný název WinGet v celé aplikaci.</li>
+                  <li>Aplikace z Microsoft Storu jsou označené jako „WinGet (Microsoft Store)“.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.6 -->
+          <article class="release" id="v0-1-6">
+            <div class="release__meta">
+              <span class="release__ver">0.1.6</span>
+              <time class="release__date" datetime="2026-10-22">22. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Bannery v barvách ikon</h2></div>
+              <div class="changes changes--better">
+                <h3>Vylepšeno</h3>
+                <ul>
+                  <li>Barva banneru v detailu aplikace vychází z ikony, kterou aplikace opravdu zobrazuje. Barva značky se použije jen tehdy, když ji ikona obsahuje.</li>
+                  <li>Popisky v banneru jsou bílé všude, kde jsou dobře čitelné – tmavé jen na světlých barvách.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.5 -->
+          <article class="release" id="v0-1-5">
+            <div class="release__meta">
+              <span class="release__ver">0.1.5</span>
+              <time class="release__date" datetime="2026-10-22">22. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Přehlednější detail aplikace</h2></div>
+              <div class="changes changes--better">
+                <h3>Vylepšeno</h3>
+                <ul>
+                  <li>Volby instalace v detailu aplikace jsou schované pod odkazem „Volby instalace“. Změněné volby jsou vidět ve stručném souhrnu.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.4 -->
+          <article class="release" id="v0-1-4">
+            <div class="release__meta">
+              <span class="release__ver">0.1.4</span>
+              <time class="release__date" datetime="2026-10-22">22. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Volby instalace a ověření SHA-256</h2></div>
+              <div class="changes changes--new">
+                <h3>Nové</h3>
+                <ul>
+                  <li>Přímo pod tlačítkem Instalovat: tichá instalace, spuštění jako správce a instalace pro mě nebo pro všechny uživatele.</li>
+                  <li>Indikátor ověření kontrolního součtu SHA-256 instalátoru vedle „Bezpečná instalace“.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.3 -->
+          <article class="release" id="v0-1-3">
+            <div class="release__meta">
+              <span class="release__ver">0.1.3</span>
+              <time class="release__date" datetime="2026-10-22">22. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Hromadná instalace, export a úklid po odinstalaci</h2></div>
+              <div class="changes changes--new">
+                <h3>Nové</h3>
+                <ul>
+                  <li><strong>Hromadná instalace</strong> – zaškrtněte více aplikací a nainstalujte je najednou.</li>
+                  <li><strong>Export a import</strong> seznamu aplikací – snadný přenos na nový počítač.</li>
+                  <li>Přeskočení nabízené verze a zamknutí verze aplikace – Unibox pak danou aktualizaci nenabízí.</li>
+                  <li><strong>Úklid po odinstalaci</strong> – Unibox najde složky, které po aplikaci zůstaly, a nabídne jejich přesun do Koše.</li>
+                  <li>Počet hvězdiček z GitHubu v detailu open-source aplikací.</li>
+                  <li>Připravili jsme hodnocení aplikací (1–5 hvězdiček) s přihlášením přes GitHub a Google a automatické aktualizace samotného Uniboxu. Zapneme je, jakmile spustíme server pro hodnocení a kanál aktualizací.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.2 -->
+          <article class="release" id="v0-1-2">
+            <div class="release__meta">
+              <span class="release__ver">0.1.2</span>
+              <time class="release__date" datetime="2026-10-22">22. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Lepší rozpoznání nainstalovaných aplikací</h2></div>
+              <div class="changes changes--fix">
+                <h3>Opraveno</h3>
+                <ul>
+                  <li>Unibox pozná nainstalovaný Google Chrome a další aplikace instalované jako jiná varianta balíčku.</li>
+                  <li>Ikony aplikací už nemizí kvůli přetíženým serverům.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.1 -->
+          <article class="release" id="v0-1-1">
+            <div class="release__meta">
+              <span class="release__ver">0.1.1</span>
+              <time class="release__date" datetime="2026-10-22">22. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head"><h2>Okno ve stylu Windows 11, běh na pozadí a snímky obrazovky</h2></div>
+              <div class="changes changes--new">
+                <h3>Nové</h3>
+                <ul>
+                  <li><strong>Okno bez systémového rámu</strong> s vlastní titulkovou lištou ve stylu Windows 11.</li>
+                  <li><strong>Běh na pozadí u hodin</strong> – po zavření okna rozběhnuté instalace doběhnou. Nabídka ikony: Procházet balíčky, Dostupné aktualizace, Nainstalované, Zobrazit Unibox a Ukončit.</li>
+                  <li><strong>Tlačítko Otevřít</strong> spustí nainstalovanou aplikaci přímo z karty nebo detailu.</li>
+                  <li><strong>Snímky obrazovky</strong> v detailu aplikace – galerie s prohlížečem na celou obrazovku z komunitních databází UniGetUI a Chocolatey.</li>
+                  <li>Průběh stahování v procentech.</li>
+                  <li>Barva banneru v detailu se přizpůsobí barvám ikony aplikace.</li>
+                  <li>Přepínač světlého a tmavého motivu v horní liště.</li>
+                  <li>Instalátor Uniboxu v češtině a každá verze s vlastním číslem.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Vylepšeno</h3>
+                <ul>
+                  <li>Ikony všude: z nainstalovaného programu, z webu vydavatele, nebo jako barevná ikona s iniciálami. Stažené ikony se ukládají do mezipaměti.</li>
+                  <li>Přesnější rozpoznání nainstalovaných aplikací podle registru Windows a souborů na disku. Tlačítko Otevřít se ukáže jen tehdy, když aplikace opravdu existuje.</li>
+                  <li>Karty mají stejnou výšku, zarovnanou spodní lištu a zkrácené popisy.</li>
+                  <li>Stránky se načítají výrazně rychleji.</li>
+                  <li>Odkazy a příkazy pro příkazový řádek jsou v detailu aplikace nad snímky obrazovky.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Opraveno</h3>
+                <ul>
+                  <li>Aktualizace se už nezasekávají na 0&nbsp;% a odinstalace funguje spolehlivě.</li>
+                  <li>Aplikace, které v počítači nejsou, se už nezobrazují jako nainstalované (a naopak).</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 0.1.0 -->
+          <article class="release release--first" id="v0-1-0">
+            <div class="release__meta">
+              <span class="release__ver">0.1.0</span>
+              <time class="release__date" datetime="2026-10-21">21. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>První veřejná preview</h2>
+                <span class="badge badge--accent">První verze</span>
+              </div>
+              <p class="release__lead">Jeden obchod pro všechny aplikace ve Windows.</p>
+              <div class="changes changes--new">
+                <h3>Nové</h3>
+                <ul>
+                  <li>Katalog s více než 25&nbsp;000 aplikacemi z WinGetu, Chocolatey a Scoopu. Aplikace dostupná ve více zdrojích má jednu kartu.</li>
+                  <li>Domovská stránka Dnes s Aplikací dne, kategorie s filtrem správců balíčků, žebříček nejstahovanějších, kolekce podle zaměření a naposledy zobrazené aplikace.</li>
+                  <li>Detail aplikace s bannerem, technickými údaji, architekturami a staršími verzemi. U každé aplikace hotové příkazy pro příkazový řádek ke zkopírování.</li>
+                  <li>WinGet naostro: hledání, instalace, aktualizace, odinstalace a stažení instalátoru. Fronta operací a při nedostatku oprávnění automatické opakování s právy správce.</li>
+                  <li>Přehled nainstalovaných aplikací včetně programů mimo WinGet, aplikací z Microsoft Storu a her ze Steamu. Tlačítko Aktualizovat vše.</li>
+                  <li>Sady balíčků (soubor .ubundle a skript PowerShellu), oblíbené, rychlé akce na kartách, historie operací a protokoly.</li>
+                  <li>Režimy Běžný uživatel a Vývojář, čeština a angličtina, světlý a tmavý motiv.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="changelog-cta reveal">
+          <h2>Vyzkoušejte nejnovější verzi</h2>
+          <p>Unibox je zdarma a open source. Starší instalátory najdete mezi všemi verzemi.</p>
+          <div class="changelog-cta__actions">
+            <a class="btn btn--primary btn--lg" href="index.html#stahnout">Stáhnout Unibox</a>
+            <a class="btn btn--ghost btn--lg" data-link="releases" href="#">Všechny verze</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="footer__brand">
+        <a class="brand" href="index.html"><img src="assets/unibox-logo.svg" alt="" width="28" height="28"><span>Unibox</span></a>
+        <p>Obchod s aplikacemi pro Windows. Open source, licence MIT.</p>
+      </div>
+      <nav class="footer__links" aria-label="Odkazy">
+        <a data-link="github" href="#">GitHub</a>
+        <a href="novinky.html">Novinky</a>
+        <a data-link="releases" href="#">Všechny verze</a>
+        <a data-link="discord" href="#">Discord</a>
+        <a data-link="email" href="#">E-mail</a>
+        <a href="soukromi.html">Ochrana soukromí</a>
+        <a href="podpis-kodu.html">Podepisování kódu</a>
+        <a href="en/changelog.html" hreflang="en" lang="en" data-lang-switch>English</a>
+      </nav>
+    </div>
+    <div class="wrap footer__note">
+      <p>Unibox není spojen se společností Microsoft ani s projekty WinGet, Chocolatey a Scoop. Windows je ochranná známka společnosti Microsoft.</p>
+    </div>
+  </footer>
+
+  <!-- Jako modul – jinak ho Vite při sestavení webu do dist nepřibalí -->
+  <script type="module" src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Unibox",
+  "version": "0.1.13",
+  "identifier": "org.unibox.app",
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Unibox",
+        "width": 1440,
+        "height": 920,
+        "minWidth": 1024,
+        "minHeight": 640,
+        "center": true,
+        "visible": false,
+        "decorations": false,
+        "shadow": true,
+        "dragDropEnabled": false
+      }
+    ],
+    "trayIcon": {
+      "id": "main",
+      "iconPath": "icons/tray.png",
+      "iconAsTemplate": false,
+      "showMenuOnLeftClick": false,
+      "tooltip": "Unibox"
+    },
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' data: https: http://icon.localhost icon:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost https:",
+      "devCsp": "default-src 'self'; img-src 'self' data: https: http://icon.localhost icon:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost https: ws://localhost:1420"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis", "msi"],
+    "category": "Utility",
+    "publisher": "Unibox",
+    "copyright": "© 2026 Unibox",
+    "shortDescription": "Obchod s aplikacemi pro Windows",
+    "longDescription": "Unibox – bezpečná a jednoduchá instalace a správa aplikací přes winget, Chocolatey, Scoop a další správce balíčků.",
+    "license": "MIT",
+    "licenseFile": "installer/license.rtf",
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.ico"],
+    "windows": {
+      "webviewInstallMode": { "type": "downloadBootstrapper" },
+      "nsis": {
+        "template": "nsis/installer.nsi",
+        "installerHooks": "nsis/unibox-ui.nsh",
+        "languages": ["English", "Czech"],
+        "displayLanguageSelector": false,
+        "customLanguageFiles": { "Czech": "nsis/Czech.nsh" },
+        "installerIcon": "icons/icon.ico",
+        "uninstallerIcon": "icons/icon.ico",
+        "sidebarImage": "nsis/sidebar.bmp",
+        "headerImage": "nsis/header.bmp",
+        "uninstallerHeaderImage": "nsis/header.bmp"
+      }
+    }
+  },
+  "plugins": {
+    "deep-link": {
+      "desktop": { "schemes": ["unibox"] }
+    },
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEM2NjA2NTI0NjgwMEE4M0MKUldROHFBQm9KR1ZneHMzL01zMFBibTNkbGFPRE5MQzV2dENKUU05R0xJYzRzTzVQRXFOYW0vaDgK",
+      "endpoints": ["https://github.com/matous96/unibox/releases/latest/download/latest.json"],
+      "requireSignedVersion": true,
+      "windows": { "installMode": "passive" }
+    }
+  }
+}

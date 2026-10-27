@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SignPath – konfigurace artefaktu „app“ (slug app): unibox.exe z kroku 1 workflow
+  .github/workflows/release.yml. Vložit v SignPathu: Project → Artifact configurations →
+  Add → slug „app“. Název a verze produktu musí sedět (podmínka SignPath Foundation).
+  Artefakt nahraný actions/upload-artifact je ZIP – proto kořen <zip-file>.
+-->
+<artifact-configuration xmlns="http://signpath.io/artifact-configuration/v1">
+  <parameters>
+    <parameter name="version" required="true" />
+  </parameters>
+  <zip-file>
+    <pe-file path="unibox.exe" product-name="Unibox" product-version="${version}">
+      <authenticode-sign />
+    </pe-file>
+  </zip-file>
+</artifact-configuration>

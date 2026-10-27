@@ -1,0 +1,347 @@
+/**
+ * Poznámky k vydání (zobrazují se v aplikaci, fungují i bez internetu).
+ * Nové vydání přidejte na začátek pole – `pnpm release` z něj zároveň
+ * aktualizuje domovskou stránku webu (scripts/website-release.mjs).
+ */
+import type { Localized } from "./editorial";
+
+/** Karta „To nejlepší z verze“ na domovské stránce webu. */
+export interface FeaturedNews {
+  title: Localized;
+  text: Localized;
+  /** Odkaz karty na domovské stránce (kotva, např. "#po-spusteni"); jinak záznam verze v Novinkách. */
+  href?: string;
+}
+
+export interface Release {
+  version: string;
+  /** Datum vydání (YYYY-MM-DD). */
+  date: string;
+  highlights: Localized[];
+  /** Dvě největší novinky pro web; bez nich se karty složí z prvních dvou bodů `highlights`. */
+  featured?: FeaturedNews[];
+}
+
+export const CHANGELOG: Release[] = [
+  {
+    version: "0.1.13",
+    date: "2026-10-27",
+    highlights: [
+      {
+        cs: "Správci pro vývojáře naostro: npm, Bun, pip, Cargo, vcpkg, .NET Tool, PowerShell 7 i 5.1 – hledání, instalace, aktualizace i odinstalace v režimu Vývojář.",
+        en: "Developer package managers for real: npm, Bun, pip, Cargo, vcpkg, .NET Tool, PowerShell 7 and 5.1 – search, install, update and uninstall in Developer mode.",
+      },
+      {
+        cs: "Chybějící nástroj (Node.js, Python, Rust, .NET SDK, PowerShell 7) nainstaluje Unibox jedním kliknutím přes WinGet.",
+        en: "A missing tool (Node.js, Python, Rust, .NET SDK, PowerShell 7) is installed in one click via WinGet.",
+      },
+      {
+        cs: "Filtr i pro vývojáře: klik na npm, pip, Cargo… v levém panelu ukáže přehled správce – nainstalované balíčky, hledání jen v jeho registru a oblíbené nástroje.",
+        en: "A filter for developers too: click npm, pip, Cargo… in the sidebar to see the manager’s overview – installed packages, search in its registry only and popular tools.",
+      },
+      {
+        cs: "Aktualizace jako v UniGetUI: kontrola i instalace v intervalu nebo v daný čas a dny, zmeškané termíny, minimální stáří aktualizací, výjimka pro úsporu baterie a neprojevené aktualizace se přestanou nabízet.",
+        en: "Updates like in UniGetUI: checks and installs at an interval or at a set time and days, missed schedules, a minimum age for updates, a battery saver exception, and updates that never apply stop being offered.",
+      },
+      {
+        cs: "Varování, když se instalátor nové verze (WinGet) stahuje z jiného serveru než u nainstalované verze – aktualizace se označí oranžově a automaticky se nenainstaluje.",
+        en: "A warning when the new version’s installer (WinGet) comes from a different host than the installed version’s – the update is marked orange and isn’t installed automatically.",
+      },
+      {
+        cs: "Dostupné aktualizace i u Chocolatey – v přehledu aktualizací, v počtech, v hromadné i automatické aktualizaci.",
+        en: "Available updates for Chocolatey too – in the update list, the counts, and bulk and automatic updates.",
+      },
+      {
+        cs: "Úvodní průvodce pro nové uživatele: v pěti krocích představí katalog, filtr zdrojů, pokročilou odinstalaci, Po spuštění a zálohy. Znovu ho spustíte v Nastavení → Obecné.",
+        en: "A welcome tour for new users: five steps on the catalog, the source filter, advanced uninstall, startup apps and backups. Replay it in Settings → General.",
+      },
+      {
+        cs: "Sekce Dnes vybírá ze stovek známých aplikací celého katalogu – tipy dne, výběry z kategorií a aplikace dne se už neopakují po pár dnech. Šipkami na kartách listujete dalšími výběry a karty kolekcí mají barvu, která u jejich ikon převládá.",
+        en: "The Today section picks from hundreds of well-known apps across the catalog – daily tips, category picks and the app of the day no longer repeat after a few days. Browse more picks with the arrows on the cards; collection cards take the color that prevails in their icons.",
+      },
+      {
+        cs: "Jen ostré ikony aplikací: katalog u každé aplikace vybírá nejostřejší ikonu ze všech zdrojů (i z webu aplikace) a malé favicony, které by se rozmazaly, nahradí avatar s iniciálami. Ikony se po načtení už nemění; Audacity, WinRAR a Windows Terminal mají aktuální ikony.",
+        en: "Only sharp app icons: the catalog picks the sharpest icon for each app from all sources (including the app's website), and small favicons that would look blurry are replaced by an initials avatar. Icons no longer switch after loading; Audacity, WinRAR and Windows Terminal have their current icons.",
+      },
+      {
+        cs: "Ve výsledcích hledání jsou ověřené aplikace (s fajkou) nahoře – „terminal“ ukáže nejdřív Windows Terminal.",
+        en: "Verified apps (with the check mark) come first in search results – “terminal” shows Windows Terminal first.",
+      },
+      {
+        cs: "Pro vývojáře: průvodce publikováním ve WinGetu (Publikovat) – z adresy instalátoru zjistí SHA-256, typ a údaje, připraví manifest a ověří ho příkazem winget validate.",
+        en: "For developers: a WinGet publishing wizard (Publish) – reads the SHA-256, type and details from the installer URL, prepares the manifest and checks it with winget validate.",
+      },
+      {
+        cs: "Instalátor před instalací ukáže zásady ochrany soukromí a licenci. Favicony webů aplikací se už nehledají přes služby Googlu a DuckDuckGo.",
+        en: "The installer shows the privacy policy and license before installing. App website favicons are no longer looked up through Google and DuckDuckGo services.",
+      },
+      {
+        cs: "Stabilnější a plynulejší: chyba na jedné stránce už neshodí celé okno, selhání správce balíčků Unibox oznámí a scrollování seznamů běží bez zasekávání.",
+        en: "More stable and smoother: an error on one page no longer takes down the whole window, Unibox reports when a package manager fails, and lists scroll without stutter.",
+      },
+      {
+        cs: "Uložené volby instalace (jako správce, parametry, složka…) platí i pro aktualizace; nově i odinstalace předchozí verze a vlastní parametry jen pro aktualizace.",
+        en: "Saved install options (as administrator, arguments, folder…) apply to updates too; new: uninstall the previous version and custom arguments just for updates.",
+      },
+    ],
+    featured: [
+      {
+        title: { cs: "Správci pro vývojáře naostro", en: "Developer package managers for real" },
+        text: {
+          cs: "npm, Bun, pip, Cargo, vcpkg, .NET Tool a PowerShell – hledání, instalace, aktualizace i odinstalace knihoven a nástrojů přímo v Uniboxu.",
+          en: "npm, Bun, pip, Cargo, vcpkg, .NET Tool and PowerShell – search, install, update and uninstall libraries and tools right in Unibox.",
+        },
+        href: "#vyvojari",
+      },
+      {
+        title: { cs: "Aktualizace pod kontrolou", en: "Updates under control" },
+        text: {
+          cs: "Kontrola i instalace v daný čas a dny, minimální stáří aktualizací, výjimky pro baterii a měřené připojení a uložené volby i pro aktualizace.",
+          en: "Checks and installs at a set time and days, a minimum age for updates, battery and metered-connection exceptions, and saved options for updates too.",
+        },
+      },
+    ],
+  },
+  {
+    version: "0.1.12",
+    date: "2026-10-27",
+    highlights: [
+      {
+        cs: "Nový instalátor ve stylu Uniboxu – logo ve vysokém rozlišení, písmo Segoe UI, ostrá grafika i na displejích s vysokým rozlišením a jazyk podle Windows.",
+        en: "A new installer in Unibox style – a high-resolution logo, the Segoe UI font, sharp graphics on high-DPI displays and the language of your Windows.",
+      },
+      {
+        cs: "Novinky v Nastavení: okno Co je nového jde kdykoli znovu otevřít a je tam i historie všech verzí.",
+        en: "What’s new in Settings: reopen the What’s new window any time and browse the history of every version.",
+      },
+    ],
+    featured: [
+      {
+        title: { cs: "Nový instalátor", en: "A new installer" },
+        text: {
+          cs: "Úvodní a závěrečná obrazovka s logem Uniboxu ve vysokém rozlišení, písmo Segoe UI a ostrá grafika i na displejích s vysokým rozlišením.",
+          en: "Welcome and finish screens with a high-resolution Unibox logo, the Segoe UI font and sharp graphics even on high-DPI displays.",
+        },
+        href: "#stahnout",
+      },
+      {
+        title: { cs: "Novinky v Nastavení", en: "What’s new in Settings" },
+        text: {
+          cs: "Okno Co je nového jde kdykoli znovu otevřít – třeba když ho po aktualizaci omylem zavřete. Je tam i historie všech verzí.",
+          en: "Reopen the What’s new window any time – for example if you closed it by accident after an update. The history of every version is there too.",
+        },
+      },
+    ],
+  },
+  {
+    version: "0.1.11",
+    date: "2026-10-26",
+    highlights: [
+      {
+        cs: "Chocolatey a Scoop naostro – hledání, instalace, aktualizace i odinstalace; chybějící správce se nainstaluje jedním kliknutím.",
+        en: "Chocolatey and Scoop for real – search, install, update and uninstall; a missing package manager is installed in one click.",
+      },
+      {
+        cs: "Režim jednoho zdroje: klik na WinGet, Chocolatey nebo Scoop v levém panelu ukáže jen aplikace z něj a instaluje jen odtud.",
+        en: "Single-source mode: click WinGet, Chocolatey or Scoop in the sidebar to see only its apps and install only from it.",
+      },
+      {
+        cs: "Automatická kontrola a instalace aktualizací na pozadí, centrum oznámení se zvonečkem a předvolby oznámení.",
+        en: "Automatic background update checks and installs, a notification center with a bell and notification preferences.",
+      },
+      {
+        cs: "Když instalace selže (nefunkční odkaz, běžící jiná instalace…), Unibox nabídne jiný zdroj – Chocolatey nebo Scoop.",
+        en: "When an install fails (broken link, another install running…), Unibox offers another source – Chocolatey or Scoop.",
+      },
+      {
+        cs: "Odkazy unibox:// – kolekce a aplikace z webu se otevřou rovnou v Uniboxu.",
+        en: "unibox:// links – collections and apps from the web open right in Unibox.",
+      },
+      {
+        cs: "Spolehlivější rozpoznání nainstalovaných aplikací na každém počítači – ověří spustitelný soubor (zbytky v registru už nesvítí jako „Nainstalováno“), najde aplikace v profilu uživatele a funguje i bez modulu WinGetu.",
+        en: "More reliable detection of installed apps on any PC – it checks the executable (registry leftovers no longer show as installed), finds apps in the user profile and works even without the WinGet module.",
+      },
+      {
+        cs: "Běžící aplikace už instalaci nezablokuje: proces na pozadí (třeba OBS u hodin) Unibox před instalací, aktualizací či odinstalací sám ukončí, otevřenou aplikaci nabídne zavřít jedním kliknutím.",
+        en: "A running app no longer blocks an install: Unibox ends a background process (such as OBS in the tray) before an install, update or uninstall, and offers to close an open app in one click.",
+      },
+      {
+        cs: "Pokročilá odinstalace (v Nastavení): po odinstalaci najde zbytky v Program Files, ProgramData, zástupcích i registru a nabídne je smazat – nebo je smaže automaticky. Registr se před smazáním zálohuje.",
+        en: "Advanced uninstall (in Settings): after an uninstall it finds leftovers in Program Files, ProgramData, shortcuts and the registry and offers to delete them – or deletes them automatically. The registry is backed up first.",
+      },
+      {
+        cs: "Nová sekce Po spuštění: programy spouštěné po přihlášení (registr, složka Po spuštění, plánovač úloh) – zapnout, vypnout nebo odstranit jedním kliknutím, i s vlivem na rychlost startu.",
+        en: "New Startup apps section: programs that start at sign-in (registry, Startup folder, Task Scheduler) – enable, disable or remove them in one click, with their startup impact.",
+      },
+      {
+        cs: "Sledování instalace: snímek disku a registru před instalací a po ní – po odinstalaci Unibox nabídne smazat vše, co instalátor vytvořil.",
+        en: "Install monitoring: a disk and registry snapshot before and after an install – after an uninstall, Unibox offers to remove everything the installer created.",
+      },
+      {
+        cs: "Ignorovat aktualizace u kterékoli aplikace nebo je odložit o den, týden či měsíc; přehled a zrušení v Nastavení.",
+        en: "Ignore updates for any app or postpone them for a day, a week or a month; review and undo them in Settings.",
+      },
+      {
+        cs: "Export profilu do JSON i do přehledné stránky HTML, i s nastavením aktualizací; po importu nainstalujete chybějící aplikace jedním kliknutím.",
+        en: "Export your profile as JSON or as a readable HTML page, update settings included; after an import, install the missing apps in one click.",
+      },
+      {
+        cs: "Po aktualizaci Unibox jednou ukáže okno „Co je nového“ s novinkami všech vydání, která jste přeskočili.",
+        en: "After an update, Unibox shows a “What’s new” window once, covering every release you skipped.",
+      },
+      {
+        cs: "Celý katalog WinGetu (15 776 balíčků), hvězdičky z GitHubu na kartách, ověřené aplikace a vlastní barva zvýraznění.",
+        en: "The full WinGet catalog (15,776 packages), GitHub stars on cards, verified apps and a custom accent color.",
+      },
+      {
+        cs: "Rychlejší hledání a plynulá odezva během instalací; nastavení oprávnění správce a nebezpečných voleb.",
+        en: "Faster search and a smooth UI during installs; administrator rights and dangerous settings.",
+      },
+    ],
+  },
+  {
+    version: "0.1.10",
+    date: "2026-10-23",
+    highlights: [
+      {
+        cs: "Nefunkční odkaz na stažení ve WinGetu (chyba 404)? Unibox zkusí Chocolatey nebo Scoop.",
+        en: "A broken download link in WinGet (error 404)? Unibox tries Chocolatey or Scoop.",
+      },
+      { cs: "Velké karty na domovské stránce jsou klikatelné celé.", en: "The large home page cards are clickable everywhere." },
+    ],
+  },
+  {
+    version: "0.1.9",
+    date: "2026-10-23",
+    highlights: [
+      {
+        cs: "Detail kolekce přes celou obrazovku jako v App Storu – popis, seznam aplikací a instalace všech najednou.",
+        en: "An App Store-style full-screen collection page – a description, the list of apps and installing them all at once.",
+      },
+    ],
+  },
+  {
+    version: "0.1.8",
+    date: "2026-10-23",
+    highlights: [
+      {
+        cs: "Stav aplikace se po instalaci a odinstalaci změní okamžitě, včetně tlačítka Otevřít; rychlejší odezva a hledání.",
+        en: "An app’s state changes right after install and uninstall, Open button included; faster response and search.",
+      },
+      { cs: "Spouštění při startu Windows (Nastavení).", en: "Start with Windows (Settings)." },
+    ],
+  },
+  {
+    version: "0.1.7",
+    date: "2026-10-22",
+    highlights: [
+      {
+        cs: "Správný název WinGet v celé aplikaci; aplikace z Microsoft Storu jako „WinGet (Microsoft Store)“.",
+        en: "The correct WinGet name throughout the app; Microsoft Store apps shown as “WinGet (Microsoft Store)”.",
+      },
+    ],
+  },
+  {
+    version: "0.1.6",
+    date: "2026-10-22",
+    highlights: [
+      {
+        cs: "Barva banneru podle ikony, kterou aplikace opravdu zobrazuje, a čitelné popisky.",
+        en: "Banner color from the icon the app actually shows, with readable labels.",
+      },
+    ],
+  },
+  {
+    version: "0.1.5",
+    date: "2026-10-22",
+    highlights: [
+      {
+        cs: "Volby instalace v detailu schované pod odkazem, změněné volby ve stručném souhrnu.",
+        en: "Install options in the app detail tucked behind a link, with a short summary of changes.",
+      },
+    ],
+  },
+  {
+    version: "0.1.4",
+    date: "2026-10-22",
+    highlights: [
+      {
+        cs: "Tichá instalace, spuštění jako správce a instalace pro všechny uživatele; indikátor ověření SHA-256.",
+        en: "Silent install, run as administrator and install for all users; a SHA-256 verification indicator.",
+      },
+    ],
+  },
+  {
+    version: "0.1.3",
+    date: "2026-10-22",
+    highlights: [
+      {
+        cs: "Hromadná instalace, export a import aplikací, přeskakování a zamykání verzí, úklid po odinstalaci.",
+        en: "Bulk install, app export and import, skipping and pinning versions, cleanup after uninstall.",
+      },
+      { cs: "Počet hvězdiček z GitHubu v detailu open-source aplikací.", en: "GitHub star counts in open-source app details." },
+    ],
+  },
+  {
+    version: "0.1.2",
+    date: "2026-10-22",
+    highlights: [
+      {
+        cs: "Lepší rozpoznání nainstalovaných aplikací (např. Google Chrome) a spolehlivější ikony.",
+        en: "Better detection of installed apps (e.g. Google Chrome) and more reliable icons.",
+      },
+    ],
+  },
+  {
+    version: "0.1.1",
+    date: "2026-10-22",
+    highlights: [
+      {
+        cs: "Okno ve stylu Windows 11 a běh na pozadí u hodin – instalace doběhnou i po zavření okna.",
+        en: "A Windows 11-style window and background mode in the tray – installs finish even after closing the window.",
+      },
+      {
+        cs: "Tlačítko Otevřít, snímky obrazovky v detailu, průběh stahování v procentech a přepínač motivu.",
+        en: "An Open button, screenshots in app details, download progress in percent and a theme toggle.",
+      },
+      {
+        cs: "Spolehlivé aktualizace a odinstalace, ikony i pro aplikace bez ikony v manifestu.",
+        en: "Reliable updates and uninstalls, icons even for apps without one in the manifest.",
+      },
+    ],
+  },
+  {
+    version: "0.1.0",
+    date: "2026-10-21",
+    highlights: [
+      {
+        cs: "Jeden obchod pro winget, Chocolatey a Scoop – aplikace dostupná ve více zdrojích má jeden profil.",
+        en: "One store for winget, Chocolatey and Scoop – an app available in several sources has a single profile.",
+      },
+      {
+        cs: "Správci pro vývojáře: npm, Bun, pip, Cargo, vcpkg, .NET Tool a PowerShell 7 i 5.",
+        en: "Developer package managers: npm, Bun, pip, Cargo, vcpkg, .NET Tool and PowerShell 7 and 5.",
+      },
+      {
+        cs: "Sekce Dnes, žebříček nejstahovanějších, kategorie s filtrem správců a naposledy zobrazené aplikace.",
+        en: "Today section, top charts, categories with a source filter and recently viewed apps.",
+      },
+      {
+        cs: "Profil aplikace s bannerem, technickými údaji, ochranou soukromí, architekturami a staršími verzemi.",
+        en: "App profiles with a banner, technical details, privacy labels, architectures and older versions.",
+      },
+      {
+        cs: "Sady balíčků: hromadná instalace, uložení do souboru .ubundle a vytvoření skriptu PowerShellu.",
+        en: "Package bundles: bulk install, save as a .ubundle file and create a PowerShell script.",
+      },
+      {
+        cs: "Rychlé akce na kartách – kopírování příkazu, oblíbené a přidání do sady bez otevření profilu.",
+        en: "Quick actions on cards – copy the command, favorite or add to a bundle without opening the profile.",
+      },
+      {
+        cs: "Historie operací a protokoly správců balíčků pro snadné řešení potíží.",
+        en: "Operation history and package manager logs for easy troubleshooting.",
+      },
+    ],
+  },
+];

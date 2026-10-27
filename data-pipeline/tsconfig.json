@@ -1,0 +1,20 @@
+{
+  // Kontrola typů datové pipeline. Spouští se přímo v Node 24 (TypeScript bez překladu),
+  // proto jen „smazatelná“ syntaxe typů a importy s příponou .ts.
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": ["src", "scripts"]
+}

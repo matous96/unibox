@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SignPath – konfigurace artefaktu „installers“ (slug installers): instalátory NSIS a MSI
+  z kroku 2 workflow .github/workflows/release.yml (obsahují už podepsaný unibox.exe).
+  Vložit v SignPathu: Project → Artifact configurations → Add → slug „installers“.
+  Nahraný artefakt má složky nsis/ a msi/ (společný předek cest v upload-artifact).
+-->
+<artifact-configuration xmlns="http://signpath.io/artifact-configuration/v1">
+  <parameters>
+    <parameter name="version" required="true" />
+  </parameters>
+  <zip-file>
+    <pe-file path="nsis/Unibox_${version}_x64-setup.exe" product-name="Unibox" product-version="${version}">
+      <authenticode-sign />
+    </pe-file>
+    <msi-file path="msi/Unibox_${version}_x64_*.msi" max-matches="unbounded">
+      <authenticode-sign />
+    </msi-file>
+  </zip-file>
+</artifact-configuration>

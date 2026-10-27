@@ -1,0 +1,3 @@
+# Konce řádků LF v repozitáři i v pracovní kopii (i ve Windows) – stejné soubory
+# všude, bez falešných změn mezi počítači a GitHub Actions. Binární soubory Git pozná sám.
+* text=auto eol=lf

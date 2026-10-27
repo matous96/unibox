@@ -1,0 +1,156 @@
+import { motion } from "motion/react";
+import { useEffect, useRef, type ComponentType, type ReactNode } from "react";
+import { Outlet, useLocation } from "react-router";
+import { LoginDialog } from "@/components/auth/LoginDialog";
+import { OnboardingDialog } from "@/components/layout/OnboardingDialog";
+import { DevSourceOverview } from "@/components/home/DevSourceOverview";
+import { SelectionBar } from "@/components/layout/SelectionBar";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { SourceLockBar } from "@/components/layout/SourceLockBar";
+import { TitleBar } from "@/components/layout/TitleBar";
+import { Toasts } from "@/components/layout/Toasts";
+import { TopBar } from "@/components/layout/TopBar";
+import { UpdateDialog } from "@/components/layout/UpdateDialog";
+import { WhatsNewDialog } from "@/components/layout/WhatsNewDialog";
+import { PackageContextMenuHost } from "@/components/package/InstallMenu";
+import { InstallOptionsDialog } from "@/components/package/InstallOptionsDialog";
+import { ErrorBoundary, PageCrash } from "@/components/ui/ErrorBoundary";
+import { AppInUseDialog, AppRunningDialog } from "@/components/package/AppInUseDialog";
+import { FallbackOfferDialog } from "@/components/package/FallbackOfferDialog";
+import { LeftoversDialog } from "@/components/package/LeftoversDialog";
+import { ManagerSetupDialog } from "@/components/package/ManagerSetupDialog";
+import { ManualInstallDialog } from "@/components/package/ManualInstallDialog";
+import { ProfileImportDialog } from "@/components/package/ProfileImportDialog";
+import { useAutoUpdateScheduler } from "@/hooks/useAutoUpdates";
+import { useDeepLinks } from "@/hooks/useDeepLinks";
+import { useDesktopIntegration } from "@/hooks/useDesktopIntegration";
+import { useSecurityPolicySync } from "@/hooks/useSecurityPolicySync";
+import { useExternalLinks } from "@/hooks/useExternalLinks";
+import { useTheme } from "@/hooks/useTheme";
+import { isTauri } from "@/lib/tauri";
+import { isDevLock, useSourceScope } from "@/store/sourceLock";
+
+/**
+ * Služby na pozadí bez vlastního obsahu. Jsou ve vlastní komponentě, protože
+ * sledují často se měnící stav (fronta operací, nainstalované aplikace) – jejich
+ * překreslení se tak netýká celého okna se stránkou.
+ */
+function BackgroundServices() {
+  // Zavření do oznamovací oblasti, texty a stav její ikony
+  useDesktopIntegration();
+  // Oprávnění správce a nebezpečná nastavení → backend; kontrola a instalace aktualizací na pozadí
+  useSecurityPolicySync();
+  useAutoUpdateScheduler();
+  // Odkazy unibox:// z webu a sdílených sad
+  useDeepLinks();
+  return null;
+}
+
+/** Přehledy katalogu, které při zámku na správce pro vývojáře nahradí jeho přehled. */
+const DEV_OVERVIEW_PAGES = /^\/($|categories|top|recent|favorites)/;
+
+/**
+ * Obsah stránky. Katalog aplikací balíčky z npm, pip, Cargo… nemá – při zámku
+ * na takového správce (levý panel) by domovská stránka, kategorie a žebříčky
+ * byly prázdné, proto ukážou přehled správce (nainstalované, hledání v registru).
+ */
+function PageContent({ pathname }: { pathname: string }) {
+  const { lock } = useSourceScope();
+  return isDevLock(lock) && DEV_OVERVIEW_PAGES.test(pathname) ? <DevSourceOverview source={lock} /> : <Outlet />;
+}
+
+/** Hlavní rozvržení okna: (titulková lišta) + postranní panel + horní lišta + obsah stránky. */
+export function Layout() {
+  useTheme();
+  // V desktopové aplikaci otevírat odkazy ven v systémovém prohlížeči
+  useExternalLinks();
+  const desktop = isTauri();
+  const location = useLocation();
+  const scroller = useRef<HTMLElement>(null);
+
+  // Při přechodu na jinou stránku skočit nahoru (ne při psaní ve vyhledávání).
+  useEffect(() => {
+    scroller.current?.scrollTo({ top: 0 });
+  }, [location.pathname]);
+
+  return (
+    <div className="flex h-full flex-col overflow-hidden">
+      <Isolated name="BackgroundServices">
+        <BackgroundServices />
+      </Isolated>
+      {/* Desktop: okno bez systémových dekorací má vlastní titulkovou lištu */}
+      {desktop && <TitleBar />}
+      <div className="flex min-h-0 flex-1 overflow-hidden">
+        <Sidebar />
+        <div className="flex min-w-0 flex-1 flex-col">
+          <TopBar />
+          {/* Režim jednoho zdroje (levý panel) – indikátor se zrušením filtru */}
+          <SourceLockBar />
+          {/* Stálé místo pro posuvník – obsah při přechodu mezi krátkou a dlouhou stránkou neuskočí do strany */}
+          <main ref={scroller} className="min-h-0 flex-1 overflow-y-auto [scrollbar-gutter:stable]">
+            {/* Při změně stránky jen krátké prolnutí, bez posunu – okno reaguje svižně jako nativní
+                aplikace. Obsah využívá celou šířku okna – mřížky karet přidávají sloupce (auto-fill). */}
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              className="px-6 pt-2 pb-12 lg:px-8 2xl:px-10"
+            >
+              {/* Spadne-li stránka, zbytek okna běží dál; přechod na jinou stránku chybu zapomene */}
+              <ErrorBoundary
+                name={`page ${location.pathname}`}
+                resetKey={location.pathname}
+                fallback={(error, reset) => <PageCrash error={error} reset={reset} />}
+              >
+                <PageContent pathname={location.pathname} />
+              </ErrorBoundary>
+            </motion.div>
+          </main>
+        </div>
+      </div>
+      {/* Dialogy a lišty – každý zvlášť: chyba v jednom nevypne ostatní (vadný jen zmizí) */}
+      {OVERLAYS.map(([name, Overlay]) => (
+        <Isolated key={name} name={name}>
+          <Overlay />
+        </Isolated>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Dialogy a lišty nad oknem (každý si stav drží ve vlastním store):
+ * oznámení v rohu, hromadné akce (useSelection), přihlášení (useAuth), možnosti
+ * a ruční instalace s kontextovou nabídkou (useInstallUi), zbytky po odinstalaci
+ * (useLeftovers), import profilu, chybějící správce, běžící aplikace, nabídka
+ * jiného zdroje, nová verze Uniboxu, novinky a úvodní průvodce.
+ */
+const OVERLAYS: [string, ComponentType][] = [
+  ["Toasts", Toasts],
+  ["SelectionBar", SelectionBar],
+  ["LoginDialog", LoginDialog],
+  ["InstallOptionsDialog", InstallOptionsDialog],
+  ["ManualInstallDialog", ManualInstallDialog],
+  ["PackageContextMenuHost", PackageContextMenuHost],
+  ["LeftoversDialog", LeftoversDialog],
+  ["ProfileImportDialog", ProfileImportDialog],
+  ["ManagerSetupDialog", ManagerSetupDialog],
+  ["AppInUseDialog", AppInUseDialog],
+  ["AppRunningDialog", AppRunningDialog],
+  ["FallbackOfferDialog", FallbackOfferDialog],
+  ["UpdateDialog", UpdateDialog],
+  ["WhatsNewDialog", WhatsNewDialog],
+  ["OnboardingDialog", OnboardingDialog],
+];
+
+/** Část okna, jejíž chyba se zapíše a nic dalšího neshodí (bez náhradního obsahu). */
+function Isolated({ name, children }: { name: string; children: ReactNode }) {
+  const { pathname } = useLocation();
+  // Po přechodu na jinou stránku to zkusí znovu
+  return (
+    <ErrorBoundary name={name} resetKey={pathname}>
+      {children}
+    </ErrorBoundary>
+  );
+}
