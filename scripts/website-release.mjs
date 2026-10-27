@@ -6,7 +6,8 @@
 //   exe-size, msi-size  velikost instalátorů (ze sestavených souborů),
 //   news                sekce „To nejlepší z verze“ – karty z `featured` nejnovějšího
 //                       vydání v src/data/changelog.ts, jinak z prvních dvou bodů `highlights`.
-// Novinky (novinky.html, en/changelog.html) se píšou ručně – jsou podrobnější.
+// Ve website/main.js přepíše odkazy ke stažení (LINKS.downloadExe, downloadMsi) na instalátory
+// vydání v<verze> na GitHubu. Novinky (novinky.html, en/changelog.html) se píšou ručně – jsou podrobnější.
 import { existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -124,6 +125,20 @@ export async function updateWebsite(root, version) {
     });
     for (const key of Object.keys(values)) if (!found.has(key)) warnings.push(`${page.file}: chybí značka <!--release:${key}-->.`);
     writeFileSync(path, html);
+  }
+
+  // Odkazy ke stažení ve website/main.js – instalátory vydání v<verze> v repozitáři z LINKS.github
+  const mainJs = join(root, "website", "main.js");
+  const script = readFileSync(mainJs, "utf8");
+  const repo = /github:\s*"([^"]+)"/.exec(script)?.[1];
+  if (!repo) {
+    warnings.push("website/main.js: chybí LINKS.github – odkazy ke stažení zůstaly beze změny.");
+  } else {
+    const url = (file) => `${repo}/releases/download/v${version}/${file}`;
+    const updated = script
+      .replace(/downloadExe:\s*"[^"]*"/, `downloadExe: "${url(exe)}"`)
+      .replace(/downloadMsi:\s*"[^"]*"/, `downloadMsi: "${url(msi)}"`);
+    writeFileSync(mainJs, updated);
   }
   return warnings;
 }

@@ -6,8 +6,9 @@
 const LINKS = {
   github: "https://github.com/matous96/unibox",
   releases: "https://github.com/matous96/unibox/releases",
-  downloadExe: "",  // např. ".../releases/download/v0.1.12/Unibox_0.1.12_x64-setup.exe"
-  downloadMsi: "",  // např. ".../releases/download/v0.1.12/Unibox_0.1.12_x64_en-US.msi"
+  // Instalátory z vydání na GitHubu – verzi přepisuje `pnpm website:release` (scripts/website-release.mjs)
+  downloadExe: "https://github.com/matous96/unibox/releases/download/v0.1.14/Unibox_0.1.14_x64-setup.exe",
+  downloadMsi: "https://github.com/matous96/unibox/releases/download/v0.1.14/Unibox_0.1.14_x64_en-US.msi",
   discord: "",      // např. "https://discord.gg/<kód>"
   email: "",        // např. "mailto:ahoj@unibox.app"
 };
