@@ -21,7 +21,7 @@ instalátorů po webu, bez reklam a přibalených doplňků.
   <img src="assets/readme/okno-svetle.webp" alt="Okno Uniboxu – domovská stránka Dnes s tipy, kolekcemi a Aplikací dne">
 </picture>
 
-Domovská stránka Dnes – tipy, kolekce a Aplikace dne. Světlý i tmavý motiv podle Windows.
+Domovská stránka – tipy, kolekce a Aplikace dne. Česky i anglicky, světlý i tmavý motiv podle Windows.
 
 </div>
 
@@ -44,8 +44,8 @@ Vyhledávání přes <kbd>Ctrl</kbd>+<kbd>K</kbd> prohledá katalog i živě spr
 ověřené aplikace jsou ve výsledcích první.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="website/img/screens/kolekce.webp">
-  <img src="website/img/screens/kolekce-svetly.webp" alt="Kolekce aplikací podle zaměření a žebříček Trendy">
+  <source media="(prefers-color-scheme: dark)" srcset="website/img/screens/en/kolekce.webp">
+  <img src="website/img/screens/en/kolekce-svetly.webp" alt="Kolekce aplikací podle zaměření a žebříček Trendy">
 </picture>
 
 ### Detail aplikace jako v App Storu
@@ -55,10 +55,12 @@ obrazovku, co je nového, hodnocení a recenze, ochrana soukromí a odkazy na we
 dokumentaci a podporu. Technické údaje: SHA-256, typ instalátoru, systémové požadavky
 a závislosti.
 
+Instalace jedním kliknutím z vybraného zdroje, s průběhem stahování přímo v detailu.
+
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/readme/detail-tmave.webp">
-  <img src="assets/readme/detail-svetle.webp" alt="Okno Uniboxu s detailem aplikace Steam: banner, tlačítka, ověření SHA-256, údaje a odkazy">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/readme/stahovani-tmave.webp">
+  <img src="assets/readme/stahovani-svetle.webp" alt="Okno Uniboxu s detailem aplikace Obsidian během stahování (47 %), výběrem zdroje a ověřením SHA-256">
 </picture>
 </p>
 
@@ -70,8 +72,8 @@ nebo automaticky podle plánu. Selže-li operace kvůli oprávněním, Unibox ji
 s právy správce.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="website/img/screens/nainstalovane.webp">
-  <img src="website/img/screens/nainstalovane-svetly.webp" alt="Seznam nainstalovaných aplikací s tlačítky Otevřít a Aktualizovat vše">
+  <source media="(prefers-color-scheme: dark)" srcset="website/img/screens/en/nainstalovane.webp">
+  <img src="website/img/screens/en/nainstalovane-svetly.webp" alt="Seznam nainstalovaných aplikací s tlačítky Otevřít a Aktualizovat vše">
 </picture>
 
 ### A k tomu
