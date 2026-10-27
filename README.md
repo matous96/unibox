@@ -626,7 +626,10 @@ hlídá to workflow níže, které databázi i zálohuje):
    `supabase/migrations/20261027120000_user_data.sql` (tabulka `user_data` pro
    synchronizaci, RLS, revize řízená databází) a
    `supabase/migrations/20261027130000_reviews.sql` (text recenzí, jméno autora,
-   nahlášení, veřejná funkce `app_reviews()`).
+   nahlášení, veřejná funkce `app_reviews()`) a
+   `supabase/migrations/20261028120000_app_screenshots.sql` (snímky obrazovky od
+   uživatelů, bucket `app-screenshots`). Každý soubor v novém dotazu – dva najednou
+   skončí chybou „already exists“.
 3. **Authentication → Sign In / Providers**: zapněte GitHub (a Google). Každý potřebuje
    OAuth aplikaci u poskytovatele (GitHub → Settings → Developer settings → OAuth Apps,
    bez Device Flow – to je jiná aplikace než ta pro publikování; Google Cloud Console →
@@ -653,6 +656,44 @@ u synchronizace izolace dat mezi uživateli, revize (zápis se zastaralou reviz�
 nezmění), jen povolené oblasti, limit 256 kB a smazání dat se smazáním účtu;
 u recenzí jméno autora z přihlášení (podvrhnout nejde), délky textu, úprava a smazání,
 nahlášení (ne vlastní, ne za jiného, jednou) a skrytí po 3 nahlášeních.
+
+#### Snímky obrazovky od uživatelů
+
+Snímky v katalogu pocházejí z komunitních databází a často jsou staré. Přihlášený
+uživatel proto může v detailu aplikace přidat aktuální snímky (**Přidat snímek** –
+výběr souborů, přetažení nebo Ctrl+V; `components/package/AppScreenshots.tsx`):
+
+- **v aplikaci** se obrázek zmenší (delší strana nejvýš 1 920 px) a zakóduje do WebP
+  s náhledem 480 px (`lib/screenshotImage.ts`) – nové zakódování zahodí metadata
+  (EXIF, poloha); typický snímek má 100–200 kB, náhled ~15 kB,
+- **databáze** (`20261028120000_app_screenshots.sql`) založí záznam: jméno autora
+  z přihlášení, cestu `<id>.webp` bez user_id a hlídá limity – 4 snímky k jedné
+  aplikaci, 20 na uživatele (`app_screenshot_limits()`),
+- **soubory** jdou do soukromého bucketu `app-screenshots` (jen `image/webp` do 1 MB).
+  Nahrát jde jen soubor k vlastnímu záznamu a jen jednou, číst přes podepsané adresy
+  s platností 1 h jen vlastní a veřejné snímky,
+- **zveřejnění**: nový snímek čeká na schválení – autor ho vidí se štítkem „Čeká na
+  schválení“, ostatní až po schválení. Snímek si prohlédnete v **Storage →
+  app-screenshots** a schválíte v **Table Editor → app_screenshots → approved = true**.
+  Bez schvalování: v SQL Editoru
+  `create or replace function public.app_screenshot_auto_approve() returns boolean language sql immutable as $$ select true $$;`,
+- **moderace**: cizí snímek jde nahlásit (spam, urážlivý, netýká se aplikace, jiný
+  důvod), po 3 nahlášeních se skryje; ručně `hidden = true`. Autor svůj snímek smaže
+  v prohlížeči snímků (soubory i záznam).
+
+Galerie ukazuje snímky od uživatelů před snímky z katalogu, s autorem a datem.
+Po smazání účtu zmizí záznamy a soubory už nikdo nepřečte; dohledáte je v SQL Editoru
+a smažete v **Storage → app-screenshots**:
+
+```sql
+select o.name, o.created_at from storage.objects o
+ where o.bucket_id = 'app-screenshots'
+   and not exists (select 1 from public.app_screenshots s where o.name in (s.path, s.thumb_path))
+   and o.created_at < now() - interval '1 day';
+```
+
+Bezplatný tarif: 1 GB úložiště (tisíce snímků) a přenos 5 GB měsíčně – galerie načítá
+plné snímky, náhledy jen v prohlížeči na celou obrazovku a v rozmazaném pozadí.
 
 #### Údržba a zálohy Supabase (GitHub Actions)
 

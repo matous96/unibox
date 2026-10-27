@@ -24,6 +24,8 @@ export const queryKeys = {
   reviews: (id: string) => ["reviews", id] as const,
   /** Vlastní hodnocení – podle uživatele, po přihlášení / odhlášení se načte znovu. */
   myReview: (id: string, userId?: string | null) => ["my-review", id, userId ?? null] as const,
+  /** Snímky aplikace od uživatelů – podle uživatele (vlastní čekající vidí jen autor). */
+  appScreenshots: (id: string, userId?: string | null) => ["app-screenshots", id, userId ?? null] as const,
   githubStars: (repo: string) => ["github-stars", repo] as const,
   /** Aplikace po spuštění Windows (stránka Po spuštění). */
   startup: ["startup"] as const,

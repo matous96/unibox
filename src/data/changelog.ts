@@ -72,6 +72,10 @@ export const CHANGELOG: Release[] = [
         en: "For developers: a WinGet publishing wizard (Publish) – reads the SHA-256, type and details from the installer URL, prepares the manifest and checks it with winget validate.",
       },
       {
+        cs: "Snímky obrazovky od uživatelů: přihlášení mohou k aplikaci přidat aktuální snímky (výběrem, přetažením nebo Ctrl+V) – Unibox je zmenší do WebP bez metadat a po schválení je uvidí všichni.",
+        en: "Screenshots from users: signed-in users can add current screenshots to an app (pick, drag or Ctrl+V) – Unibox downscales them to WebP without metadata and everyone sees them once approved.",
+      },
+      {
         cs: "Instalátor před instalací ukáže zásady ochrany soukromí a licenci. Favicony webů aplikací se už nehledají přes služby Googlu a DuckDuckGo.",
         en: "The installer shows the privacy policy and license before installing. App website favicons are no longer looked up through Google and DuckDuckGo services.",
       },

@@ -23,7 +23,7 @@ import { InstallSplitMenu } from "@/components/package/InstallMenu";
 import { InlineInstallParameters } from "@/components/package/InstallParameters";
 import { QuickLinks } from "@/components/package/QuickLinks";
 import { RatingsSection, ratingsEnabled, useRatingFormat, useRatingSummary } from "@/components/package/RatingsSection";
-import { ScreenshotGallery } from "@/components/package/ScreenshotGallery";
+import { AppScreenshots } from "@/components/package/AppScreenshots";
 import { TechnicalDetails } from "@/components/package/TechnicalDetails";
 import { WhatsNew } from "@/components/package/WhatsNew";
 import { DetailLibraryButtons } from "@/components/package/QuickActions";
@@ -432,10 +432,8 @@ function PackageDetailView({ entry: fullEntry, inCatalog }: { entry: CatalogEntr
         <PackageCommand sources={entry.sources} active={shownSource.source} installed={installed} name={entry.name} />
       )}
 
-      {/* ── Screenshoty (komunitní databáze UniGetUI, popisy balíčků v Chocolatey) ── */}
-      {entry.screenshots && entry.screenshots.length > 0 && (
-        <ScreenshotGallery screenshots={entry.screenshots} name={entry.name} sources={entry.screenshotSources} />
-      )}
+      {/* ── Screenshoty (od uživatelů Uniboxu, z databáze UniGetUI a popisů balíčků v Chocolatey) ── */}
+      <AppScreenshots entry={entry} />
 
       {/* ── Co je nového v aktuální verzi ────────────────────────── */}
       {inCatalog && <WhatsNew entry={entry} />}

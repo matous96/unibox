@@ -4,7 +4,7 @@ import { auth, SignInCancelled, type AuthProvider, type User } from "@/services/
 import { useToasts } from "./toasts";
 
 /** Proč se otevírá přihlášení – podle toho se v dialogu zobrazí vysvětlení. */
-export type LoginReason = "general" | "review";
+export type LoginReason = "general" | "review" | "screenshot";
 
 interface AuthState {
   user: User | null;

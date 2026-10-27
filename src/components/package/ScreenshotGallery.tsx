@@ -6,12 +6,29 @@ import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import type { ScreenshotSource } from "@/types";
 
+/** Snímek v galerii – z katalogu jen adresa, od uživatelů i štítek, popisek a akce. */
+export interface GalleryItem {
+  id: string;
+  url: string;
+  /** Menší náhled (proužek v prohlížeči na celou obrazovku). */
+  thumbUrl?: string;
+  /** Štítek v rohu snímku („Od komunity“, „Čeká na schválení“). */
+  badge?: ReactNode;
+  /** Popisek a akce nahoře v prohlížeči na celou obrazovku. */
+  caption?: ReactNode;
+  actions?: ReactNode;
+}
+
 interface ScreenshotGalleryProps {
-  screenshots: string[];
+  items: GalleryItem[];
   /** Název aplikace – pro alternativní text obrázků. */
   name: string;
-  /** Odkud snímky pocházejí – uvede se pod galerií. */
+  /** Odkud snímky z katalogu pocházejí – uvede se nad galerií. */
   sources?: ScreenshotSource[];
+  /** Tlačítko v záhlaví (Přidat snímek). */
+  action?: ReactNode;
+  /** Obsah místo galerie, když snímky nejsou (zobrazí se jen s `action`). */
+  empty?: ReactNode;
 }
 
 /** Popisky zdrojů snímků (vlastní názvy, nepřekládají se). */
@@ -24,7 +41,7 @@ const SOURCE_LABEL: Record<ScreenshotSource, string> = { unigetui: "UniGetUI", c
  * v jednotném rámu, za nimi rozmazaná kopie. Obrázky, které se nepodaří
  * načíst, se z galerie tiše vyřadí.
  */
-export function ScreenshotGallery({ screenshots, name, sources }: ScreenshotGalleryProps) {
+export function ScreenshotGallery({ items, name, sources, action, empty }: ScreenshotGalleryProps) {
   const { t } = useTranslation();
   const [failed, setFailed] = useState<Set<string>>(new Set());
   const [loaded, setLoaded] = useState<Set<string>>(new Set());
@@ -32,10 +49,10 @@ export function ScreenshotGallery({ screenshots, name, sources }: ScreenshotGall
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const track = useRef<HTMLDivElement>(null);
 
-  const visible = screenshots.filter((url) => !failed.has(url));
+  const visible = items.filter((item) => !failed.has(item.id));
   const count = visible.length;
-  const markFailed = (url: string) => setFailed((prev) => new Set(prev).add(url));
-  const markLoaded = (url: string) => setLoaded((prev) => new Set(prev).add(url));
+  const markFailed = (id: string) => setFailed((prev) => new Set(prev).add(id));
+  const markLoaded = (id: string) => setLoaded((prev) => new Set(prev).add(id));
 
   /** Posune karusel tak, aby snímek začínal u levého okraje. */
   const scrollTo = useCallback((index: number) => {
@@ -69,7 +86,10 @@ export function ScreenshotGallery({ screenshots, name, sources }: ScreenshotGall
     };
   }, [count]);
 
-  if (count === 0) return null;
+  // Prohlížeč zavřít, když jeho snímek zmizel (smazaný vlastní snímek)
+  if (openIndex !== null && openIndex >= count) setOpenIndex(count > 0 ? count - 1 : null);
+
+  if (count === 0 && !action) return null;
 
   const go = (delta: number) => scrollTo(Math.min(count - 1, Math.max(0, active + delta)));
   const onKeyDown = (e: ReactKeyboardEvent) => {
@@ -84,89 +104,99 @@ export function ScreenshotGallery({ screenshots, name, sources }: ScreenshotGall
 
   return (
     <section className="mb-10">
-      <div className="mb-4 flex items-baseline justify-between gap-4">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
         <h2 className="flex items-center gap-2.5 font-display text-2xl font-bold">
           {t("package.screenshots")}
-          <span className="text-base font-medium text-muted tabular-nums">{count}</span>
+          {count > 0 && <span className="text-base font-medium text-muted tabular-nums">{count}</span>}
         </h2>
-        {sources && sources.length > 0 && (
-          <p className="flex items-center gap-1.5 text-xs text-muted">
-            <Images className="size-3.5" />
-            {t("package.screenshotsSource", { sources: sources.map((s) => SOURCE_LABEL[s]).join(", ") })}
-          </p>
-        )}
+        <div className="flex items-center gap-4">
+          {sources && sources.length > 0 && (
+            <p className="flex items-center gap-1.5 text-xs text-muted">
+              <Images className="size-3.5" />
+              {t("package.screenshotsSource", { sources: sources.map((s) => SOURCE_LABEL[s]).join(", ") })}
+            </p>
+          )}
+          {action}
+        </div>
       </div>
 
-      <div className="group/gallery relative">
-        <div
-          ref={track}
-          tabIndex={0}
-          onKeyDown={onKeyDown}
-          aria-label={t("package.screenshots")}
-          className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth rounded-2xl pb-1 outline-none focus-visible:ring-2 focus-visible:ring-accent"
-        >
-          {visible.map((url, i) => (
-            <button
-              key={url}
-              type="button"
-              onClick={() => setOpenIndex(i)}
-              aria-label={t("package.screenshotOf", { index: i + 1, total: count })}
-              className={cn(
-                "group relative aspect-[16/10] shrink-0 cursor-zoom-in snap-start overflow-hidden rounded-2xl border border-line bg-surface-2 shadow-card",
-                // Jediný snímek přes celou šířku (do 900 px), jinak vykukuje další
-                count === 1 ? "w-full max-w-[900px]" : "w-[min(720px,82%)]",
-              )}
+      {count === 0 ? (
+        empty
+      ) : (
+        <>
+          <div className="group/gallery relative">
+            <div
+              ref={track}
+              tabIndex={0}
+              onKeyDown={onKeyDown}
+              aria-label={t("package.screenshots")}
+              className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth rounded-2xl pb-1 outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              {/* Rozmazaná kopie za snímkem vyplní okraje rámu */}
-              <img src={url} alt="" aria-hidden draggable={false} className="absolute inset-0 size-full scale-110 object-cover opacity-50 blur-2xl" />
-              {!loaded.has(url) && <span className="absolute inset-0 animate-pulse bg-surface-2" />}
-              <img
-                src={url}
-                alt={`${name} – ${t("package.screenshotOf", { index: i + 1, total: count })}`}
-                loading={i < 2 ? "eager" : "lazy"}
-                draggable={false}
-                onLoad={() => markLoaded(url)}
-                onError={() => markFailed(url)}
-                className="relative size-full object-contain p-3 drop-shadow-xl transition-transform duration-500 group-hover:scale-[1.02]"
-              />
-              {/* Ikona zvětšení při najetí */}
-              <span className="absolute right-3 bottom-3 flex size-9 items-center justify-center rounded-full bg-black/55 text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
-                <Expand className="size-4" />
-              </span>
-            </button>
-          ))}
-        </div>
+              {visible.map((item, i) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setOpenIndex(i)}
+                  aria-label={t("package.screenshotOf", { index: i + 1, total: count })}
+                  className={cn(
+                    "group relative aspect-[16/10] shrink-0 cursor-zoom-in snap-start overflow-hidden rounded-2xl border border-line bg-surface-2 shadow-card",
+                    // Jediný snímek přes celou šířku (do 900 px), jinak vykukuje další
+                    count === 1 ? "w-full max-w-[900px]" : "w-[min(720px,82%)]",
+                  )}
+                >
+                  {/* Rozmazaná kopie za snímkem vyplní okraje rámu */}
+                  <img src={item.thumbUrl ?? item.url} alt="" aria-hidden draggable={false} className="absolute inset-0 size-full scale-110 object-cover opacity-50 blur-2xl" />
+                  {!loaded.has(item.id) && <span className="absolute inset-0 animate-pulse bg-surface-2" />}
+                  <img
+                    src={item.url}
+                    alt={`${name} – ${t("package.screenshotOf", { index: i + 1, total: count })}`}
+                    loading={i < 2 ? "eager" : "lazy"}
+                    draggable={false}
+                    onLoad={() => markLoaded(item.id)}
+                    onError={() => markFailed(item.id)}
+                    className="relative size-full object-contain p-3 drop-shadow-xl transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                  {item.badge && <span className="pointer-events-none absolute top-3 left-3">{item.badge}</span>}
+                  {/* Ikona zvětšení při najetí */}
+                  <span className="absolute right-3 bottom-3 flex size-9 items-center justify-center rounded-full bg-black/55 text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+                    <Expand className="size-4" />
+                  </span>
+                </button>
+              ))}
+            </div>
 
-        {/* Šipky – objeví se při najetí na galerii */}
-        {count > 1 && (
-          <>
-            <CarouselArrow side="left" label={t("package.previous")} disabled={active === 0} onClick={() => go(-1)} />
-            <CarouselArrow side="right" label={t("package.next")} disabled={active === count - 1} onClick={() => go(1)} />
-          </>
-        )}
-      </div>
+            {/* Šipky – objeví se při najetí na galerii */}
+            {count > 1 && (
+              <>
+                <CarouselArrow side="left" label={t("package.previous")} disabled={active === 0} onClick={() => go(-1)} />
+                <CarouselArrow side="right" label={t("package.next")} disabled={active === count - 1} onClick={() => go(1)} />
+              </>
+            )}
+          </div>
 
-      {/* Tečky – kde v galerii jsem, kliknutím skok na snímek */}
-      {count > 1 && (
-        <div className="mt-4 flex justify-center gap-2">
-          {visible.map((url, i) => (
-            <button
-              key={url}
-              type="button"
-              aria-label={t("package.screenshotOf", { index: i + 1, total: count })}
-              aria-current={i === active}
-              onClick={() => scrollTo(i)}
-              className={cn(
-                "h-2 cursor-pointer rounded-full transition-all duration-300",
-                i === active ? "w-6 bg-accent" : "w-2 bg-fg/20 hover:bg-fg/40",
-              )}
-            />
-          ))}
-        </div>
+          {/* Tečky – kde v galerii jsem, kliknutím skok na snímek */}
+          {count > 1 && (
+            <div className="mt-4 flex justify-center gap-2">
+              {visible.map((item, i) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  aria-label={t("package.screenshotOf", { index: i + 1, total: count })}
+                  aria-current={i === active}
+                  onClick={() => scrollTo(i)}
+                  className={cn(
+                    "h-2 cursor-pointer rounded-full transition-all duration-300",
+                    i === active ? "w-6 bg-accent" : "w-2 bg-fg/20 hover:bg-fg/40",
+                  )}
+                />
+              ))}
+            </div>
+          )}
+        </>
       )}
 
       <Lightbox
-        images={visible}
+        items={visible}
         name={name}
         index={openIndex}
         onChange={(index) => {
@@ -211,20 +241,20 @@ function CarouselArrow({
 }
 
 interface LightboxProps {
-  images: string[];
+  items: GalleryItem[];
   name: string;
   index: number | null;
   onChange: (index: number) => void;
   onClose: () => void;
 }
 
-/** Prohlížeč na celou obrazovku – šipky, Esc, náhledy dole. */
-function Lightbox({ images, name, index, onChange, onClose }: LightboxProps) {
+/** Prohlížeč na celou obrazovku – šipky, Esc, náhledy dole, u snímků od uživatelů autor a akce. */
+function Lightbox({ items, name, index, onChange, onClose }: LightboxProps) {
   const { t } = useTranslation();
   // Směr posledního přechodu: 1 = vpřed, -1 = zpět (pro animaci posunu)
   const [direction, setDirection] = useState(1);
-  const open = index !== null;
-  const count = images.length;
+  const open = index !== null && index < items.length;
+  const count = items.length;
 
   const go = useCallback(
     (delta: number) => {
@@ -246,9 +276,11 @@ function Lightbox({ images, name, index, onChange, onClose }: LightboxProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, go, onClose]);
 
+  const item = open ? items[index] : null;
+
   return createPortal(
     <AnimatePresence>
-      {open && (
+      {open && item && (
         <motion.div
           className="fixed inset-0 z-50 flex flex-col bg-black/85 backdrop-blur-md"
           initial={{ opacity: 0 }}
@@ -257,21 +289,25 @@ function Lightbox({ images, name, index, onChange, onClose }: LightboxProps) {
           onClick={onClose}
         >
           {/* Horní lišta */}
-          <div className="flex items-center justify-between px-6 py-4 text-sm text-white/80">
-            <span>
+          <div className="flex items-center justify-between gap-4 px-6 py-4 text-sm text-white/80">
+            <span className="min-w-0 truncate">
               {name} · {t("package.screenshotOf", { index: index + 1, total: count })}
+              {item.caption && <> · {item.caption}</>}
             </span>
-            <LightboxButton label={t("common.close")} onClick={onClose}>
-              <X className="size-5" />
-            </LightboxButton>
+            <div className="flex shrink-0 items-center gap-2" onClick={(e) => e.stopPropagation()}>
+              {item.actions}
+              <LightboxButton label={t("common.close")} onClick={onClose}>
+                <X className="size-5" />
+              </LightboxButton>
+            </div>
           </div>
 
           {/* Obrázek s animovaným přechodem */}
           <div className="relative flex min-h-0 flex-1 items-center justify-center px-20">
             <AnimatePresence mode="popLayout" initial={false} custom={direction}>
               <motion.img
-                key={images[index]}
-                src={images[index]}
+                key={item.id}
+                src={item.url}
                 alt={`${name} – ${t("package.screenshotOf", { index: index + 1, total: count })}`}
                 custom={direction}
                 initial={{ opacity: 0, x: direction * 60 }}
@@ -299,9 +335,9 @@ function Lightbox({ images, name, index, onChange, onClose }: LightboxProps) {
           {/* Náhledy */}
           {count > 1 && (
             <div className="flex justify-center gap-2 px-6 py-5" onClick={(e) => e.stopPropagation()}>
-              {images.map((url, i) => (
+              {items.map((thumb, i) => (
                 <button
-                  key={url}
+                  key={thumb.id}
                   type="button"
                   aria-label={t("package.screenshotOf", { index: i + 1, total: count })}
                   onClick={() => {
@@ -313,7 +349,7 @@ function Lightbox({ images, name, index, onChange, onClose }: LightboxProps) {
                     i === index ? "opacity-100 ring-white" : "opacity-50 ring-transparent hover:opacity-80",
                   )}
                 >
-                  <img src={url} alt="" draggable={false} className="size-full object-cover" />
+                  <img src={thumb.thumbUrl ?? thumb.url} alt="" draggable={false} className="size-full object-cover" />
                 </button>
               ))}
             </div>
@@ -325,7 +361,7 @@ function Lightbox({ images, name, index, onChange, onClose }: LightboxProps) {
   );
 }
 
-function LightboxButton({
+export function LightboxButton({
   label,
   onClick,
   className,

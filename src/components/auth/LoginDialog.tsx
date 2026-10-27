@@ -29,7 +29,7 @@ export function LoginDialog() {
     { Icon: RefreshCw, text: t("auth.benefitSync") },
     { Icon: Heart, text: t("auth.benefitFavorites") },
   ];
-  const reasonKey = reason === "review" ? "auth.reasonReview" : "auth.reasonGeneral";
+  const reasonKey = { review: "auth.reasonReview", screenshot: "auth.reasonScreenshot", general: "auth.reasonGeneral" }[reason];
 
   return (
     <Modal
