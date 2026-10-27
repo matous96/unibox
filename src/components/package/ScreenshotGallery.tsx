@@ -86,6 +86,12 @@ export function ScreenshotGallery({ items, name, sources, action, empty }: Scree
     };
   }, [count]);
 
+  // Nový snímek na začátku (právě přidaný) – karusel ukáže začátek
+  const firstId = visible[0]?.id;
+  useEffect(() => {
+    track.current?.scrollTo({ left: 0 });
+  }, [firstId]);
+
   // Prohlížeč zavřít, když jeho snímek zmizel (smazaný vlastní snímek)
   if (openIndex !== null && openIndex >= count) setOpenIndex(count > 0 ? count - 1 : null);
 
