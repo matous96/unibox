@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/unibox-logo.svg" width="96" height="96" alt="Logo Uniboxu">
+<img src="assets/unibox-logo.svg" width="128" height="128" alt="Logo Uniboxu">
 
 # Unibox
 
@@ -17,9 +17,11 @@ instalátorů po webu, bez reklam a přibalených doplňků.
 <br>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="website/img/screens/domov.webp">
-  <img src="website/img/screens/domov-svetly.webp" alt="Unibox – domovská stránka Dnes s Aplikací dne, tipy a kolekcemi">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/readme/okno-tmave.webp">
+  <img src="assets/readme/okno-svetle.webp" alt="Okno Uniboxu – domovská stránka Dnes s tipy, kolekcemi a Aplikací dne">
 </picture>
+
+Domovská stránka Dnes – tipy, kolekce a Aplikace dne. Světlý i tmavý motiv podle Windows.
 
 </div>
 
