@@ -12,11 +12,11 @@ public/catalog.json
 .env.local
 # Místní nastavení Claude Code (náhledové servery, oprávnění)
 .claude/
-# Certifikáty pro podpis kódu a klíče nikdy do repozitáře (README → Podpis kódu)
+# Certifikáty pro podpis kódu a klíče nikdy do repozitáře (README.cs.md → Podpis kódu)
 *.pfx
 *.p12
 *.key
-# Stažené a rozšifrované zálohy Supabase obsahují data uživatelů (README → Údržba a zálohy)
+# Stažené a rozšifrované zálohy Supabase obsahují data uživatelů (README.cs.md → Údržba a zálohy)
 unibox-supabase-*
 /roles.sql
 /schema.sql

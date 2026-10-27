@@ -1,6 +1,6 @@
 // Vývojový certifikát pro vyzkoušení podpisu kódu (scripts/sign.mjs). Je self-signed:
 // Windows mu nedůvěřuje a varování SmartScreen u ostatních neodstraní – k tomu je
-// potřeba certifikát od důvěryhodné certifikační autority (README → Podpis kódu).
+// potřeba certifikát od důvěryhodné certifikační autority (README.cs.md → Podpis kódu).
 // Vytvoří soubor .pfx a jeho veřejnou část .cer; do úložiště certifikátů Windows
 // nic nezapisuje. Nakonec vypíše, jak ho při sestavení použít.
 //
@@ -55,7 +55,7 @@ if (result.status !== 0 || !existsSync(pfx)) {
 
 console.log(`Vývojový certifikát je připravený (otisk ${thumbprint}, platí 2 roky):
   ${pfx}  – certifikát s klíčem pro podpis
-  ${cer}  – jen veřejná část (důvěra na testovacím počítači, README → Podpis kódu)
+  ${cer}  – jen veřejná část (důvěra na testovacím počítači, README.cs.md → Podpis kódu)
 
 Podepsané sestavení (PowerShell):
   $env:UNIBOX_SIGN_PFX = "${pfx}"

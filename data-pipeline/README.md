@@ -115,7 +115,7 @@ největší s aspoň 48 px (aplikace ji nezvětší víc než 2×, v detailu je 
 o kousek menší, ale ostrá). Menší ikony (favicony 16–32 px) by byly rozmazané
 všude – aplikace bez použitelné ikony nemá `iconUrl` a Unibox vykreslí avatar
 s iniciálami (v desktopové aplikaci má přednost skutečná ikona nainstalovaného
-programu – viz hlavní README). Stejnou mez hlídá i aplikace u ikon, které se
+programu – viz README.cs.md). Stejnou mez hlídá i aplikace u ikon, které se
 změnily po sestavení katalogu. Ikonu, kterou kvůli výpadku serveru nešlo změřit,
 pipeline nezahodí (zkusí ji znovu příští den). Změřené rozměry jsou
 v `.cache/icon-sizes.json`, ikony webů v `.cache/web-icons.json` (platí 30 dní).
@@ -189,4 +189,4 @@ Workflow `.github/workflows/catalog.yml` spouští pipeline každý den na GitHu
 (mezipaměť `.cache` se přenáší mezi běhy přes mezipaměť Actions) a katalog po kontrole
 (`scripts/check-catalog.mjs`) zveřejní na GitHub Pages – výchozí adresa katalogu
 v sestavené aplikaci. Aplikace si poslední staženou kopii drží v mezipaměti a funguje
-i offline. Podrobnosti v hlavním README (Vzdálený katalog).
+i offline. Podrobnosti v README.cs.md (Vzdálený katalog).

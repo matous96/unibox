@@ -8,7 +8,7 @@
 //     „To nejlepší z verze“ z src/data/changelog.ts (scripts/website-release.mjs),
 //  4. vytvoří latest.json – soubor, podle kterého nainstalované Unibox
 //     poznají novou verzi. Nahrajte ho spolu s instalátorem do GitHub Release
-//     se značkou v<verze> (viz README → Aktualizace Uniboxu).
+//     se značkou v<verze> (viz README.cs.md → Aktualizace Uniboxu).
 //
 //   pnpm release                     → další číslo verze
 //   pnpm release 0.2.0               → konkrétní verze
@@ -54,7 +54,7 @@ if (identity) {
 } else {
   console.warn(
     "\n! Certifikát pro podpis kódu není nastavený (UNIBOX_SIGN_PFX nebo UNIBOX_SIGN_THUMBPRINT) – instalátor\n" +
-      "  nebude podepsaný a Windows SmartScreen ho označí jako neznámý. Viz README → Podpis kódu.\n",
+      "  nebude podepsaný a Windows SmartScreen ho označí jako neznámý. Viz README.cs.md → Podpis kódu.\n",
   );
 }
 const bundleConfig = {};

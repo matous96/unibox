@@ -10,7 +10,7 @@
 #     data proto z běhu nikdy neodejdou.
 # Spustit jde i ručně: Actions → Supabase → Run workflow.
 #
-# Nastavení (README → Údržba a zálohy Supabase):
+# Nastavení (README.cs.md → Údržba a zálohy Supabase):
 #   proměnné (Settings → Variables): VITE_SUPABASE_URL, VITE_SUPABASE_KEY – tytéž jako pro vydání
 #   tajné údaje (Settings → Secrets): SUPABASE_DB_URL (Session pooler), BACKUP_PASSPHRASE
 # Dokud nejsou nastavené, úlohy se jen přeskočí.

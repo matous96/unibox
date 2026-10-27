@@ -12,7 +12,7 @@
 --    soubory jen image/webp do 1 MB (bucket), nahrát jde jen soubor k vlastnímu
 --    záznamu a jen jednou (bez přepsání), číst (podepsaná adresa) jen viditelné,
 --  - smazání: autor smaže soubory i záznam; smazáním účtu zmizí záznamy a soubory
---    přestanou být dostupné (dohledání a smazání: README → Snímky od uživatelů).
+--    přestanou být dostupné (dohledání a smazání: README.cs.md → Snímky od uživatelů).
 --
 -- Spuštění: Supabase → SQL Editor → vložit celý soubor → Run (po migraci reviews).
 

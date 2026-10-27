@@ -1,7 +1,7 @@
 /**
  * Klient Supabase – přihlášení (GitHub, Google) a hodnocení aplikací.
  *
- * Nastavení v .env.local (viz README → Přihlášení a hodnocení):
+ * Nastavení v .env.local (viz README.cs.md → Přihlášení a hodnocení):
  *   VITE_SUPABASE_URL=https://<projekt>.supabase.co
  *   VITE_SUPABASE_KEY=<publishable / anon key>
  * Veřejný klíč do aplikace patří – data v databázi chrání pravidla RLS
