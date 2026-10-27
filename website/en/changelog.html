@@ -75,8 +75,9 @@
         <div class="page-head__inner reveal">
           <p class="eyebrow">What’s new</p>
           <h1>What’s new in&nbsp;Unibox</h1>
-          <p class="lead">Every change since the first public version 0.1.0, newest first. Thirteen updates shipped in the six days after its release.</p>
+          <p class="lead">Every change since the first public version 0.1.0, newest first. Fourteen updates shipped in the week after its release.</p>
           <nav class="versions-nav" aria-label="Jump to version">
+            <a class="chip" href="#v0-1-14">0.1.14</a>
             <a class="chip" href="#v0-1-13">0.1.13</a>
             <a class="chip" href="#v0-1-12">0.1.12</a>
             <a class="chip" href="#v0-1-11">0.1.11</a>
@@ -94,8 +95,8 @@
           </nav>
         </div>
         <dl class="stats reveal">
-          <div><dt>Current version</dt><dd>0.1.13</dd></div>
-          <div><dt>Updates since 0.1.0</dt><dd>13</dd></div>
+          <div><dt>Current version</dt><dd>0.1.14</dd></div>
+          <div><dt>Updates since 0.1.0</dt><dd>14</dd></div>
           <div><dt>Apps in the catalog</dt><dd>25,100+</dd></div>
           <div><dt>Package managers for real</dt><dd>WinGet · Chocolatey · Scoop + 8 for developers</dd></div>
         </dl>
@@ -165,6 +166,16 @@
             <h3>Updates under control</h3>
             <p>Checks and installs at a set time and days, a minimum age for updates, battery and metered-connection exceptions, and saved options for updates too.</p>
           </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.14</span>
+            <h3>Ratings, reviews and community screenshots</h3>
+            <p>Sign in with GitHub: stars and reviews under your name and current screenshots from users – downscaled, without metadata and after approval.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.14</span>
+            <h3>Sync between computers</h3>
+            <p>Favorites, your package bundle and preferences on all your computers. Turn off any area and delete the data from your account at any time.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -179,6 +190,41 @@
         </div>
 
         <div class="timeline">
+          <!-- 0.1.14 -->
+          <article class="release" id="v0-1-14">
+            <div class="release__meta">
+              <span class="release__ver">0.1.14</span>
+              <time class="release__date" datetime="2026-10-28">Oct 28, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>Accounts, reviews and community screenshots</h2>
+                <span class="badge badge--live">Latest</span>
+              </div>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li><strong>Sign in with GitHub</strong> – an optional Unibox account. Sign-in happens in your browser, Unibox never sees your password and stores the session on your computer encrypted.</li>
+                  <li><strong>Ratings and reviews</strong> – stars, a title and text under your account name. Edit or delete your own review, report inappropriate ones – a review is hidden after three reports.</li>
+                  <li><strong>Screenshots from users</strong> – signed-in users can add current screenshots to an app by picking, dragging or pasting them from the clipboard (Ctrl+V). Unibox downscales them to WebP without metadata and everyone sees them once approved; an inappropriate screenshot can be reported.</li>
+                  <li><strong>Sync between computers</strong> – favorites, the package bundle, appearance and language preferences and notification preferences. Turn off any area and delete the data from your account; custom install commands never go to the account.</li>
+                  <li><strong>For developers: publishing to WinGet</strong> – the wizard in Publish reads the SHA-256, type and details from the installer URL, prepares the manifest and checks it with winget validate.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li><strong>A fresh catalog every day</strong> – the installed Unibox downloads the app catalog from GitHub, where it's generated daily. Offline, it uses the last downloaded copy.</li>
+                  <li><strong>Only sharp icons</strong> – the catalog picks the sharpest icon for each app from all sources, now including the app's website. Small favicons that would look blurry on cards and in app details are replaced by an initials avatar. Icons no longer switch after loading (the high-resolution catalog icon takes priority, OneDrive for example), and Audacity, WinRAR and Windows Terminal have their current icons.</li>
+                  <li>Verified apps (with the check mark) come first in search results – “terminal” shows Windows Terminal first, not lesser-known tools that merely start with the word.</li>
+                  <li>Collection cards in Today take the color that prevails in their icons – a set of blue apps is blue.</li>
+                  <li>The installer shows the <a href="privacy.html">privacy policy</a> and license before installing. App website favicons are no longer looked up through Google and DuckDuckGo services.</li>
+                  <li><strong>Source code on GitHub</strong> – Unibox is public at <a data-link="github" href="#">github.com/matous96/unibox</a> under the MIT license, and updates are downloaded from GitHub Releases.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
           <!-- 0.1.13 -->
           <article class="release" id="v0-1-13">
             <div class="release__meta">
@@ -188,7 +234,6 @@
             <div class="card release__body">
               <div class="release__head">
                 <h2>Developer package managers for real and updates under control</h2>
-                <span class="badge badge--live">Latest</span>
               </div>
               <div class="changes changes--new">
                 <h3>New</h3>
@@ -196,7 +241,6 @@
                   <li><strong>npm, Bun, pip, Cargo, vcpkg, .NET Tool, PowerShell 7 and&nbsp;5.1</strong> – search their registries directly, and install, update and uninstall libraries and tools in Developer mode. Available updates for global packages show up with all your other updates.</li>
                   <li><strong>Tools in one click</strong> – missing Node.js, Python, Rust, the .NET SDK or PowerShell 7? Unibox installs them via WinGet. For vcpkg it shows short instructions.</li>
                   <li><strong>A filter for developers too</strong> – click npm, pip, Cargo… in the sidebar to see the manager’s overview: installed packages, search in its registry only and popular tools.</li>
-                  <li><strong>Screenshots from users</strong> – signed-in users can add current screenshots to an app by picking, dragging or pasting them from the clipboard (Ctrl+V). Unibox downscales them to WebP without metadata and everyone sees them once approved; an inappropriate screenshot can be reported.</li>
                   <li><strong>Scheduled updates</strong> – checks at an interval from 30 minutes to a week, or every day or on selected days at a set time. Automatic installs can have their own schedule, and a missed time is caught up with a delay, right after start, or skipped.</li>
                   <li><strong>Minimum age for updates</strong> – a new version is offered only after the set number of days since its release, globally or per package manager.</li>
                   <li><strong>Saved options for updates too</strong> – as administrator, interactive, architecture, folder, arguments and commands apply when updating. New: uninstall the previous version and custom arguments just for updates.</li>
@@ -212,15 +256,11 @@
                   <li><strong>A warning when the installer host changes</strong> – when the new version’s installer from WinGet is downloaded from a different place than the installed version’s, the update is marked orange, the app page shows both addresses and automatic updates skip it.</li>
                   <li>In Settings → Notification preferences, turn off update notifications from selected package managers.</li>
                   <li>The update list can have all updates checked by default.</li>
-                  <li>The Today section picks from hundreds of well-known apps across the catalog – daily tips, category picks and the app of the day no longer repeat after a few days. The app of the day is always verified and stays the same all day, and only apps with a sharp icon are shown. Browse more picks with the arrows on the other cards, and collection cards take the color that prevails in their icons – a set of blue apps is blue.</li>
-                  <li><strong>Only sharp icons</strong> – the catalog picks the sharpest icon for each app from all sources, now including the app's website. Small favicons that would look blurry on cards and in app details are replaced by an initials avatar. Icons no longer switch after loading (the high-resolution catalog icon takes priority, OneDrive for example), and Audacity, WinRAR and Windows Terminal have their current icons.</li>
-                  <li>Verified apps (with the check mark) come first in search results – “terminal” shows Windows Terminal first, not lesser-known tools that merely start with the word.</li>
+                  <li>The Today section picks from hundreds of well-known apps across the catalog – daily tips, category picks and the app of the day no longer repeat after a few days. The app of the day is always verified and stays the same all day, and only apps with a sharp icon are shown. Browse more picks with the arrows on the other cards.</li>
                   <li>More stable and smoother: an error on one page no longer takes down the whole window (just “Try again”), Unibox reports when a package manager fails instead of silently leaving it out, and lists scroll without stutter.</li>
                   <li>Developer packages are checked only in Developer mode – Regular user mode stays fast and free of libraries.</li>
                   <li>Switch to Developer mode with one button in Settings → Package managers.</li>
                   <li>Searching from a link (such as a tag on an app page) fills in the search box at the top too.</li>
-                  <li><strong>For developers: publishing to WinGet</strong> – the wizard in Publish reads the SHA-256, type and details from the installer URL, prepares the manifest and checks it with winget validate.</li>
-                  <li>The installer shows the <a href="privacy.html">privacy policy</a> and license before installing. App website favicons are no longer looked up through Google and DuckDuckGo services.</li>
                 </ul>
               </div>
             </div>

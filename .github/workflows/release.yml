@@ -46,7 +46,8 @@ jobs:
       TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
       VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
       VITE_SUPABASE_KEY: ${{ vars.VITE_SUPABASE_KEY }}
-      VITE_AUTH_PROVIDERS: ${{ vars.VITE_AUTH_PROVIDERS }}
+      # Výchozí jen GitHub (Google v Supabase zatím zapnutý není)
+      VITE_AUTH_PROVIDERS: ${{ vars.VITE_AUTH_PROVIDERS || 'github' }}
       VITE_GITHUB_CLIENT_ID: ${{ vars.VITE_GITHUB_CLIENT_ID }}
       VITE_GITHUB_URL: ${{ vars.VITE_GITHUB_URL }}
       # Výchozí je katalog z workflow Katalog na GitHub Pages tohoto repozitáře

@@ -24,6 +24,68 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: "0.1.14",
+    date: "2026-10-28",
+    highlights: [
+      {
+        cs: "Přihlášení přes GitHub: hodnocení hvězdičkami a recenze pod jménem z účtu – vlastní recenzi jde upravit i smazat, nevhodnou nahlásit.",
+        en: "Sign in with GitHub: star ratings and reviews under your account name – edit or delete your own review, report inappropriate ones.",
+      },
+      {
+        cs: "Snímky obrazovky od uživatelů: přihlášení mohou k aplikaci přidat aktuální snímky (výběrem, přetažením nebo Ctrl+V) – Unibox je zmenší do WebP bez metadat a po schválení je uvidí všichni.",
+        en: "Screenshots from users: signed-in users can add current screenshots to an app (pick, drag or Ctrl+V) – Unibox downscales them to WebP without metadata and everyone sees them once approved.",
+      },
+      {
+        cs: "Synchronizace mezi počítači: oblíbené, sada balíčků, předvolby vzhledu a jazyka i oznámení – každou oblast jde vypnout a data z účtu smazat.",
+        en: "Sync between computers: favorites, the package bundle, appearance and language preferences and notifications – turn off any area and delete the data from your account.",
+      },
+      {
+        cs: "Katalog aplikací je každý den čerstvý – nainstalovaný Unibox si ho stahuje z GitHubu, kde se denně generuje.",
+        en: "The app catalog is fresh every day – the installed Unibox downloads it from GitHub, where it's generated daily.",
+      },
+      {
+        cs: "Jen ostré ikony aplikací: katalog u každé aplikace vybírá nejostřejší ikonu ze všech zdrojů (i z webu aplikace) a malé favicony, které by se rozmazaly, nahradí avatar s iniciálami. Ikony se po načtení už nemění; Audacity, WinRAR a Windows Terminal mají aktuální ikony.",
+        en: "Only sharp app icons: the catalog picks the sharpest icon for each app from all sources (including the app's website), and small favicons that would look blurry are replaced by an initials avatar. Icons no longer switch after loading; Audacity, WinRAR and Windows Terminal have their current icons.",
+      },
+      {
+        cs: "Ve výsledcích hledání jsou ověřené aplikace (s fajkou) nahoře – „terminal“ ukáže nejdřív Windows Terminal.",
+        en: "Verified apps (with the check mark) come first in search results – “terminal” shows Windows Terminal first.",
+      },
+      {
+        cs: "Karty kolekcí v sekci Dnes mají barvu, která u jejich ikon převládá – výběr modrých aplikací je modrý.",
+        en: "Collection cards in Today take the color that prevails in their icons – a set of blue apps is blue.",
+      },
+      {
+        cs: "Pro vývojáře: průvodce publikováním ve WinGetu (Publikovat) – z adresy instalátoru zjistí SHA-256, typ a údaje, připraví manifest a ověří ho příkazem winget validate.",
+        en: "For developers: a WinGet publishing wizard (Publish) – reads the SHA-256, type and details from the installer URL, prepares the manifest and checks it with winget validate.",
+      },
+      {
+        cs: "Instalátor před instalací ukáže zásady ochrany soukromí a licenci. Favicony webů aplikací se už nehledají přes služby Googlu a DuckDuckGo.",
+        en: "The installer shows the privacy policy and license before installing. App website favicons are no longer looked up through Google and DuckDuckGo services.",
+      },
+      {
+        cs: "Zdrojový kód je veřejně na GitHubu (github.com/matous96/unibox, licence MIT) a aktualizace Uniboxu se stahují z GitHub Releases.",
+        en: "The source code is public on GitHub (github.com/matous96/unibox, MIT license) and Unibox updates are downloaded from GitHub Releases.",
+      },
+    ],
+    featured: [
+      {
+        title: { cs: "Hodnocení, recenze a snímky od komunity", en: "Ratings, reviews and community screenshots" },
+        text: {
+          cs: "Přihlášení přes GitHub: hvězdičky a recenze pod vaším jménem a aktuální snímky obrazovky od uživatelů – zmenšené, bez metadat a po schválení.",
+          en: "Sign in with GitHub: stars and reviews under your name and current screenshots from users – downscaled, without metadata and after approval.",
+        },
+      },
+      {
+        title: { cs: "Synchronizace mezi počítači", en: "Sync between computers" },
+        text: {
+          cs: "Oblíbené, sada balíčků a předvolby na všech vašich počítačích. Každou oblast jde vypnout a data z účtu kdykoli smazat.",
+          en: "Favorites, your package bundle and preferences on all your computers. Turn off any area and delete the data from your account at any time.",
+        },
+      },
+    ],
+  },
+  {
     version: "0.1.13",
     date: "2026-10-27",
     highlights: [
@@ -56,28 +118,8 @@ export const CHANGELOG: Release[] = [
         en: "A welcome tour for new users: five steps on the catalog, the source filter, advanced uninstall, startup apps and backups. Replay it in Settings → General.",
       },
       {
-        cs: "Sekce Dnes vybírá ze stovek známých aplikací celého katalogu – tipy dne, výběry z kategorií a aplikace dne se už neopakují po pár dnech. Šipkami na kartách listujete dalšími výběry a karty kolekcí mají barvu, která u jejich ikon převládá.",
-        en: "The Today section picks from hundreds of well-known apps across the catalog – daily tips, category picks and the app of the day no longer repeat after a few days. Browse more picks with the arrows on the cards; collection cards take the color that prevails in their icons.",
-      },
-      {
-        cs: "Jen ostré ikony aplikací: katalog u každé aplikace vybírá nejostřejší ikonu ze všech zdrojů (i z webu aplikace) a malé favicony, které by se rozmazaly, nahradí avatar s iniciálami. Ikony se po načtení už nemění; Audacity, WinRAR a Windows Terminal mají aktuální ikony.",
-        en: "Only sharp app icons: the catalog picks the sharpest icon for each app from all sources (including the app's website), and small favicons that would look blurry are replaced by an initials avatar. Icons no longer switch after loading; Audacity, WinRAR and Windows Terminal have their current icons.",
-      },
-      {
-        cs: "Ve výsledcích hledání jsou ověřené aplikace (s fajkou) nahoře – „terminal“ ukáže nejdřív Windows Terminal.",
-        en: "Verified apps (with the check mark) come first in search results – “terminal” shows Windows Terminal first.",
-      },
-      {
-        cs: "Pro vývojáře: průvodce publikováním ve WinGetu (Publikovat) – z adresy instalátoru zjistí SHA-256, typ a údaje, připraví manifest a ověří ho příkazem winget validate.",
-        en: "For developers: a WinGet publishing wizard (Publish) – reads the SHA-256, type and details from the installer URL, prepares the manifest and checks it with winget validate.",
-      },
-      {
-        cs: "Snímky obrazovky od uživatelů: přihlášení mohou k aplikaci přidat aktuální snímky (výběrem, přetažením nebo Ctrl+V) – Unibox je zmenší do WebP bez metadat a po schválení je uvidí všichni.",
-        en: "Screenshots from users: signed-in users can add current screenshots to an app (pick, drag or Ctrl+V) – Unibox downscales them to WebP without metadata and everyone sees them once approved.",
-      },
-      {
-        cs: "Instalátor před instalací ukáže zásady ochrany soukromí a licenci. Favicony webů aplikací se už nehledají přes služby Googlu a DuckDuckGo.",
-        en: "The installer shows the privacy policy and license before installing. App website favicons are no longer looked up through Google and DuckDuckGo services.",
+        cs: "Sekce Dnes vybírá ze stovek známých aplikací celého katalogu – tipy dne, výběry z kategorií a aplikace dne se už neopakují po pár dnech. Šipkami na kartách listujete dalšími výběry.",
+        en: "The Today section picks from hundreds of well-known apps across the catalog – daily tips, category picks and the app of the day no longer repeat after a few days. Browse more picks with the arrows on the cards.",
       },
       {
         cs: "Stabilnější a plynulejší: chyba na jedné stránce už neshodí celé okno, selhání správce balíčků Unibox oznámí a scrollování seznamů běží bez zasekávání.",

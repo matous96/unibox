@@ -1,20 +1,127 @@
+<div align="center">
+
+<img src="assets/unibox-logo.svg" width="96" height="96" alt="Logo Uniboxu">
+
 # Unibox
 
-Moderní „obchod s aplikacemi“ pro Windows nad správci balíčků **winget**,
-**Scoop** a **Chocolatey** (Tauri 2 + React + TypeScript + Tailwind CSS).
+### Jeden obchod pro všechny aplikace ve Windows
 
-Jedna aplikace = jeden profil. Pokud je dostupná ve více správcích, profil
-ukáže všechny zdroje (s verzemi) a uživatel si vybere, odkud instalovat.
-Výchozí zdroj a zapnuté správce lze nastavit v Nastavení.
+Moderní obchod s aplikacemi pro Windows 10 a 11. Přes **25 000 aplikací** z oficiálních
+repozitářů WinGet, Chocolatey a Scoop – instalace jedním kliknutím, bez hledání
+instalátorů po webu, bez reklam a přibalených doplňků.
 
-## Stav
+[![Licence MIT](https://img.shields.io/badge/licence-MIT-5b6cf9)](LICENSE) [![Windows 10 a 11](https://img.shields.io/badge/Windows-10%20%7C%2011-0078d4)](#stažení) [![Tauri 2](https://img.shields.io/badge/Tauri-2-24c8db?logo=tauri&logoColor=white)](https://tauri.app) [![React 19](https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=black)](https://react.dev) [![Zdarma a open source](https://img.shields.io/badge/zdarma-open%20source-2ea44f)](#zdarma-a-open-source)
 
-| Krok | Obsah | Stav |
+**[⬇️ Stáhnout pro Windows](https://github.com/matous96/unibox/releases/latest)** &nbsp;·&nbsp; [Prohlídka](#prohlídka) &nbsp;·&nbsp; [Správci balíčků](#správci-balíčků) &nbsp;·&nbsp; [Pro vývojáře](#dokumentace-pro-vývojáře)
+
+<br>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="website/img/screens/domov.webp">
+  <img src="website/img/screens/domov-svetly.webp" alt="Unibox – domovská stránka Dnes s Aplikací dne, tipy a kolekcemi">
+</picture>
+
+</div>
+
+## Proč Unibox
+
+| 🛡️ Bezpečné – bez virů | ⚡ Jednoduché | 🔄 Vše pod kontrolou |
+|:---|:---|:---|
+| Jen oficiální repozitáře správců balíčků. Každý instalátor se před spuštěním ověří kontrolním součtem SHA-256. | Jedno kliknutí místo průvodců instalací. Žádné „Další, Další, Dokončit“, přibalené doplňky ani reklamy. | Aktualizace a odinstalace všech aplikací na jednom místě – i těch, které jste nainstalovali dřív a jinak. |
+
+Jedna aplikace = jedna karta. Když je aplikace ve více správcích balíčků, karta ukáže
+všechny zdroje i s verzemi a vy si vyberete, odkud instalovat.
+
+## Prohlídka
+
+### Obchod a katalog
+
+Domovská stránka **Dnes** s tipy ze stovek známých aplikací a každý den jinou Aplikací dne,
+kategorie, žebříčky a kolekce podle zaměření – pro hráče, kreativce, studenty i vývojáře.
+Vyhledávání přes <kbd>Ctrl</kbd>+<kbd>K</kbd> prohledá katalog i živě správce balíčků;
+ověřené aplikace jsou ve výsledcích první.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="website/img/screens/kolekce.webp">
+  <img src="website/img/screens/kolekce-svetly.webp" alt="Kolekce aplikací podle zaměření a žebříček Trendy">
+</picture>
+
+### Detail aplikace jako v App Storu
+
+Velký banner v barvách ikony aplikace, galerie snímků obrazovky s prohlížečem na celou
+obrazovku, co je nového, hodnocení a recenze, ochrana soukromí a odkazy na web, GitHub,
+dokumentaci a podporu. Technické údaje: SHA-256, typ instalátoru, systémové požadavky
+a závislosti.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="website/img/screens/detail.webp">
+  <img src="website/img/screens/detail-svetly.webp" alt="Detail aplikace s barevným bannerem, údaji o aplikaci a galerií snímků">
+</picture>
+
+### Nainstalované a aktualizace
+
+Přehled všech aplikací v počítači – i programů instalovaných mimo WinGet, aplikací
+z Microsoft Storu a her ze Steamu. Aktualizace jedním tlačítkem **Aktualizovat vše**,
+nebo automaticky podle plánu. Selže-li operace kvůli oprávněním, Unibox ji sám zopakuje
+s právy správce.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="website/img/screens/nainstalovane.webp">
+  <img src="website/img/screens/nainstalovane-svetly.webp" alt="Seznam nainstalovaných aplikací s tlačítky Otevřít a Aktualizovat vše">
+</picture>
+
+### A k tomu
+
+- 🧹 **Pokročilá odinstalace** – najde zbytky po odinstalaci (AppData, Program Files,
+  nabídka Start, registr) a nabídne je smazat; se **sledováním instalace** smaže přesně to,
+  co instalátor vytvořil.
+- 🚀 **Po spuštění** – programy spouštěné po přihlášení do Windows na jednom místě,
+  s vlivem na rychlost startu.
+- ⏰ **Aktualizace pod kontrolou** – plán kontrol i instalací, minimální stáří
+  aktualizací, výjimky pro baterii a varování, když instalátor přijde z jiného serveru.
+- 📦 **Sady balíčků a profily** – sdílitelná sada aplikací pro nový počítač, export
+  pro WinGet i jako skript PowerShellu.
+- 💻 **Režim Vývojář** – npm, Bun, pip, Cargo, vcpkg, .NET Tool a PowerShell naostro
+  a příkazy pro příkazovou řádku ke zkopírování.
+- ⭐ **Komunita** – přihlášení přes GitHub, hodnocení, recenze a aktuální snímky obrazovky
+  od uživatelů; synchronizace oblíbených a předvoleb mezi počítači.
+- 🌙 **Moderní okno** ve stylu Windows 11, světlý i tmavý motiv, česky i anglicky; zavřete
+  okno a instalace doběhnou na pozadí.
+
+## Správci balíčků
+
+| Správce | Stav | Co umí |
 |---|---|---|
-| 1 | Návrh architektury | ✅ |
-| 2 | Kostra aplikace, ukázková data, design všech obrazovek (webová verze) | ✅ |
-| 3 | Tauri + Rust backend: kostra aplikace ✅, CLI motor + winget + UAC ✅, Chocolatey + Scoop (bez hledání a výběru verzí) ✅; správci pro vývojáře ⏳ | ⏳ |
-| 4 | `/data-pipeline` – generátor `catalog.json` z wingetu, Scoop bucketů a Chocolatey Community | ✅ |
+| **WinGet** | ✅ plně funkční | hledání, instalace, aktualizace, odinstalace i stažení instalátoru |
+| **Chocolatey** | ✅ plně funkční | hledání, instalace, aktualizace a odinstalace; chybějící Chocolatey doinstaluje |
+| **Scoop** | ✅ plně funkční | bez práv správce; chybějící Scoop, Git i buckety doplní sám |
+| **npm, Bun, pip, Cargo, vcpkg, .NET Tool, PowerShell** | ✅ režim Vývojář | knihovny a nástroje; chybějící Node.js, Python či Rust doinstaluje přes WinGet |
+
+## Stažení
+
+**[Stáhnout nejnovější verzi](https://github.com/matous96/unibox/releases/latest)** –
+instalátor **EXE** instaluje pro aktuálního uživatele bez práv správce, **MSI** se hodí
+pro nasazení ve firmách. Požadavky: Windows 10 nebo 11 (64bit) a WebView2, který je ve
+Windows předinstalovaný. Unibox se pak aktualizuje sám.
+
+> [!NOTE]
+> Instalátor zatím není digitálně podepsaný (podpis přes SignPath Foundation
+> připravujeme), proto Windows SmartScreen při prvním spuštění zobrazí varování:
+> **Další informace → Přesto spustit**.
+
+## Zdarma a open source
+
+Unibox je zdarma, bez reklam a bez telemetrie, pod licencí [MIT](LICENSE). Katalog se
+každý den generuje na GitHub Actions, přihlášení, hodnocení a synchronizace běží na
+bezplatném tarifu Supabase. Přihlášení je dobrovolné – bez účtu funguje všechno kromě
+hodnocení, recenzí a synchronizace.
+
+---
+
+## Dokumentace pro vývojáře
+
+Tauri 2 (Rust) + React 19 + TypeScript + Tailwind CSS v4 + Vite, data pipeline v Node.js.
+Rychlý start: `pnpm install` a `pnpm desktop` (podrobnosti níže).
 
 ### Více správců balíčků
 

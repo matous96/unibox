@@ -75,8 +75,9 @@
         <div class="page-head__inner reveal">
           <p class="eyebrow">Novinky</p>
           <h1>Co je nového v&nbsp;Uniboxu</h1>
-          <p class="lead">Všechny změny od první veřejné verze 0.1.0, nejnovější nahoře. Za šest dní od jejího vydání vyšlo třináct aktualizací.</p>
+          <p class="lead">Všechny změny od první veřejné verze 0.1.0, nejnovější nahoře. Za týden od jejího vydání vyšlo čtrnáct aktualizací.</p>
           <nav class="versions-nav" aria-label="Přejít na verzi">
+            <a class="chip" href="#v0-1-14">0.1.14</a>
             <a class="chip" href="#v0-1-13">0.1.13</a>
             <a class="chip" href="#v0-1-12">0.1.12</a>
             <a class="chip" href="#v0-1-11">0.1.11</a>
@@ -94,8 +95,8 @@
           </nav>
         </div>
         <dl class="stats reveal">
-          <div><dt>Aktuální verze</dt><dd>0.1.13</dd></div>
-          <div><dt>Aktualizací od verze 0.1.0</dt><dd>13</dd></div>
+          <div><dt>Aktuální verze</dt><dd>0.1.14</dd></div>
+          <div><dt>Aktualizací od verze 0.1.0</dt><dd>14</dd></div>
           <div><dt>Aplikací v katalogu</dt><dd>25&nbsp;100+</dd></div>
           <div><dt>Správci naostro</dt><dd>WinGet · Chocolatey · Scoop + 8 pro vývojáře</dd></div>
         </dl>
@@ -165,6 +166,16 @@
             <h3>Aktualizace pod kontrolou</h3>
             <p>Kontrola i instalace v daný čas a dny, minimální stáří aktualizací, výjimky pro baterii a měřené připojení a uložené volby i pro aktualizace.</p>
           </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.14</span>
+            <h3>Hodnocení, recenze a snímky od komunity</h3>
+            <p>Přihlášení přes GitHub: hvězdičky a recenze pod vaším jménem a aktuální snímky obrazovky od uživatelů – zmenšené, bez metadat a po schválení.</p>
+          </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.14</span>
+            <h3>Synchronizace mezi počítači</h3>
+            <p>Oblíbené, sada balíčků a předvolby na všech vašich počítačích. Každou oblast jde vypnout a data z účtu kdykoli smazat.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -179,6 +190,41 @@
         </div>
 
         <div class="timeline">
+          <!-- 0.1.14 -->
+          <article class="release" id="v0-1-14">
+            <div class="release__meta">
+              <span class="release__ver">0.1.14</span>
+              <time class="release__date" datetime="2026-10-28">28. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>Účet, recenze a snímky od komunity</h2>
+                <span class="badge badge--live">Nejnovější</span>
+              </div>
+              <div class="changes changes--new">
+                <h3>Nové</h3>
+                <ul>
+                  <li><strong>Přihlášení přes GitHub</strong> – dobrovolný účet Uniboxu. Přihlášení proběhne v&nbsp;prohlížeči, Unibox nikdy nevidí vaše heslo a relaci ukládá v&nbsp;počítači šifrovaně.</li>
+                  <li><strong>Hodnocení a recenze</strong> – hvězdičky, nadpis a text pod jménem z&nbsp;vašeho účtu. Vlastní recenzi jde upravit i smazat, nevhodnou nahlásit – po třech nahlášeních se skryje.</li>
+                  <li><strong>Snímky obrazovky od uživatelů</strong> – přihlášení mohou k&nbsp;aplikaci přidat aktuální snímky výběrem, přetažením nebo vložením ze schránky (Ctrl+V). Unibox je zmenší do WebP bez metadat a po schválení je uvidí všichni; nevhodný snímek jde nahlásit.</li>
+                  <li><strong>Synchronizace mezi počítači</strong> – oblíbené, sada balíčků, předvolby vzhledu a jazyka i předvolby oznámení. Každou oblast jde vypnout a data z&nbsp;účtu smazat; vlastní příkazy instalace do účtu nejdou.</li>
+                  <li><strong>Pro vývojáře: publikování ve WinGetu</strong> – průvodce v&nbsp;sekci Publikovat z&nbsp;adresy instalátoru zjistí SHA-256, typ a údaje, připraví manifest a ověří ho příkazem winget validate.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Vylepšeno</h3>
+                <ul>
+                  <li><strong>Katalog každý den čerstvý</strong> – nainstalovaný Unibox si katalog aplikací stahuje z&nbsp;GitHubu, kde se denně generuje. Bez připojení použije poslední staženou kopii.</li>
+                  <li><strong>Jen ostré ikony</strong> – katalog u každé aplikace vybírá nejostřejší ikonu ze všech zdrojů, nově i z webu aplikace. Malé favicony, které by se v kartě a v detailu rozmazaly, nahradí avatar s iniciálami. Ikony se po načtení už nemění (přednost má ikona z katalogu ve vysokém rozlišení, třeba u OneDrivu) a Audacity, WinRAR a Windows Terminal mají aktuální ikony.</li>
+                  <li>Ve výsledcích hledání jsou ověřené aplikace (s fajkou) nahoře – „terminal“ ukáže nejdřív Windows Terminal, ne méně známé nástroje se slovem na začátku názvu.</li>
+                  <li>Karty kolekcí v&nbsp;sekci Dnes mají barvu, která u jejich ikon převládá – výběr modrých aplikací je modrý.</li>
+                  <li>Instalátor před instalací ukáže <a href="soukromi.html">zásady ochrany soukromí</a> a licenci. Favicony webů aplikací se už nehledají přes služby Googlu a DuckDuckGo.</li>
+                  <li><strong>Zdrojový kód na GitHubu</strong> – Unibox je veřejně na <a data-link="github" href="#">github.com/matous96/unibox</a> pod licencí MIT a aktualizace se stahují z&nbsp;GitHub Releases.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
           <!-- 0.1.13 -->
           <article class="release" id="v0-1-13">
             <div class="release__meta">
@@ -188,7 +234,6 @@
             <div class="card release__body">
               <div class="release__head">
                 <h2>Správci pro vývojáře naostro a aktualizace pod kontrolou</h2>
-                <span class="badge badge--live">Nejnovější</span>
               </div>
               <div class="changes changes--new">
                 <h3>Nové</h3>
@@ -196,7 +241,6 @@
                   <li><strong>npm, Bun, pip, Cargo, vcpkg, .NET Tool, PowerShell 7 i&nbsp;5.1</strong> – hledání přímo v jejich registrech, instalace, aktualizace i odinstalace knihoven a nástrojů v režimu Vývojář. Dostupné aktualizace globálních balíčků najdete mezi ostatními aktualizacemi.</li>
                   <li><strong>Nástroje jedním kliknutím</strong> – chybí Node.js, Python, Rust, .NET SDK nebo PowerShell 7? Unibox je nainstaluje přes WinGet. U vcpkg ukáže stručný návod.</li>
                   <li><strong>Filtr i pro vývojáře</strong> – klik na npm, pip, Cargo… v levém panelu ukáže přehled správce: nainstalované balíčky, hledání jen v jeho registru a oblíbené nástroje.</li>
-                  <li><strong>Snímky obrazovky od uživatelů</strong> – přihlášení mohou k aplikaci přidat aktuální snímky výběrem, přetažením nebo vložením ze schránky (Ctrl+V). Unibox je zmenší do WebP bez metadat a po schválení je uvidí všichni; nevhodný snímek jde nahlásit.</li>
                   <li><strong>Plánované aktualizace</strong> – kontrola v intervalu od 30 minut po týden, nebo každý den či ve vybrané dny v zadaný čas. Automatická instalace může mít vlastní plán a zmeškaný termín se dožene se zpožděním, hned po spuštění, nebo se přeskočí.</li>
                   <li><strong>Minimální stáří aktualizací</strong> – nová verze se nabídne až po zadaném počtu dní od vydání, celkově i zvlášť pro jednotlivé správce.</li>
                   <li><strong>Uložené volby i pro aktualizace</strong> – jako správce, interaktivně, architektura, složka, parametry a příkazy platí i při aktualizaci. Nově i odinstalace předchozí verze a vlastní parametry jen pro aktualizace.</li>
@@ -212,15 +256,11 @@
                   <li><strong>Varování při změně serveru instalátoru</strong> – když se instalátor nové verze z WinGetu stahuje odjinud než u nainstalované verze, aktualizace se označí oranžově, detail ukáže obě adresy a automatická aktualizace ji vynechá.</li>
                   <li>V Nastavení → Předvolby oznámení vypnete oznámení o aktualizacích od vybraných správců.</li>
                   <li>Seznam aktualizací může mít všechny aktualizace předem zaškrtnuté.</li>
-                  <li>Sekce Dnes vybírá ze stovek známých aplikací celého katalogu – tipy dne, výběry z kategorií a aplikace dne se už neopakují po pár dnech. Aplikace dne je vždy ověřená a zůstává celý den stejná, ukazují se jen aplikace s ostrou ikonou. Šipkami na ostatních kartách listujete dalšími výběry a karty kolekcí mají barvu, která u jejich ikon převládá – výběr modrých aplikací je modrý.</li>
-                  <li><strong>Jen ostré ikony</strong> – katalog u každé aplikace vybírá nejostřejší ikonu ze všech zdrojů, nově i z webu aplikace. Malé favicony, které by se v kartě a v detailu rozmazaly, nahradí avatar s iniciálami. Ikony se po načtení už nemění (přednost má ikona z katalogu ve vysokém rozlišení, třeba u OneDrivu) a Audacity, WinRAR a Windows Terminal mají aktuální ikony.</li>
-                  <li>Ve výsledcích hledání jsou ověřené aplikace (s fajkou) nahoře – „terminal“ ukáže nejdřív Windows Terminal, ne méně známé nástroje se slovem na začátku názvu.</li>
+                  <li>Sekce Dnes vybírá ze stovek známých aplikací celého katalogu – tipy dne, výběry z kategorií a aplikace dne se už neopakují po pár dnech. Aplikace dne je vždy ověřená a zůstává celý den stejná, ukazují se jen aplikace s ostrou ikonou. Šipkami na ostatních kartách listujete dalšími výběry.</li>
                   <li>Stabilnější a plynulejší: chyba na jedné stránce už neshodí celé okno (stačí „Zkusit znovu“), selhání správce balíčků Unibox oznámí místo tichého vynechání a scrollování seznamů běží bez zasekávání.</li>
                   <li>Balíčky správců pro vývojáře se zjišťují jen v režimu Vývojář – v režimu Běžný uživatel zůstává přehled rychlý a bez knihoven.</li>
                   <li>V Nastavení → Správci balíčků přepnete na režim Vývojář jedním tlačítkem.</li>
                   <li>Hledání z odkazu (třeba štítek v detailu aplikace) vyplní i pole vyhledávání nahoře.</li>
-                  <li><strong>Pro vývojáře: publikování ve WinGetu</strong> – průvodce v sekci Publikovat z adresy instalátoru zjistí SHA-256, typ a údaje, připraví manifest a ověří ho příkazem winget validate.</li>
-                  <li>Instalátor před instalací ukáže <a href="soukromi.html">zásady ochrany soukromí</a> a licenci. Favicony webů aplikací se už nehledají přes služby Googlu a DuckDuckGo.</li>
                 </ul>
               </div>
             </div>
