@@ -62,7 +62,7 @@ Install in one click from the source you choose, with download progress right on
 <p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/readme/stahovani-tmave.webp">
-  <img src="assets/readme/stahovani-svetle.webp" alt="The Unibox window with the Obsidian app page while downloading (47%), the source picker and SHA-256 verification">
+  <img src="assets/readme/stahovani-svetle.webp" alt="The Unibox window with the Discord app page while downloading (47%), the source picker and SHA-256 verification">
 </picture>
 </p>
 

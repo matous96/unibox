@@ -62,7 +62,7 @@ Instalace jedním kliknutím z vybraného zdroje, s průběhem stahování pří
 <p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/readme/cs/stahovani-tmave.webp">
-  <img src="assets/readme/cs/stahovani-svetle.webp" alt="Okno Uniboxu s detailem aplikace Obsidian během stahování (47 %), výběrem zdroje a ověřením SHA-256">
+  <img src="assets/readme/cs/stahovani-svetle.webp" alt="Okno Uniboxu s detailem aplikace Discord během stahování (47 %), výběrem zdroje a ověřením SHA-256">
 </picture>
 </p>
 
