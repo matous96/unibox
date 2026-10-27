@@ -19,6 +19,7 @@
 # v repozitáři – znovu se zapne v Actions → Supabase → Enable workflow.
 
 name: Supabase
+run-name: "${{ github.event_name != 'schedule' && 'Supabase – ruční spuštění' || github.event.schedule == '43 3 * * 0' && 'Supabase – záloha' || 'Supabase – denní údržba' }}"
 
 on:
   schedule:

@@ -22,6 +22,8 @@
 # (GitHub Pages) – bez něj vydání skončí chybou, aby nevyšlo s ukázkovým katalogem.
 
 name: Vydání
+# Název běhu podle značky – jinak by GitHub ukazoval zprávu posledního commitu
+run-name: "${{ github.ref_type == 'tag' && format('Vydání {0}', github.ref_name) || 'Vydání – ruční spuštění' }}"
 
 on:
   push:

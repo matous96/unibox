@@ -11,6 +11,7 @@
 # Spustit jde i ručně: Actions → Katalog → Run workflow.
 
 name: Katalog
+run-name: "${{ github.event_name == 'schedule' && 'Katalog – denní aktualizace' || 'Katalog – ruční spuštění' }}"
 
 on:
   schedule:
