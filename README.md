@@ -55,10 +55,12 @@ obrazovku, co je nového, hodnocení a recenze, ochrana soukromí a odkazy na we
 dokumentaci a podporu. Technické údaje: SHA-256, typ instalátoru, systémové požadavky
 a závislosti.
 
+<p align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="website/img/screens/detail.webp">
-  <img src="website/img/screens/detail-svetly.webp" alt="Detail aplikace s barevným bannerem, údaji o aplikaci a galerií snímků">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/readme/detail-tmave.webp">
+  <img src="assets/readme/detail-svetle.webp" alt="Okno Uniboxu s detailem aplikace Steam: banner, tlačítka, ověření SHA-256, údaje a odkazy">
 </picture>
+</p>
 
 ### Nainstalované a aktualizace
 
