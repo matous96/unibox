@@ -1,0 +1,95 @@
+# Katalog aplikací zdarma: denně ho vygeneruje data pipeline a zveřejní na GitHub Pages
+# (https://matous96.github.io/unibox/catalog.json). Odtud si ho stahují nainstalované
+# Unibox (výchozí VITE_CATALOG_URL v sestavené aplikaci) a přibalí ho workflow Vydání.
+#
+# Pages posílá katalog komprimovaný (16 MB → ~3,5 MB) s ETagem, takže opakované
+# stažení beze změny je jen krátká odpověď 304. Mezipaměť pipeline (stažené zdroje,
+# rozměry ikon, ikony webů, „první výskyt“ aplikací) se drží v mezipaměti Actions –
+# první běh trvá kolem 45 minut (hlavně ikony z webů aplikací), další pár minut.
+#
+# Nastavení (jednou): Settings → Pages → Build and deployment → Source: GitHub Actions.
+# Spustit jde i ručně: Actions → Katalog → Run workflow.
+
+name: Katalog
+
+on:
+  schedule:
+    - cron: "23 2 * * *" # každý den
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Sestavení katalogu
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      # Pipeline potřebuje node:sqlite a spouštění TypeScriptu bez sestavení (Node 24)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Každý běh uloží novou mezipaměť a další začne od poslední (staré GitHub sám maže)
+      - name: Mezipaměť pipeline
+        uses: actions/cache@v4
+        with:
+          path: data-pipeline/.cache
+          key: pipeline-${{ github.run_id }}
+          restore-keys: pipeline-
+
+      - name: Data pipeline
+        env:
+          # Hvězdičky repozitářů z GraphQL API GitHubu (veřejná data, žádná oprávnění navíc)
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node data-pipeline/src/index.ts
+
+      # Rozbitý nebo neúplný katalog se nezveřejní – aplikace by ho stáhla všem
+      - name: Kontrola katalogu
+        run: node scripts/check-catalog.mjs data-pipeline/out/catalog.json
+
+      - name: Obsah webu
+        run: |
+          mkdir -p _site
+          cp data-pipeline/out/catalog.json _site/catalog.json
+          cat > _site/index.html <<'EOF'
+          <!doctype html>
+          <meta charset="utf-8">
+          <title>Unibox – katalog aplikací</title>
+          <meta http-equiv="refresh" content="0; url=https://github.com/matous96/unibox">
+          <p>Katalog aplikací Uniboxu: <a href="catalog.json">catalog.json</a> ·
+          projekt: <a href="https://github.com/matous96/unibox">github.com/matous96/unibox</a></p>
+          EOF
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: Zveřejnění na GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}catalog.json
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

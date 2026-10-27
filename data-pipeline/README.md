@@ -185,6 +185,8 @@ pipeline pamatuje v `.cache/first-seen.json` – při úplně prvním běhu je d
 
 ## Nasazení
 
-Katalog stačí jednou denně vygenerovat (např. GitHub Actions), nahrát na web / CDN
-a v aplikaci nastavit `VITE_CATALOG_URL`. Aplikace si poslední staženou kopii drží
-v mezipaměti a funguje i offline.
+Workflow `.github/workflows/catalog.yml` spouští pipeline každý den na GitHub Actions
+(mezipaměť `.cache` se přenáší mezi běhy přes mezipaměť Actions) a katalog po kontrole
+(`scripts/check-catalog.mjs`) zveřejní na GitHub Pages – výchozí adresa katalogu
+v sestavené aplikaci. Aplikace si poslední staženou kopii drží v mezipaměti a funguje
+i offline. Podrobnosti v hlavním README (Vzdálený katalog).

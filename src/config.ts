@@ -2,7 +2,7 @@
  * Odkazy na komunitu projektu. Hodnoty lze přepsat v souboru .env.local
  * (VITE_GITHUB_URL, VITE_DISCORD_URL).
  *
- * TODO: doplnit skutečné adresy, až bude repozitář a Discord server založený.
+ * TODO: doplnit skutečné adresy, až bude Discord server a e-mail projektu.
  */
 export const GITHUB_URL: string = import.meta.env.VITE_GITHUB_URL ?? "https://github.com/matous96/unibox";
 export const DISCORD_URL: string = import.meta.env.VITE_DISCORD_URL ?? "https://discord.gg/YOUR-INVITE";

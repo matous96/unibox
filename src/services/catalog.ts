@@ -2,7 +2,8 @@
  * Načítání katalogu (catalog.json – vytváří ho data-pipeline).
  *
  * Pořadí zdrojů:
- *  1. vzdálená URL (VITE_CATALOG_URL) – nejčerstvější data,
+ *  1. vzdálená URL (VITE_CATALOG_URL; v sestavené aplikaci jinak katalog, který denně
+ *     zveřejňuje workflow Katalog na GitHub Pages) – nejčerstvější data,
  *  2. ve vývoji místní /catalog.json (vygenerovaný příkazem `pnpm pipeline --local`),
  *  3. poslední úspěšně stažená kopie v mezipaměti prohlížeče (Cache Storage –
  *     katalog má přes 10 MB, do localStorage se nevejde; v Tauri později soubor v %APPDATA%),
@@ -14,7 +15,9 @@ import { sortBySourceOrder } from "@/services/managers/sources";
 
 const CACHE_NAME = "unibox-catalog";
 const CACHE_URL = "/__unibox/catalog.json";
-const REMOTE_URL = import.meta.env.VITE_CATALOG_URL as string | undefined;
+// Ve vývoji bez nastavení žádný – načte se místní z pipeline
+const REMOTE_URL: string | undefined =
+  import.meta.env.VITE_CATALOG_URL || (import.meta.env.DEV ? undefined : "https://matous96.github.io/unibox/catalog.json");
 /** Katalog z public/ – ve vývoji „místní“, v sestavené aplikaci „přibalený“. */
 const CATALOG_FILE = "/catalog.json";
 

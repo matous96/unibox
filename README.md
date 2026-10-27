@@ -281,15 +281,27 @@ odkud ho `pnpm dev` načte místo ukázkového katalogu. Podrobnosti v
 
 ### Vzdálený katalog
 
-Volitelně lze nastavit URL katalogu v souboru `.env.local`:
+Katalog denně generuje workflow **Katalog** (`.github/workflows/catalog.yml`) na GitHub
+Actions a zveřejňuje ho zdarma na GitHub Pages:
+[matous96.github.io/unibox/catalog.json](https://matous96.github.io/unibox/catalog.json).
+Pages ho posílá komprimovaný (16 MB → ~3,5 MB) a s ETagem – opakované stažení beze
+změny je jen odpověď 304. Sestavená aplikace si ho stahuje při startu; jinou adresu
+(i pro vývoj, kde se jinak bere místní katalog) nastavíte v `.env.local`:
 
 ```
 VITE_CATALOG_URL=https://example.com/catalog.json
 ```
 
-Bez ní (nebo offline) se použije místní `public/catalog.json` (při vývoji),
+Když stažení selže (offline), použije se místní `public/catalog.json` (při vývoji),
 poslední uložená kopie, v sestavené aplikaci `catalog.json` přibalený při sestavení
 (z `public/`) a nakonec malý ukázkový `src/data/catalog.sample.json`.
+
+Nastavení (jednou): repozitář → **Settings → Pages → Build and deployment → Source:
+GitHub Actions**, pak **Actions → Katalog → Run workflow**. První běh trvá kolem
+45 minut (stažení všech zdrojů, ikony z webů aplikací), další díky mezipaměti Actions
+pár minut. Před zveřejněním katalog zkontroluje `scripts/check-catalog.mjs` (schéma,
+aspoň 10 000 aplikací) – po výpadku zdroje zůstane na webu předchozí verze. Workflow
+**Vydání** přibalí k instalátoru právě zveřejněný katalog.
 
 ## Produkční sestavení (instalátor)
 

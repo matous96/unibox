@@ -18,6 +18,8 @@
 #     SIGNPATH_POLICY_SLUG, volitelně VITE_SUPABASE_URL, VITE_SUPABASE_KEY,
 #     VITE_AUTH_PROVIDERS, VITE_GITHUB_CLIENT_ID, VITE_GITHUB_URL, VITE_CATALOG_URL
 # Bez SIGNPATH_API_TOKEN vznikne nepodepsané vydání (SmartScreen bude varovat).
+# Katalog aplikací se přibalí ten, který denně zveřejňuje workflow Katalog
+# (GitHub Pages) – bez něj vydání skončí chybou, aby nevyšlo s ukázkovým katalogem.
 
 name: Vydání
 
@@ -47,7 +49,8 @@ jobs:
       VITE_AUTH_PROVIDERS: ${{ vars.VITE_AUTH_PROVIDERS }}
       VITE_GITHUB_CLIENT_ID: ${{ vars.VITE_GITHUB_CLIENT_ID }}
       VITE_GITHUB_URL: ${{ vars.VITE_GITHUB_URL }}
-      VITE_CATALOG_URL: ${{ vars.VITE_CATALOG_URL }}
+      # Výchozí je katalog z workflow Katalog na GitHub Pages tohoto repozitáře
+      VITE_CATALOG_URL: ${{ vars.VITE_CATALOG_URL || format('https://{0}.github.io/{1}/catalog.json', github.repository_owner, github.event.repository.name) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -77,6 +80,15 @@ jobs:
             throw "Značka $env:GITHUB_REF_NAME nesedí s verzí $version v src-tauri/tauri.conf.json"
           }
           "version=$version" >> $env:GITHUB_OUTPUT
+
+      # Přibalený katalog (public/ není v repozitáři) – aplikace ho použije, dokud
+      # nestáhne čerstvý z VITE_CATALOG_URL (poprvé, nebo offline)
+      - name: Katalog aplikací
+        shell: pwsh
+        run: |
+          Invoke-WebRequest $env:VITE_CATALOG_URL -OutFile public/catalog.json
+          node scripts/check-catalog.mjs public/catalog.json
+          if ($LASTEXITCODE -ne 0) { throw "Katalog z $env:VITE_CATALOG_URL nejde přibalit – spusťte workflow Katalog" }
 
       # ── 1. Aplikace ────────────────────────────────────────────────────
       - name: Sestavení aplikace (bez instalátorů)
