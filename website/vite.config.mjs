@@ -10,10 +10,15 @@ export default {
   build: {
     outDir: "dist",
     emptyOutDir: true,
-    // Víc stránek: úvod a novinky (historie změn), česky i anglicky (složka en/)
+    // Víc stránek: úvod, podstránky z navigace, srovnání a právní stránky, česky i anglicky (složka en/)
     rollupOptions: {
       input: {
         index: page("index.html"),
+        funkce: page("funkce.html"),
+        spravci: page("spravci.html"),
+        srovnani: page("srovnani.html"),
+        "co-chystame": page("co-chystame.html"),
+        otazky: page("otazky.html"),
         novinky: page("novinky.html"),
         "srovnani-winstall": page("srovnani-winstall.html"),
         "srovnani-ninite": page("srovnani-ninite.html"),
@@ -22,6 +27,11 @@ export default {
         soukromi: page("soukromi.html"),
         "podpis-kodu": page("podpis-kodu.html"),
         "en/index": page("en/index.html"),
+        "en/features": page("en/features.html"),
+        "en/package-managers": page("en/package-managers.html"),
+        "en/compare": page("en/compare.html"),
+        "en/roadmap": page("en/roadmap.html"),
+        "en/faq": page("en/faq.html"),
         "en/changelog": page("en/changelog.html"),
         "en/compare-winstall": page("en/compare-winstall.html"),
         "en/compare-ninite": page("en/compare-ninite.html"),

@@ -48,12 +48,12 @@
         <span>Unibox</span>
       </a>
       <nav class="nav__links" aria-label="Hlavní navigace">
-        <a href="#funkce">Funkce</a>
-        <a href="#spravci">Správci balíčků</a>
+        <a href="funkce.html">Funkce</a>
+        <a href="spravci.html">Správci balíčků</a>
         <a href="novinky.html">Novinky</a>
-        <a href="#srovnani">Srovnání</a>
-        <a href="#co-chystame">Co chystáme</a>
-        <a href="#faq">Otázky</a>
+        <a href="srovnani.html">Srovnání</a>
+        <a href="co-chystame.html">Co chystáme</a>
+        <a href="otazky.html">Otázky</a>
       </nav>
       <div class="nav__actions">
         <a class="lang-switch" href="en/index.html" hreflang="en" lang="en" data-lang-switch title="English" aria-label="Switch to English">EN</a>
@@ -84,7 +84,7 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5.5 10.5 4.4v7.1H3V5.5Zm0 13 7.5 1.1v-7H3v5.9Zm8.4 1.2L21 21v-8.4h-9.6v7.1Zm0-15.4v7.2H21V3l-9.6 1.3Z"/></svg>
               Stáhnout pro Windows
             </a>
-            <a class="btn btn--ghost btn--lg" href="#funkce">Prohlédnout funkce</a>
+            <a class="btn btn--ghost btn--lg" href="funkce.html">Prohlédnout funkce</a>
           </div>
           <p class="hero__meta">Instalátor EXE · <!--release:exe-size-->5,6&nbsp;MB<!--/release:exe-size--> · Windows 10 / 11, 64bit · <a data-link="downloadMsi" href="#">verze MSI</a></p>
           <!-- Jen na telefonu: Unibox se instaluje do počítače -->
@@ -190,345 +190,40 @@
       </div>
     </section>
 
-    <!-- ============ FUNKCE ============ -->
-    <section class="section section--alt" id="funkce">
+    <!-- ============ PODSTRÁNKY ============ -->
+    <section class="section section--alt" id="prozkoumat">
       <div class="wrap">
         <div class="section__head reveal">
-          <p class="eyebrow">Funkce</p>
-          <h2>Obchod, jaký znáte z telefonu. Akorát pro Windows.</h2>
-          <p class="section__lead">Jedna aplikace = jedna karta. Když je aplikace ve více správcích balíčků, karta ukáže všechny zdroje a vy si vyberete, odkud instalovat.</p>
+          <p class="eyebrow">Prozkoumejte Unibox</p>
+          <h2>Chcete vědět víc?</h2>
+          <p class="section__lead">Podrobnosti mají vlastní stránky – vyberte, co vás zajímá.</p>
         </div>
-
-        <!-- Funkce 1: obchod a katalog -->
-        <div class="feature reveal">
-          <div class="feature__copy">
-            <h3>Obchod a katalog</h3>
-            <p>Domovská stránka „Dnes“ s tipy ze stovek známých aplikací, výběry z kategorií a každý den jinou Aplikací dne, kategorie, žebříčky a kolekce podle profese. Rychlé vyhledávání přes <kbd>Ctrl</kbd>+<kbd>K</kbd> prohledá katalog i živě správce balíčků.</p>
-            <ul class="ticks">
-              <li>25&nbsp;000+ aplikací z WinGetu, Chocolatey a Scoopu</li>
-              <li>Kolekce podle profese a žebříčky</li>
-              <li>Režim „Běžný uživatel“ ukáže jen desktopové aplikace</li>
-            </ul>
-          </div>
-          <figure class="shot">
-            <div class="shot__ph"><span>Snímek: kolekce a žebříčky</span></div>
-            <img class="shot__img shot__img--light" src="img/screens/kolekce-svetly.webp" alt="Kolekce aplikací podle zaměření (hráči, kreativci, studenti, vývojáři) a žebříček Trendy" loading="lazy">
-            <img class="shot__img shot__img--dark" src="img/screens/kolekce.webp" alt="Kolekce aplikací podle zaměření (hráči, kreativci, studenti, vývojáři) a žebříček Trendy" loading="lazy">
-          </figure>
+        <div class="explore">
+          <a class="card explore-card reveal" href="funkce.html">
+            <h3>Funkce<span aria-hidden="true">→</span></h3>
+            <p>Obchod jako v&nbsp;telefonu: katalog, detail aplikace, aktualizace, odinstalace a&nbsp;běh na pozadí.</p>
+          </a>
+          <a class="card explore-card reveal" href="spravci.html">
+            <h3>Správci balíčků<span aria-hidden="true">→</span></h3>
+            <p>Co funguje naostro: WinGet, Chocolatey, Scoop a&nbsp;správci pro vývojáře s&nbsp;příkazy ke zkopírování.</p>
+          </a>
+          <a class="card explore-card reveal" href="novinky.html">
+            <h3>Novinky<span aria-hidden="true">→</span></h3>
+            <p>Co je nového v&nbsp;každé verzi, od první veřejné verze 0.1.0.</p>
+          </a>
+          <a class="card explore-card reveal" href="srovnani.html">
+            <h3>Srovnání<span aria-hidden="true">→</span></h3>
+            <p>Jak si Unibox stojí vedle Ninite, UniGetUI, Chocolatey a&nbsp;Winstall.app.</p>
+          </a>
+          <a class="card explore-card reveal" href="co-chystame.html">
+            <h3>Co chystáme<span aria-hidden="true">→</span></h3>
+            <p>Kam Unibox míří dál a&nbsp;co už je hotové.</p>
+          </a>
+          <a class="card explore-card reveal" href="otazky.html">
+            <h3>Otázky<span aria-hidden="true">→</span></h3>
+            <p>SmartScreen, účet, bezpečnost a&nbsp;další časté otázky.</p>
+          </a>
         </div>
-
-        <!-- Funkce 2: detail aplikace -->
-        <div class="feature feature--flip reveal">
-          <div class="feature__copy">
-            <h3>Detail aplikace jako v App Storu</h3>
-            <p>Velký banner, jehož barva se sama přizpůsobí barvám ikony aplikace. Galerie screenshotů s prohlížečem na celou obrazovku, co je nového, ochrana soukromí a rychlé odkazy na web, GitHub, dokumentaci a podporu.</p>
-            <ul class="ticks">
-              <li>Technické údaje: SHA-256, typ instalátoru, systémové požadavky, závislosti</li>
-              <li>Všechny zdroje aplikace na jedné kartě</li>
-            </ul>
-          </div>
-          <figure class="shot">
-            <div class="shot__ph"><span>Snímek: detail aplikace s galerií</span></div>
-            <img class="shot__img shot__img--light" src="img/screens/detail-svetly.webp" alt="Detail aplikace VLC media player s oranžovým bannerem, údaji o aplikaci a galerií snímků obrazovky" loading="lazy">
-            <img class="shot__img shot__img--dark" src="img/screens/detail.webp" alt="Detail aplikace Steam s bannerem, údaji o aplikaci a rychlými odkazy" loading="lazy">
-          </figure>
-        </div>
-
-        <!-- Funkce 3: nainstalované a aktualizace -->
-        <div class="feature reveal">
-          <div class="feature__copy">
-            <h3>Nainstalované a aktualizace</h3>
-            <p>Přehled všech aplikací v počítači – i programů instalovaných mimo WinGet, aplikací z Microsoft Storu a her ze Steamu. Dostupné aktualizace nainstalujete jedním tlačítkem „Aktualizovat vše“.</p>
-            <ul class="ticks">
-              <li>Odinstalace a tlačítko Otevřít pro spuštění aplikace</li>
-              <li>Fronta operací a průběh stahování v procentech</li>
-              <li>Aktualizace jde ignorovat nebo odložit o den, týden či měsíc</li>
-              <li>Selže-li operace kvůli oprávněním, Unibox ji sám zopakuje s právy správce</li>
-            </ul>
-          </div>
-          <figure class="shot">
-            <div class="shot__ph"><span>Snímek: nainstalované aplikace</span></div>
-            <img class="shot__img shot__img--light" src="img/screens/nainstalovane-svetly.webp" alt="Seznam nainstalovaných aplikací s tlačítky Otevřít a Aktualizovat vše" loading="lazy">
-            <img class="shot__img shot__img--dark" src="img/screens/nainstalovane.webp" alt="Seznam nainstalovaných aplikací s tlačítky Otevřít a Aktualizovat vše" loading="lazy">
-          </figure>
-        </div>
-
-        <!-- Funkce 4: pokročilá odinstalace (ukázka dialogu v HTML) -->
-        <div class="feature feature--flip reveal" id="pokrocila-odinstalace">
-          <div class="feature__copy">
-            <h3>Pokročilá odinstalace</h3>
-            <p>Odinstalátory po sobě často nechají nastavení, mezipaměti, zástupce i klíče v registru. Unibox je po odinstalaci najde – v AppData, Program Files a ProgramData, v nabídce Start, na ploše i v registru Windows – a nabídne je smazat. Nebo je uklidí rovnou a dá vám jen vědět.</p>
-            <p>Se <strong>sledováním instalace</strong> si Unibox před instalací a po ní pořídí snímek disku a registru. Zapamatuje si, co instalátor vytvořil, a po odinstalaci to nabídne smazat celé – i položky, které by podle názvu nenašel.</p>
-            <ul class="ticks">
-              <li>Soubory jdou do Koše, klíče registru se před smazáním zálohují</li>
-              <li>Nikdy nesmaže nic, co patří jiné nainstalované aplikaci</li>
-              <li>Běžící aplikaci před odinstalací sám zavře</li>
-              <li>Ve výchozím stavu vypnutá – zapnete ji v Nastavení</li>
-            </ul>
-          </div>
-          <div class="cleanup" role="img" aria-label="Ukázka dialogu se zbytky po odinstalaci aplikace OBS Studio: složky, zástupce a klíče registru k odstranění">
-            <p class="cleanup__title">OBS Studio – zbytky po odinstalaci</p>
-            <p class="cleanup__group">Soubory a složky</p>
-            <ul class="cleanup__list">
-              <li><span class="cleanup__check"></span><span class="cleanup__path">C:\Users\…\AppData\Roaming\obs-studio</span><span class="cleanup__size">4,6 MB</span></li>
-              <li><span class="cleanup__check"></span><span class="cleanup__path">C:\Program Files\obs-studio</span><span class="cleanup__admin" title="Vyžaduje oprávnění správce"></span><span class="cleanup__size">17,5 MB</span></li>
-              <li><span class="cleanup__check"></span><span class="cleanup__path">…\Start Menu\Programs\OBS Studio.lnk</span><span class="cleanup__size">1 KB</span></li>
-            </ul>
-            <p class="cleanup__group">Registr Windows</p>
-            <ul class="cleanup__list">
-              <li><span class="cleanup__check"></span><span class="cleanup__path">HKCU\Software\OBS Studio</span><span class="cleanup__size">12 hodnot</span></li>
-              <li><span class="cleanup__check"></span><span class="cleanup__path">HKLM\SOFTWARE\OBS Studio</span><span class="cleanup__admin" title="Vyžaduje oprávnění správce"></span><span class="cleanup__size">1 hodnota</span></li>
-            </ul>
-            <p class="cleanup__note">Klíče registru se před smazáním uloží do zálohy (.reg).</p>
-            <div class="cleanup__foot">
-              <span class="cleanup__btn">Ponechat</span>
-              <span class="cleanup__btn cleanup__btn--danger">Smazat 5 položek (22,1 MB)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Funkce 5: po spuštění (ukázka sekce v HTML) -->
-        <div class="feature reveal" id="po-spusteni">
-          <div class="feature__copy">
-            <h3>Po spuštění</h3>
-            <p>Co všechno se spouští hned po přihlášení do Windows? Unibox ukáže programy z registru, ze složky Po spuštění i z plánovače úloh na jednom místě – s názvem, vydavatelem a ikonou.</p>
-            <ul class="ticks">
-              <li>Zapnout a vypnout jedním kliknutím, stejně jako ve Správci úloh</li>
-              <li>Vliv na rychlost startu: vysoký, střední, nízký – podle měření Windows</li>
-              <li>Odstranit trvale, se zálohou – i zbytky po odinstalovaných programech</li>
-            </ul>
-          </div>
-          <div class="cleanup" role="img" aria-label="Ukázka sekce Po spuštění: programy spouštěné po přihlášení s vlivem na start a přepínači">
-            <p class="cleanup__title">Po spuštění</p>
-            <div class="startup__stats">
-              <span class="startup__stat"><b>4 / 5</b>zapnuto</span>
-              <span class="startup__stat"><b>1</b>s vysokým vlivem</span>
-            </div>
-            <ul class="cleanup__list">
-              <li><span class="startup__icon" style="--c:#5865f2">D</span><span class="startup__name"><b>Discord</b><small>Registr (Run)</small></span><span class="startup__impact startup__impact--high">Vysoký</span><span class="startup__switch startup__switch--on"></span></li>
-              <li><span class="startup__icon" style="--c:#1ed760">S</span><span class="startup__name"><b>Spotify</b><small>Registr (Run)</small></span><span class="startup__impact startup__impact--medium">Střední</span><span class="startup__switch startup__switch--on"></span></li>
-              <li><span class="startup__icon" style="--c:#0a74da">O</span><span class="startup__name"><b>Microsoft OneDrive</b><small>Plánovač úloh</small></span><span class="startup__impact startup__impact--low">Nízký</span><span class="startup__switch startup__switch--on"></span></li>
-              <li><span class="startup__icon" style="--c:#f97316">B</span><span class="startup__name"><b>Bitwarden</b><small>Složka Po spuštění</small></span><span class="startup__impact startup__impact--low">Nízký</span><span class="startup__switch startup__switch--on"></span></li>
-              <li class="startup__off"><span class="startup__icon" style="--c:#64748b">A</span><span class="startup__name"><b>Adobe Acrobat Update</b><small>Plánovač úloh</small></span><span class="startup__admin cleanup__admin" title="Vyžaduje oprávnění správce"></span><span class="startup__impact startup__impact--none">Žádný</span><span class="startup__switch"></span></li>
-            </ul>
-            <p class="cleanup__note">Vypnutý program se nespustí, ale zůstane v seznamu.</p>
-          </div>
-        </div>
-
-        <!-- Mřížka menších funkcí -->
-        <div class="grid">
-          <article class="card mini reveal">
-            <h3>Možnosti instalace</h3>
-            <p>Jako správce, interaktivně, konkrétní (i starší) verze, architektura, rozsah, vlastní parametry – nebo jen stažení instalátoru.</p>
-          </article>
-          <article class="card mini reveal">
-            <h3>Sady balíčků a profily</h3>
-            <p>Sestavte si vlastní sdílitelnou sadu aplikací – nový počítač za pět minut. Profil i s nastavením do JSON nebo přehledné stránky HTML, export pro WinGet, oblíbené.</p>
-          </article>
-          <article class="card mini reveal">
-            <h3>Moderní okno bez rámu</h3>
-            <p>Vlastní titulková lišta ve stylu Windows 11, plynulé animace a okamžité přechody mezi stránkami. Světlý i tmavý motiv podle Windows. Při prvním spuštění vás provede úvodní průvodce.</p>
-          </article>
-          <article class="card mini reveal">
-            <h3>Historie a údržba</h3>
-            <p>Historie operací a protokoly, vyčištění mezipaměti správců balíčků. Česky i anglicky.</p>
-          </article>
-          <article class="card mini reveal">
-            <h3>Hodnocení, recenze a snímky</h3>
-            <p>Po přihlášení přes GitHub hodnoťte aplikace hvězdičkami, pište recenze a přidávejte aktuální snímky obrazovky. Nevhodné jde nahlásit.</p>
-          </article>
-          <article class="card mini reveal">
-            <h3>Synchronizace mezi počítači</h3>
-            <p>Oblíbené, sada balíčků a předvolby na všech vašich počítačích. Přihlášení je dobrovolné – bez účtu funguje všechno ostatní.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ TRAY ============ -->
-    <section class="section" id="na-pozadi">
-      <div class="wrap feature feature--flip reveal">
-        <div class="feature__copy">
-          <p class="eyebrow">Běh na pozadí</p>
-          <h2>Zavřete okno. Instalace doběhnou.</h2>
-          <p>Zavřením okna se Unibox schová do oznamovací oblasti u hodin a rozběhnuté instalace v klidu dokončí. Průhledná jednobarevná ikona se přizpůsobí světlému i tmavému hlavnímu panelu a její popisek ukazuje počet dostupných aktualizací.</p>
-        </div>
-        <div class="tray" aria-label="Ukázka nabídky v oznamovací oblasti">
-          <ul class="tray__menu">
-            <li>Procházet balíčky</li>
-            <li>Dostupné aktualizace</li>
-            <li>Nainstalované</li>
-            <li class="sep" aria-hidden="true"></li>
-            <li>Zobrazit Unibox</li>
-            <li>Ukončit</li>
-          </ul>
-          <div class="tray__bar">
-            <span class="tray__icon">
-              <img class="tray__img--light" src="assets/tray-icon-dark.svg" alt="" width="18" height="18">
-              <img class="tray__img--dark" src="assets/tray-icon.svg" alt="" width="18" height="18">
-            </span>
-            <span class="tray__clock">14:32<br>22.10.2026</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ PRO VÝVOJÁŘE / CLI ============ -->
-    <section class="section section--alt" id="vyvojari">
-      <div class="wrap feature reveal">
-        <div class="feature__copy">
-          <p class="eyebrow">Pro pokročilé a vývojáře</p>
-          <h2>Režim Vývojář a příkazy ke zkopírování.</h2>
-          <p>Přepněte do režimu „Vývojář“ a spravujte i knihovny a nástroje pro vývojáře – hledání, instalace, aktualizace i odinstalace přímo v Uniboxu. U každé aplikace najdete hotové příkazy pro WinGet, Chocolatey, Scoop a další – zkopírujete je jedním kliknutím. Sady balíčků exportujete jako skript PowerShellu.</p>
-          <ul class="ticks">
-            <li>npm, Bun, pip, Cargo, vcpkg, .NET Tool a PowerShell naostro</li>
-            <li>Chybějící Node.js, Python nebo Rust doinstaluje jedním kliknutím</li>
-            <li>Export a import profilů</li>
-          </ul>
-        </div>
-        <div class="term">
-          <div class="term__tabs" role="tablist" aria-label="Správce balíčků">
-            <button role="tab" aria-selected="true" data-cmd="winget install --id Microsoft.VisualStudioCode -e">WinGet</button>
-            <button role="tab" aria-selected="false" data-cmd="choco install vscode">Chocolatey</button>
-            <button role="tab" aria-selected="false" data-cmd="scoop install extras/vscode">Scoop</button>
-          </div>
-          <div class="term__body">
-            <code><span class="term__prompt">PS&gt;</span> <span id="term-cmd">winget install --id Microsoft.VisualStudioCode -e</span></code>
-            <button class="term__copy" id="term-copy" type="button">Kopírovat</button>
-          </div>
-          <p class="term__note">Příklad příkazů, které Unibox zobrazí u Visual Studio Code.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ SPRÁVCI ============ -->
-    <section class="section" id="spravci">
-      <div class="wrap">
-        <div class="section__head reveal">
-          <p class="eyebrow">Správci balíčků</p>
-          <h2>Co ve verzi <!--release:version-->0.1.15<!--/release:version--> funguje naostro.</h2>
-          <p class="section__lead">Unibox je v rané fázi vývoje. Píšeme na rovinu, co už umí a co teprve připravujeme.</p>
-        </div>
-        <div class="managers reveal">
-          <article class="card manager manager--live">
-            <div class="manager__head">
-              <h3>WinGet</h3>
-              <span class="badge badge--live">Plně funkční</span>
-            </div>
-            <p>Výpis nainstalovaných aplikací, hledání, instalace, aktualizace, odinstalace i stažení instalátoru.</p>
-            <p class="manager__count">15&nbsp;776 balíčků v katalogu</p>
-          </article>
-          <article class="card manager manager--live">
-            <div class="manager__head">
-              <h3>Chocolatey</h3>
-              <span class="badge badge--live">Plně funkční</span>
-            </div>
-            <p>Hledání, instalace, aktualizace a odinstalace přímo v aplikaci, včetně přehledu dostupných aktualizací. Chybějící Chocolatey nainstaluje Unibox jedním kliknutím.</p>
-            <p class="manager__count">12&nbsp;027 aplikací v katalogu</p>
-          </article>
-          <article class="card manager manager--live">
-            <div class="manager__head">
-              <h3>Scoop</h3>
-              <span class="badge badge--live">Plně funkční</span>
-            </div>
-            <p>Hledání, instalace, aktualizace a odinstalace bez práv správce. Chybějící Scoop, Git i buckety doplní Unibox sám.</p>
-            <p class="manager__count">4&nbsp;702 aplikací v katalogu</p>
-          </article>
-          <article class="card manager manager--live">
-            <div class="manager__head">
-              <h3>Pro vývojáře</h3>
-              <span class="badge badge--live">Funkční</span>
-            </div>
-            <p>npm, Bun, pip, Cargo, vcpkg, .NET Tool, PowerShell 7 / 5 – hledání, instalace, aktualizace a odinstalace v režimu Vývojář. Chybějící Node.js, Python, Rust, .NET SDK nebo PowerShell 7 nainstaluje Unibox přes WinGet.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ SROVNÁNÍ ============ -->
-    <!-- Další srovnání stačí přidat jako další <article class="card compare-card"> do .compare-grid -->
-    <section class="section section--alt" id="srovnani">
-      <div class="wrap">
-        <div class="section__head reveal">
-          <p class="eyebrow">Srovnání</p>
-          <h2>Jak si Unibox stojí vedle alternativ.</h2>
-          <p class="section__lead">Hledáte, čím instalovat aplikace ve Windows? Podívejte se, v čem se Unibox liší od jiných nástrojů – včetně toho, v čem jsou lepší ony.</p>
-        </div>
-        <div class="compare-grid">
-          <article class="card compare-card reveal">
-            <p class="compare-card__title"><span class="vs">vs</span> Ninite</p>
-            <p>Ninite zpopularizoval instalaci více aplikací najednou. Nabízí ale zhruba 150 vybraných aplikací a bez placené verze je neumí odinstalovat. Unibox má v katalogu přes 25&nbsp;000 aplikací a spravuje je od instalace až po odinstalaci.</p>
-            <ul class="ticks">
-              <li>25&nbsp;000+ aplikací místo zhruba 150</li>
-              <li>Aktualizace a odinstalace přímo v aplikaci</li>
-              <li>Zdarma a open source, i pro firmy</li>
-            </ul>
-            <a class="compare-card__link" href="srovnani-ninite.html">Přečtěte si celé srovnání <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="card compare-card reveal">
-            <p class="compare-card__title"><span class="vs">vs</span> UniGetUI</p>
-            <p>UniGetUI je vyspělá desktopová aplikace pro správu balíčků z mnoha správců najednou. Unibox jde jinou cestou: místo seznamu balíčků nabízí obchod s aplikacemi, ve kterém objevujete, porovnáváte a instalujete jako v App Storu.</p>
-            <ul class="ticks">
-              <li>Domovská stránka Dnes, kolekce a žebříčky</li>
-              <li>Jedna aplikace = jedna karta se všemi zdroji</li>
-              <li>Režim Běžný uživatel bez knihoven a nástrojů</li>
-            </ul>
-            <a class="compare-card__link" href="srovnani-unigetui.html">Přečtěte si celé srovnání <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="card compare-card reveal">
-            <p class="compare-card__title"><span class="vs">vs</span> Chocolatey</p>
-            <p>Chocolatey je osvědčený správce balíčků pro příkazový řádek. Unibox ho nenahrazuje – používá ho jako jeden ze zdrojů a jeho aplikace nabízí v grafickém obchodě spolu s WinGetem a Scoopem.</p>
-            <ul class="ticks">
-              <li>Bez psaní příkazů, vše klikáním</li>
-              <li>Chocolatey, WinGet i Scoop v jednom katalogu</li>
-              <li>Hotové příkazy choco ke zkopírování</li>
-            </ul>
-            <a class="compare-card__link" href="srovnani-chocolatey.html">Přečtěte si celé srovnání <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="card compare-card reveal">
-            <p class="compare-card__title"><span class="vs">vs</span> Winstall.app</p>
-            <p>Winstall.app je webová stránka, na které vyberete aplikace z WinGetu a necháte si vygenerovat příkaz pro terminál. Unibox aplikace z WinGetu, Chocolatey a Scoopu rovnou nainstaluje, aktualizuje i odinstaluje.</p>
-            <ul class="ticks">
-              <li>Instalace, aktualizace i odinstalace přímo v aplikaci</li>
-              <li>Tři zdroje v jednom katalogu</li>
-              <li>Záložní zdroj, když odkaz ve WinGetu nefunguje</li>
-            </ul>
-            <a class="compare-card__link" href="srovnani-winstall.html">Přečtěte si celé srovnání <span aria-hidden="true">→</span></a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ CO CHYSTÁME ============ -->
-    <section class="section" id="co-chystame">
-      <div class="wrap">
-        <div class="section__head reveal">
-          <p class="eyebrow">Co chystáme</p>
-          <h2>Kam Unibox míří dál.</h2>
-          <p class="section__lead">Hodnocení, recenze, synchronizace i&nbsp;publikování fungují od verze 0.1.14. Zbývá digitální podpis instalátoru – také zdarma a&nbsp;open source.</p>
-        </div>
-        <ol class="roadmap reveal">
-          <li>
-            <strong>Digitálně podepsaný instalátor</strong>
-            <span>Bez varování SmartScreenu při prvním spuštění. Sestavení s&nbsp;bezplatným podpisem přes SignPath Foundation i&nbsp;<a href="podpis-kodu.html">zásady podepisování</a> jsou hotové.</span>
-            <em class="roadmap__status roadmap__status--wait">Čeká na certifikát</em>
-          </li>
-          <li>
-            <strong>Hodnocení, recenze a&nbsp;snímky</strong>
-            <span>Hvězdičky, textové recenze a&nbsp;aktuální snímky obrazovky od uživatelů – recenzi jde upravit, smazat i&nbsp;nahlásit.</span>
-            <em class="roadmap__status roadmap__status--ready">Funguje od verze 0.1.14</em>
-          </li>
-          <li>
-            <strong>Publikování aplikací vývojáři</strong>
-            <span>Průvodce z&nbsp;adresy instalátoru připraví manifest WinGetu, ověří ho a&nbsp;pomůže ho odeslat. Po schválení se aplikace objeví v&nbsp;Uniboxu.</span>
-            <em class="roadmap__status roadmap__status--ready">Funguje od verze 0.1.14</em>
-          </li>
-          <li>
-            <strong>Přihlášení a synchronizace</strong>
-            <span>Přihlášení přes GitHub. Oblíbené, sada balíčků a&nbsp;předvolby napříč počítači – každou oblast jde vypnout a&nbsp;data z&nbsp;účtu kdykoli smazat.</span>
-            <em class="roadmap__status roadmap__status--ready">Funguje od verze 0.1.14</em>
-          </li>
-        </ol>
       </div>
     </section>
 
@@ -585,52 +280,8 @@
             </a>
           </div>
           <p class="download__req">Požadavky: Windows 10 / 11, 64bit, WebView2 (ve Windows je předinstalovaný).<br>
-            Instalátor zatím není digitálně podepsaný – <a href="#faq-smartscreen">co dělat s varováním SmartScreenu</a>.<br>
+            Instalátor zatím není digitálně podepsaný – <a href="otazky.html#faq-smartscreen">co dělat s varováním SmartScreenu</a>.<br>
             <a href="podpis-kodu.html">Zásady podepisování kódu</a> · <a href="soukromi.html">Ochrana soukromí</a></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ FAQ ============ -->
-    <section class="section section--alt" id="faq">
-      <div class="wrap wrap--narrow">
-        <div class="section__head reveal">
-          <p class="eyebrow">Otázky a odpovědi</p>
-          <h2>Časté otázky</h2>
-        </div>
-        <div class="faq reveal">
-          <details id="faq-smartscreen">
-            <summary>Windows při spuštění instalátoru hlásí varování SmartScreenu. Je to v pořádku?</summary>
-            <p>Instalátor Uniboxu zatím není digitálně podepsaný, a Windows proto zobrazí okno „Systém Windows ochránil váš počítač“. Klikněte na <strong>Další informace</strong> a potom na <strong>Přesto spustit</strong>. Podepsaný instalátor je mezi věcmi, které chystáme.</p>
-          </details>
-          <details id="faq-preview">
-            <summary>Co znamená „preview“ verze?</summary>
-            <p>Unibox je zatím v rané fázi vývoje – první veřejná verze 0.1.0 vyšla v říjnu 2026 a od té doby přibývají aktualizace (viz <a href="novinky.html">Novinky</a>). Naostro fungují WinGet, Chocolatey, Scoop i správci pro vývojáře (npm, pip, Cargo a další) – hledání, instalace, aktualizace i odinstalace. Občas můžete narazit na chybu.</p>
-          </details>
-          <details>
-            <summary>Je Unibox zdarma?</summary>
-            <p>Ano. Unibox je open source pod licencí MIT – zdarma, bez reklam a bez přibalených doplňků. Zdrojový kód najdete na <a data-link="github" href="#">GitHubu</a>.</p>
-          </details>
-          <details>
-            <summary>Potřebuji účet?</summary>
-            <p>Ne. Přihlášení přes GitHub je dobrovolné a hodí se jen pro hodnocení, recenze, přidávání snímků obrazovky a synchronizaci mezi počítači. Instalace, aktualizace i odinstalace fungují bez účtu. Co se při přihlášení ukládá, popisují <a href="soukromi.html">zásady ochrany soukromí</a>.</p>
-          </details>
-          <details>
-            <summary>Odkud Unibox aplikace stahuje? Je to bezpečné?</summary>
-            <p>Jen z oficiálních repozitářů správců balíčků. Unibox instalátor stáhne a WinGet ho před spuštěním ověří kontrolním součtem SHA-256 – pokud by se soubor lišil od zveřejněného, instalace neproběhne.</p>
-          </details>
-          <details>
-            <summary>Uvidím v Uniboxu i aplikace, které jsem instaloval dřív?</summary>
-            <p>Ano. Přehled nainstalovaných ukáže i programy instalované mimo WinGet, aplikace z Microsoft Storu a hry ze Steamu. Můžete je aktualizovat, odinstalovat nebo spustit tlačítkem Otevřít.</p>
-          </details>
-          <details>
-            <summary>Potřebuji práva správce?</summary>
-            <p>K instalaci Uniboxu ne – instalátor EXE instaluje pro aktuálního uživatele. Pokud nějaká instalace aplikace práva správce vyžaduje, Unibox ji sám zopakuje s jejich vyžádáním (UAC).</p>
-          </details>
-          <details>
-            <summary>Jaký je rozdíl mezi instalátorem EXE a MSI?</summary>
-            <p>EXE je doporučený pro většinu lidí, instaluje bez práv správce a nabízí češtinu i angličtinu. MSI se hodí pro hromadné nasazení ve firmách.</p>
-          </details>
         </div>
       </div>
     </section>
@@ -645,7 +296,7 @@
       <nav class="footer__links" aria-label="Odkazy">
         <a data-link="github" href="#">GitHub</a>
         <a href="novinky.html">Novinky</a>
-        <a href="#srovnani">Srovnání</a>
+        <a href="srovnani.html">Srovnání</a>
         <a data-link="releases" href="#">Všechny verze</a>
         <a data-link="discord" href="#">Discord</a>
         <a data-link="email" href="#">E-mail</a>

@@ -9,8 +9,12 @@ import type { Localized } from "./editorial";
 export interface FeaturedNews {
   title: Localized;
   text: Localized;
-  /** Odkaz karty na domovské stránce (kotva, např. "#po-spusteni"); jinak záznam verze v Novinkách. */
-  href?: string;
+  /**
+   * Odkaz karty na domovské stránce: kotva domovské stránky ("#stahnout") nebo podstránka,
+   * která má v každém jazyce jiný soubor ({ cs: "funkce.html#po-spusteni", en: "features.html#po-spusteni" });
+   * bez odkazu vede karta na záznam verze v Novinkách.
+   */
+  href?: string | Localized;
 }
 
 export interface Release {
@@ -175,7 +179,7 @@ export const CHANGELOG: Release[] = [
           cs: "npm, Bun, pip, Cargo, vcpkg, .NET Tool a PowerShell – hledání, instalace, aktualizace i odinstalace knihoven a nástrojů přímo v Uniboxu.",
           en: "npm, Bun, pip, Cargo, vcpkg, .NET Tool and PowerShell – search, install, update and uninstall libraries and tools right in Unibox.",
         },
-        href: "#vyvojari",
+        href: { cs: "spravci.html#vyvojari", en: "package-managers.html#vyvojari" },
       },
       {
         title: { cs: "Aktualizace pod kontrolou", en: "Updates under control" },

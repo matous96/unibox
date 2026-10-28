@@ -439,9 +439,26 @@ Po sestavení `pnpm release` sám aktualizuje domovskou stránku webu
 a velikost instalátorů a sekci „To nejlepší z verze“ v češtině i angličtině. Karty
 bere z `featured` nejnovějšího vydání v `src/data/changelog.ts` (nadpis, text,
 volitelně odkaz), bez nich z prvních dvou bodů `highlights`. Přepisují se jen oblasti
-mezi značkami `<!--release:klíč-->` … `<!--/release:klíč-->` ve `website/index.html`
-a `website/en/index.html`; podrobné Novinky (`novinky.html`, `en/changelog.html`)
-se píšou ručně. Před vydáním tedy stačí přidat vydání do `changelog.ts`.
+mezi značkami `<!--release:klíč-->` … `<!--/release:klíč-->` na domovské stránce
+(`website/index.html`, `website/en/index.html`) a na stránce Správci balíčků
+(`spravci.html`, `en/package-managers.html`); podrobné Novinky (`novinky.html`,
+`en/changelog.html`) se píšou ručně. Před vydáním tedy stačí přidat vydání do
+`changelog.ts`.
+
+Web je rozdělený do podstránek podle horní navigace – domovská stránka nese jen úvod,
+novinky, pilíře, rozcestník, „Zdarma“ a stažení:
+
+| Česky | Anglicky | Obsah |
+|---|---|---|
+| `funkce.html` | `en/features.html` | funkce aplikace, běh na pozadí |
+| `spravci.html` | `en/package-managers.html` | co funguje naostro, režim Vývojář a příkazy |
+| `srovnani.html` | `en/compare.html` | přehled srovnání (podrobná: `srovnani-*.html`, `en/compare-*.html`) |
+| `novinky.html` | `en/changelog.html` | historie změn |
+| `co-chystame.html` | `en/roadmap.html` | plány |
+| `otazky.html` | `en/faq.html` | časté otázky |
+
+Nová stránka patří do navigace všech stránek (`nav.nav__links`, aktuální s
+`aria-current="page"`) a do `website/vite.config.mjs`.
 
 ### Vzhled instalátoru (NSIS)
 

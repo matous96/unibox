@@ -739,6 +739,20 @@ a.is-placeholder { cursor: not-allowed; }
 :root .news-card--next { border-color: color-mix(in srgb, var(--text) 22%, transparent); }
 .news-card--next .news-card__ver { color: var(--muted); }
 
+/* Rozcestník podstránek na domovské stránce */
+.explore { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.explore-card {
+  display: grid; gap: 8px; align-content: start;
+  padding: 24px;
+  color: var(--text);
+  transition: border-color 0.15s, transform 0.15s;
+}
+.explore-card:hover { text-decoration: none; border-color: var(--accent); transform: translateY(-2px); }
+.explore-card h3 { display: flex; justify-content: space-between; gap: 12px; font-size: 1.1rem; }
+.explore-card h3 span { color: var(--accent); transition: transform 0.15s; }
+.explore-card:hover h3 span { transform: translateX(3px); }
+.explore-card p { color: var(--muted); font-size: 0.93rem; }
+
 .changelog-cta { margin-top: 64px; display: grid; justify-items: center; gap: 14px; text-align: center; }
 .changelog-cta p { color: var(--muted); }
 .changelog-cta__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
@@ -1011,7 +1025,7 @@ a.is-placeholder { cursor: not-allowed; }
   .stats div:nth-child(n + 3) { border-top: 1px solid var(--border); }
   .float-card--a { left: 12px; }
   .float-card--b { right: 12px; }
-  .highlights { grid-template-columns: repeat(2, 1fr); }
+  .highlights, .explore { grid-template-columns: repeat(2, 1fr); }
   .news { grid-template-columns: 1fr; gap: 28px; }
   .compare-head { grid-template-columns: 1fr; gap: 32px; }
   .free__main { gap: 48px; }
@@ -1042,7 +1056,8 @@ a.is-placeholder { cursor: not-allowed; }
   .section { padding: 72px 0; }
   .section__head { margin-bottom: 40px; }
   .feature + .feature, .grid { margin-top: 64px; }
-  .pillars, .grid, .managers, .roadmap, .download__options, .highlights { grid-template-columns: 1fr; }
+  .pillars, .grid, .managers, .roadmap, .download__options, .highlights, .explore { grid-template-columns: 1fr; }
+  .explore-card { padding: 18px 20px; }
   .page-head { padding-top: 40px; }
   .news__grid { grid-template-columns: 1fr; }
   .section--news { padding-top: 48px; }

@@ -1,7 +1,7 @@
 // Domovská stránka webu podle vydané verze – spouští ho `pnpm release` po sestavení,
-// ručně `pnpm website:release`. V website/index.html a website/en/index.html přepíše
-// oblasti mezi značkami <!--release:klíč--> … <!--/release:klíč-->:
-//   version             číslo verze (štítek nahoře, správci, plány, stažení),
+// ručně `pnpm website:release`. Na domovské stránce a stránce Správci balíčků (CZ i EN)
+// přepíše oblasti mezi značkami <!--release:klíč--> … <!--/release:klíč-->:
+//   version             číslo verze (štítek nahoře, stažení, správci balíčků),
 //   exe-file, msi-file  názvy instalátorů,
 //   exe-size, msi-size  velikost instalátorů (ze sestavených souborů),
 //   news                sekce „To nejlepší z verze“ – karty z `featured` nejnovějšího
@@ -15,7 +15,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 /** Texty sekce a formát velikosti pro jednotlivé jazyky webu. */
 const PAGES = {
   cs: {
-    file: "website/index.html",
+    // Stránky se značkami: domovská (verze, stažení, novinky) a Správci balíčků (verze)
+    files: ["website/index.html", "website/spravci.html"],
     changelog: "novinky.html",
     eyebrow: "Co je nového",
     title: (version) => `To nejlepší z&nbsp;verze ${version}.`,
@@ -29,7 +30,7 @@ const PAGES = {
     size: (mib) => `${mib.toFixed(1).replace(".", ",")}&nbsp;MB`,
   },
   en: {
-    file: "website/en/index.html",
+    files: ["website/en/index.html", "website/en/package-managers.html"],
     changelog: "changelog.html",
     eyebrow: "What’s new",
     title: (version) => `The best of version ${version}.`,
@@ -54,7 +55,9 @@ const localize = (value, lang) => value[lang] ?? value.cs;
 /** Karty nejnovějšího vydání: `featured`, jinak první dva body rozdělené na nadpis a text („Nadpis – text“, „Nadpis: text“). */
 function cards(release, lang) {
   if (release.featured?.length) {
-    return release.featured.slice(0, 2).map((f) => ({ title: localize(f.title, lang), text: localize(f.text, lang), href: f.href }));
+    // Odkaz je kotva domovské stránky, nebo podstránka s jiným souborem v každém jazyce
+    const href = (f) => (typeof f.href === "string" ? f.href : f.href && localize(f.href, lang));
+    return release.featured.slice(0, 2).map((f) => ({ title: localize(f.title, lang), text: localize(f.text, lang), href: href(f) }));
   }
   return release.highlights.slice(0, 2).map((h) => {
     const text = localize(h, lang);
@@ -117,14 +120,17 @@ export async function updateWebsite(root, version) {
     if (msiSize !== null) values["msi-size"] = page.size(msiSize);
     if (release) values.news = newsBlock(release, lang);
 
-    const path = join(root, page.file);
+    // Každá značka musí být aspoň na jedné stránce daného jazyka
     const found = new Set();
-    const html = readFileSync(path, "utf8").replace(/<!--release:([\w-]+)-->([\s\S]*?)<!--\/release:\1-->/g, (whole, key) => {
-      found.add(key);
-      return key in values ? `<!--release:${key}-->${values[key]}<!--/release:${key}-->` : whole;
-    });
-    for (const key of Object.keys(values)) if (!found.has(key)) warnings.push(`${page.file}: chybí značka <!--release:${key}-->.`);
-    writeFileSync(path, html);
+    for (const file of page.files) {
+      const path = join(root, file);
+      const html = readFileSync(path, "utf8").replace(/<!--release:([\w-]+)-->([\s\S]*?)<!--\/release:\1-->/g, (whole, key) => {
+        found.add(key);
+        return key in values ? `<!--release:${key}-->${values[key]}<!--/release:${key}-->` : whole;
+      });
+      writeFileSync(path, html);
+    }
+    for (const key of Object.keys(values)) if (!found.has(key)) warnings.push(`${page.files.join(", ")}: chybí značka <!--release:${key}-->.`);
   }
 
   // Odkazy ke stažení ve website/main.js – instalátory vydání v<verze> v repozitáři z LINKS.github
