@@ -598,8 +598,16 @@ workflow `.github/workflows/release.yml`:
 1. `tauri build --no-bundle` → `unibox.exe` → SignPath (konfigurace artefaktu `app`),
 2. instalátory NSIS a MSI z podepsaného `unibox.exe` (`tauri bundle`) → SignPath
    (konfigurace `installers`),
-3. podpis aktualizací (`tauri signer sign`) z podepsaného instalátoru a `latest.json`
-   (`scripts/updater-manifest.mjs`), kontrola podpisů a **koncept** GitHub Release.
+3. podpis aktualizací (`tauri signer sign --app-version`) z podepsaného instalátoru
+   a `latest.json` (`scripts/updater-manifest.mjs`), kontrola podpisů a **koncept**
+   GitHub Release.
+
+Verze v podpisu aktualizace je povinná: aplikace má `requireSignedVersion` a podpis
+bez ní odmítne (`scripts/check-updater-signature.mjs` to hlídá už při sestavení).
+Když zveřejněné vydání aktualizaci kvůli podpisu nenainstaluje, workflow
+**Podpis aktualizace** (`.github/workflows/updater-resign.yml`, ručně přes Run
+workflow) instalátor z vydání podepíše znovu a nahradí `.sig` a `latest.json` –
+bez nového sestavení.
 
 Každý podpis musí schválit člověk v SignPathu – workflow na schválení čeká (až 2 h
 na každý ze dvou kroků). Bez `SIGNPATH_API_TOKEN` workflow sestaví nepodepsané vydání.

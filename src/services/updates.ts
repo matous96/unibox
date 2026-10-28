@@ -23,6 +23,9 @@ export async function findUpdate(): Promise<Update | null> {
   return check({ timeout: 20_000 });
 }
 
+/** Nejdelší stahování instalátoru (~6 MB) – i na pomalém připojení. */
+const DOWNLOAD_TIMEOUT_MS = 10 * 60_000;
+
 /**
  * Stáhne aktualizaci, ověří podpis, nainstaluje a restartuje Unibox.
  * `onProgress` dostává procenta stažení (null = velikost neznámá).
@@ -30,13 +33,17 @@ export async function findUpdate(): Promise<Update | null> {
 export async function installUpdate(update: Update, onProgress: (percent: number | null) => void): Promise<void> {
   let total = 0;
   let received = 0;
-  await update.downloadAndInstall((event) => {
-    if (event.event === "Started") total = event.data.contentLength ?? 0;
-    else if (event.event === "Progress") {
-      received += event.data.chunkLength;
-      onProgress(total ? Math.min(100, (received / total) * 100) : null);
-    } else onProgress(100);
-  });
+  await update.downloadAndInstall(
+    (event) => {
+      if (event.event === "Started") total = event.data.contentLength ?? 0;
+      else if (event.event === "Progress") {
+        received += event.data.chunkLength;
+        onProgress(total ? Math.min(100, (received / total) * 100) : null);
+      } else onProgress(100);
+    },
+    // Vlastní limit pro stažení – jinak platí 20 s z kontroly (findUpdate) na celý instalátor
+    { timeout: DOWNLOAD_TIMEOUT_MS },
+  );
   // Instalátor Windows Unibox obvykle ukončí sám; jinak restart tady
   await relaunch();
 }

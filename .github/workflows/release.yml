@@ -178,9 +178,13 @@ jobs:
         if: env.TAURI_SIGNING_PRIVATE_KEY != ''
         shell: pwsh
         run: |
-          $installer = "src-tauri/target/release/bundle/nsis/Unibox_${{ steps.version.outputs.version }}_x64-setup.exe"
-          pnpm tauri signer sign $installer
+          $version = "${{ steps.version.outputs.version }}"
+          $installer = "src-tauri/target/release/bundle/nsis/Unibox_${version}_x64-setup.exe"
+          # Verze v podpisu – aplikace s requireSignedVersion podpis bez ní odmítne (tauri build ji doplní sám, ruční podpis ne)
+          pnpm tauri signer sign --app-version $version $installer
           if ($LASTEXITCODE -ne 0) { throw "Podpis aktualizací se nepovedl" }
+          node scripts/check-updater-signature.mjs $installer $version
+          if ($LASTEXITCODE -ne 0) { throw "Podpis aktualizace by nainstalovaný Unibox odmítl" }
           node scripts/updater-manifest.mjs
 
       - name: Ověření podpisu kódu

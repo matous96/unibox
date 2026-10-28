@@ -67,7 +67,9 @@ export const useAppUpdate = create<AppUpdateState>()(
         try {
           await installUpdate(update, (progress) => set({ progress }));
         } catch (error) {
-          set({ installing: false, error: String(error) });
+          // Skutečná příčina (síť, podpis…) – v dialogu pod obecnou hláškou, ať jde nahlásit
+          console.error("Aktualizaci Uniboxu se nepodařilo nainstalovat:", error);
+          set({ installing: false, error: error instanceof Error ? error.message : String(error) });
         }
       },
 

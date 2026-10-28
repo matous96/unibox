@@ -1,0 +1,84 @@
+# Nový podpis aktualizace už zveřejněného vydání – bez nového sestavení.
+#
+# Stáhne instalátor NSIS z vydání v<verze> (verze ze src-tauri/tauri.conf.json),
+# podepíše ho znovu klíčem aktualizací i s verzí (--app-version) a ve vydání
+# nahradí .sig a latest.json. Instalátor zůstává stejný (stejné bajty, stejný
+# podpis kódu), mění se jen podpis pro tauri-plugin-updater.
+#
+# Kdy: když nainstalované Unibox aktualizaci odmítnou kvůli podpisu – třeba
+# vydání 0.1.15, podepsané bez verze, které aplikace s requireSignedVersion
+# nenainstalovala (MissingSignedVersion).
+#
+# Spuštění ručně: Actions → Podpis aktualizace → Run workflow.
+# Tajné údaje: TAURI_SIGNING_PRIVATE_KEY (+ TAURI_SIGNING_PRIVATE_KEY_PASSWORD) jako pro Vydání.
+
+name: Podpis aktualizace
+run-name: "Podpis aktualizace – nový podpis vydání"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write # nahrazení příloh vydání
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  resign:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+      TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Klíč aktualizací
+        shell: pwsh
+        run: if (-not $env:TAURI_SIGNING_PRIVATE_KEY) { throw "Chybí tajný údaj TAURI_SIGNING_PRIVATE_KEY" }
+
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # Tauri CLI (podpis) ze závislostí projektu
+      - run: pnpm install --frozen-lockfile
+
+      - name: Instalátor z vydání
+        id: release
+        shell: pwsh
+        run: |
+          $version = (Get-Content src-tauri/tauri.conf.json -Raw | ConvertFrom-Json).version
+          $dir = "src-tauri/target/release/bundle/nsis"
+          New-Item -ItemType Directory -Force $dir | Out-Null
+          gh release download "v$version" --pattern "Unibox_${version}_x64-setup.exe" --dir $dir
+          if ($LASTEXITCODE -ne 0) { throw "Vydání v$version nebo jeho instalátor nenalezen" }
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "installer=$dir/Unibox_${version}_x64-setup.exe" >> $env:GITHUB_OUTPUT
+
+      - name: Podpis s verzí a latest.json
+        shell: pwsh
+        run: |
+          $version = "${{ steps.release.outputs.version }}"
+          $installer = "${{ steps.release.outputs.installer }}"
+          pnpm tauri signer sign --app-version $version $installer
+          if ($LASTEXITCODE -ne 0) { throw "Podpis aktualizace se nepovedl" }
+          node scripts/check-updater-signature.mjs $installer $version
+          if ($LASTEXITCODE -ne 0) { throw "Podpis aktualizace by nainstalovaný Unibox odmítl" }
+          node scripts/updater-manifest.mjs
+
+      - name: Nahradit podpis a latest.json ve vydání
+        shell: pwsh
+        run: |
+          $version = "${{ steps.release.outputs.version }}"
+          $installer = "${{ steps.release.outputs.installer }}"
+          gh release upload "v$version" "$installer.sig" "src-tauri/target/release/bundle/nsis/latest.json" --clobber
+          if ($LASTEXITCODE -ne 0) { throw "Přílohy vydání se nepodařilo nahradit" }

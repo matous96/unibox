@@ -73,10 +73,14 @@ export function UpdateDialog() {
       )}
 
       {error && (
-        <p className="mt-4 flex items-start gap-2 rounded-xl bg-danger/10 px-3 py-2 text-sm text-danger">
+        <div className="mt-4 flex items-start gap-2 rounded-xl bg-danger/10 px-3 py-2 text-sm text-danger">
           <AlertTriangle className="mt-0.5 size-4 shrink-0" />
-          {t("appUpdate.failed")}
-        </p>
+          <div className="min-w-0">
+            <p>{t("appUpdate.failed")}</p>
+            {/* Podrobnost od updateru (síť, podpis…) – podle ní jde chybu dohledat */}
+            <p className="mt-1 text-xs break-words opacity-80 select-text">{error}</p>
+          </div>
+        </div>
       )}
     </Modal>
   );
