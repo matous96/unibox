@@ -263,9 +263,10 @@ export interface InstalledPackage {
   /**
    * Proč se aktualizace nenabízí: přeskočená verze, ignorované aktualizace,
    * odložená aktualizace (zámky uživatele), nebo automaticky – verze je mladší
-   * než minimální stáří aktualizací (age), aktualizace se opakovaně neprojevila (stuck).
+   * než minimální stáří aktualizací (age), aktualizace se opakovaně neprojevila (stuck),
+   * aplikace se po aktualizaci sama vrátila na starší verzi – aktualizuje se sama (self).
    */
-  pin?: "skip" | "lock" | "snooze" | "age" | "stuck";
+  pin?: "skip" | "lock" | "snooze" | "age" | "stuck" | "self";
   /** Do kdy je aktualizace odložená / kdy dosáhne minimálního stáří (ISO). */
   pinUntil?: string;
   /** Chocolatey: balíček spouští instalátor – program vidí i winget v registru (getAllInstalled). */

@@ -501,6 +501,7 @@
       "fallbackNext": "The fallback install via {{from}} failed – trying to install {{name}} via {{to}}.",
       "endedProcesses": "{{name}} was running in the background – ended the processes {{processes}} so the installer can overwrite it.",
       "endedLeftoverProcesses": "After uninstalling {{name}}, ended the processes still running from its folder: {{processes}}.",
+      "selfUpdating": "{{name}} went back to version {{version}} on its own after updating to {{target}} – it uses its own updater. Updates through the package manager are no longer offered.",
       "traced": "Install monitor for {{name}}: recorded {{count}} new items (folders, shortcuts, registry). They'll be offered for removal after an uninstall."
     },
     "notice": {
@@ -1442,6 +1443,7 @@
     "offered": "{{name}} – the update to {{version}} is offered",
     "ageState": "The update to {{version}} will be offered on {{date}} (minimum age)",
     "stuckState": "The update to {{version}} didn't apply repeatedly – not offered",
+    "selfState": "The app updates itself – the update to {{version}} isn’t offered through the package manager",
     "snooze": "Postpone update",
     "snoozeWeek": "Postpone update for a week",
     "snoozeFor": {
@@ -1495,6 +1497,7 @@
     "fallbackFailed": "The installer from {{from}} is unavailable and the fallback via {{sources}} failed – {{error}}",
     "progress": "{{kind}} via {{source}}…",
     "endedProcesses": "The app was running in the background – ended the processes {{processes}}.",
+    "selfUpdating": "After updating to {{target}}, the app went back to version {{version}} on its own – it uses its own updater. Package manager updates won’t be offered anymore (change this on the app page).",
     "summary": "Operation queue finished – {{success}} succeeded, {{failed}} failed, {{cancelled}} cancelled."
   },
   "tray": {
@@ -1533,6 +1536,7 @@
     "requiresAdmin": "This operation needs administrator rights – try “Install as administrator” ({{code}}).",
     "noUpdate": "No update is available for this installation; if the installer type differs, uninstall the app and install it again ({{code}}).",
     "installerFailed": "The installer finished with an error ({{code}}).",
+    "installerCrashed": "The app’s installer crashed ({{code}}) – that’s a fault in the installer, not a running app. Try again later, or update the app from within itself or with the installer from the vendor’s website.",
     "downloadFailed": "Downloading the installer failed ({{code}}).",
     "network": "No internet connection ({{code}}).",
     "agreements": "The license agreements must be accepted ({{code}}).",
@@ -1551,6 +1555,7 @@
   },
   "managerError": {
     "failed": "{{name}} finished with error {{code}}",
+    "installerCrashed": "The app’s installer crashed ({{code}}) – that’s a fault in the installer, not a running app. Try again later, or update the app from within itself or with the installer from the vendor’s website.",
     "restartFirst": "{{name}}: restart your computer first to finish a previous installation.",
     "preCommandFailed": "{{name}}: the pre-install command failed ({{code}}) – the install didn't start.",
     "listFailed": "{{name}} didn't return its list of installed apps – its apps are missing in Unibox for now. We'll try again on the next refresh. ({{error}})",

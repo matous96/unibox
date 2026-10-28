@@ -215,7 +215,7 @@ pub async fn execute(id: String, spec: Spec, channel: Channel<OpEvent>) -> Resul
             spec.post_command = None;
         }
         let _turn = ONE_AT_A_TIME.lock().unwrap_or_else(|e| e.into_inner());
-        let cancelled = |spec: &Spec| Ok(finish(spec, Exit { code: 0, cancelled: true }, None));
+        let cancelled = |spec: &Spec| Ok(finish(spec, Exit { code: 0, cancelled: true }, None, None));
         if token.is_cancelled() {
             return cancelled(&spec);
         }
@@ -255,10 +255,11 @@ pub async fn execute(id: String, spec: Spec, channel: Channel<OpEvent>) -> Resul
         let mut exit = run(&spec, spec.elevated, &token, &mut tracker)?;
 
         // 3) Selhání kvůli oprávněním (např. odinstalace MSI pro všechny uživatele) → znovu jako správce
-        //    (ne se zákazem povýšení v Nastavení)
+        //    (ne se zákazem povýšení v Nastavení; ne po pádu instalátoru – ten práva správce nespraví)
         if !spec.elevated
             && !policy.elevation_prohibited
             && !exit.cancelled
+            && tracker.crash().is_none()
             && (spec.interpret)(spec.kind, exit.code).retry_elevated
         {
             tracker.notice("retryElevated", None);
@@ -266,7 +267,7 @@ pub async fn execute(id: String, spec: Spec, channel: Channel<OpEvent>) -> Resul
         }
 
         let detail = tracker.take_last_line();
-        let result = finish(&spec, exit, detail);
+        let result = finish(&spec, exit, detail, tracker.crash());
 
         // 4) Vlastní příkaz po úspěšné instalaci – jeho selhání operaci nezmění, jen se zapíše
         if let (Some(command), Outcome::Success) = (spec.post_command.clone(), result.outcome) {
@@ -334,14 +335,22 @@ fn prefetch_installer(job: &Prefetch, token: &CancelToken, tracker: &Tracker) ->
     }
 }
 
-fn finish(spec: &Spec, exit: Exit, detail: Option<String>) -> OperationResult {
+/// Výsledek operace. Spadl-li instalátor (`crash` – kód výjimky z výstupu), je to
+/// chyba „installerCrashed“ s kódem pádu v `detail` – ne obecné „instalátor skončil s chybou“.
+fn finish(spec: &Spec, exit: Exit, detail: Option<String>, crash: Option<u32>) -> OperationResult {
     let verdict = if exit.cancelled { Verdict::cancelled() } else { (spec.interpret)(spec.kind, exit.code) };
+    let error = verdict.outcome == Outcome::Error;
+    let crash = crash.filter(|_| error);
     OperationResult {
         outcome: verdict.outcome,
         code: exit.code,
-        error_key: verdict.error_key,
+        error_key: if crash.is_some() { Some("installerCrashed") } else { verdict.error_key },
         restart_required: verdict.restart_required,
-        detail: if verdict.outcome == Outcome::Error { detail } else { None },
+        detail: match crash {
+            Some(code) => Some(format!("0x{code:08X}")),
+            None if error => detail,
+            None => None,
+        },
     }
 }
 

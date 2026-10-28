@@ -70,7 +70,9 @@ export function startBackendOperation(
 export function managerErrorMessage(label: string) {
   return (result: BackendResult) => {
     const key = result.errorKey ?? "failed";
-    const message = i18n.t(`managerError.${key}`, { name: label, code: result.code });
+    // Pád instalátoru: kód pádu z výstupu (0xC0000005) místo návratového kódu správce
+    const code = key === "installerCrashed" && result.detail ? result.detail : result.code;
+    const message = i18n.t(`managerError.${key}`, { name: label, code });
     return result.detail && key === "failed" ? `${message} – ${result.detail}` : message;
   };
 }

@@ -521,6 +521,7 @@
       "fallbackNext": "Záložní instalace přes {{from}} selhala – {{name}} zkusím nainstalovat přes {{to}}.",
       "endedProcesses": "{{name}} běžela na pozadí – ukončeny procesy {{processes}}, aby ji instalátor mohl přepsat.",
       "endedLeftoverProcesses": "Po odinstalaci aplikace {{name}} ukončeny procesy, které z její složky dál běžely: {{processes}}.",
+      "selfUpdating": "{{name}} se po aktualizaci na {{target}} sama vrátila na verzi {{version}} – aktualizuje se vlastním aktualizátorem. Aktualizace přes správce se jí už nenabízejí.",
       "traced": "Sledování instalace {{name}}: zaznamenáno nových položek – {{count}} (složky, zástupci, registr). Po odinstalaci se nabídnou ke smazání."
     },
     "notice": {
@@ -1524,6 +1525,7 @@
     "offered": "{{name}} – aktualizace na {{version}} se nabízí",
     "ageState": "Aktualizace na {{version}} se nabídne {{date}} (minimální stáří)",
     "stuckState": "Aktualizace na {{version}} se opakovaně neprojevila – nenabízí se",
+    "selfState": "Aplikace se aktualizuje sama – aktualizace na {{version}} se přes správce nenabízí",
     "snooze": "Odložit aktualizaci",
     "snoozeWeek": "Odložit aktualizaci o týden",
     "snoozeFor": {
@@ -1579,6 +1581,7 @@
     "fallbackFailed": "Instalátor ze zdroje {{from}} není dostupný a záložní instalace přes {{sources}} selhala – {{error}}",
     "progress": "{{kind}} přes {{source}}…",
     "endedProcesses": "Aplikace běžela na pozadí – ukončeny procesy {{processes}}.",
+    "selfUpdating": "Po aktualizaci na {{target}} se aplikace sama vrátila na verzi {{version}} – aktualizuje se vlastním aktualizátorem. Další aktualizace přes správce už nenabízíme (změníte v detailu aplikace).",
     "summary": "Fronta operací dokončena – úspěšně {{success}}, selhalo {{failed}}, zrušeno {{cancelled}}."
   },
   "tray": {
@@ -1621,6 +1624,7 @@
     "requiresAdmin": "Operace vyžaduje práva správce – zkuste „Instalovat jako správce“ ({{code}}).",
     "noUpdate": "Pro tuto instalaci není dostupná aktualizace; pokud se liší typ instalátoru, aplikaci odinstalujte a nainstalujte znovu ({{code}}).",
     "installerFailed": "Instalátor skončil s chybou ({{code}}).",
+    "installerCrashed": "Instalátor aplikace spadl ({{code}}) – je to chyba instalátoru, ne běžící aplikace. Zkuste to později, případně aplikaci aktualizujte přímo v ní nebo instalátorem z webu výrobce.",
     "downloadFailed": "Stažení instalátoru selhalo ({{code}}).",
     "network": "Chybí připojení k internetu ({{code}}).",
     "agreements": "Je potřeba přijmout licenční podmínky ({{code}}).",
@@ -1639,6 +1643,7 @@
   },
   "managerError": {
     "failed": "{{name}} skončil s chybou {{code}}",
+    "installerCrashed": "Instalátor aplikace spadl ({{code}}) – je to chyba instalátoru, ne běžící aplikace. Zkuste to později, případně aplikaci aktualizujte přímo v ní nebo instalátorem z webu výrobce.",
     "restartFirst": "{{name}}: nejdřív je potřeba restartovat počítač kvůli dřívější instalaci.",
     "preCommandFailed": "{{name}}: příkaz před instalací skončil s chybou ({{code}}) – instalace se nespustila.",
     "listFailed": "{{name}} nevrátil seznam nainstalovaných aplikací – jeho aplikace teď v Uniboxu chybí. Zkusíme to znovu při dalším načtení. ({{error}})",

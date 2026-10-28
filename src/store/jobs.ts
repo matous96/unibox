@@ -93,7 +93,7 @@ const UNAVAILABLE_INSTALLER = new Set(["linkBroken", "hashMismatch", "downloadFa
  * nebo nemá instalátor pro tento počítač, instalátor sám selhal.
  * Běžící aplikaci (inUse) řeší AppInUseDialog – jiný správce by narazil taky.
  */
-const OFFER_FALLBACK = new Set([...UNAVAILABLE_INSTALLER, "busy", "notFound", "noInstaller", "installerFailed"]);
+const OFFER_FALLBACK = new Set([...UNAVAILABLE_INSTALLER, "busy", "notFound", "noInstaller", "installerFailed", "installerCrashed"]);
 
 /**
  * Je správce zdroje nainstalovaný? Když ne (Chocolatey, Scoop), zeptá se

@@ -68,6 +68,8 @@ pub struct Tracker<'a> {
     /// Instalátor předem stáhl Unibox (download.rs) – správce už jen instaluje.
     prefetched: bool,
     last_line: Option<String>,
+    /// Instalátor spadl – kód výjimky Windows z výstupu správce (0xC0000005…).
+    crash: Option<u32>,
 }
 
 impl<'a> Tracker<'a> {
@@ -82,7 +84,13 @@ impl<'a> Tracker<'a> {
             watch: None,
             prefetched: false,
             last_line: None,
+            crash: None,
         }
+    }
+
+    /// Kód výjimky, se kterou instalátor spadl (z výstupu správce), jinak None.
+    pub fn crash(&self) -> Option<u32> {
+        self.crash
     }
 
     /// Fáze po stažení instalátoru.
@@ -195,9 +203,32 @@ impl<'a> Tracker<'a> {
             }
         }
 
+        if self.crash.is_none() {
+            self.crash = installer_crash(text);
+        }
         let _ = self.sender.channel.send(OpEvent::Line { text: text.to_string() });
         self.last_line = Some(text.to_string());
     }
+}
+
+/// Kód výjimky Windows (NTSTATUS 0xC00xxxxx – narušení přístupu, přetečení
+/// zásobníku…) v řádku výstupu: winget a další správci vypisují návratový kód
+/// instalátoru, který spadl, jako číslo bez znaménka (3221225477), se znaménkem
+/// (-1073741819) nebo šestnáctkově (0xC0000005) – v každém jazyce stejně.
+pub fn installer_crash(line: &str) -> Option<u32> {
+    const CRASH: std::ops::RangeInclusive<u32> = 0xC000_0000..=0xC00F_FFFF;
+    line.split(|c: char| !(c.is_ascii_alphanumeric() || c == '-'))
+        .filter_map(|word| {
+            if let Some(hex) = word.strip_prefix("0x").or_else(|| word.strip_prefix("0X")) {
+                u32::from_str_radix(hex, 16).ok()
+            } else if word.len() >= 10 {
+                // Desetinně: bez znaménka i se znaménkem (i32 jako u32)
+                word.parse::<u32>().ok().or_else(|| word.parse::<i32>().ok().map(|v| v as u32))
+            } else {
+                None
+            }
+        })
+        .find(|code| CRASH.contains(code))
 }
 
 /// Hlášky z CLIXML (serializované proudy PowerShellu): text informačních a chybových
@@ -305,5 +336,17 @@ mod tests {
         assert_eq!(download_url("Downloading https://a.b/setup.exe"), Some("https://a.b/setup.exe"));
         assert_eq!(download_url("Wird heruntergeladen http://x.y/z.msi"), Some("http://x.y/z.msi"));
         assert_eq!(download_url("Successfully verified installer hash"), None);
+    }
+
+    #[test]
+    fn crash_codes_in_output() {
+        // Skutečný výstup wingetu (GeForce NOW) a jiné zápisy téhož kódu
+        assert_eq!(installer_crash("Installer failed with exit code: 3221225477"), Some(0xC000_0005));
+        assert_eq!(installer_crash("Instalační program selhal s ukončovacím kódem: -1073741819"), Some(0xC000_0005));
+        assert_eq!(installer_crash("exit code 0xC0000409"), Some(0xC000_0409));
+        // Běžné kódy chyb instalátorů ani HRESULT wingetu za pád nepovažovat
+        assert_eq!(installer_crash("Installer failed with exit code: 1603"), None);
+        assert_eq!(installer_crash("0x8A150006 : Running ShellExecute failed"), None);
+        assert_eq!(installer_crash("Downloading 2147483648 bytes"), None);
     }
 }

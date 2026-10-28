@@ -42,8 +42,9 @@ pub struct RunningProcess {
     certain: bool,
 }
 
-/// Podsložky, ze kterých se složka instalace vystoupá výš („obs-studio\bin\64bit“ → „obs-studio“).
-const NESTED: &[&str] = &["bin", "bin64", "bin32", "64bit", "32bit", "x64", "x86", "app", "current"];
+/// Podsložky, ze kterých se složka instalace vystoupá výš („obs-studio\bin\64bit“ → „obs-studio“,
+/// „GeForceNOW\CEF“ → „GeForceNOW“ – aplikace postavené na Chromium Embedded Framework).
+const NESTED: &[&str] = &["bin", "bin64", "bin32", "64bit", "32bit", "x64", "x86", "app", "current", "cef"];
 
 /// Složky instalace z posledních hledání podle id balíčku (malými písmeny, se „\“ na konci).
 static KNOWN_DIRS: Mutex<Option<HashMap<String, Vec<String>>>> = Mutex::new(None);
@@ -297,6 +298,9 @@ mod tests {
     fn nested_install_dirs() {
         let entry = arp::ArpEntry::with_paths(r"", r"C:\Program Files\obs-studio\bin\64bit\obs64.exe");
         assert_eq!(install_dirs(&entry), [PathBuf::from(r"C:\Program Files\obs-studio")]);
+        // GeForce NOW: ikona v podsložce CEF, procesy běží z celé složky aplikace
+        let gfn = arp::ArpEntry::with_paths("", r"C:\Users\u\AppData\Local\NVIDIA Corporation\GeForceNOW\CEF\GeForceNOW.exe,0");
+        assert!(install_dirs(&gfn).contains(&PathBuf::from(r"C:\Users\u\AppData\Local\NVIDIA Corporation\GeForceNOW")));
         let broad = arp::ArpEntry::with_paths(r"C:\Program Files\", "");
         assert!(install_dirs(&broad).is_empty());
     }

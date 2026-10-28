@@ -8,15 +8,18 @@
  *     dní od vydání. Datum vydání podle katalogu, u verzí, které katalog nezná,
  *     od chvíle, kdy ji Unibox poprvé uviděl (store/updateHolds.ts),
  *  3. neprojevené aktualizace – po N „úspěšných“ aktualizacích, po kterých
- *     správce verzi nabízí dál, se přestane nabízet.
- * „Nabídnout hned / znovu“ (store/updateHolds.ts → allowed) pravidla 2 a 3 obejde.
+ *     správce verzi nabízí dál, se přestane nabízet,
+ *  4. aplikace, které se aktualizují samy – po aktualizaci se samy vrátily na
+ *     starší verzi (Discord), aktualizace přes správce se jim nenabízejí.
+ * „Nabídnout hned / znovu“ (store/updateHolds.ts → allowed) pravidla 2 a 3 obejde,
+ * u pravidla 4 „Nabídnout znovu“ smaže záznam aplikace (releaseSelfUpdating).
  */
 import { queryClient, queryKeys } from "@/app/queryClient";
 import type { LoadedCatalog } from "@/services/catalog";
 import type { InstalledPackage, SourceId } from "@/types";
 import { minAgeFor, useAutoUpdates, type AutoUpdatesSettings } from "./autoUpdates";
-import { useUpdateHolds, versionKey } from "./updateHolds";
-import { applyPins, useUpdatePins, type UpdatePins } from "./updatePins";
+import { useUpdateHolds, versionKey, type SelfUpdating } from "./updateHolds";
+import { applyPins, pinKey, useUpdatePins, type UpdatePins } from "./updatePins";
 
 const DAY_MS = 24 * 60 * 60_000;
 
@@ -28,6 +31,8 @@ export interface UpdateRules {
   firstSeen: Record<string, string>;
   stuck: Record<string, number>;
   allowed: Record<string, string>;
+  /** Aplikace, které se aktualizují samy (klíč pinKey). */
+  selfUpdating: Record<string, SelfUpdating>;
   stuckLimit: number;
   now: number;
 }
@@ -60,6 +65,7 @@ type Inputs = [
   Record<string, string>,
   Record<string, number>,
   Record<string, string>,
+  Record<string, SelfUpdating>,
   number,
   LoadedCatalog | undefined,
 ];
@@ -69,7 +75,7 @@ let memo: { inputs: Inputs; rules: UpdateRules } | null = null;
 
 function rulesOf(inputs: Inputs): UpdateRules {
   if (memo && memo.inputs.every((value, i) => value === inputs[i])) return memo.rules;
-  const [pins, minAgeDays, minAgeBySource, stuckLimit, firstSeen, stuck, allowed, clock, catalog] = inputs;
+  const [pins, minAgeDays, minAgeBySource, stuckLimit, firstSeen, stuck, allowed, selfUpdating, clock, catalog] = inputs;
   const index = catalog ? releaseIndex(catalog) : undefined;
   const rules: UpdateRules = {
     pins,
@@ -81,6 +87,7 @@ function rulesOf(inputs: Inputs): UpdateRules {
     firstSeen,
     stuck,
     allowed,
+    selfUpdating,
     stuckLimit,
     now: clock,
   };
@@ -97,16 +104,17 @@ export function useUpdateRules(catalog: LoadedCatalog | undefined): UpdateRules 
   const firstSeen = useUpdateHolds((s) => s.firstSeen);
   const stuck = useUpdateHolds((s) => s.stuck);
   const allowed = useUpdateHolds((s) => s.allowed);
+  const selfUpdating = useUpdateHolds((s) => s.selfUpdating);
   const clock = useUpdateHolds((s) => s.clock);
-  return rulesOf([pins, minAgeDays, minAgeBySource, stuckLimit, firstSeen, stuck, allowed, clock, catalog]);
+  return rulesOf([pins, minAgeDays, minAgeBySource, stuckLimit, firstSeen, stuck, allowed, selfUpdating, clock, catalog]);
 }
 
 /** Totéž mimo React (kontrola aktualizací na pozadí). */
 export function currentUpdateRules(): UpdateRules {
   const { minAgeDays, minAgeBySource, stuckLimit } = useAutoUpdates.getState();
-  const { firstSeen, stuck, allowed, clock } = useUpdateHolds.getState();
+  const { firstSeen, stuck, allowed, selfUpdating, clock } = useUpdateHolds.getState();
   const catalog = queryClient.getQueryData<LoadedCatalog>(queryKeys.catalog);
-  return rulesOf([useUpdatePins.getState().pins, minAgeDays, minAgeBySource, stuckLimit, firstSeen, stuck, allowed, clock, catalog]);
+  return rulesOf([useUpdatePins.getState().pins, minAgeDays, minAgeBySource, stuckLimit, firstSeen, stuck, allowed, selfUpdating, clock, catalog]);
 }
 
 /**
@@ -120,13 +128,14 @@ export function applyUpdateRules(data: InstalledPackage[], rules: UpdateRules): 
     if (!version) return pkg;
     const key = versionKey(pkg, version);
     if (rules.allowed[key]) return pkg;
-    const hold = (pin: "age" | "stuck", until?: number): InstalledPackage => ({
+    const hold = (pin: "age" | "stuck" | "self", until?: number): InstalledPackage => ({
       ...pkg,
       availableVersion: null,
       heldVersion: version,
       pin,
       ...(until ? { pinUntil: new Date(until).toISOString() } : {}),
     });
+    if (rules.selfUpdating[pinKey(pkg)]) return hold("self");
     if (rules.stuckLimit > 0 && (rules.stuck[key] ?? 0) >= rules.stuckLimit) return hold("stuck");
     const days = rules.minAge(pkg.source);
     if (days > 0) {

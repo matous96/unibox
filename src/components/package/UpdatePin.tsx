@@ -3,10 +3,10 @@
  *  - useUpdatePin – akce pro kontextovou nabídku karty,
  *  - UpdatePinBar – řádek v detailu aplikace: „Přeskočit verzi X“ /
  *    „Odložit“ / „Ignorovat aktualizace“, u zamčené aplikace stav a zrušení.
- *    Aktualizaci podrženou pravidly (minimální stáří, neprojevená aktualizace –
- *    store/updateRules.ts) jde nabídnout hned / znovu.
+ *    Aktualizaci podrženou pravidly (minimální stáří, neprojevená aktualizace,
+ *    aplikace, která se aktualizuje sama – store/updateRules.ts) jde nabídnout hned / znovu.
  */
-import { AlarmClock, ChevronDown, CircleSlash, Hourglass, Lock, LockOpen, RefreshCw, SkipForward, TriangleAlert } from "lucide-react";
+import { AlarmClock, ChevronDown, CircleSlash, Hourglass, Lock, LockOpen, RefreshCw, RefreshCwOff, SkipForward, TriangleAlert } from "lucide-react";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDismiss } from "@/hooks/useDismiss";
@@ -29,6 +29,7 @@ export function useUpdatePin(installed: InstalledPackage | undefined, appName: s
   const toast = useToasts((s) => s.push);
   const { skip, lock, snooze, unpin } = useUpdatePins();
   const allow = useUpdateHolds((s) => s.allow);
+  const releaseSelfUpdating = useUpdateHolds((s) => s.releaseSelfUpdating);
   // Hry ze Steamu a programy mimo správce Unibox neaktualizuje – ignorovat není co
   const canPin = !!installed && !isUnmanagedOrigin(installed.origin);
   const offered = installed?.availableVersion ?? null;
@@ -60,6 +61,12 @@ export function useUpdatePin(installed: InstalledPackage | undefined, appName: s
     },
     unpin: () => {
       if (!installed) return;
+      // Aplikace se aktualizuje sama – aktualizace přes správce zase nabízet
+      if (installed.pin === "self") {
+        releaseSelfUpdating(pinKey(installed));
+        toast("info", t("pins.offered", { name: appName, version: installed.heldVersion ?? "" }));
+        return;
+      }
       // Pravidla aktualizací (minimální stáří, neprojevená aktualizace) – nabídnout tuto verzi i tak
       if ((installed.pin === "age" || installed.pin === "stuck") && installed.heldVersion) {
         allow(versionKey(installed, installed.heldVersion));
@@ -80,7 +87,7 @@ export const unpinLabel = (pin: InstalledPackage["pin"]) =>
       ? "pins.unsnooze"
       : pin === "age"
         ? "pins.offerNow"
-        : pin === "stuck"
+        : pin === "stuck" || pin === "self"
           ? "pins.offerAgain"
           : "pins.unskip";
 
@@ -161,8 +168,11 @@ export function UpdatePinBar({ installed, appName }: { installed: InstalledPacka
             ? t("pins.ageState", { version: pin.held, date })
             : pin.pin === "stuck"
               ? t("pins.stuckState", { version: pin.held })
+              : pin.pin === "self"
+                ? t("pins.selfState", { version: pin.held })
               : t("pins.skippedState", { version: pin.held });
-    const Icon = pin.pin === "snooze" ? AlarmClock : pin.pin === "age" ? Hourglass : pin.pin === "stuck" ? CircleSlash : Lock;
+    const Icon =
+      pin.pin === "snooze" ? AlarmClock : pin.pin === "age" ? Hourglass : pin.pin === "stuck" ? CircleSlash : pin.pin === "self" ? RefreshCwOff : Lock;
     return (
       <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/12 px-2.5 py-1 font-medium text-amber-700 dark:text-amber-300">

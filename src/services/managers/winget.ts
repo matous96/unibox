@@ -32,8 +32,10 @@ const abortError = () => new DOMException("Aborted", "AbortError");
 /** Srozumitelná chyba z výsledku operace. */
 function errorMessage(result: BackendResult): string {
   const key = result.errorKey ?? "unknown";
-  // status = stav HTTP u nefunkčního odkazu na instalátor (0x80190194 → 404)
-  const message = i18n.t(`wingetError.${key}`, { code: hex(result.code), status: result.code & 0xffff });
+  // status = stav HTTP u nefunkčního odkazu na instalátor (0x80190194 → 404);
+  // u pádu instalátoru je v `detail` kód pádu (0xC0000005), ne HRESULT wingetu
+  const code = key === "installerCrashed" && result.detail ? result.detail : hex(result.code);
+  const message = i18n.t(`wingetError.${key}`, { code, status: result.code & 0xffff });
   return key === "unknown" && result.detail ? `${message} – ${result.detail}` : message;
 }
 
