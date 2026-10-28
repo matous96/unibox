@@ -78,6 +78,7 @@
           <h1>What’s new in&nbsp;Unibox</h1>
           <p class="lead">Every change since the first public version 0.1.0, newest first. Fifteen updates shipped in the week after its release.</p>
           <nav class="versions-nav" aria-label="Jump to version">
+            <a class="chip" href="#v0-1-17">0.1.17</a>
             <a class="chip" href="#v0-1-16">0.1.16</a>
             <a class="chip" href="#v0-1-15">0.1.15</a>
             <a class="chip" href="#v0-1-14">0.1.14</a>
@@ -98,8 +99,8 @@
           </nav>
         </div>
         <dl class="stats reveal">
-          <div><dt>Current version</dt><dd>0.1.16</dd></div>
-          <div><dt>Updates since 0.1.0</dt><dd>16</dd></div>
+          <div><dt>Current version</dt><dd>0.1.17</dd></div>
+          <div><dt>Updates since 0.1.0</dt><dd>17</dd></div>
           <div><dt>Apps in the catalog</dt><dd>25,100+</dd></div>
           <div><dt>Package managers for real</dt><dd>WinGet · Chocolatey · Scoop + 8 for developers</dd></div>
         </dl>
@@ -189,6 +190,11 @@
             <h3>Store apps at startup</h3>
             <p>Turn off Teams, WhatsApp, iCloud and other Store apps at startup with one click – and they won’t turn it back on by themselves.</p>
           </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.17</span>
+            <h3>Faster startup</h3>
+            <p>The catalog appears right away from the saved copy and the fresh one downloads in the background – startup doesn’t wait for the internet.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -203,6 +209,34 @@
         </div>
 
         <div class="timeline">
+          <!-- 0.1.17 -->
+          <article class="release" id="v0-1-17">
+            <div class="release__meta">
+              <span class="release__ver">0.1.17</span>
+              <time class="release__date" datetime="2026-10-28">Oct 28, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>Faster startup and privacy in reviews</h2>
+                <span class="badge badge--live">Latest</span>
+              </div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li><strong>Faster startup</strong> – Unibox shows the catalog right away from its saved copy and downloads the fresh one in the background. It used to wait for the whole catalog to download on every launch – up to 15 seconds on a slow connection.</li>
+                  <li><strong>First names only in reviews</strong> – reviews and user screenshots show only the first name, or the GitHub username if the account has none. The full name is never shown publicly or stored.</li>
+                  <li>The welcome tour now introduces ratings and reviews – where to find them and how to add your own.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Fixed</h3>
+                <ul>
+                  <li>An app without ratings shows empty stars and a single prompt – a large dash used to stand in for the average and looked like a white rectangle.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
           <!-- 0.1.16 -->
           <article class="release" id="v0-1-16">
             <div class="release__meta">
@@ -212,7 +246,6 @@
             <div class="card release__body">
               <div class="release__head">
                 <h2>Store apps and this week’s movers</h2>
-                <span class="badge badge--live">Latest</span>
               </div>
               <div class="changes changes--new">
                 <h3>New</h3>

@@ -28,6 +28,45 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: "0.1.17",
+    date: "2026-10-28",
+    highlights: [
+      {
+        cs: "Rychlejší start: Unibox ukáže katalog hned z uložené kopie a čerstvý stáhne na pozadí – už nečeká na stažení celého katalogu (na pomalém připojení až 15 sekund).",
+        en: "Faster startup: Unibox shows the catalog right away from its saved copy and downloads the fresh one in the background – no more waiting for the whole catalog (up to 15 seconds on a slow connection).",
+      },
+      {
+        cs: "Úvodní průvodce představí i hodnocení a recenze – kde je najdete a jak přidat vlastní.",
+        en: "The welcome tour now introduces ratings and reviews too – where to find them and how to add your own.",
+      },
+      {
+        cs: "U recenzí a snímků od uživatelů se ukazuje jen křestní jméno (bez něj přezdívka z GitHubu), ne celé jméno.",
+        en: "Reviews and user screenshots show only the first name (or the GitHub username without one), not the full name.",
+      },
+      {
+        cs: "Aplikace bez hodnocení ukáže prázdné hvězdičky a jednu výzvu místo nejasné pomlčky.",
+        en: "An app without ratings shows empty stars and a single prompt instead of an unclear dash.",
+      },
+    ],
+    featured: [
+      {
+        title: { cs: "Rychlejší start", en: "Faster startup" },
+        text: {
+          cs: "Katalog se ukáže hned z uložené kopie a čerstvý se stáhne na pozadí – start nečeká na internet.",
+          en: "The catalog appears right away from the saved copy and the fresh one downloads in the background – startup doesn't wait for the internet.",
+        },
+      },
+      {
+        title: { cs: "Recenze jen s křestním jménem", en: "Reviews with first names only" },
+        text: {
+          cs: "U recenzí a snímků od uživatelů se ukazuje jen křestní jméno nebo přezdívka. Průvodce teď představí i hodnocení.",
+          en: "Reviews and user screenshots show only a first name or username. The welcome tour now introduces ratings too.",
+        },
+        href: { cs: "funkce.html#hodnoceni", en: "features.html#hodnoceni" },
+      },
+    ],
+  },
+  {
     version: "0.1.16",
     date: "2026-10-28",
     highlights: [
