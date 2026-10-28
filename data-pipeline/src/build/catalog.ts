@@ -209,7 +209,10 @@ export async function buildCatalog(
   const firstSeen = await loadFirstSeen();
   const now = new Date().toISOString();
   const iconChoices = new Map<string, IconChoice>();
+  // Dnešní počty stažení z Chocolatey (historie pro „Skokany týdne“)
+  const downloadsToday: Record<string, number> = {};
   const packages: CatalogEntry[] = chosen.map(({ r, id, popularity }) => {
+    if (r.choco?.downloadCount) downloadsToday[id] = r.choco.downloadCount;
     const m = manifests.get(id) ?? null;
     const c = curated[id];
     const name = displayName(r, m);
@@ -288,6 +291,7 @@ export async function buildCatalog(
     return stripEmpty(entry, REQUIRED_ENTRY_KEYS);
   });
   await saveFirstSeen(firstSeen);
+  await addWeeklyDownloads(packages, downloadsToday, now.slice(0, 10));
 
   // 5) Ostré ikony: změřit kandidáty, u aplikací bez ostré ikony zkusit i ikony z webu aplikace
   log.step("Ikony – rozlišení");
@@ -433,4 +437,48 @@ async function loadFirstSeen(): Promise<FirstSeen> {
 
 async function saveFirstSeen(data: FirstSeen) {
   await writeFile(FIRST_SEEN, JSON.stringify(data.ids));
+}
+
+/**
+ * „Skokani týdne“: kolik stažení z Chocolatey aplikace získala za posledních
+ * 7 dní a o kolik procent jí počet stažení vzrostl. Každý běh pipeline uloží
+ * dnešní počty do historie v mezipaměti (GitHub Actions ji drží mezi běhy);
+ * týdenní údaje vzniknou, jakmile je v historii snímek starý 5–10 dní
+ * (nejblíž týdnu). Do té doby je katalog nemá a aplikace řadí podle trendů.
+ */
+const DOWNLOAD_HISTORY = join(CACHE_DIR, "download-history.json");
+const DAY_MS = 24 * 60 * 60 * 1000;
+/** Nejmenší přírůstek, který se do katalogu zapíše – menší je šum. */
+const MIN_WEEKLY_DOWNLOADS = 10;
+
+async function addWeeklyDownloads(packages: CatalogEntry[], today: Record<string, number>, date: string) {
+  let history: Record<string, Record<string, number>> = {};
+  try {
+    history = JSON.parse(await readFile(DOWNLOAD_HISTORY, "utf8")) as typeof history;
+  } catch {
+    // První běh – historie ještě není
+  }
+  const age = (day: string) => (Date.parse(date) - Date.parse(day)) / DAY_MS;
+  const weekAgo = Object.keys(history)
+    .filter((day) => age(day) >= 5 && age(day) <= 10)
+    .sort((a, b) => Math.abs(age(a) - 7) - Math.abs(age(b) - 7))[0];
+  if (weekAgo) {
+    const before = history[weekAgo];
+    let count = 0;
+    for (const entry of packages) {
+      const previous = before[entry.id];
+      const current = today[entry.id];
+      if (!previous || !current || current - previous < MIN_WEEKLY_DOWNLOADS) continue;
+      entry.weeklyDownloads = current - previous;
+      entry.weeklyGrowth = Math.round(((current - previous) / previous) * 10_000) / 100;
+      count++;
+    }
+    log.info(`Skokani týdne: ${count} aplikací s přírůstkem stažení od ${weekAgo}`);
+  } else {
+    log.info("Skokani týdne: historie stažení zatím nemá snímek starý týden");
+  }
+  // Dnešní snímek; starší než dva týdny pryč
+  history[date] = today;
+  for (const day of Object.keys(history)) if (age(day) > 14) delete history[day];
+  await writeFile(DOWNLOAD_HISTORY, JSON.stringify(history));
 }

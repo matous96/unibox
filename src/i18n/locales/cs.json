@@ -348,8 +348,34 @@
   },
   "top": {
     "title": "Nejstahovanější",
-    "subtitle": "Nejoblíbenější aplikace podle skóre popularity katalogu",
-    "all": "Vše"
+    "subtitles": {
+      "popularity": "Nejoblíbenější aplikace podle skóre popularity katalogu",
+      "rating": "Nejlépe hodnocené aplikace podle hvězdiček od uživatelů Uniboxu",
+      "movers": "Aplikace, kterým za posledních 7 dní nejvíc vzrostl počet stažení",
+      "trending": "Populární aplikace s čerstvou aktualizací"
+    },
+    "all": "Vše",
+    "sortLabel": "Řadit žebříček",
+    "sort": {
+      "popularity": "Popularita",
+      "rating": "Nejlépe hodnocené",
+      "movers": "Skokani týdne"
+    },
+    "sortHint": {
+      "popularity": "Skóre popularity z katalogu (výchozí)",
+      "rating": "Průměr hvězdiček od uživatelů Uniboxu",
+      "movers": "Největší růst stažení za posledních 7 dní"
+    },
+    "moversPending": "Skokani týdne se zobrazí, až katalog nasbírá týden údajů o stahování. Zatím jsou seřazené populární aplikace s čerstvou aktualizací.",
+    "noRatings": "Zatím tu nejsou aplikace s hodnocením od uživatelů.",
+    "ratingCount_one": "{{count}} hodnocení",
+    "ratingCount_few": "{{count}} hodnocení",
+    "ratingCount_many": "{{count}} hodnocení",
+    "ratingCount_other": "{{count}} hodnocení",
+    "weeklyDownloads_one": "{{formatted}} stažení za posledních 7 dní",
+    "weeklyDownloads_few": "{{formatted}} stažení za posledních 7 dní",
+    "weeklyDownloads_many": "{{formatted}} stažení za posledních 7 dní",
+    "weeklyDownloads_other": "{{formatted}} stažení za posledních 7 dní"
   },
   "recent": {
     "title": "Naposledy zobrazené",

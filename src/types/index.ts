@@ -161,6 +161,10 @@ export interface CatalogEntry {
   latestVersion: string;
   /** Relativní skóre popularity 0–100 (počítá data pipeline). */
   popularity: number;
+  /** Stažení z Chocolatey za posledních 7 dní (Skokani týdne); chybí = bez údajů. */
+  weeklyDownloads?: number;
+  /** O kolik procent za 7 dní vzrostl počet stažení z Chocolatey. */
+  weeklyGrowth?: number;
   /** Datum prvního přidání do některého z repozitářů (ISO 8601). */
   addedAt: string;
   /** Zdroje, ze kterých lze aplikaci nainstalovat (alespoň jeden). */

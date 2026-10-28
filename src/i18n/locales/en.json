@@ -346,8 +346,30 @@
   },
   "top": {
     "title": "Top Charts",
-    "subtitle": "Most popular apps by catalog popularity score",
-    "all": "All"
+    "subtitles": {
+      "popularity": "Most popular apps by catalog popularity score",
+      "rating": "Top-rated apps by stars from Unibox users",
+      "movers": "Apps whose downloads grew the most over the last 7 days",
+      "trending": "Popular apps with a fresh update"
+    },
+    "all": "All",
+    "sortLabel": "Sort the chart",
+    "sort": {
+      "popularity": "Popularity",
+      "rating": "Top rated",
+      "movers": "Weekly movers"
+    },
+    "sortHint": {
+      "popularity": "Catalog popularity score (default)",
+      "rating": "Average stars from Unibox users",
+      "movers": "Biggest download growth over the last 7 days"
+    },
+    "moversPending": "Weekly movers appear once the catalog has collected a week of download data. Until then, popular apps with a fresh update are shown.",
+    "noRatings": "No apps have user ratings yet.",
+    "ratingCount_one": "{{count}} rating",
+    "ratingCount_other": "{{count}} ratings",
+    "weeklyDownloads_one": "{{formatted}} download in the last 7 days",
+    "weeklyDownloads_other": "{{formatted}} downloads in the last 7 days"
   },
   "recent": {
     "title": "Recently Viewed",

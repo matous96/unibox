@@ -16,6 +16,7 @@ import { CollectionToolbar } from "@/components/ui/CollectionToolbar";
 import { CardSkeletons, ErrorState } from "@/components/ui/States";
 import { isDevOnly, useCatalog, useCatalogIndex, useModeFilter } from "@/hooks/usePackages";
 import { todayPicks, type TodayShift } from "@/lib/today";
+import { trendingScore } from "@/lib/trending";
 import { cn, topN } from "@/lib/utils";
 import { measureIcon, useIconQuality } from "@/store/iconQuality";
 import { useSettings } from "@/store/settings";
@@ -25,15 +26,6 @@ import type { CatalogEntry } from "@/types";
 type Tab = "trending" | "popular" | "new" | "updated";
 const TABS: Tab[] = ["trending", "popular", "new", "updated"];
 const TAB_SIZE = 12;
-
-/**
- * „Trendy“ = populární aplikace s čerstvou aktualizací: popularita
- * snížená podle stáří poslední verze (poločas zhruba měsíc).
- */
-function trendingScore(p: CatalogEntry, now: number): number {
-  const ageDays = p.releaseDate ? (now - Date.parse(p.releaseDate)) / 86_400_000 : 365;
-  return p.popularity * Math.pow(0.5, Math.max(ageDays, 0) / 30) + (p.featured ? 10 : 0);
-}
 
 /**
  * Domovská obrazovka: pruh se třemi sliby (bezpečné, jednoduché, vše pod
