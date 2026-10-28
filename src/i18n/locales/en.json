@@ -43,7 +43,7 @@
   },
   "startup": {
     "title": "Startup apps",
-    "subtitle": "Programs that start when you sign in to Windows – from the registry, the Startup folder and Task Scheduler.",
+    "subtitle": "Programs that start when you sign in to Windows – from the registry, the Startup folder, Task Scheduler and Store apps.",
     "desktopOnly": "Managing startup apps is available in the desktop app only.",
     "refresh": "Reload",
     "measure": "Measure impact",
@@ -67,8 +67,10 @@
     "source": {
       "registry": "Registry (Run)",
       "folder": "Startup folder",
-      "task": "Task Scheduler"
+      "task": "Task Scheduler",
+      "package": "Store app"
     },
+    "packageDeleteHint": "Startup is part of the Store app – only uninstalling the app removes it. Turning it off with the switch is permanent: the app can’t turn it back on by itself.",
     "allUsers": "For all users of this PC",
     "adminItem": "Changing it needs administrator rights – Windows will ask (UAC)",
     "missing": "Program missing",

@@ -6,15 +6,20 @@
 //!  - složky Po spuštění: uživatele (`%AppData%\…\Startup`) a všech uživatelů
 //!    (`%ProgramData%\…\StartUp`), zástupci se rozbalí na cílový program,
 //!  - plánovač úloh: úlohy mimo `\Microsoft\` se spouštěčem při přihlášení
-//!    nebo při startu počítače.
+//!    nebo při startu počítače,
+//!  - aplikace ze Storu / MSIX: spouštěcí úlohy z manifestu balíčku
+//!    (`windows.startupTask` – Teams, WhatsApp, Terminál…), stav v registru
+//!    `AppModel\SystemAppData\<rodina balíčku>\<TaskId>` (hodnota `State`).
 //!
 //! Zapnutí a vypnutí jako ve Správci úloh: položky registru a složek se
 //! nemažou, jen se zapíše stav do `Explorer\StartupApproved` (první bajt sudý =
-//! zapnuto, lichý = vypnuto); úlohy přes `schtasks /Change`. Smazání: hodnota
-//! registru se předtím zazáloží (`reg export` celého klíče Run), zástupce jde
-//! do Koše, úloha se uloží do XML. Položky pro všechny uživatele (HKLM,
-//! společná složka, úlohy správce) změní povýšený pomocník (jedno potvrzení
-//! UAC), který si zadání sám znovu ověří.
+//! zapnuto, lichý = vypnuto); úlohy přes `schtasks /Change`; aplikace ze Storu
+//! zapsáním `State` (2 = zapnuto, 1 = vypnul uživatel – aplikace si ji sama znovu
+//! zapnout nemůže). Smazání: hodnota registru se předtím zazáloží (`reg export`
+//! celého klíče Run), zástupce jde do Koše, úloha se uloží do XML; spouštěcí úlohu
+//! aplikace ze Storu odstraní jen odinstalace aplikace (je součástí balíčku).
+//! Položky pro všechny uživatele (HKLM, společná složka, úlohy správce) změní
+//! povýšený pomocník (jedno potvrzení UAC), který si zadání sám znovu ověří.
 //!
 //! Vliv na spuštění: Windows při každém přihlášení měří prvních 90 sekund
 //! (WDI StartupInfo – podle něj počítá vliv i Správce úloh). Soubory smí číst
@@ -25,7 +30,7 @@
 use base64::engine::general_purpose::URL_SAFE_NO_PAD;
 use base64::Engine;
 use serde::{Deserialize, Serialize};
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
@@ -40,6 +45,8 @@ pub const ELEVATED_STARTUP_FLAG: &str = "--unibox-elevated-startup";
 const RUN: &str = r"Software\Microsoft\Windows\CurrentVersion\Run";
 const RUN_WOW: &str = r"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Run";
 const APPROVED: &str = r"Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved";
+/// Balíčky aplikací ze Storu / MSIX aktuálního uživatele (HKCU).
+const APPMODEL: &str = r"Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel";
 
 // ── Položky ──────────────────────────────────────────────────────────────
 
@@ -52,6 +59,8 @@ enum Location {
     Folder { common: bool, file: String },
     /// Úloha plánovače (celá cesta, „\Vendor\Úloha“).
     Task { path: String },
+    /// Spouštěcí úloha aplikace ze Storu: rodina balíčku („5319275A.WhatsAppDesktop_cv1g1gvanyjgm“) a TaskId.
+    Package { family: String, task: String },
 }
 
 impl Location {
@@ -62,6 +71,7 @@ impl Location {
             }
             Location::Folder { common, file } => format!("folder|{}|{file}", if *common { "common" } else { "user" }),
             Location::Task { path } => format!("task|{path}"),
+            Location::Package { family, task } => format!("app|{family}|{task}"),
         }
     }
 
@@ -106,6 +116,18 @@ impl Location {
                     && !path.chars().any(|c| c.is_control() || c == '"');
                 valid.then_some(Location::Task { path })
             }
+            "app" => {
+                // Obojí míří do cesty v registru – jen znaky, které rodina balíčku a TaskId smí mít
+                let family = parts.next()?.to_string();
+                let task = parts.collect::<Vec<&str>>().join("|");
+                let family_ok = family.contains('_')
+                    && family.len() <= 128
+                    && family.chars().all(|c| c.is_ascii_alphanumeric() || matches!(c, '.' | '-' | '_'));
+                let task_ok = !task.is_empty()
+                    && task.len() <= 255
+                    && task.chars().all(|c| c.is_ascii_alphanumeric() || matches!(c, '.' | '-' | '_' | '{' | '}'));
+                (family_ok && task_ok).then_some(Location::Package { family, task })
+            }
             _ => None,
         }
     }
@@ -115,7 +137,15 @@ impl Location {
         match self {
             Location::Run { machine, .. } => *machine,
             Location::Folder { common, .. } => *common,
-            Location::Task { .. } => false,
+            Location::Task { .. } | Location::Package { .. } => false,
+        }
+    }
+
+    /// Klíč se stavem spouštěcí úlohy aplikace ze Storu (HKCU).
+    fn package_state_key(&self) -> Option<String> {
+        match self {
+            Location::Package { family, task } => Some(format!(r"{APPMODEL}\SystemAppData\{family}\{task}")),
+            _ => None,
         }
     }
 
@@ -126,7 +156,7 @@ impl Location {
                 Some((*machine, format!(r"{APPROVED}\{}", if *wow { "Run32" } else { "Run" }), value.as_str()))
             }
             Location::Folder { common, file } => Some((*common, format!(r"{APPROVED}\StartupFolder"), file.as_str())),
-            Location::Task { .. } => None,
+            Location::Task { .. } | Location::Package { .. } => None,
         }
     }
 }
@@ -138,6 +168,8 @@ pub enum Source {
     Registry,
     Folder,
     Task,
+    /// Aplikace ze Storu / MSIX (spouštěcí úloha z manifestu balíčku).
+    Package,
 }
 
 /// Vliv na rychlost spuštění (stupně jako ve Správci úloh).
@@ -198,15 +230,17 @@ pub struct Outcome {
     backup: Option<String>,
 }
 
-/// Programy z posledního výpisu – jen jejich ikony smí protokol icon:// číst.
+/// Programy z posledního výpisu – jen jejich ikony smí protokol icon:// číst
+/// (u aplikací ze Storu i `shell:AppsFolder\<rodina>!<aplikace>` – program ve WindowsApps
+/// shell jako položku neotevře, ikonu dá aplikace).
 static TARGETS: Mutex<Option<HashSet<String>>> = Mutex::new(None);
 
-/// Je soubor spouštěným programem některé položky po spuštění?
+/// Je soubor spouštěným programem (nebo aplikací ze Storu) některé položky po spuštění?
 pub fn is_listed_target(path: &str) -> bool {
     TARGETS.lock().unwrap_or_else(|e| e.into_inner()).as_ref().is_some_and(|set| set.contains(&path.to_lowercase()))
 }
 
-/// Seznam položek po spuštění (registr, složky, plánovač) s vlivem z posledního měření.
+/// Seznam položek po spuštění (registr, složky, plánovač, aplikace ze Storu) s vlivem z posledního měření.
 #[tauri::command]
 pub async fn startup_items(app: AppHandle) -> Result<StartupList, String> {
     let cache = impact_cache(&app);
@@ -216,10 +250,12 @@ pub async fn startup_items(app: AppHandle) -> Result<StartupList, String> {
         let tasks = task_entries();
         let tasks_error = tasks.as_ref().err().cloned();
         raw.extend(tasks.unwrap_or_default());
+        raw.extend(package_entries());
 
         let measurement = cache.as_deref().and_then(load_measurement);
         let items: Vec<StartupItem> = raw.into_iter().map(|entry| entry.into_item(measurement.as_ref())).collect();
-        let targets = items.iter().filter_map(|i| i.target.as_ref().map(|t| t.to_lowercase())).collect();
+        let apps = items.iter().filter(|i| i.source == Source::Package && i.command.starts_with(r"shell:AppsFolder\")).map(|i| i.command.to_lowercase());
+        let targets = items.iter().filter_map(|i| i.target.as_ref().map(|t| t.to_lowercase())).chain(apps).collect();
         *TARGETS.lock().unwrap_or_else(|e| e.into_inner()) = Some(targets);
         Ok(StartupList { items, measured_at: measurement.map(|m| m.measured_at), tasks_error })
     })
@@ -236,14 +272,20 @@ struct Entry {
     location_text: String,
     enabled: bool,
     admin: bool,
-    /// Úloha: autor jako vydavatel, když program žádného nemá.
+    /// Úloha: autor jako vydavatel, když program žádného nemá (aplikace ze Storu: vydavatel z manifestu).
     author: Option<String>,
+    /// Úloha: popis, když program žádný nemá (aplikace ze Storu: název z manifestu – má přednost).
     description: Option<String>,
 }
 
 impl Entry {
     fn into_item(self, measurement: Option<&Measurement>) -> StartupItem {
-        let (description, publisher) = self.target.as_ref().map(|(path, _)| version_strings(path)).unwrap_or((None, None));
+        let (mut description, mut publisher) = self.target.as_ref().map(|(path, _)| version_strings(path)).unwrap_or((None, None));
+        // Aplikace ze Storu: název a vydavatel z manifestu (jako Správce úloh), ne z popisu programu
+        if matches!(self.location, Location::Package { .. }) {
+            description = self.description.clone().or(description);
+            publisher = self.author.clone().or(publisher);
+        }
         let missing = self.target.as_ref().is_some_and(|(path, _)| path.is_absolute() && !path.exists());
         let usage = measurement.and_then(|m| {
             let (path, args) = self.target.as_ref()?;
@@ -255,6 +297,7 @@ impl Entry {
                 Location::Run { .. } => Source::Registry,
                 Location::Folder { .. } => Source::Folder,
                 Location::Task { .. } => Source::Task,
+                Location::Package { .. } => Source::Package,
             },
             machine: self.location.machine() || (self.admin && matches!(self.location, Location::Task { .. })),
             name: self.name,
@@ -547,6 +590,192 @@ fn schtasks(args: &[&str]) -> bool {
     crate::process::run(command, Duration::from_secs(30)).is_ok_and(|out| out.code == 0)
 }
 
+// ── Aplikace ze Storu ────────────────────────────────────────────────────
+
+/// Spouštěcí úloha z manifestu balíčku (`windows.startupTask`).
+#[derive(Debug, PartialEq)]
+struct ManifestTask {
+    id: String,
+    /// Výchozí stav z manifestu (když ho Windows ještě nezapsal do registru).
+    enabled: bool,
+    display_name: Option<String>,
+    /// Program relativně ke složce balíčku.
+    executable: Option<String>,
+    /// Id aplikace v balíčku (spuštění přes `shell:AppsFolder`).
+    app_id: Option<String>,
+}
+
+/// Spouštěcí úlohy z AppxManifest.xml: rozšíření `Category="windows.startupTask"`
+/// (program, jinak program aplikace) a v něm `…:StartupTask` (TaskId, Enabled, DisplayName).
+fn manifest_startup_tasks(xml: &str) -> Vec<ManifestTask> {
+    let mut tasks: Vec<ManifestTask> = Vec::new();
+    let mut from = 0;
+    while let Some(found) = xml[from..].find("\"windows.startupTask\"") {
+        let at = from + found;
+        from = at + 1;
+        let (Some(open), Some(close)) = (xml[..at].rfind('<'), xml[at..].find('>').map(|i| at + i)) else { break };
+        let extension = &xml[open..close];
+        let Some(task_at) = xml[close..].find("StartupTask ").map(|i| close + i) else { continue };
+        let Some(task_end) = xml[task_at..].find('>').map(|i| task_at + i) else { continue };
+        let task = &xml[task_at..task_end];
+        let Some(id) = attribute(task, "TaskId").filter(|id| !id.is_empty()) else { continue };
+        // Stejnou úlohu můžou deklarovat dvě aplikace balíčku (Xbox) – stačí jednou
+        if tasks.iter().any(|t| t.id == id) {
+            continue;
+        }
+        let application = xml[..open].rfind("<Application ").and_then(|start| xml[start..].find('>').map(|end| &xml[start..start + end]));
+        tasks.push(ManifestTask {
+            id,
+            enabled: attribute(task, "Enabled").is_some_and(|v| v.eq_ignore_ascii_case("true")),
+            display_name: attribute(task, "DisplayName").filter(|n| !n.trim().is_empty()),
+            executable: attribute(extension, "Executable").or_else(|| application.and_then(|a| attribute(a, "Executable"))),
+            app_id: application.and_then(|a| attribute(a, "Id")),
+        });
+    }
+    tasks
+}
+
+/// Rodina balíčku z plného názvu („Name_Verze_Arch_ResourceId_PublisherId“ → „Name_PublisherId“);
+/// balíčky zdrojů (ResourceId – jazyky, měřítka) a neplatné názvy → None.
+fn package_family(full_name: &str) -> Option<String> {
+    let parts: Vec<&str> = full_name.split('_').collect();
+    (parts.len() == 5 && !parts[0].is_empty() && parts[3].is_empty() && !parts[4].is_empty()).then(|| format!("{}_{}", parts[0], parts[4]))
+}
+
+/// Verze z plného názvu balíčku (výběr nejnovější nainstalované).
+fn package_version(full_name: &str) -> Vec<u32> {
+    full_name.split('_').nth(1).map(|v| v.split('.').map(|part| part.parse().unwrap_or(0)).collect()).unwrap_or_default()
+}
+
+/// Stav spouštěcí úlohy (StartupTaskState): 2 = zapnuto, 4 = zapnuto zásadou;
+/// 0 = vypnuto, 1 = vypnul uživatel, 3 = vypnuto zásadou.
+fn package_enabled(state: u32) -> bool {
+    matches!(state, 2 | 4)
+}
+
+/// Text z prostředků balíčku („ms-resource:AppName“, „@{…}“) – jiný text beze změny.
+fn package_string(full_name: &str, value: &str) -> Option<String> {
+    let value = value.trim();
+    if value.is_empty() {
+        return None;
+    }
+    let name = full_name.split('_').next().unwrap_or_default();
+    let source = if value.starts_with("@{") {
+        value.to_string()
+    } else if let Some(rest) = value.strip_prefix("ms-resource:") {
+        let uri = if rest.starts_with("//") {
+            format!("ms-resource:{rest}")
+        } else if let Some(path) = rest.strip_prefix('/') {
+            format!("ms-resource://{name}/{path}")
+        } else if rest.contains('/') {
+            format!("ms-resource://{name}/{rest}")
+        } else {
+            format!("ms-resource://{name}/Resources/{rest}")
+        };
+        format!("@{{{full_name}?{uri}}}")
+    } else {
+        return Some(value.to_string());
+    };
+    indirect_string(&source).filter(|s| !s.trim().is_empty() && !s.starts_with("ms-resource:") && !s.starts_with("@{"))
+}
+
+/// Přeloží odkaz na text z prostředků balíčku (SHLoadIndirectString).
+#[cfg(windows)]
+fn indirect_string(source: &str) -> Option<String> {
+    use windows_sys::Win32::UI::Shell::SHLoadIndirectString;
+    let wide: Vec<u16> = source.encode_utf16().chain(std::iter::once(0)).collect();
+    let mut buffer = [0u16; 512];
+    // SAFETY: zdroj je řetězec ukončený nulou, výstup je buffer se zadanou délkou
+    let result = unsafe { SHLoadIndirectString(wide.as_ptr(), buffer.as_mut_ptr(), buffer.len() as u32, std::ptr::null()) };
+    if result != 0 {
+        return None;
+    }
+    let len = buffer.iter().position(|&c| c == 0).unwrap_or(buffer.len());
+    Some(String::from_utf16_lossy(&buffer[..len]))
+}
+
+#[cfg(not(windows))]
+fn indirect_string(_source: &str) -> Option<String> {
+    None
+}
+
+/// Spouštěcí úlohy aplikací ze Storu aktuálního uživatele: stav z registru
+/// (SystemAppData), název, vydavatel a program z manifestu nejnovějšího
+/// nainstalovaného balíčku. Jen úlohy z aktuálního manifestu – v registru
+/// zůstávají i úlohy starších verzí aplikace.
+fn package_entries() -> Vec<Entry> {
+    let repository = format!(r"{APPMODEL}\Repository\Packages");
+    let states = format!(r"{APPMODEL}\SystemAppData");
+    // Rodiny s aspoň jednou úlohou se stavem – manifesty ostatních balíčků se nečtou
+    let families: HashSet<String> = registry::subkeys(false, &states)
+        .into_iter()
+        .filter(|family| {
+            let key = format!(r"{states}\{family}");
+            registry::subkeys(false, &key).iter().any(|sub| registry::dword_value(false, &format!(r"{key}\{sub}"), "State").is_some())
+        })
+        .collect();
+    // Rodina → (plný název, složka programů, manifest). Balíček s externím umístěním (Copilot)
+    // má programy jinde než manifest – ten je pak ve WindowsApps pod plným názvem.
+    let windows_apps = std::env::var_os("ProgramW6432").or_else(|| std::env::var_os("ProgramFiles")).map(|dir| PathBuf::from(dir).join("WindowsApps"));
+    let mut packages: HashMap<String, (String, PathBuf, PathBuf)> = HashMap::new();
+    for full in registry::subkeys(false, &repository) {
+        let Some(family) = package_family(&full).filter(|f| families.contains(f)) else { continue };
+        let Some(root) = registry::string_value(false, &format!(r"{repository}\{full}"), "PackageRootFolder") else { continue };
+        let root = PathBuf::from(root);
+        let Some(manifest) = [Some(root.join("AppxManifest.xml")), windows_apps.as_ref().map(|dir| dir.join(&full).join("AppxManifest.xml"))]
+            .into_iter()
+            .flatten()
+            .find(|path| path.is_file())
+        else {
+            continue;
+        };
+        // map_or místo is_none_or – MSRV 1.80 (is_none_or je až od 1.82)
+        if packages.get(&family).map_or(true, |(current, _, _)| package_version(&full) > package_version(current)) {
+            packages.insert(family, (full, root, manifest));
+        }
+    }
+
+    let mut entries = Vec::new();
+    for (family, (full, root, manifest)) in packages {
+        let Ok(manifest) = std::fs::read_to_string(manifest) else { continue };
+        let package_name = registry::string_value(false, &format!(r"{repository}\{full}"), "DisplayName").and_then(|n| package_string(&full, &n));
+        let publisher = element(&manifest, "PublisherDisplayName").and_then(|p| package_string(&full, &p));
+        for task in manifest_startup_tasks(&manifest) {
+            let location = Location::Package { family: family.clone(), task: task.id.clone() };
+            // Id, které by neprošlo kontrolou (neobvyklé znaky), by nešlo měnit – vynechat
+            if Location::parse(&location.id()).as_ref() != Some(&location) {
+                continue;
+            }
+            let Some(key) = location.package_state_key() else { continue };
+            let enabled = registry::dword_value(false, &key, "State").map_or(task.enabled, package_enabled);
+            let name = task
+                .display_name
+                .as_deref()
+                .and_then(|n| package_string(&full, n))
+                .or_else(|| package_name.clone())
+                .unwrap_or_else(|| family.split('_').next().unwrap_or_default().to_string());
+            let target = task.executable.as_ref().map(|exe| (root.join(exe.replace('/', "\\")), String::new()));
+            let command = match (&task.app_id, &target) {
+                (Some(app), _) => format!(r"shell:AppsFolder\{family}!{app}"),
+                (None, Some((path, _))) => format!("\"{}\"", path.to_string_lossy()),
+                (None, None) => String::new(),
+            };
+            entries.push(Entry {
+                name: name.clone(),
+                command,
+                target,
+                location_text: format!(r"{family}\{}", task.id),
+                enabled,
+                admin: false,
+                location,
+                author: publisher.clone(),
+                description: Some(name),
+            });
+        }
+    }
+    entries
+}
+
 // ── Zapnutí, vypnutí, smazání ────────────────────────────────────────────
 
 /// Proč změna nevyšla.
@@ -564,6 +793,16 @@ fn toggle(location: &Location, enabled: bool) -> Result<(), Failure> {
                 Ok(())
             } else {
                 Err(Failure::Admin)
+            }
+        }
+        // Aplikace ze Storu: stav v HKCU jako ve Správci úloh (1 = vypnul uživatel – aplikace
+        // si úlohu sama znovu zapnout nemůže), práva správce nejsou potřeba
+        Location::Package { .. } => {
+            let key = location.package_state_key().ok_or(Failure::Other("neplatná položka".into()))?;
+            match registry::dword_value(false, &key, "State") {
+                None => Err(Failure::Other("položka už neexistuje".into())),
+                Some(3 | 4) => Err(Failure::Other("Spouštění této aplikace určuje zásada organizace – v Uniboxu ho změnit nejde.".into())),
+                Some(_) => registry::set_dword(false, &key, "State", if enabled { 2 } else { 1 }).map_err(|e| Failure::Other(e.to_string())),
             }
         }
         _ => {
@@ -602,6 +841,11 @@ fn remove(location: &Location) -> Result<(), Failure> {
                 return Err(Failure::Admin);
             }
         }
+        Location::Package { .. } => {
+            return Err(Failure::Other(
+                "Spouštění aplikace ze Storu je součástí jejího balíčku – odstranit ho jde jen odinstalací aplikace. Vypnutá úloha se sama znovu nezapne.".into(),
+            ));
+        }
     }
     // Stav zapnutí po smazané položce nepotřebujeme
     if let Some((machine, key, value)) = location.approved() {
@@ -616,6 +860,7 @@ fn exists(location: &Location) -> bool {
         Location::Run { machine, wow, value } => registry::has_value(*machine, if *wow { RUN_WOW } else { RUN }, value),
         Location::Folder { common, file } => startup_dir(*common).is_some_and(|dir| dir.join(file).is_file()),
         Location::Task { path } => schtasks(&["/Query", "/TN", path]),
+        Location::Package { .. } => location.package_state_key().is_some_and(|key| registry::dword_value(false, &key, "State").is_some()),
     }
 }
 
@@ -652,7 +897,8 @@ fn backup(root: &Path, location: &Location) -> Result<Option<String>, String> {
     let name = match location {
         Location::Run { value, .. } => value.clone(),
         Location::Task { path } => path.rsplit('\\').next().unwrap_or("task").to_string(),
-        Location::Folder { .. } => return Ok(None),
+        // Zástupce jde do Koše; úlohu aplikace ze Storu smazat nejde (remove to odmítne)
+        Location::Folder { .. } | Location::Package { .. } => return Ok(None),
     };
     let dir = root.join(format!("{} {}", crate::leftovers::utc_stamp(), crate::leftovers::safe_file_name(&name)));
     std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
@@ -672,7 +918,7 @@ fn backup(root: &Path, location: &Location) -> Result<Option<String>, String> {
                 _ => false,
             }
         }
-        Location::Folder { .. } => true,
+        Location::Folder { .. } | Location::Package { .. } => true,
     };
     if !ok {
         let _ = std::fs::remove_dir_all(&dir);
@@ -1028,11 +1274,42 @@ mod registry {
     pub fn delete_value(machine: bool, path: &str, name: &str) -> io::Result<()> {
         root(machine).open_subkey_with_flags(path, KEY_SET_VALUE | KEY_WOW64_64KEY)?.delete_value(name)
     }
+
+    /// Názvy podklíčů (klíč chybí = žádné).
+    pub fn subkeys(machine: bool, path: &str) -> Vec<String> {
+        let Ok(key) = root(machine).open_subkey_with_flags(path, KEY_READ | KEY_WOW64_64KEY) else { return Vec::new() };
+        key.enum_keys().flatten().collect()
+    }
+
+    pub fn string_value(machine: bool, path: &str, name: &str) -> Option<String> {
+        root(machine).open_subkey_with_flags(path, KEY_READ | KEY_WOW64_64KEY).ok()?.get_value::<String, _>(name).ok()
+    }
+
+    pub fn dword_value(machine: bool, path: &str, name: &str) -> Option<u32> {
+        root(machine).open_subkey_with_flags(path, KEY_READ | KEY_WOW64_64KEY).ok()?.get_value::<u32, _>(name).ok()
+    }
+
+    /// Zapíše DWORD do existujícího klíče (klíč nevytváří).
+    pub fn set_dword(machine: bool, path: &str, name: &str, value: u32) -> io::Result<()> {
+        root(machine).open_subkey_with_flags(path, KEY_SET_VALUE | KEY_WOW64_64KEY)?.set_value(name, &value)
+    }
 }
 
 #[cfg(not(windows))]
 mod registry {
     use std::io;
+    pub fn subkeys(_machine: bool, _path: &str) -> Vec<String> {
+        Vec::new()
+    }
+    pub fn string_value(_machine: bool, _path: &str, _name: &str) -> Option<String> {
+        None
+    }
+    pub fn dword_value(_machine: bool, _path: &str, _name: &str) -> Option<u32> {
+        None
+    }
+    pub fn set_dword(_machine: bool, _path: &str, _name: &str, _value: u32) -> io::Result<()> {
+        Err(io::Error::other("jen ve Windows"))
+    }
     pub fn string_values(_machine: bool, _path: &str) -> Vec<(String, String)> {
         Vec::new()
     }
@@ -1061,9 +1338,65 @@ mod tests {
             Location::Run { machine: true, wow: true, value: "Steam|Client".into() },
             Location::Folder { common: true, file: "OneNote.lnk".into() },
             Location::Task { path: r"\Vendor\Updater Logon".into() },
+            Location::Package { family: "5319275A.WhatsAppDesktop_cv1g1gvanyjgm".into(), task: "2defd21c-0b9e-4e4e-873a-2a68c47d7da5".into() },
+            Location::Package { family: "Microsoft.WindowsTerminal_8wekyb3d8bbwe".into(), task: "StartTerminalOnLoginTask".into() },
         ] {
             assert_eq!(Location::parse(&location.id()), Some(location));
         }
+    }
+
+    #[test]
+    fn package_ids_stay_inside_systemappdata() {
+        // Rodina i TaskId jdou do cesty v registru – žádné „\“, „..“ jako cesta, mezery ani prázdné části
+        assert_eq!(Location::parse(r"app|Vendor.App_abc|..\..\Run"), None);
+        assert_eq!(Location::parse(r"app|Vendor.App_abc\x|Task"), None);
+        assert_eq!(Location::parse("app|NoPublisherId|Task"), None);
+        assert_eq!(Location::parse("app|Vendor.App_abc|"), None);
+        assert_eq!(Location::parse("app|Vendor.App_abc|Task Id"), None);
+        assert_eq!(
+            Location::parse("app|Vendor.App_abc|Task").and_then(|l| l.package_state_key()),
+            Some(format!(r"{APPMODEL}\SystemAppData\Vendor.App_abc\Task"))
+        );
+    }
+
+    #[test]
+    fn startup_tasks_from_manifest() {
+        // Zkrácený manifest WhatsAppu (uap5) a Windows Terminálu (bez Executable u rozšíření)
+        let whatsapp = r#"<Applications><Application Id="App" Executable="WhatsApp.Root.exe" EntryPoint="Windows.FullTrustApplication"><Extensions>
+            <uap5:Extension Category="windows.startupTask" Executable="WhatsApp.Root.exe" EntryPoint="Windows.FullTrustApplication">
+            <uap5:StartupTask TaskId="2defd21c-0b9e-4e4e-873a-2a68c47d7da5" Enabled="true" DisplayName="WhatsApp" /></uap5:Extension>
+            </Extensions></Application></Applications>"#;
+        assert_eq!(
+            manifest_startup_tasks(whatsapp),
+            [ManifestTask {
+                id: "2defd21c-0b9e-4e4e-873a-2a68c47d7da5".into(),
+                enabled: true,
+                display_name: Some("WhatsApp".into()),
+                executable: Some("WhatsApp.Root.exe".into()),
+                app_id: Some("App".into()),
+            }]
+        );
+        let terminal = r#"<Application Id="App" Executable="WindowsTerminal.exe"><Extensions>
+            <uap5:Extension Category="windows.startupTask"><uap5:StartupTask TaskId="StartTerminalOnLoginTask" Enabled="false" DisplayName="ms-resource:AppName" /></uap5:Extension>
+            </Extensions></Application>"#;
+        let tasks = manifest_startup_tasks(terminal);
+        assert_eq!(tasks.len(), 1);
+        assert!(!tasks[0].enabled);
+        assert_eq!(tasks[0].executable.as_deref(), Some("WindowsTerminal.exe"));
+        assert_eq!(tasks[0].display_name.as_deref(), Some("ms-resource:AppName"));
+        assert!(manifest_startup_tasks("<Package><Applications /></Package>").is_empty());
+    }
+
+    #[test]
+    fn package_names() {
+        assert_eq!(package_family("5319275A.WhatsAppDesktop_2.2641.101.0_x64__cv1g1gvanyjgm").as_deref(), Some("5319275A.WhatsAppDesktop_cv1g1gvanyjgm"));
+        // Balíček zdrojů (jazyk / měřítko) spouštěcí úlohy nemá
+        assert_eq!(package_family("Microsoft.WindowsTerminal_1.21.0.0_neutral_split.scale-200_8wekyb3d8bbwe"), None);
+        assert!(package_version("A_1.10.0.0_x64__p") > package_version("A_1.9.5.0_x64__p"));
+        assert!(package_enabled(2) && package_enabled(4));
+        assert!(!package_enabled(0) && !package_enabled(1) && !package_enabled(3));
+        // Text bez odkazu na prostředky zůstane, jak je
+        assert_eq!(package_string("A_1.0.0.0_x64__p", " WhatsApp ").as_deref(), Some("WhatsApp"));
     }
 
     #[test]

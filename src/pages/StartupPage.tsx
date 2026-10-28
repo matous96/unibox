@@ -1,8 +1,9 @@
 /**
  * Po spuštění: programy, které se spouštějí po přihlášení do Windows –
- * z registru (Run), složek Po spuštění a plánovače úloh. Zapnout / vypnout
- * jedním kliknutím (jako Správce úloh – položka zůstane v seznamu), trvale
- * odstranit (se zálohou) a vliv na rychlost startu podle měření Windows.
+ * z registru (Run), složek Po spuštění, plánovače úloh a aplikace ze Storu.
+ * Zapnout / vypnout jedním kliknutím (jako Správce úloh – položka zůstane
+ * v seznamu), trvale odstranit (se zálohou; aplikace ze Storu jen vypnout –
+ * spouštění je součástí jejich balíčku) a vliv na rychlost startu podle měření Windows.
  */
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { revealItemInDir } from "@tauri-apps/plugin-opener";
@@ -19,6 +20,7 @@ import {
   RefreshCw,
   Search,
   ShieldAlert,
+  Store,
   Trash2,
   Users,
   type LucideIcon,
@@ -52,7 +54,7 @@ import { useToasts } from "@/store/toasts";
 
 type Filter = "all" | "enabled" | "disabled";
 
-const SOURCE_ICON: Record<StartupSource, LucideIcon> = { registry: KeyRound, folder: FolderSymlink, task: CalendarClock };
+const SOURCE_ICON: Record<StartupSource, LucideIcon> = { registry: KeyRound, folder: FolderSymlink, task: CalendarClock, package: Store };
 const IMPACT_ORDER: Record<StartupImpact, number> = { high: 0, medium: 1, low: 2 };
 
 export function StartupPage() {
@@ -293,11 +295,15 @@ function StartupRow({ item, onDelete }: { item: StartupItem; onDelete: () => voi
   );
 }
 
-/** Ikona programu přes protokol icon:// (jako v Průzkumníku), jinak ikona zdroje. */
+/**
+ * Ikona programu přes protokol icon:// (jako v Průzkumníku), jinak ikona zdroje.
+ * Aplikace ze Storu: ikona aplikace (shell:AppsFolder\…) – program ve WindowsApps shell neotevře.
+ */
 function ProgramIcon({ item }: { item: StartupItem }) {
   const [failed, setFailed] = useState(false);
   const Fallback = SOURCE_ICON[item.source];
-  if (!item.target || item.missing || failed) {
+  const source = item.source === "package" && item.command.startsWith("shell:AppsFolder\\") ? item.command : item.target;
+  if (!source || item.missing || failed) {
     return (
       <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-surface-2 text-muted">
         <Fallback className="size-4.5" />
@@ -306,7 +312,7 @@ function ProgramIcon({ item }: { item: StartupItem }) {
   }
   return (
     <img
-      src={fileIconSrc(item.target)}
+      src={fileIconSrc(source)}
       alt=""
       onError={() => setFailed(true)}
       className={cn("size-9 shrink-0 object-contain", !item.enabled && "opacity-60 grayscale")}
@@ -356,7 +362,8 @@ function RowMenu({ item, onDelete }: { item: StartupItem; onDelete: () => void }
           <MenuItem
             icon={FolderOpen}
             label={t("startup.reveal")}
-            disabled={!item.target || item.missing}
+            // Složka aplikací ze Storu (WindowsApps) se v Průzkumníku otevřít nedá
+            disabled={!item.target || item.missing || item.source === "package"}
             onClick={run(async () => {
               try {
                 if (item.target) await revealItemInDir(item.target);
@@ -375,7 +382,14 @@ function RowMenu({ item, onDelete }: { item: StartupItem; onDelete: () => void }
             })}
           />
           <div className="my-1 border-t border-line" />
-          <MenuItem icon={Trash2} label={t("startup.delete")} danger onClick={run(onDelete)} />
+          {item.source === "package" ? (
+            <>
+              <MenuItem icon={Trash2} label={t("startup.delete")} danger disabled onClick={() => undefined} />
+              <p className="px-3 pt-0.5 pb-2 text-xs text-muted">{t("startup.packageDeleteHint")}</p>
+            </>
+          ) : (
+            <MenuItem icon={Trash2} label={t("startup.delete")} danger onClick={run(onDelete)} />
+          )}
         </div>
       )}
     </div>

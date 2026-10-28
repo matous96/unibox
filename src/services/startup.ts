@@ -1,11 +1,13 @@
 /**
  * Aplikace po spuštění Windows (src-tauri/src/startup.rs): registr Run,
- * složky Po spuštění a úlohy plánovače se spuštěním při přihlášení / startu.
+ * složky Po spuštění, úlohy plánovače se spuštěním při přihlášení / startu
+ * a spouštěcí úlohy aplikací ze Storu (MSIX).
  */
 import { invoke } from "@tauri-apps/api/core";
 import { isTauri } from "@/lib/tauri";
 
-export type StartupSource = "registry" | "folder" | "task";
+/** Odkud položka je; `package` = aplikace ze Storu – jde jen zapnout / vypnout, odstranit ji smaže až odinstalace. */
+export type StartupSource = "registry" | "folder" | "task" | "package";
 export type StartupImpact = "high" | "medium" | "low";
 
 export interface StartupItem {

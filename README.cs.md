@@ -254,7 +254,7 @@ uživatel dostane srozumitelnou hlášku s doporučením jiného zdroje.
 | `disk.rs` | Programy nalezené jen podle složky na disku (Program Files, %LocalAppData%, %AppData%) se zástupcem v nabídce Start |
 | `leftovers.rs` | Zbytky po odinstalaci (AppData; s pokročilou odinstalací i Program Files, ProgramData, zástupci a registr), Koš a záloha registru, povýšený úklid |
 | `running.rs` | Procesy aplikace (složka instalace, název, okno, GUI/konzole), zavření a ukončení |
-| `startup.rs` | Programy po spuštění (registr Run, složky Po spuštění, plánovač úloh), zapnutí / vypnutí / odstranění, vliv na start (WDI StartupInfo) |
+| `startup.rs` | Programy po spuštění (registr Run, složky Po spuštění, plánovač úloh, aplikace ze Storu), zapnutí / vypnutí / odstranění, vliv na start (WDI StartupInfo) |
 | `tracker.rs` | Sledování instalace – snímek disku a registru před a po instalaci, záznam pro čisté odinstalování |
 | `oauth.rs` | Přihlášení v systémovém prohlížeči – návrat na 127.0.0.1 (RFC 8252) |
 | `secure_store.rs` | Šifrované uložení přihlášení (Windows DPAPI) |
@@ -982,11 +982,21 @@ z deps.dev (Google Open Source Insights, čísla pár dní stará), s proměnnou
   a úlohy plánovače mimo `\Microsoft\` se spouštěčem při přihlášení / startu
   (`Get-ScheduledTask`). Název a vydavatel z informací o verzi programu, ikona přes
   `icon://…/file?p=` (jen programy z posledního výpisu), štítek „Program chybí“.
+  - Aplikace ze Storu / MSIX (Teams, WhatsApp, Terminál…): spouštěcí úlohy
+    `windows.startupTask` z `AppxManifest.xml` nejnovějšího balíčku (složka z
+    `HKCU\…\AppModel\Repository\Packages`), stav z `AppModel\SystemAppData\<rodina>\<TaskId>`
+    (`State`: 2 / 4 zapnuto, 0 / 1 / 3 vypnuto). Názvy `ms-resource:` přes
+    `SHLoadIndirectString`, vydavatel z manifestu. V registru zůstávají i úlohy starších
+    verzí – berou se jen TaskId z aktuálního manifestu.
   - Zapnutí / vypnutí jako ve Správci úloh: zápis do `Explorer\StartupApproved`
-    (`02…` zapnuto, `03` + čas vypnutí), u úloh `schtasks /Change /ENABLE|/DISABLE`.
+    (`02…` zapnuto, `03` + čas vypnutí), u úloh `schtasks /Change /ENABLE|/DISABLE`,
+    u aplikací ze Storu `State` 2 / 1 (HKCU, bez práv správce; 1 = vypnul uživatel –
+    aplikace si úlohu sama znovu nezapne; stav určený zásadou 3 / 4 změnit nejde).
   - Odstranění: hodnota Run po záloze celého klíče (`reg export`), zástupce do Koše,
     úloha po uložení do XML (`schtasks /Query /XML`) – zálohy v
     `%LocalAppData%\<identifikátor>\startup-backup\`. Bez zálohy se nic nesmaže.
+    Spouštěcí úlohu aplikace ze Storu odstraní jen odinstalace (je součástí balíčku) –
+    v nabídce je místo odstranění vysvětlení, vypnutí je trvalé.
   - Položky pro všechny uživatele (HKLM, společná složka, úlohy správce) změní povýšený
     pomocník `unibox.exe --unibox-elevated-startup` (jedno UAC, zadání si znovu ověří –
     jen tři klíče Run, název souboru přímo ve složce Po spuštění, úlohy mimo `\Microsoft\`).
