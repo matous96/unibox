@@ -904,6 +904,14 @@
       "point2": "Když instalace z jednoho zdroje selže, nabídne se jiný",
       "point3": "V režimu Vývojář i npm, pip, Cargo a další"
     },
+    "reviews": {
+      "title": "Hodnocení a recenze",
+      "text": "U aplikací uvidíte, jak je hodnotí ostatní uživatelé, a přečtete si jejich recenze. Po přihlášení přes GitHub přidáte i vlastní hodnocení, recenzi nebo aktuální snímky obrazovky.",
+      "point1": "Průměr hvězdiček a nejužitečnější recenze na jednom místě",
+      "point2": "Vlastní recenzi kdykoli upravíte nebo smažete, nevhodnou nahlásíte",
+      "point3": "Přihlášení je dobrovolné – bez účtu funguje všechno ostatní",
+      "where": "Najdete v detailu každé aplikace pod snímky obrazovky."
+    },
     "filter": {
       "title": "Filtrování podle zdroje",
       "text": "Chcete jen aplikace z WinGetu? Klikněte na zdroj v levém panelu – katalog, hledání i instalace se omezí jen na něj.",
@@ -940,7 +948,10 @@
       "impact_low": "Nízký",
       "exportJson": "JSON",
       "exportHtml": "HTML",
-      "import": "Import"
+      "import": "Import",
+      "reviewTitle": "Konečně bez hledání instalátorů",
+      "reviewMeta": "před 2 dny · Jana",
+      "reviewText": "Nainstaluje i aktualizuje vše na jednom místě. Přesně tohle jsem hledala."
     }
   },
   "hostChange": {

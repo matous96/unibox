@@ -872,6 +872,14 @@
       "point2": "If an install from one source fails, another is offered",
       "point3": "In Developer mode, npm, pip, Cargo and more too"
     },
+    "reviews": {
+      "title": "Ratings and reviews",
+      "text": "See how other users rate apps and read their reviews. Sign in with GitHub to add your own rating, review or current screenshots.",
+      "point1": "The star average and the most helpful reviews in one place",
+      "point2": "Edit or delete your own review any time, report inappropriate ones",
+      "point3": "Signing in is optional – everything else works without an account",
+      "where": "You'll find them on every app's page, below the screenshots."
+    },
     "filter": {
       "title": "Filter by source",
       "text": "Only want apps from WinGet? Click the source in the sidebar – the catalog, search and installs are limited to it.",
@@ -908,7 +916,10 @@
       "impact_low": "Low",
       "exportJson": "JSON",
       "exportHtml": "HTML",
-      "import": "Import"
+      "import": "Import",
+      "reviewTitle": "No more hunting for installers",
+      "reviewMeta": "2 days ago · Jane",
+      "reviewText": "Installs and updates everything in one place. Exactly what I was looking for."
     }
   },
   "hostChange": {

@@ -1,8 +1,8 @@
 /**
  * Úvodní průvodce pro nové uživatele (store/onboarding.ts): při prvním spuštění
- * po instalaci se sám ukáže a v pěti krocích představí Unibox – univerzální
- * katalog, filtrování podle zdroje, pokročilou odinstalaci a správu po spuštění
- * se zálohami. Každý krok má vlevo ukázku (zjednodušený výřez aplikace),
+ * po instalaci se sám ukáže a v šesti krocích představí Unibox – univerzální
+ * katalog, hodnocení a recenze, filtrování podle zdroje, pokročilou odinstalaci
+ * a správu po spuštění se zálohami. Každý krok má vlevo ukázku (zjednodušený výřez aplikace),
  * vpravo popis. Další / Předchozí (i šipkami), tečky pro skok na krok,
  * „Přeskočit úvod“ (i Esc). Znovu ho spustí Nastavení → Obecné.
  */
@@ -16,6 +16,8 @@ import {
   Link2,
   Search,
   ShieldCheck,
+  SquarePen,
+  Star,
   Trash2,
   Upload,
   X,
@@ -28,6 +30,7 @@ import { useTranslation } from "react-i18next";
 import { Switch } from "@/components/settings/SettingsUi";
 import { SourceIcon } from "@/components/package/SourceIcon";
 import { Button } from "@/components/ui/Button";
+import { Stars } from "@/components/ui/Stars";
 import { UniboxLogo } from "@/components/ui/Logo";
 import { useOverlay } from "@/hooks/useOverlay";
 import { useInstallableStats } from "@/hooks/usePackages";
@@ -38,7 +41,7 @@ import { useOnboarding } from "@/store/onboarding";
 import { useSettings } from "@/store/settings";
 import type { SourceId } from "@/types";
 
-const STEPS = ["welcome", "catalog", "filter", "uninstall", "startup"] as const;
+const STEPS = ["welcome", "catalog", "reviews", "filter", "uninstall", "startup"] as const;
 type Step = (typeof STEPS)[number];
 
 /** Průvodce počká, až se okno po spuštění vykreslí a usadí. */
@@ -220,7 +223,7 @@ function StepText({ step, index }: { step: Step; index: number }) {
           <Switch checked={advancedUninstall} onChange={setAdvancedUninstall} label={t("onboarding.uninstall.toggle")} />
         </label>
       )}
-      {step === "startup" && <p className="text-xs text-muted">{t("onboarding.startup.where")}</p>}
+      {(step === "reviews" || step === "startup") && <p className="text-xs text-muted">{t(`onboarding.${step}.where`)}</p>}
     </div>
   );
 }
@@ -231,6 +234,8 @@ function Visual({ step }: { step: Step }) {
       return <WelcomeVisual />;
     case "catalog":
       return <CatalogVisual />;
+    case "reviews":
+      return <ReviewsVisual />;
     case "filter":
       return <FilterVisual />;
     case "uninstall":
@@ -308,6 +313,53 @@ function CatalogVisual() {
           <span className="rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-accent-fg">{t("onboarding.mock.install")}</span>
         </div>
       </Panel>
+    </div>
+  );
+}
+
+/** Hodnocení a recenze jako v detailu aplikace: průměr, pruhy 5 → 1, recenze a vlastní hodnocení. */
+function ReviewsVisual() {
+  const { t } = useTranslation();
+  const language = useSettings((s) => s.language);
+  const bars = [100, 22, 7, 3, 4];
+  return (
+    <div className="flex flex-col gap-3">
+      <Panel className="flex items-center gap-5">
+        <div className="shrink-0">
+          <p className="font-display text-5xl leading-none font-black tracking-tight">{(4.7).toLocaleString(language)}</p>
+          <p className="mt-1.5 text-xs text-muted">{t("reviews.ratingsCount", { formatted: (1284).toLocaleString(language) })}</p>
+        </div>
+        <div className="flex flex-1 flex-col gap-1">
+          {bars.map((width, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <span className="flex w-11 justify-end gap-px text-fg/70">
+                {Array.from({ length: 5 - i }, (_, k) => (
+                  <Star key={k} className="size-2" fill="currentColor" strokeWidth={0} />
+                ))}
+              </span>
+              <span className="h-1 flex-1 overflow-hidden rounded-full bg-surface-3">
+                <span className="block h-full rounded-full bg-fg/70" style={{ width: `${width}%` }} />
+              </span>
+            </div>
+          ))}
+        </div>
+      </Panel>
+      <Panel className="p-3.5">
+        <p className="text-sm font-semibold">{t("onboarding.mock.reviewTitle")}</p>
+        <p className="mt-1 flex items-center gap-2 text-[11px] text-muted">
+          <Stars value={5} size={11} className="text-fg/80" />
+          {t("onboarding.mock.reviewMeta")}
+        </p>
+        <p className="mt-1.5 text-xs leading-relaxed text-fg/80">{t("onboarding.mock.reviewText")}</p>
+      </Panel>
+      <div className="flex items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-2.5 shadow-sm">
+        <span className="text-xs font-semibold">{t("reviews.yourRating")}</span>
+        <Stars value={4} size={16} className="text-accent" />
+        <span className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-3 py-1.5 text-xs font-semibold">
+          <SquarePen className="size-3.5 text-accent" />
+          {t("reviews.write")}
+        </span>
+      </div>
     </div>
   );
 }

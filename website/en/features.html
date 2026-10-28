@@ -201,6 +201,42 @@
           </div>
         </div>
 
+        <!-- Funkce 6: hodnocení a recenze (ukázka sekce v HTML) -->
+        <div class="feature feature--flip reveal" id="hodnoceni">
+          <div class="feature__copy">
+            <h3>Ratings and reviews</h3>
+            <p>Before you install an app, see how others rate it. Every app shows its star average, the rating breakdown and the most helpful reviews – sign in with GitHub to add your own.</p>
+            <ul class="ticks">
+              <li>Stars and reviews under the name from your GitHub account</li>
+              <li>Edit or delete your own review any time, report inappropriate ones</li>
+              <li>Signing in is optional – everything else works without an account</li>
+            </ul>
+          </div>
+          <div class="cleanup rating" role="img" aria-label="Preview of ratings and reviews on an app page: a 4.7 average from 1,284 ratings, the star breakdown, a review and your own rating">
+            <p class="cleanup__title">Ratings and reviews</p>
+            <div class="rating__summary">
+              <div class="rating__score"><b>4.7</b><span>1,284 ratings</span></div>
+              <div class="rating__bars">
+                <span class="rating__row"><span class="rating__stars">★★★★★</span><span class="rating__bar"><i style="width:100%"></i></span></span>
+                <span class="rating__row"><span class="rating__stars">★★★★</span><span class="rating__bar"><i style="width:22%"></i></span></span>
+                <span class="rating__row"><span class="rating__stars">★★★</span><span class="rating__bar"><i style="width:7%"></i></span></span>
+                <span class="rating__row"><span class="rating__stars">★★</span><span class="rating__bar"><i style="width:3%"></i></span></span>
+                <span class="rating__row"><span class="rating__stars">★</span><span class="rating__bar"><i style="width:4%"></i></span></span>
+              </div>
+            </div>
+            <p class="cleanup__group">Most helpful reviews</p>
+            <div class="rating__review">
+              <b>No more hunting for installers</b>
+              <span class="rating__meta"><span class="rating__stars">★★★★★</span>2 days ago · Jane</span>
+              <p>Installs and updates everything in one place. Exactly what I was looking for.</p>
+            </div>
+            <div class="cleanup__foot rating__foot">
+              <span class="rating__mine">Your rating: <span class="rating__stars">★★★★<s>★</s></span></span>
+              <span class="cleanup__btn">Write a review</span>
+            </div>
+          </div>
+        </div>
+
         <!-- Mřížka menších funkcí -->
         <div class="grid">
           <article class="card mini reveal">
@@ -220,8 +256,8 @@
             <p>Operation history and logs, clearing package manager caches. Available in English and Czech.</p>
           </article>
           <article class="card mini reveal">
-            <h3>Ratings, reviews and screenshots</h3>
-            <p>Sign in with GitHub to rate apps with stars, write reviews and add current screenshots. Anything inappropriate can be reported.</p>
+            <h3>Screenshots from the community</h3>
+            <p>Signed-in users add current screenshots to apps. Unibox downscales them to WebP without metadata, and everyone sees them once approved. Anything inappropriate can be reported.</p>
           </article>
           <article class="card mini reveal">
             <h3>Sync between computers</h3>
