@@ -1,6 +1,6 @@
 [package]
 name = "unibox"
-version = "0.1.15"
+version = "0.1.16"
 description = "Unibox – obchod s aplikacemi pro Windows nad správci balíčků"
 authors = ["Unibox"]
 license = "MIT"

@@ -78,6 +78,7 @@
           <h1>What’s new in&nbsp;Unibox</h1>
           <p class="lead">Every change since the first public version 0.1.0, newest first. Fifteen updates shipped in the week after its release.</p>
           <nav class="versions-nav" aria-label="Jump to version">
+            <a class="chip" href="#v0-1-16">0.1.16</a>
             <a class="chip" href="#v0-1-15">0.1.15</a>
             <a class="chip" href="#v0-1-14">0.1.14</a>
             <a class="chip" href="#v0-1-13">0.1.13</a>
@@ -97,8 +98,8 @@
           </nav>
         </div>
         <dl class="stats reveal">
-          <div><dt>Current version</dt><dd>0.1.15</dd></div>
-          <div><dt>Updates since 0.1.0</dt><dd>15</dd></div>
+          <div><dt>Current version</dt><dd>0.1.16</dd></div>
+          <div><dt>Updates since 0.1.0</dt><dd>16</dd></div>
           <div><dt>Apps in the catalog</dt><dd>25,100+</dd></div>
           <div><dt>Package managers for real</dt><dd>WinGet · Chocolatey · Scoop + 8 for developers</dd></div>
         </dl>
@@ -183,6 +184,11 @@
             <h3>Smooth lists and working offline</h3>
             <p>Lists with thousands of apps scroll smoothly all the way to the end, and nothing freezes without internet – installed apps and settings keep working.</p>
           </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.16</span>
+            <h3>Store apps at startup</h3>
+            <p>Turn off Teams, WhatsApp, iCloud and other Store apps at startup with one click – and they won’t turn it back on by themselves.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -197,6 +203,45 @@
         </div>
 
         <div class="timeline">
+          <!-- 0.1.16 -->
+          <article class="release" id="v0-1-16">
+            <div class="release__meta">
+              <span class="release__ver">0.1.16</span>
+              <time class="release__date" datetime="2026-10-28">Oct 28, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>Store apps and this week’s movers</h2>
+                <span class="badge badge--live">Latest</span>
+              </div>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li><strong>Store apps in Startup apps</strong> – Teams, WhatsApp, Terminal, iCloud and other Store apps with their name, publisher and icon. Turn them off with one click like in Task Manager, no admin rights needed, and the app can’t turn startup back on by itself. Only uninstalling the app removes it – it’s part of the app’s package.</li>
+                  <li><strong>Top charts your way</strong> – sort by popularity, by user ratings or by This week’s movers: the apps whose downloads are growing fastest. Each app shows the figure it’s sorted by.</li>
+                  <li><strong>Apps that update themselves</strong> – when an app (Discord, for example) reverts to its own server’s version after an update, Unibox marks it as “updates itself” and stops offering the update over and over. You can offer it again from the app detail.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li>On a wide window, the app detail uses the space on the right too – the information isn’t so cramped and full screen doesn’t leave empty space.</li>
+                  <li>When an installer crashes (GeForce NOW, for example), Unibox says so clearly and offers another source – no pointless retry as administrator.</li>
+                  <li>The Unibox update dialog shows why an update failed, and the download has a longer time limit.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Fixed</h3>
+                <ul>
+                  <li>An app installed by two package managers (Git via WinGet and Scoop, for example) gets its own card for each under Installed – both used to show the first installation.</li>
+                  <li>A program icon from disk loads again after a temporary error – it used to stay blank for a whole day.</li>
+                  <li>Switching Trending / Popular on Home no longer jumps to the top of the page.</li>
+                  <li>Esc in a dialog closes only the topmost window, and keys (Enter, Ctrl+Enter, Ctrl+K) no longer act on the page under a dialog.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
           <!-- 0.1.15 -->
           <article class="release" id="v0-1-15">
             <div class="release__meta">
@@ -206,7 +251,6 @@
             <div class="card release__body">
               <div class="release__head">
                 <h2>Smoother and more resilient</h2>
-                <span class="badge badge--live">Latest</span>
               </div>
               <div class="changes changes--better">
                 <h3>Improved</h3>

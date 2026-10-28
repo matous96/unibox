@@ -28,6 +28,53 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: "0.1.16",
+    date: "2026-10-28",
+    highlights: [
+      {
+        cs: "Po spuštění ukáže i aplikace ze Storu (Teams, WhatsApp, Terminál, iCloud…) s názvem, vydavatelem a ikonou. Vypnete je jedním kliknutím jako ve Správci úloh, bez práv správce – a aplikace si spouštění sama znovu nezapne.",
+        en: "Startup apps now include Store apps (Teams, WhatsApp, Terminal, iCloud…) with their name, publisher and icon. Turn them off with one click like in Task Manager, no admin rights needed – and the app can't turn startup back on by itself.",
+      },
+      {
+        cs: "Nejstahovanější po svém: řazení podle popularity, hodnocení od uživatelů nebo Skokani týdne – aplikace, kterým nejrychleji roste počet stažení.",
+        en: "Top charts your way: sort by popularity, user ratings or This week's movers – the apps whose downloads are growing fastest.",
+      },
+      {
+        cs: "Aplikace, které se aktualizují samy (Discord): když se po aktualizaci vrátí na verzi ze svého serveru, Unibox ji označí „aktualizuje se sama“ a přestane aktualizaci nabízet dokola.",
+        en: "Apps that update themselves (Discord): when an app reverts to its own server's version after an update, Unibox marks it as “updates itself” and stops offering the update over and over.",
+      },
+      {
+        cs: "Když instalátor spadne (GeForce NOW), Unibox to řekne srozumitelně a nabídne jiný zdroj – instalaci zbytečně neopakuje jako správce.",
+        en: "When an installer crashes (GeForce NOW), Unibox says so clearly and offers another source – no pointless retry as administrator.",
+      },
+      {
+        cs: "Detail aplikace na širokém okně využívá i místo vpravo, takže informace nejsou tak nahuštěné.",
+        en: "On a wide window, the app detail uses the space on the right too, so the information isn't so cramped.",
+      },
+      {
+        cs: "Opravy: aplikace nainstalovaná dvěma správci má dvě vlastní karty, ikony programů se po přechodné chybě načtou znovu, Trendy / Populární na Domů přepíná bez skoku nahoru, Esc v dialogu zavře jen horní okno a dialog aktualizace Uniboxu ukáže, proč se aktualizace nepodařila.",
+        en: "Fixes: an app installed by two package managers gets its own card for each, program icons load again after a temporary error, Trending / Popular on Home switches without jumping to the top, Esc in a dialog closes only the topmost window and the Unibox update dialog shows why an update failed.",
+      },
+    ],
+    featured: [
+      {
+        title: { cs: "Aplikace ze Storu po spuštění", en: "Store apps at startup" },
+        text: {
+          cs: "Teams, WhatsApp, iCloud i další aplikace ze Storu vypnete po spuštění jedním kliknutím – a samy si spouštění znovu nezapnou.",
+          en: "Turn off Teams, WhatsApp, iCloud and other Store apps at startup with one click – and they won't turn it back on by themselves.",
+        },
+        href: { cs: "funkce.html#po-spusteni", en: "features.html#po-spusteni" },
+      },
+      {
+        title: { cs: "Nejstahovanější po svém", en: "Top charts your way" },
+        text: {
+          cs: "Řazení podle popularity, hodnocení od uživatelů nebo Skokani týdne – aplikace, kterým nejrychleji roste počet stažení.",
+          en: "Sort by popularity, user ratings or This week's movers – the apps whose downloads are growing fastest.",
+        },
+      },
+    ],
+  },
+  {
     version: "0.1.15",
     date: "2026-10-28",
     highlights: [

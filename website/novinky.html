@@ -78,6 +78,7 @@
           <h1>Co je nového v&nbsp;Uniboxu</h1>
           <p class="lead">Všechny změny od první veřejné verze 0.1.0, nejnovější nahoře. Za týden od jejího vydání vyšlo patnáct aktualizací.</p>
           <nav class="versions-nav" aria-label="Přejít na verzi">
+            <a class="chip" href="#v0-1-16">0.1.16</a>
             <a class="chip" href="#v0-1-15">0.1.15</a>
             <a class="chip" href="#v0-1-14">0.1.14</a>
             <a class="chip" href="#v0-1-13">0.1.13</a>
@@ -97,8 +98,8 @@
           </nav>
         </div>
         <dl class="stats reveal">
-          <div><dt>Aktuální verze</dt><dd>0.1.15</dd></div>
-          <div><dt>Aktualizací od verze 0.1.0</dt><dd>15</dd></div>
+          <div><dt>Aktuální verze</dt><dd>0.1.16</dd></div>
+          <div><dt>Aktualizací od verze 0.1.0</dt><dd>16</dd></div>
           <div><dt>Aplikací v katalogu</dt><dd>25&nbsp;100+</dd></div>
           <div><dt>Správci naostro</dt><dd>WinGet · Chocolatey · Scoop + 8 pro vývojáře</dd></div>
         </dl>
@@ -183,6 +184,11 @@
             <h3>Plynulé seznamy a&nbsp;práce bez připojení</h3>
             <p>Seznamy s&nbsp;tisíci aplikací scrollují svižně až na konec a&nbsp;bez internetu nic nezamrzne – nainstalované aplikace a&nbsp;nastavení fungují dál.</p>
           </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.16</span>
+            <h3>Aplikace ze Storu po spuštění</h3>
+            <p>Teams, WhatsApp, iCloud a&nbsp;další aplikace ze Storu vypnete po spuštění jedním kliknutím – a&nbsp;samy si spouštění znovu nezapnou.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -197,6 +203,46 @@
         </div>
 
         <div class="timeline">
+          <!-- 0.1.16 -->
+          <article class="release" id="v0-1-16">
+            <div class="release__meta">
+              <span class="release__ver">0.1.16</span>
+              <time class="release__date" datetime="2026-10-28">28. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>Aplikace ze Storu a&nbsp;Skokani týdne</h2>
+                <span class="badge badge--live">Nejnovější</span>
+              </div>
+              <div class="changes changes--new">
+                <h3>Nové</h3>
+                <ul>
+                  <li><strong>Aplikace ze Storu v&nbsp;sekci Po spuštění</strong> – Teams, WhatsApp, Terminál, iCloud a&nbsp;další aplikace ze Storu s&nbsp;názvem, vydavatelem a&nbsp;ikonou. Vypnete je jedním kliknutím jako ve Správci úloh, bez práv správce, a&nbsp;aplikace si spouštění sama znovu nezapne. Odstranit ho jde jen odinstalací aplikace – je součástí jejího balíčku.</li>
+                  <li><strong>Nejstahovanější po svém</strong> – řazení podle popularity, podle hodnocení od uživatelů nebo Skokani týdne: aplikace, kterým nejrychleji roste počet stažení. U&nbsp;každé aplikace je vidět údaj, podle kterého se řadí.</li>
+                  <li><strong>Aplikace, které se aktualizují samy</strong> – když se aplikace (třeba Discord) po aktualizaci vrátí na verzi ze svého serveru, Unibox ji označí „aktualizuje se sama“ a&nbsp;přestane aktualizaci nabízet dokola. V&nbsp;detailu ji jde nabídnout znovu.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Vylepšeno</h3>
+                <ul>
+                  <li>Detail aplikace na širokém okně využívá i&nbsp;místo vpravo – informace nejsou tak nahuštěné a&nbsp;na celou obrazovku nezůstává zbytečně prázdné místo.</li>
+                  <li>Když instalátor spadne (třeba GeForce NOW), Unibox to řekne srozumitelně a&nbsp;nabídne jiný zdroj – instalaci zbytečně neopakuje jako správce.</li>
+                  <li>Dialog aktualizace Uniboxu ukáže, proč se aktualizace nepodařila, a&nbsp;stahování má delší časový limit.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Opraveno</h3>
+                <ul>
+                  <li>Aplikace nainstalovaná dvěma správci (třeba Git přes WinGet i&nbsp;Scoop) má na Nainstalovaných dvě vlastní karty – dřív obě ukazovaly první instalaci.</li>
+                  <li>Ikona programu z&nbsp;disku se po přechodné chybě načte znovu – dřív zůstala celý den prázdná.</li>
+                  <li>Přepínání Trendy / Populární na Domů neskočí na začátek stránky.</li>
+                  <li>Esc v&nbsp;dialogu zavře jen horní okno a&nbsp;klávesy (Enter, Ctrl+Enter, Ctrl+K) nepůsobí na stránku pod dialogem.</li>
+                  <li>Automatické aktualizace odložené kvůli baterii nebo měřenému připojení: hláška „Nalezeny 3 aktualizace“ místo názvu textu.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
           <!-- 0.1.15 -->
           <article class="release" id="v0-1-15">
             <div class="release__meta">
@@ -206,7 +252,6 @@
             <div class="card release__body">
               <div class="release__head">
                 <h2>Plynulejší a&nbsp;odolnější</h2>
-                <span class="badge badge--live">Nejnovější</span>
               </div>
               <div class="changes changes--better">
                 <h3>Vylepšeno</h3>
