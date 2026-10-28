@@ -16,35 +16,45 @@ fn path_of<R: Runtime>(app: &AppHandle<R>, key: &str) -> Result<PathBuf, String>
     Ok(dir.join(format!("{name}.bin")))
 }
 
+// Soubory a DPAPI mimo vlákno okna – synchronní příkaz by běžel na hlavním vlákně
+
 #[tauri::command]
-pub fn secure_get<R: Runtime>(app: AppHandle<R>, key: String) -> Result<Option<String>, String> {
+pub async fn secure_get<R: Runtime>(app: AppHandle<R>, key: String) -> Result<Option<String>, String> {
     let path = path_of(&app, &key)?;
-    let Ok(encrypted) = std::fs::read(&path) else { return Ok(None) };
-    // Soubor, který nejde rozšifrovat (jiný účet, poškození), jako by nebyl
-    match unprotect(&encrypted) {
-        Ok(plain) => Ok(String::from_utf8(plain).ok()),
-        Err(_) => {
-            let _ = std::fs::remove_file(&path);
-            Ok(None)
+    crate::process::background(move || {
+        let Ok(encrypted) = std::fs::read(&path) else { return Ok(None) };
+        // Soubor, který nejde rozšifrovat (jiný účet, poškození), jako by nebyl
+        match unprotect(&encrypted) {
+            Ok(plain) => Ok(String::from_utf8(plain).ok()),
+            Err(_) => {
+                let _ = std::fs::remove_file(&path);
+                Ok(None)
+            }
         }
-    }
+    })
+    .await
 }
 
 #[tauri::command]
-pub fn secure_set<R: Runtime>(app: AppHandle<R>, key: String, value: String) -> Result<(), String> {
+pub async fn secure_set<R: Runtime>(app: AppHandle<R>, key: String, value: String) -> Result<(), String> {
     let path = path_of(&app, &key)?;
-    if let Some(dir) = path.parent() {
-        std::fs::create_dir_all(dir).map_err(|e| e.to_string())?;
-    }
-    std::fs::write(&path, protect(value.as_bytes())?).map_err(|e| e.to_string())
+    crate::process::background(move || {
+        if let Some(dir) = path.parent() {
+            std::fs::create_dir_all(dir).map_err(|e| e.to_string())?;
+        }
+        std::fs::write(&path, protect(value.as_bytes())?).map_err(|e| e.to_string())
+    })
+    .await
 }
 
 #[tauri::command]
-pub fn secure_remove<R: Runtime>(app: AppHandle<R>, key: String) -> Result<(), String> {
-    match std::fs::remove_file(path_of(&app, &key)?) {
+pub async fn secure_remove<R: Runtime>(app: AppHandle<R>, key: String) -> Result<(), String> {
+    let path = path_of(&app, &key)?;
+    crate::process::background(move || match std::fs::remove_file(path) {
         Err(e) if e.kind() != std::io::ErrorKind::NotFound => Err(e.to_string()),
         _ => Ok(()),
-    }
+    })
+    .await
 }
 
 #[cfg(windows)]

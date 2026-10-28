@@ -4,6 +4,7 @@ import { Outlet, useLocation } from "react-router";
 import { LoginDialog } from "@/components/auth/LoginDialog";
 import { OnboardingDialog } from "@/components/layout/OnboardingDialog";
 import { DevSourceOverview } from "@/components/home/DevSourceOverview";
+import { OfflineBar } from "@/components/layout/OfflineBar";
 import { SelectionBar } from "@/components/layout/SelectionBar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { SourceLockBar } from "@/components/layout/SourceLockBar";
@@ -26,6 +27,7 @@ import { useDeepLinks } from "@/hooks/useDeepLinks";
 import { useDesktopIntegration } from "@/hooks/useDesktopIntegration";
 import { useSecurityPolicySync } from "@/hooks/useSecurityPolicySync";
 import { useExternalLinks } from "@/hooks/useExternalLinks";
+import { ScrollContainerContext } from "@/hooks/useScrollContainer";
 import { useTheme } from "@/hooks/useTheme";
 import { isTauri } from "@/lib/tauri";
 import { isDevLock, useSourceScope } from "@/store/sourceLock";
@@ -86,6 +88,8 @@ export function Layout() {
           <TopBar />
           {/* Režim jednoho zdroje (levý panel) – indikátor se zrušením filtru */}
           <SourceLockBar />
+          {/* Ztráta připojení – co funguje dál a co počká */}
+          <OfflineBar />
           {/* Stálé místo pro posuvník – obsah při přechodu mezi krátkou a dlouhou stránkou neuskočí do strany */}
           <main ref={scroller} className="min-h-0 flex-1 overflow-y-auto [scrollbar-gutter:stable]">
             {/* Při změně stránky jen krátké prolnutí, bez posunu – okno reaguje svižně jako nativní
@@ -103,7 +107,10 @@ export function Layout() {
                 resetKey={location.pathname}
                 fallback={(error, reset) => <PageCrash error={error} reset={reset} />}
               >
-                <PageContent pathname={location.pathname} />
+                {/* Virtualizované seznamy aplikací počítají viditelné položky podle posuvné oblasti */}
+                <ScrollContainerContext value={scroller}>
+                  <PageContent pathname={location.pathname} />
+                </ScrollContainerContext>
               </ErrorBoundary>
             </motion.div>
           </main>

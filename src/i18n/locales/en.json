@@ -804,6 +804,10 @@
     "developerOn": "Developer mode is on – developer packages show only in this mode.",
     "notInSource": "This app isn’t available in {{source}}. The catalog is filtered to that source only."
   },
+  "offline": {
+    "title": "No internet connection",
+    "text": "installed apps and the saved catalog keep working; installs, updates, package manager search and ratings need a connection"
+  },
   "crash": {
     "pageTitle": "This page couldn't be displayed",
     "pageText": "Something unexpected went wrong on this page. The rest of Unibox keeps working – try again or go back Home.",
@@ -1287,8 +1291,6 @@
   "view": {
     "grid": "Grid",
     "list": "List",
-    "showMore_one": "Show more ({{count}})",
-    "showMore_other": "Show more ({{count}})",
     "sortBy": "Sort",
     "sort": {
       "popularity": "Popularity",

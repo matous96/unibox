@@ -19,16 +19,15 @@ pub struct SystemInfo {
     pub app_version: String,
 }
 
+/// Registr se čte mimo vlákno okna (synchronní příkaz by běžel na hlavním vlákně).
 #[tauri::command]
-pub fn system_info(app: tauri::AppHandle) -> SystemInfo {
-    let (arch, os_name, os_display_version, os_build) = read_windows_info();
-    SystemInfo {
-        arch,
-        os_name,
-        os_display_version,
-        os_build,
-        app_version: app.package_info().version.to_string(),
-    }
+pub async fn system_info(app: tauri::AppHandle) -> Result<SystemInfo, String> {
+    let app_version = app.package_info().version.to_string();
+    crate::process::background(move || {
+        let (arch, os_name, os_display_version, os_build) = read_windows_info();
+        Ok(SystemInfo { arch, os_name, os_display_version, os_build, app_version })
+    })
+    .await
 }
 
 /// Převod názvu architektury z Windows / Rustu na názvy používané v katalogu.

@@ -832,6 +832,10 @@
     "developerOn": "Režim Vývojář je zapnutý – balíčky pro vývojáře jsou vidět jen v něm.",
     "notInSource": "Aplikace ve zdroji {{source}} není. Katalog je filtrovaný jen pro tento zdroj."
   },
+  "offline": {
+    "title": "Bez připojení k internetu",
+    "text": "nainstalované aplikace a uložený katalog fungují dál; instalace, aktualizace, hledání ve správcích a hodnocení počkají na připojení"
+  },
   "crash": {
     "pageTitle": "Tuhle stránku se nepodařilo zobrazit",
     "pageText": "Ve stránce nastala neočekávaná chyba. Zbytek Uniboxu funguje dál – zkuste to znovu, nebo se vraťte na Domů.",
@@ -1343,10 +1347,6 @@
   "view": {
     "grid": "Mřížka",
     "list": "Seznam",
-    "showMore_one": "Zobrazit další ({{count}})",
-    "showMore_few": "Zobrazit další ({{count}})",
-    "showMore_many": "Zobrazit další ({{count}})",
-    "showMore_other": "Zobrazit další ({{count}})",
     "sortBy": "Řadit",
     "sort": {
       "popularity": "Popularita",

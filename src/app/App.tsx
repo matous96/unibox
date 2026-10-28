@@ -61,6 +61,9 @@ export function App() {
             <Route path="history" element={<HistoryPage />} />
             <Route path="logs" element={<LogsPage />} />
             <Route path="help" element={<HelpPage />} />
+            {/* Neznámá adresa (zastaralý odkaz, odkaz z novější verze) – bez ní by okno zůstalo
+                prázdné i bez titulkové lišty a postranního panelu */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
       </HashRouter>
