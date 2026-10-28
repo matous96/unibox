@@ -217,8 +217,9 @@ function PackageDetailView({ entry: fullEntry, inCatalog }: { entry: CatalogEntr
       {/* Mřížka: ikona přes obě řádky, vpravo nahoře oblíbené a sdílení. Široký detail
           (container query na <article>): vlevo název, popis a akce, vpravo pod ikonami
           panel se stavem instalace a ověřením – využije místo pod nimi. Užší detail:
-          panel pod akcemi přes celou šířku, jeho skupiny vedle sebe, když je místo. */}
-      <header className="grid grid-cols-[auto_minmax(0,1fr)_auto] gap-x-8 pt-8 pb-8 @6xl:grid-cols-[auto_minmax(0,1fr)_minmax(0,24rem)]">
+          panel pod akcemi přes celou šířku, jeho skupiny vedle sebe, když je místo. Velmi široký
+          (celá obrazovka): panel v řádku s akcemi vpravo, skupiny vedle sebe – nízká hlavička bez prázdna. */}
+      <header className="grid grid-cols-[auto_minmax(0,1fr)_auto] gap-x-8 pt-8 pb-8 @6xl:grid-cols-[auto_minmax(0,1fr)_minmax(0,24rem)] @min-[120rem]:grid-cols-[auto_minmax(0,1fr)_auto]">
         <PackageIcon
           id={entry.id}
           name={entry.name}
@@ -228,8 +229,8 @@ function PackageDetailView({ entry: fullEntry, inCatalog }: { entry: CatalogEntr
         />
         {/* Úzký detail: obal se „rozpustí“ (contents) a název i akce jsou samostatné položky mřížky –
             akce pod názvem přes celou šířku. Široký: jeden sloupec přes obě řádky, vpravo panel. */}
-        <div className="contents @6xl:col-start-2 @6xl:row-span-2 @6xl:row-start-1 @6xl:block @6xl:min-w-0 @6xl:pt-3">
-          <div className="col-start-2 row-start-1 min-w-0 pt-3 @6xl:pt-0">
+        <div className="contents @6xl:col-start-2 @6xl:row-span-2 @6xl:row-start-1 @6xl:block @6xl:min-w-0 @6xl:pt-3 @min-[120rem]:contents">
+          <div className="col-start-2 row-start-1 min-w-0 pt-3 @6xl:pt-0 @min-[120rem]:pt-3">
             {/* Název a popis jdou označit a zkopírovat (jinak má okno výběr textu vypnutý) */}
             <h1 className="font-display text-[40px] leading-tight font-bold tracking-tight">
               <span className="cursor-text select-text">
@@ -252,7 +253,7 @@ function PackageDetailView({ entry: fullEntry, inCatalog }: { entry: CatalogEntr
           </div>
 
           {/* Akce; nenainstalovaná aplikace i s výběrem zdroje a parametry instalace */}
-          <div className={cn("col-span-2 col-start-2 row-start-2 mt-6 flex min-w-0 flex-col gap-4 @6xl:col-span-1", lockedOut && "hidden")}>
+          <div className={cn("col-span-2 col-start-2 row-start-2 mt-6 flex min-w-0 flex-col gap-4 @6xl:col-span-1 @6xl:col-start-2", lockedOut && "hidden")}>
             <div className="flex flex-wrap items-center gap-3">
               {/* Při běžící úloze potřebuje průběh pevnou šířku */}
               <div className={cn(job && "w-80")}>
@@ -321,6 +322,8 @@ function PackageDetailView({ entry: fullEntry, inCatalog }: { entry: CatalogEntr
             className={cn(
               "col-span-2 col-start-2 row-start-3 mt-6 flex flex-wrap items-start gap-x-10 gap-y-3 self-start rounded-2xl border border-line bg-surface/60 px-5 py-4 text-sm",
               "@6xl:col-span-1 @6xl:col-start-3 @6xl:row-start-2 @6xl:mt-5",
+              // Velmi široký detail: v řádku s akcemi (stejný horní okraj), skupiny vedle sebe
+              "@min-[120rem]:mt-6",
               lockedOut && "hidden",
             )}
           >
