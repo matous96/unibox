@@ -75,8 +75,9 @@
         <div class="page-head__inner reveal">
           <p class="eyebrow">What’s new</p>
           <h1>What’s new in&nbsp;Unibox</h1>
-          <p class="lead">Every change since the first public version 0.1.0, newest first. Fourteen updates shipped in the week after its release.</p>
+          <p class="lead">Every change since the first public version 0.1.0, newest first. Fifteen updates shipped in the week after its release.</p>
           <nav class="versions-nav" aria-label="Jump to version">
+            <a class="chip" href="#v0-1-15">0.1.15</a>
             <a class="chip" href="#v0-1-14">0.1.14</a>
             <a class="chip" href="#v0-1-13">0.1.13</a>
             <a class="chip" href="#v0-1-12">0.1.12</a>
@@ -95,8 +96,8 @@
           </nav>
         </div>
         <dl class="stats reveal">
-          <div><dt>Current version</dt><dd>0.1.14</dd></div>
-          <div><dt>Updates since 0.1.0</dt><dd>14</dd></div>
+          <div><dt>Current version</dt><dd>0.1.15</dd></div>
+          <div><dt>Updates since 0.1.0</dt><dd>15</dd></div>
           <div><dt>Apps in the catalog</dt><dd>25,100+</dd></div>
           <div><dt>Package managers for real</dt><dd>WinGet · Chocolatey · Scoop + 8 for developers</dd></div>
         </dl>
@@ -176,6 +177,11 @@
             <h3>Sync between computers</h3>
             <p>Favorites, your package bundle and preferences on all your computers. Turn off any area and delete the data from your account at any time.</p>
           </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.15</span>
+            <h3>Smooth lists and working offline</h3>
+            <p>Lists with thousands of apps scroll smoothly all the way to the end, and nothing freezes without internet – installed apps and settings keep working.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -190,6 +196,34 @@
         </div>
 
         <div class="timeline">
+          <!-- 0.1.15 -->
+          <article class="release" id="v0-1-15">
+            <div class="release__meta">
+              <span class="release__ver">0.1.15</span>
+              <time class="release__date" datetime="2026-10-28">Oct 28, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>Smoother and more resilient</h2>
+                <span class="badge badge--live">Latest</span>
+              </div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li><strong>Smooth lists, even with thousands of apps</strong> – categories, search, installed apps and favorites render only the cards you can see. Scrolling stays snappy all the way to the end of the list, and the “Show more” button is no longer needed.</li>
+                  <li><strong>No connection, no freeze</strong> – installed apps, startup apps and settings work offline too, and a bar at the top says what waits for the connection (installs, updates, package manager search, ratings). Data reloads once the connection is back.</li>
+                  <li>Reading your sign-in and system details runs in the background, not on the window thread – the window doesn’t stall meanwhile.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Fixed</h3>
+                <ul>
+                  <li>An outdated or unknown link opens Home – previously the window stayed empty, without the title bar or sidebar.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
           <!-- 0.1.14 -->
           <article class="release" id="v0-1-14">
             <div class="release__meta">
@@ -199,7 +233,6 @@
             <div class="card release__body">
               <div class="release__head">
                 <h2>Accounts, reviews and community screenshots</h2>
-                <span class="badge badge--live">Latest</span>
               </div>
               <div class="changes changes--new">
                 <h3>New</h3>

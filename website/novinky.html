@@ -75,8 +75,9 @@
         <div class="page-head__inner reveal">
           <p class="eyebrow">Novinky</p>
           <h1>Co je nového v&nbsp;Uniboxu</h1>
-          <p class="lead">Všechny změny od první veřejné verze 0.1.0, nejnovější nahoře. Za týden od jejího vydání vyšlo čtrnáct aktualizací.</p>
+          <p class="lead">Všechny změny od první veřejné verze 0.1.0, nejnovější nahoře. Za týden od jejího vydání vyšlo patnáct aktualizací.</p>
           <nav class="versions-nav" aria-label="Přejít na verzi">
+            <a class="chip" href="#v0-1-15">0.1.15</a>
             <a class="chip" href="#v0-1-14">0.1.14</a>
             <a class="chip" href="#v0-1-13">0.1.13</a>
             <a class="chip" href="#v0-1-12">0.1.12</a>
@@ -95,8 +96,8 @@
           </nav>
         </div>
         <dl class="stats reveal">
-          <div><dt>Aktuální verze</dt><dd>0.1.14</dd></div>
-          <div><dt>Aktualizací od verze 0.1.0</dt><dd>14</dd></div>
+          <div><dt>Aktuální verze</dt><dd>0.1.15</dd></div>
+          <div><dt>Aktualizací od verze 0.1.0</dt><dd>15</dd></div>
           <div><dt>Aplikací v katalogu</dt><dd>25&nbsp;100+</dd></div>
           <div><dt>Správci naostro</dt><dd>WinGet · Chocolatey · Scoop + 8 pro vývojáře</dd></div>
         </dl>
@@ -176,6 +177,11 @@
             <h3>Synchronizace mezi počítači</h3>
             <p>Oblíbené, sada balíčků a předvolby na všech vašich počítačích. Každou oblast jde vypnout a data z účtu kdykoli smazat.</p>
           </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.15</span>
+            <h3>Plynulé seznamy a&nbsp;práce bez připojení</h3>
+            <p>Seznamy s&nbsp;tisíci aplikací scrollují svižně až na konec a&nbsp;bez internetu nic nezamrzne – nainstalované aplikace a&nbsp;nastavení fungují dál.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -190,6 +196,34 @@
         </div>
 
         <div class="timeline">
+          <!-- 0.1.15 -->
+          <article class="release" id="v0-1-15">
+            <div class="release__meta">
+              <span class="release__ver">0.1.15</span>
+              <time class="release__date" datetime="2026-10-28">28. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>Plynulejší a&nbsp;odolnější</h2>
+                <span class="badge badge--live">Nejnovější</span>
+              </div>
+              <div class="changes changes--better">
+                <h3>Vylepšeno</h3>
+                <ul>
+                  <li><strong>Plynulé seznamy i&nbsp;s&nbsp;tisíci aplikací</strong> – kategorie, hledání, nainstalované a&nbsp;oblíbené vykreslují jen karty, které jsou vidět. Scrollování zůstává svižné až na konec seznamu a&nbsp;tlačítko „Zobrazit další“ už není potřeba.</li>
+                  <li><strong>Bez připojení nic nezamrzne</strong> – nainstalované aplikace, Po spuštění a&nbsp;nastavení fungují i&nbsp;offline a&nbsp;lišta nahoře řekne, co počká na připojení (instalace, aktualizace, hledání ve správcích, hodnocení). Po návratu připojení se data načtou znovu.</li>
+                  <li>Čtení přihlášení a&nbsp;údajů o&nbsp;systému běží na pozadí, ne ve vlákně okna – okno se při tom nezasekne.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Opraveno</h3>
+                <ul>
+                  <li>Zastaralý nebo neznámý odkaz otevře Domů – dřív zůstalo okno prázdné, bez titulkové lišty i&nbsp;postranního panelu.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
           <!-- 0.1.14 -->
           <article class="release" id="v0-1-14">
             <div class="release__meta">
@@ -199,7 +233,6 @@
             <div class="card release__body">
               <div class="release__head">
                 <h2>Účet, recenze a snímky od komunity</h2>
-                <span class="badge badge--live">Nejnovější</span>
               </div>
               <div class="changes changes--new">
                 <h3>Nové</h3>

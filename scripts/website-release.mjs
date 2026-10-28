@@ -46,8 +46,8 @@ const PAGES = {
 
 const escapeHtml = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-/** Česká typografie: jednopísmenné předložky a spojky se nenechávají na konci řádku. */
-const typography = (text, lang) => (lang === "cs" ? text.replace(/(^|\s)([AaIiKkOoSsUuVvZz]) /g, "$1$2&nbsp;") : text);
+/** Česká typografie: jednopísmenné předložky a spojky se nenechávají na konci řádku (i dvě za sebou – „i s“). */
+const typography = (text, lang) => (lang === "cs" ? text.replace(/(?<=^|\s)([AaIiKkOoSsUuVvZz]) /g, "$1&nbsp;") : text);
 
 const localize = (value, lang) => value[lang] ?? value.cs;
 

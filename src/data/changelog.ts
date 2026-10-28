@@ -24,6 +24,44 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: "0.1.15",
+    date: "2026-10-28",
+    highlights: [
+      {
+        cs: "Plynulé seznamy i s tisíci aplikací: kategorie, hledání, nainstalované a oblíbené vykreslují jen to, co je vidět – scrollování zůstává svižné až na konec seznamu, bez tlačítka „Zobrazit další“.",
+        en: "Smooth lists even with thousands of apps: categories, search, installed apps and favorites render only what's visible – scrolling stays snappy all the way to the end, with no “Show more” button.",
+      },
+      {
+        cs: "Bez připojení k internetu nic nezamrzne: nainstalované aplikace, Po spuštění a nastavení fungují dál a lišta nahoře řekne, co počká na připojení. Po jeho návratu se data načtou znovu.",
+        en: "Nothing freezes without an internet connection: installed apps, startup apps and settings keep working, and a bar at the top says what waits for the connection. Data reloads once it's back.",
+      },
+      {
+        cs: "Svižnější okno: čtení přihlášení a údajů o systému běží na pozadí, ne ve vlákně okna.",
+        en: "A snappier window: reading your sign-in and system details runs in the background, not on the window thread.",
+      },
+      {
+        cs: "Zastaralý nebo neznámý odkaz otevře Domů místo prázdného okna.",
+        en: "An outdated or unknown link opens Home instead of an empty window.",
+      },
+    ],
+    featured: [
+      {
+        title: { cs: "Plynulé seznamy i s tisíci aplikací", en: "Smooth lists, even with thousands of apps" },
+        text: {
+          cs: "Kategorie, hledání i nainstalované aplikace vykreslují jen to, co je vidět – scrollování zůstává svižné až na konec seznamu.",
+          en: "Categories, search and installed apps render only what's visible – scrolling stays snappy all the way to the end of the list.",
+        },
+      },
+      {
+        title: { cs: "Bez připojení nic nezamrzne", en: "No connection, no freeze" },
+        text: {
+          cs: "Nainstalované aplikace a nastavení fungují i offline. Unibox řekne, co počká na připojení, a po jeho návratu data načte znovu.",
+          en: "Installed apps and settings work offline too. Unibox tells you what waits for the connection and reloads the data once it's back.",
+        },
+      },
+    ],
+  },
+  {
     version: "0.1.14",
     date: "2026-10-28",
     highlights: [
