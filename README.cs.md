@@ -508,6 +508,12 @@ Vydání nové verze:
    do něj **instalátor** a **latest.json**.
 3. Hotovo – nainstalované Unibox si novou verzi najdou samy.
 
+Kolikrát se vydání stáhla, vypíše `pnpm downloads` (`scripts/downloads.mjs`, veřejné
+počítadlo GitHubu): instalátor EXE a MSI a `latest.json` – ten si stáhne každá kontrola
+aktualizací nainstalovaného Uniboxu, takže hrubě ukazuje, kolik kopií běží. GitHub
+uvádí jen součty za celou dobu (bez toho, kdo a kdy stahoval) a počítá i vlastní
+stažení při testování.
+
 Soukromý klíč je v `%USERPROFILE%\.tauri\unibox-updater.key` (mimo repozitář,
 bez hesla; jiné umístění: proměnná `UNIBOX_UPDATER_KEY`). **Zálohujte ho** – bez něj
 nejde vydat aktualizaci, kterou by už nainstalované Unibox přijaly. Aktualizace se
