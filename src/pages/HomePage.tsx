@@ -118,8 +118,10 @@ export function HomePage() {
   return (
     <>
       {/* ── Dnes: vlevo datum a nadpis, uprostřed tři sliby Uniboxu, vpravo přepínač režimu ── */}
-      {/* Na užších obrazovkách se sliby přesunou na vlastní řádek pod nadpis. */}
-      <div className="mb-5 grid grid-cols-[1fr_auto] items-end gap-x-6 gap-y-3 xl:grid-cols-[1fr_auto_1fr]">
+      {/* Sliby na střed volného místa mezi nadpisem a přepínačem (přepínač je mnohem širší než
+          „Dnes“ – na středu celého řádku by vypadaly posunuté doprava). Na užších obrazovkách
+          se přesunou na vlastní řádek pod nadpis. */}
+      <div className="mb-5 grid grid-cols-[1fr_auto] items-end gap-x-6 gap-y-3 xl:grid-cols-[auto_minmax(0,1fr)_auto]">
         <div>
           <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">{dateLabel}</p>
           <h2 className="font-display text-4xl font-bold tracking-tight">{t("home.today")}</h2>
@@ -212,10 +214,9 @@ export function HomePage() {
           <CollectionToolbar hideSort />
         </div>
 
-        {/* key = při přepnutí záložky se karty znovu plynule objeví */}
-        <div key={tab}>
-          <PackageCollection packages={tabItems} />
-        </div>
+        {/* Bez nového připojení při přepnutí záložky – seznam jen dostane jiné aplikace
+            a drží výšku, takže stránka neposkočí nahoru */}
+        <PackageCollection packages={tabItems} />
       </section>
     </>
   );

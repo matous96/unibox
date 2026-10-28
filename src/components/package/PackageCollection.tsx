@@ -22,6 +22,13 @@ const ESTIMATE = { grid: 241, list: 65 };
 const OVERSCAN = { grid: 3, list: 12 };
 
 /**
+ * Šířka seznamu z posledního měření. Nový seznam (jiná stránka, nové připojení)
+ * z ní vychází hned v prvním snímku – bez ní by první snímek byl prázdný, stránka
+ * by se na okamžik zkrátila a prohlížeč by posunul pozici scrollu nahoru.
+ */
+let lastWidth = 0;
+
+/**
  * Seznam balíčků v aktuálně zvoleném zobrazení (mřížka / seznam).
  *
  * Virtualizovaný: v DOM jsou jen řádky ve výhledu posuvné oblasti okna (a pár
@@ -34,7 +41,7 @@ export function PackageCollection({ packages, showUninstall }: PackageCollection
   const mode = useSettings((s) => s.viewMode) === "list" ? "list" : "grid";
   const scroller = useScrollContainer();
   const container = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(0);
+  const [width, setWidth] = useState(() => lastWidth);
   const [offset, setOffset] = useState(0);
 
   // Šířka seznamu (počet sloupců) a jeho vzdálenost od začátku posuvné oblasti
@@ -43,6 +50,7 @@ export function PackageCollection({ packages, showUninstall }: PackageCollection
     const scrollEl = scroller?.current;
     if (!el || !scrollEl) return;
     const measure = () => {
+      lastWidth = el.clientWidth;
       setWidth(el.clientWidth);
       setOffset(Math.round(el.getBoundingClientRect().top - scrollEl.getBoundingClientRect().top + scrollEl.scrollTop));
     };
@@ -56,7 +64,7 @@ export function PackageCollection({ packages, showUninstall }: PackageCollection
 
   const columns = mode === "list" ? 1 : Math.max(1, Math.floor((width + CARD_GAP) / (CARD_MIN + CARD_GAP)));
   const virtualizer = useVirtualizer({
-    // Do změření šířky nic – jinak by se na okamžik vykreslil jeden sloupec
+    // Bez známé šířky (první seznam od spuštění) nic – jinak by se na okamžik vykreslil jeden sloupec
     count: width ? Math.ceil(packages.length / columns) : 0,
     getScrollElement: () => scroller?.current ?? null,
     estimateSize: () => ESTIMATE[mode],
