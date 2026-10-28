@@ -110,12 +110,14 @@ s právy správce.
 **[Stáhnout nejnovější verzi](https://github.com/matous96/unibox/releases/latest)** –
 instalátor **EXE** instaluje pro aktuálního uživatele bez práv správce, **MSI** se hodí
 pro nasazení ve firmách. Požadavky: Windows 10 nebo 11 (64bit) a WebView2, který je ve
-Windows předinstalovaný. Unibox se pak aktualizuje sám.
+Windows předinstalovaný. Unibox se pak aktualizuje sám. Víc na webu:
+[matous96.github.io/unibox](https://matous96.github.io/unibox/).
 
 > [!NOTE]
 > Instalátor zatím není digitálně podepsaný (podpis přes SignPath Foundation
-> připravujeme), proto Windows SmartScreen při prvním spuštění zobrazí varování:
-> **Další informace → Přesto spustit**.
+> připravujeme). Edge může hlásit, že se soubor „běžně nestahuje“ (**… → Ponechat →
+> Zobrazit další → Přesto ponechat**), a Windows SmartScreen při prvním spuštění zobrazí
+> varování (**Další informace → Přesto spustit**).
 
 ## Zdarma a open source
 
@@ -397,8 +399,10 @@ odkud ho `pnpm dev` načte místo ukázkového katalogu. Podrobnosti v
 ### Vzdálený katalog
 
 Katalog denně generuje workflow **Katalog** (`.github/workflows/catalog.yml`) na GitHub
-Actions a zveřejňuje ho zdarma na GitHub Pages:
-[matous96.github.io/unibox/catalog.json](https://matous96.github.io/unibox/catalog.json).
+Actions a zveřejňuje ho zdarma na GitHub Pages spolu s webem (`website/`):
+[matous96.github.io/unibox/catalog.json](https://matous96.github.io/unibox/catalog.json),
+web na [matous96.github.io/unibox](https://matous96.github.io/unibox/). Změna webu
+v `main` spustí zveřejnění hned – s posledním zveřejněným katalogem, bez pipeline.
 Pages ho posílá komprimovaný (16 MB → ~3,5 MB) a s ETagem – opakované stažení beze
 změny je jen odpověď 304. Sestavená aplikace si ho stahuje při startu; jinou adresu
 (i pro vývoj, kde se jinak bere místní katalog) nastavíte v `.env.local`:
@@ -642,9 +646,9 @@ Podmínky SignPath Foundation (signpath.org/terms) a co je v projektu připraven
 | Podmínka | Stav |
 |---|---|
 | Licence schválená OSI, jen open-source součásti | MIT ✓ |
-| Veřejný repozitář, sestavení z něj automaticky v CI | workflow ✓ – repozitář založit a zveřejnit |
-| Projekt už vydaný a udržovaný | vydání 0.1.x ✓ (na GitHubu po zveřejnění) |
-| Stránka „Code signing policy“ s poděkováním SignPath, rolemi a odkazem na zásady soukromí, odkaz z úvodní stránky a ze stahování | `website/podpis-kodu.html`, `website/en/code-signing.html` ✓ – doplnit jména rolí |
+| Veřejný repozitář, sestavení z něj automaticky v CI | [github.com/matous96/unibox](https://github.com/matous96/unibox), workflow Vydání ✓ |
+| Projekt už vydaný a udržovaný | vydání 0.1.14 a 0.1.15 na GitHubu ✓ |
+| Stránka „Code signing policy“ s poděkováním SignPath, rolemi a odkazem na zásady soukromí, odkaz z úvodní stránky a ze stahování | [matous96.github.io/unibox/podpis-kodu.html](https://matous96.github.io/unibox/podpis-kodu.html), [en/code-signing.html](https://matous96.github.io/unibox/en/code-signing.html), role: matous96 ✓ |
 | Zásady ochrany soukromí; software, který kontaktuje servery, je ukáže při instalaci a umožní funkce vypnout | `website/soukromi.html`, `website/en/privacy.html` ✓; instalátor NSIS i MSI ukáže před instalací stránku „Ochrana soukromí a licence“ ✓ (`bundle.licenseFile`); kontrolu aktualizací, synchronizaci a přihlášení jde vypnout ✓ |
 | Název a verze produktu v souborech (kontrola v konfiguraci artefaktů) | `Unibox` + verze z `tauri.conf.json` ✓ |
 | Dvoufázové ověření pro všechny členy týmu na GitHubu i v SignPathu | zapnout |
@@ -655,8 +659,8 @@ Postup:
    (adresa je v `plugins.updater.endpoints` v `src-tauri/tauri.conf.json`, v `src/config.ts`
    a v `LINKS` ve `website/main.js`).
 2. Vydejte první verzi workflowem bez podpisu (značka `v<verze>`), ať je projekt „vydaný“.
-3. Na webu doplňte jména v tabulce rolí (`podpis-kodu.html`, `en/code-signing.html`)
-   a web zveřejněte.
+3. Web se zásadami podepisování je zveřejněný na GitHub Pages (workflow Katalog);
+   při změně týmu upravte tabulku rolí (`podpis-kodu.html`, `en/code-signing.html`).
 4. Požádejte o podpis na [signpath.org/apply](https://signpath.org/apply).
 5. Po schválení v SignPathu: **Trusted Build Systems** → přidat GitHub.com a propojit
    s projektem; **Artifact Configurations** → `app` a `installers` z
