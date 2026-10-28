@@ -4,7 +4,7 @@
  */
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "@/app/queryClient";
+import { queryClient, queryKeys } from "@/app/queryClient";
 import { installedNameKey } from "@/lib/nameKey";
 import { wingetBaseId } from "@/lib/wingetVariant";
 import { normalize } from "@/lib/utils";
@@ -21,7 +21,12 @@ export const sourceKey = (source: SourceId, packageId: string) => `${source}:${p
 
 /** Katalog (načte se jednou při startu, pak drží v cache). */
 export function useCatalog() {
-  return useQuery({ queryKey: queryKeys.catalog, queryFn: loadCatalog, staleTime: Infinity });
+  return useQuery({
+    queryKey: queryKeys.catalog,
+    // Novější katalog stažený na pozadí po startu z uložené kopie
+    queryFn: () => loadCatalog((fresh) => queryClient.setQueryData(queryKeys.catalog, fresh)),
+    staleTime: Infinity,
+  });
 }
 
 // Indexy nad katalogem (25 000+ aplikací) a nainstalovanými balíčky se počítají
