@@ -605,9 +605,9 @@ workflow `.github/workflows/release.yml`:
 Verze v podpisu aktualizace je povinná: aplikace má `requireSignedVersion` a podpis
 bez ní odmítne (`scripts/check-updater-signature.mjs` to hlídá už při sestavení).
 Když zveřejněné vydání aktualizaci kvůli podpisu nenainstaluje, workflow
-**Podpis aktualizace** (`.github/workflows/updater-resign.yml`, ručně přes Run
-workflow) instalátor z vydání podepíše znovu a nahradí `.sig` a `latest.json` –
-bez nového sestavení.
+**Podpis aktualizace** (`.github/workflows/updater-resign.yml`; značka
+`resign-v<verze>`, nebo ručně přes Run workflow) instalátor z vydání podepíše znovu
+a nahradí `.sig` a `latest.json` – bez nového sestavení.
 
 Každý podpis musí schválit člověk v SignPathu – workflow na schválení čeká (až 2 h
 na každý ze dvou kroků). Bez `SIGNPATH_API_TOKEN` workflow sestaví nepodepsané vydání.

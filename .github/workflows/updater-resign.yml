@@ -9,13 +9,16 @@
 # vydání 0.1.15, podepsané bez verze, které aplikace s requireSignedVersion
 # nenainstalovala (MissingSignedVersion).
 #
-# Spuštění ručně: Actions → Podpis aktualizace → Run workflow.
+# Spuštění: značka resign-v<verze> (git tag resign-v0.1.15 && git push origin resign-v0.1.15),
+# nebo ručně Actions → Podpis aktualizace → Run workflow.
 # Tajné údaje: TAURI_SIGNING_PRIVATE_KEY (+ TAURI_SIGNING_PRIVATE_KEY_PASSWORD) jako pro Vydání.
 
 name: Podpis aktualizace
-run-name: "Podpis aktualizace – nový podpis vydání"
+run-name: "${{ github.ref_type == 'tag' && format('Podpis aktualizace {0}', github.ref_name) || 'Podpis aktualizace – ruční spuštění' }}"
 
 on:
+  push:
+    tags: ["resign-v*.*.*"]
   workflow_dispatch:
 
 permissions:
@@ -57,6 +60,9 @@ jobs:
         shell: pwsh
         run: |
           $version = (Get-Content src-tauri/tauri.conf.json -Raw | ConvertFrom-Json).version
+          if ($env:GITHUB_REF_TYPE -eq "tag" -and $env:GITHUB_REF_NAME -ne "resign-v$version") {
+            throw "Značka $env:GITHUB_REF_NAME nesedí s verzí $version v src-tauri/tauri.conf.json"
+          }
           $dir = "src-tauri/target/release/bundle/nsis"
           New-Item -ItemType Directory -Force $dir | Out-Null
           gh release download "v$version" --pattern "Unibox_${version}_x64-setup.exe" --dir $dir
