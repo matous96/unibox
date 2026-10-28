@@ -568,6 +568,14 @@ Odebrání po testu:
 Na jiných počítačích to nic nezmění a SmartScreen u stažených souborů nevypne –
 vývojový certifikát **nikdy nepoužívejte pro distribuci**.
 
+**SmartScreen při lokálním testování.** SmartScreen kontroluje jen soubory označené
+jako stažené z internetu (Mark of the Web). Instalátor sestavený na vlastním počítači
+značku nemá, takže se u něj SmartScreen vůbec neukáže – s podpisem to nesouvisí.
+Testujete-li na svém počítači kopii staženou z GitHubu nebo přenesenou prohlížečem,
+značku odstraní `Unblock-File .\Unibox_<verze>_x64-setup.exe` (nebo Vlastnosti souboru →
+Odblokovat). Inteligentní řízení aplikací (Smart App Control) ve Windows 11 je samostatná
+kontrola – je-li zapnuté, může nepodepsané i self-signed sestavení zablokovat i tak.
+
 **Certifikát pro distribuci** – aby Windows Unibox přestal označovat jako neznámý.
 Ceny jsou orientační, ověřte je u vydavatele:
 

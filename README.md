@@ -147,6 +147,52 @@ pnpm typecheck          # type checks
 | [`website/`](website) | the project website (Czech and English) |
 | [`.github/workflows/`](.github/workflows) | daily catalog, releases and Supabase maintenance |
 
+### Code signing
+
+`pnpm release` signs `unibox.exe`, the NSIS installer, its uninstaller and the MSI
+automatically when a certificate is set in the environment. Tauri calls
+[`scripts/sign.mjs`](scripts/sign.mjs) for each file (`bundle.windows.signCommand`), which
+runs `signtool.exe` from the Windows SDK with SHA-256 and an RFC 3161 timestamp. Without a
+certificate the build is unsigned and says so; a certificate that is set but can't be used
+(wrong password, missing token) stops the build.
+
+| Environment variable | Meaning |
+|---|---|
+| `UNIBOX_SIGN_PFX`, `UNIBOX_SIGN_PFX_PASSWORD` | a `.pfx` file with the certificate and key, and its password |
+| `UNIBOX_SIGN_THUMBPRINT` | instead of a `.pfx`: the SHA-1 thumbprint of a certificate in the Windows store (Current User → Personal) – also a token or cloud HSM its driver exposes there |
+| `UNIBOX_SIGN_TIMESTAMP_URL`, `UNIBOX_SIGNTOOL` | optional: another timestamp server, the path to `signtool.exe` |
+
+**Local test certificate** – a self-signed code signing certificate for trying it out
+(`signtool.exe` comes with the Windows SDK, e.g. "Windows 11 SDK" in Visual Studio Installer):
+
+```powershell
+pnpm sign:dev-cert   # creates %USERPROFILE%\.tauri\unibox-dev-signing.pfx and .cer, prints a password
+$env:UNIBOX_SIGN_PFX = "$env:USERPROFILE\.tauri\unibox-dev-signing.pfx"
+$env:UNIBOX_SIGN_PFX_PASSWORD = "<the printed password>"
+pnpm release -- --no-bump   # signed build without changing the version
+Get-AuthenticodeSignature .\src-tauri\target\release\bundle\nsis\*.exe | Format-List
+```
+
+Status `UnknownError` (untrusted root) is expected – Windows doesn't trust the certificate.
+On a **test machine only** you can trust it, so UAC shows the publisher "Unibox (dev)":
+
+```powershell
+Import-Certificate -FilePath "$env:USERPROFILE\.tauri\unibox-dev-signing.cer" -CertStoreLocation Cert:\CurrentUser\Root
+# after testing:
+Get-ChildItem Cert:\CurrentUser\Root | Where-Object Subject -like 'CN=Unibox (dev)*' | Remove-Item
+```
+
+**SmartScreen while testing locally:** SmartScreen only checks files marked as downloaded
+from the internet (Mark of the Web). An installer you built yourself has no mark, so
+SmartScreen doesn't show up for it at all. For a copy you downloaded (from GitHub, through a
+browser) and test on your own machine, `Unblock-File .\Unibox_<version>_x64-setup.exe`
+removes the mark. Smart App Control in Windows 11 is a separate check – when it's on, it
+may still block unsigned or self-signed builds. For other people, only a certificate from
+a trusted authority plus reputation removes the warning (free for open source: SignPath
+Foundation, see the Czech docs). Never distribute builds signed with the development
+certificate. Certificates and passwords don't
+belong in the repository (`.gitignore` skips `*.pfx`, `*.p12`, `*.key`).
+
 The full developer documentation – Supabase setup, signing, releases, the catalog and
 every app feature – is in Czech in [README.cs.md](README.cs.md#dokumentace-pro-vývojáře).
 Issues and pull requests are welcome, including new translations
