@@ -27,6 +27,15 @@ export interface User {
   provider: AuthProvider;
 }
 
+/**
+ * Jméno u recenzí a snímků: jen křestní jméno (první slovo celého jména), bez něj
+ * přezdívka z GitHubu – stejně jako v databázi (public_author_name). Celé jméno vidí
+ * jen uživatel sám (účet, nastavení).
+ */
+export function publicName(user: User): string {
+  return user.name.trim().split(/\s+/)[0] || user.name;
+}
+
 export interface AuthService {
   /** true = přihlášení se jen simuluje (UI to viditelně označí). */
   readonly isSample: boolean;

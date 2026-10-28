@@ -14,6 +14,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Shelf } from "@/components/ui/Shelf";
 import { StarInput, Stars } from "@/components/ui/Stars";
 import { cn, formatRelative } from "@/lib/utils";
+import { publicName } from "@/services/auth";
 import { reviews, type RatingSummary, type ReportReason, type Review, type ReviewDraft } from "@/services/reviews";
 import { useAuth } from "@/store/auth";
 import { useSettings } from "@/store/settings";
@@ -258,12 +259,12 @@ function ReviewMeta({ review }: { review: Review }) {
   const { t } = useTranslation();
   const language = useSettings((s) => s.language);
   // U vlastní recenze jméno přihlášeného uživatele
-  const userName = useAuth((s) => s.user?.name);
+  const user = useAuth((s) => s.user);
   return (
     <div className="flex items-center gap-2 text-sm text-muted">
       <Stars value={review.rating} size={13} className="text-fg/80" />
       <span>
-        {formatRelative(review.date, language)} · {review.mine ? (userName ?? t("reviews.you")) : review.author}
+        {formatRelative(review.date, language)} · {review.mine ? (user ? publicName(user) : t("reviews.you")) : review.author}
       </span>
     </div>
   );
@@ -403,7 +404,7 @@ function WriteReviewDialog({ open, initial, appName, onClose, onSubmit }: WriteR
           className={cn(inputClass, "resize-none select-text")}
         />
         {user && (
-          <p className="text-xs text-muted">{t("reviews.publicName", { name: user.name, provider: PROVIDER_LABEL[user.provider] })}</p>
+          <p className="text-xs text-muted">{t("reviews.publicName", { name: publicName(user), provider: PROVIDER_LABEL[user.provider] })}</p>
         )}
       </div>
     </Modal>

@@ -23,6 +23,7 @@ import {
   SCREENSHOTS_PER_APP,
   type CommunityScreenshot,
 } from "@/services/appScreenshots";
+import { publicName } from "@/services/auth";
 import type { ReportReason } from "@/services/reviews";
 import { useAuth } from "@/store/auth";
 import { useSettings } from "@/store/settings";
@@ -84,7 +85,7 @@ export function AppScreenshots({ entry }: { entry: CatalogEntry }) {
       thumbUrl: shot.thumbUrl,
       badge: <CommunityBadge pending={!shot.approved} />,
       caption: t("appScreenshots.by", {
-        name: shot.mine ? (user?.name ?? shot.author) : shot.author,
+        name: shot.mine && user ? publicName(user) : shot.author,
         date: formatRelative(shot.date, language),
       }),
       actions: shot.mine ? (
@@ -386,7 +387,7 @@ function AddScreenshotsDialog({ open, appId, appName, ownCount, onClose, onUploa
         <div className="flex flex-col gap-1.5 text-xs text-muted">
           <p>{full ? t("appScreenshots.limitReached") : t("appScreenshots.remaining", { count: remaining })}</p>
           <p>{t("appScreenshots.privacy")}</p>
-          {user && <p>{t("appScreenshots.publicName", { name: user.name, provider: PROVIDER_LABEL[user.provider] })}</p>}
+          {user && <p>{t("appScreenshots.publicName", { name: publicName(user), provider: PROVIDER_LABEL[user.provider] })}</p>}
         </div>
       </div>
     </Modal>

@@ -745,7 +745,9 @@ Hodnocení aplikací 1–5 hvězdičkami: průměr a počet hlasů v detailu a n
 **Recenze** (`components/package/RatingsSection.tsx`): k hlasu nadpis a text (nejvýš
 100 a 2 000 znaků), 1 recenze na aplikaci – jde upravit i smazat (hvězdičky zůstanou).
 Veřejné jsou přes funkci `app_reviews()` bez `user_id`, vlastní recenze je první, pak
-nejnovější. Jméno autora doplní databáze z přihlášení (GitHub / Google) a dialog
+nejnovější. Jméno autora doplní databáze z přihlášení (GitHub / Google) – jen křestní
+jméno, bez něj přezdívka z GitHubu, celé jméno se veřejně neukazuje
+(`public_author_name()`, `20261028160000_author_first_name.sql`) – a dialog
 upozorní, pod jakým jménem se recenze zveřejní; jméno ani příznak skrytí klient zapsat
 nemůže (oprávnění na sloupce). Cizí recenzi jde nahlásit (spam, urážlivá, netýká se
 aplikace, jiný důvod) – po 3 nahlášeních se skryje, autor ji vidí dál. Ručně ji skryjete
@@ -786,7 +788,9 @@ hlídá to workflow níže, které databázi i zálohuje):
    `supabase/migrations/20261027130000_reviews.sql` (text recenzí, jméno autora,
    nahlášení, veřejná funkce `app_reviews()`) a
    `supabase/migrations/20261028120000_app_screenshots.sql` (snímky obrazovky od
-   uživatelů, bucket `app-screenshots`). Každý soubor v novém dotazu – dva najednou
+   uživatelů, bucket `app-screenshots`) a
+   `supabase/migrations/20261028160000_author_first_name.sql` (u recenzí a snímků jen
+   křestní jméno nebo přezdívka). Každý soubor v novém dotazu – dva najednou
    skončí chybou „already exists“.
 3. **Authentication → Sign In / Providers**: zapněte GitHub (a Google). Každý potřebuje
    OAuth aplikaci u poskytovatele (GitHub → Settings → Developer settings → OAuth Apps,
