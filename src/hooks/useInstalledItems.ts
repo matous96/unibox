@@ -20,16 +20,25 @@ export function useInstalledItems() {
   const query = useInstalled();
   // Profil z katalogu podle id balíčku, jinak podle názvu (programy, které winget vidí jen v registru)
   const links = useInstalledEntries();
-  const items = useMemo<InstalledItem[]>(
-    () =>
-      (query.data ?? [])
-        .filter((p) => isListedInstalled(p, links))
-        .map((p) => ({
-          pkg: p,
-          entry: links.get(p) ?? fallbackEntry(p.source, p.packageId, p.name, p.installedVersion),
-        })),
-    [query.data, links],
-  );
+  const items = useMemo<InstalledItem[]>(() => {
+    const seen = new Set<string>();
+    return (query.data ?? [])
+      .filter((p) => isListedInstalled(p, links))
+      .map((p) => {
+        const linked = links.get(p);
+        if (linked && !seen.has(linked.id)) {
+          seen.add(linked.id);
+          return { pkg: p, entry: linked };
+        }
+        const own = fallbackEntry(p.source, p.packageId, p.name, p.installedVersion);
+        if (!linked) return { pkg: p, entry: own };
+        // Další instalace téže aplikace jiným správcem (Git přes winget i jako závislost Scoopu):
+        // profil z katalogu, ale vlastní id „zdroj:balíček“ jako v useInstalledIndex – jinak by
+        // obě karty měly stejný klíč a ukazovaly první instalaci a fronta úloh by druhou přeskočila
+        const sources = linked.sources.filter((s) => s.source === p.source);
+        return { pkg: p, entry: { ...linked, id: own.id, sources: sources.length ? sources : linked.sources } };
+      });
+  }, [query.data, links]);
   return { ...query, items };
 }
 

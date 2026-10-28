@@ -13,7 +13,8 @@
 //!
 //! Neúspěch se také pamatuje, ať se nefunkční zdroje nezkoušejí znovu
 //! a frontend rychle přejde na další zdroj (404): zdroj bez ikony (HTTP 404,
-//! 403…) den; chyba sítě a přetížený server (HTTP 429, 5xx) jen 15 minut.
+//! 403…) den; chyba sítě a přetížený server (HTTP 429, 5xx) jen 15 minut,
+//! ikona z disku (nabídka Start, Po spuštění) po opakovaném pokusu také 15 minut.
 //! Stahuje se nejvýš 6 ikon najednou. Odpovědi mají
 //! `Access-Control-Allow-Origin: *`, aby frontend mohl ikonu prozkoumat
 //! v canvasu (barva banneru, rozpoznání bílé / prázdné ikony).
@@ -306,22 +307,34 @@ fn file_icon(dir: &Path, path: &str) -> Result<Vec<u8>, String> {
 }
 
 /// Ikona položky shellu (`parsing_name`) s mezipamětí v souboru `name`.
+///
+/// Extrakce z existujícího souboru selže jen výjimečně a přechodně – hlavně když
+/// stránka (Po spuštění, Nainstalované) požádá o desítky ikon najednou. Proto ještě
+/// jeden pokus a neúspěch se pamatuje jen krátce (i dřívější značka „permanent“),
+/// jinak by program zůstal den bez ikony.
 fn shell_icon(dir: &Path, name: &str, parsing_name: &str) -> Result<Vec<u8>, String> {
     let path = dir.join(name);
     let fail = dir.join(format!("{name}.fail"));
     if is_fresh(&path, APP_ICON_TTL) {
         return std::fs::read(&path).map_err(|e| e.to_string());
     }
-    if failed_recently(&fail) {
+    if fail.exists() && is_fresh(&fail, TRANSIENT_FAILURE_TTL) {
         return Err("ikonu nedávno nešlo získat".into());
     }
-    match extract_shell_icon(parsing_name) {
+    let extracted = extract_shell_icon(parsing_name).or_else(|_| {
+        std::thread::sleep(Duration::from_millis(200));
+        extract_shell_icon(parsing_name)
+    });
+    match extracted {
         Ok(png) => {
             std::fs::write(&path, &png).map_err(|e| e.to_string())?;
             let _ = std::fs::remove_file(&fail);
             Ok(png)
         }
-        Err(e) => remember_failure(&fail, e),
+        Err(e) => {
+            let _ = std::fs::write(&fail, TRANSIENT_MARK);
+            Err(e)
+        }
     }
 }
 

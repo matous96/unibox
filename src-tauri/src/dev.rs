@@ -244,7 +244,7 @@ fn tool_version(dev: Dev, tool: &Tool) -> Option<String> {
         // Nástroje .NET potřebují SDK – bez něj jen runtime a `dotnet tool` nefunguje
         Dev::Dotnet => {
             let out = tool.run(&["--list-sdks"], Duration::from_secs(20)).ok().filter(|o| o.code == 0)?;
-            out.stdout.lines().filter_map(|l| l.split_whitespace().next()).last().map(str::to_string)
+            out.stdout.lines().filter_map(|l| l.split_whitespace().next()).next_back().map(str::to_string)
         }
         Dev::Powershell => Some(windows_powershell_version().unwrap_or_else(|| "5.1".into())),
     }
@@ -380,7 +380,7 @@ fn nuget_versions(id: &str) -> Vec<String> {
 }
 
 fn nuget_latest(id: &str) -> Option<String> {
-    nuget_versions(id).into_iter().filter(|v| !v.contains('-')).last()
+    nuget_versions(id).into_iter().rfind(|v| !v.contains('-'))
 }
 
 // ── Nainstalované balíčky ────────────────────────────────────────────────
@@ -745,7 +745,7 @@ pub async fn dev_search(source: Dev, query: String) -> Result<Vec<Found>, String
 /// Verze seřazené od nejnovější (nejvýš 60), bez předběžných.
 fn sorted_versions(mut versions: Vec<String>) -> Vec<String> {
     versions.retain(|v| valid_version(v) && !v.contains('-'));
-    versions.sort_by(|a, b| version_key(b).cmp(&version_key(a)));
+    versions.sort_by_key(|v| std::cmp::Reverse(version_key(v)));
     versions.dedup();
     versions.truncate(60);
     versions

@@ -249,7 +249,9 @@ export function useInstalled() {
 
 /**
  * Mapa id aplikace → nainstalovaný balíček. Balíčky z katalogu se mapují
- * na kanonické id, ostatní dostanou id ve tvaru "zdroj:id balíčku".
+ * na kanonické id, ostatní dostanou id ve tvaru "zdroj:id balíčku" – stejně
+ * jako další instalace téže aplikace jiným správcem (Git přes winget i jako
+ * závislost Scoopu), ať ji karta, detail i fronta úloh rozliší.
  */
 export function useInstalledIndex() {
   const { data } = useInstalled();
@@ -263,6 +265,7 @@ export function useInstalledIndex() {
       if (!isListedInstalled(p, links)) continue;
       const appId = links.get(p)?.id ?? sourceKey(p.source, p.packageId);
       if (!index.has(appId)) index.set(appId, p);
+      else if (links.get(p)) index.set(sourceKey(p.source, p.packageId), p);
     }
     cachedIndex = { links, index };
     installedIndexes.set(data, cachedIndex);

@@ -217,7 +217,7 @@ pub async fn install_traces(app: AppHandle) -> Result<Vec<TraceSummary>, String>
                 updated_at: t.updated_at,
             })
             .collect();
-        traces.sort_by(|a, b| a.app_name.to_lowercase().cmp(&b.app_name.to_lowercase()));
+        traces.sort_by_cached_key(|t| t.app_name.to_lowercase());
         Ok(traces)
     })
     .await
