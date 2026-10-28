@@ -19,16 +19,19 @@ export function SafeInstallNote({ pkg, skipHash }: { pkg: PackageSource; skipHas
   const apps = meta.group === "apps";
 
   return (
-    <p className="mt-3 flex flex-wrap items-center gap-x-1.5 gap-y-1.5 text-xs">
-      <ShieldCheck className="size-4 shrink-0 text-emerald-500" />
-      <span className="font-medium text-emerald-600 dark:text-emerald-400">
-        {t(apps ? "safe.apps" : "safe.dev", { source: meta.label })}
-      </span>
-      {apps && <HashBadge pkg={pkg} skipHash={skipHash} />}
-      <Link to="/help?faq=safe" className="text-muted underline-offset-2 hover:text-fg hover:underline">
-        {t("safe.how")}
-      </Link>
-    </p>
+    // Štít zůstává vlevo a text se zalamuje vedle něj (i v úzkém panelu detailu)
+    <div className="flex min-w-0 items-start gap-1.5 text-xs">
+      <ShieldCheck className="mt-0.5 size-4 shrink-0 text-emerald-500" />
+      <p className="flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1.5">
+        <span className="font-medium text-emerald-600 dark:text-emerald-400">
+          {t(apps ? "safe.apps" : "safe.dev", { source: meta.label })}
+        </span>
+        {apps && <HashBadge pkg={pkg} skipHash={skipHash} />}
+        <Link to="/help?faq=safe" className="text-muted underline-offset-2 hover:text-fg hover:underline">
+          {t("safe.how")}
+        </Link>
+      </p>
+    </div>
   );
 }
 

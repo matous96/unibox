@@ -209,86 +209,70 @@ function PackageDetailView({ entry: fullEntry, inCatalog }: { entry: CatalogEntr
   const github = useGithubStars(entry, true);
 
   return (
-    <article>
+    <article className="@container">
       {/* ── Banner ───────────────────────────────────────────────── */}
       <PackageBanner entry={entry} />
 
       {/* ── Hlavička ─────────────────────────────────────────────── */}
-      <header className="flex items-start gap-8 pt-8 pb-8">
+      {/* Mřížka: ikona přes obě řádky, vpravo nahoře oblíbené a sdílení. Široký detail
+          (container query na <article>): vlevo název, popis a akce, vpravo pod ikonami
+          panel se stavem instalace a ověřením – využije místo pod nimi. Užší detail:
+          panel pod akcemi přes celou šířku, jeho skupiny vedle sebe, když je místo. */}
+      <header className="grid grid-cols-[auto_minmax(0,1fr)_auto] gap-x-8 pt-8 pb-8 @6xl:grid-cols-[auto_minmax(0,1fr)_minmax(0,24rem)]">
         <PackageIcon
           id={entry.id}
           name={entry.name}
           iconUrl={entry.iconUrl}
           size={150}
-          className="shadow-2xl shadow-black/25"
+          className="row-span-2 shadow-2xl shadow-black/25"
         />
-        <div className="min-w-0 flex-1 pt-3">
-          {/* Název a popis jdou označit a zkopírovat (jinak má okno výběr textu vypnutý) */}
-          <h1 className="font-display text-[40px] leading-tight font-bold tracking-tight">
-            <span className="cursor-text select-text">
-              <NameWithBadge name={entry.name} verified={isVerified(entry)} size={28} />
-            </span>
-          </h1>
-          <p className="mt-1 line-clamp-2 cursor-text text-xl text-muted select-text">{inCatalog ? entry.description : entry.publisher}</p>
-          {lockedOut && lock && (
-            <p className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-line bg-surface-2 px-4 py-3 text-sm">
-              <span className={cn("size-2 shrink-0 rounded-full", getSource(lock).dot)} />
-              <span className="min-w-0 flex-1">{t("sourceLock.notInSource", { source: getSource(lock).label })}</span>
-              <button type="button" onClick={clearLock} className="cursor-pointer font-semibold text-accent hover:underline">
-                {t("sourceLock.showAll")}
-              </button>
+        {/* Úzký detail: obal se „rozpustí“ (contents) a název i akce jsou samostatné položky mřížky –
+            akce pod názvem přes celou šířku. Široký: jeden sloupec přes obě řádky, vpravo panel. */}
+        <div className="contents @6xl:col-start-2 @6xl:row-span-2 @6xl:row-start-1 @6xl:block @6xl:min-w-0 @6xl:pt-3">
+          <div className="col-start-2 row-start-1 min-w-0 pt-3 @6xl:pt-0">
+            {/* Název a popis jdou označit a zkopírovat (jinak má okno výběr textu vypnutý) */}
+            <h1 className="font-display text-[40px] leading-tight font-bold tracking-tight">
+              <span className="cursor-text select-text">
+                <NameWithBadge name={entry.name} verified={isVerified(entry)} size={28} />
+              </span>
+            </h1>
+            {/* Vedle panelu je sloupec užší – popis smí mít o řádek víc */}
+            <p className="mt-1 line-clamp-2 cursor-text text-xl text-muted select-text @6xl:line-clamp-3">
+              {inCatalog ? entry.description : entry.publisher}
             </p>
-          )}
-          <div className={cn("mt-6 flex items-center gap-3", lockedOut && "hidden")}>
-            {/* Při běžící úloze potřebuje průběh pevnou šířku */}
-            <div className={cn(job && "w-80")}>
-              <PackageAction entry={entry} source={effective?.source} size="lg" />
-            </div>
-            {/* Starší verze jde i spustit – Otevřít vedle Aktualizovat */}
-            {actions.status === "updatable" && !job && <LaunchButton entry={entry} installed={installed} size="lg" />}
-            {/* Možnosti instalace: jako správce, interaktivně, ruční instalace… */}
-            {canInstall && <InstallSplitMenu entry={entry} source={effective?.source} />}
-            {/* Instalace konkrétní (starší) verze ze zvoleného zdroje */}
-            {/* Správce bez výběru verze (vcpkg) nabízí jen aktuální verzi */}
-            {effective && getSource(effective.source).supportsVersions && !unmanaged && !job && (
-              <VersionPicker entry={entry} pkg={effective} installed={installed} />
+            {lockedOut && lock && (
+              <p className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-line bg-surface-2 px-4 py-3 text-sm">
+                <span className={cn("size-2 shrink-0 rounded-full", getSource(lock).dot)} />
+                <span className="min-w-0 flex-1">{t("sourceLock.notInSource", { source: getSource(lock).label })}</span>
+                <button type="button" onClick={clearLock} className="cursor-pointer font-semibold text-accent hover:underline">
+                  {t("sourceLock.showAll")}
+                </button>
+              </p>
             )}
-            <UninstallButton entry={entry} variant="full" />
           </div>
 
-          {/* Zdroj: u nainstalované aplikace informace, jinak výběr */}
-          <div className={cn("mt-4 flex flex-wrap items-center gap-2 text-sm", lockedOut && "hidden")}>
-            {installed ? (
-              <div className="flex flex-col gap-2">
-                <span className="flex items-center gap-2 text-muted">
-                  {t("package.installedVia")}
-                  <OriginBadge origin={installed.origin} />
-                </span>
-                {/* Hry ze Steamu aktualizuje Steam sám; programy mimo správce Unibox jen odinstaluje */}
-                {installed.origin === "steam" && (
-                  <p className="text-xs text-muted">
-                    {t("package.managedBySteam")}{" "}
-                    <a
-                      href={`steam://nav/games/details/${steamAppId(installed.packageId)}`}
-                      className="font-medium text-accent hover:underline"
-                    >
-                      {t("package.openInSteam")}
-                    </a>
-                  </p>
-                )}
-                {installed.diskLocation ? (
-                  <p className="text-xs break-all text-muted">{t("package.diskInstall", { folder: installed.diskLocation })}</p>
-                ) : (
-                  installed.origin === "local" && <p className="text-xs text-muted">{t("package.localInstall")}</p>
-                )}
-                {/* Instalátor nové verze z jiného serveru (winget) */}
-                <InstallerHostWarning installed={installed} />
-                {/* Přeskočit nabízenou verzi / zamknout verzi; automatická aktualizace této aplikace */}
-                <UpdatePinBar installed={installed} appName={entry.name} />
-                <AutoUpdateToggle installed={installed} />
+          {/* Akce; nenainstalovaná aplikace i s výběrem zdroje a parametry instalace */}
+          <div className={cn("col-span-2 col-start-2 row-start-2 mt-6 flex min-w-0 flex-col gap-4 @6xl:col-span-1", lockedOut && "hidden")}>
+            <div className="flex flex-wrap items-center gap-3">
+              {/* Při běžící úloze potřebuje průběh pevnou šířku */}
+              <div className={cn(job && "w-80")}>
+                <PackageAction entry={entry} source={effective?.source} size="lg" />
               </div>
-            ) : (
-              <>
+              {/* Starší verze jde i spustit – Otevřít vedle Aktualizovat */}
+              {actions.status === "updatable" && !job && <LaunchButton entry={entry} installed={installed} size="lg" />}
+              {/* Možnosti instalace: jako správce, interaktivně, ruční instalace… */}
+              {canInstall && <InstallSplitMenu entry={entry} source={effective?.source} />}
+              {/* Instalace konkrétní (starší) verze ze zvoleného zdroje */}
+              {/* Správce bez výběru verze (vcpkg) nabízí jen aktuální verzi */}
+              {effective && getSource(effective.source).supportsVersions && !unmanaged && !job && (
+                <VersionPicker entry={entry} pkg={effective} installed={installed} />
+              )}
+              <UninstallButton entry={entry} variant="full" />
+            </div>
+
+            {/* Nenainstalovaná aplikace: výběr zdroje instalace */}
+            {!installed && (
+              <div className="flex flex-wrap items-center gap-2 text-sm">
                 <span className="mr-1 text-muted">{t("package.sourceLabel")}</span>
                 {entry.sources.map((s) => {
                   const enabled = enabledSources.includes(s.source);
@@ -316,23 +300,64 @@ function PackageDetailView({ entry: fullEntry, inCatalog }: { entry: CatalogEntr
                     </button>
                   );
                 })}
-              </>
+              </div>
             )}
+
+            {/* Podrobné parametry instalace: PATH, zástupci, bez restartu (podle instalátoru) */}
+            {canInstall && <InlineInstallParameters entry={entry} pkg={effective} />}
           </div>
-
-          {/* Podrobné parametry instalace: PATH, zástupci, bez restartu (podle instalátoru) */}
-          {canInstall && <InlineInstallParameters entry={entry} pkg={effective} />}
-
-          {/* Ujištění o bezpečné instalaci (ne u programů mimo správce a her ze Steamu) */}
-          {!unmanaged && <SafeInstallNote pkg={shownSource} skipHash={savedSkipHash} />}
         </div>
 
         {/* Oblíbené, sada balíčků, nahlášení problému a sdílení vpravo nahoře (jako v App Store) */}
-        <div className="flex gap-2 pt-3">
+        <div className="col-start-3 row-start-1 flex justify-end gap-2 pt-3">
           <DetailLibraryButtons entry={entry} pkg={shownSource} />
           <ReportButton entry={entry} pkg={shownSource} installedVersion={installed?.installedVersion} />
           <ShareButton entry={entry} pkg={shownSource} />
         </div>
+
+        {/* Panel: odkud a jak je aplikace nainstalovaná, pravidla aktualizací a ověření instalátoru */}
+        {(installed || !unmanaged) && (
+          <div
+            className={cn(
+              "col-span-2 col-start-2 row-start-3 mt-6 flex flex-wrap items-start gap-x-10 gap-y-3 self-start rounded-2xl border border-line bg-surface/60 px-5 py-4 text-sm",
+              "@6xl:col-span-1 @6xl:col-start-3 @6xl:row-start-2 @6xl:mt-5",
+              lockedOut && "hidden",
+            )}
+          >
+            {installed && (
+              <div className="flex min-w-0 flex-col gap-2">
+                <span className="flex items-center gap-2 text-muted">
+                  {t("package.installedVia")}
+                  <OriginBadge origin={installed.origin} />
+                </span>
+                {/* Hry ze Steamu aktualizuje Steam sám; programy mimo správce Unibox jen odinstaluje */}
+                {installed.origin === "steam" && (
+                  <p className="text-xs text-muted">
+                    {t("package.managedBySteam")}{" "}
+                    <a
+                      href={`steam://nav/games/details/${steamAppId(installed.packageId)}`}
+                      className="font-medium text-accent hover:underline"
+                    >
+                      {t("package.openInSteam")}
+                    </a>
+                  </p>
+                )}
+                {installed.diskLocation ? (
+                  <p className="text-xs break-all text-muted">{t("package.diskInstall", { folder: installed.diskLocation })}</p>
+                ) : (
+                  installed.origin === "local" && <p className="text-xs text-muted">{t("package.localInstall")}</p>
+                )}
+                {/* Instalátor nové verze z jiného serveru (winget) */}
+                <InstallerHostWarning installed={installed} />
+                {/* Přeskočit nabízenou verzi / zamknout verzi; automatická aktualizace této aplikace */}
+                <UpdatePinBar installed={installed} appName={entry.name} />
+                <AutoUpdateToggle installed={installed} />
+              </div>
+            )}
+            {/* Ujištění o bezpečné instalaci (ne u programů mimo správce a her ze Steamu) */}
+            {!unmanaged && <SafeInstallNote pkg={shownSource} skipHash={savedSkipHash} />}
+          </div>
+        )}
       </header>
 
       {/* ── Pruh s údaji ─────────────────────────────────────────── */}
