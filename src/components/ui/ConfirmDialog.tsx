@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect } from "react";
+import { useRef } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
+import { useOverlay } from "@/hooks/useOverlay";
 import { Button } from "./Button";
 
 interface ConfirmDialogProps {
@@ -17,12 +18,8 @@ interface ConfirmDialogProps {
 export function ConfirmDialog({ open, title, confirmLabel, danger, onConfirm, onClose }: ConfirmDialogProps) {
   const { t } = useTranslation();
 
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+  const dialog = useRef<HTMLDivElement>(null);
+  useOverlay(open, (e) => e.key === "Escape" && onClose(), dialog);
 
   return createPortal(
     <AnimatePresence>
@@ -35,8 +32,10 @@ export function ConfirmDialog({ open, title, confirmLabel, danger, onConfirm, on
           onClick={onClose}
         >
           <motion.div
+            ref={dialog}
             role="alertdialog"
             aria-modal
+            tabIndex={-1}
             className="w-full max-w-sm rounded-2xl border border-line bg-surface p-6 shadow-card-hover"
             initial={{ scale: 0.94, y: 8 }}
             animate={{ scale: 1, y: 0 }}

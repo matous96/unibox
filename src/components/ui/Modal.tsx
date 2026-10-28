@@ -1,8 +1,9 @@
 import { X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
+import { useOverlay } from "@/hooks/useOverlay";
 import { cn } from "@/lib/utils";
 import { IconButton } from "./Button";
 
@@ -19,12 +20,8 @@ interface ModalProps {
 export function Modal({ open, onClose, title, children, footer, className }: ModalProps) {
   const { t } = useTranslation();
 
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+  const dialog = useRef<HTMLDivElement>(null);
+  useOverlay(open, (e) => e.key === "Escape" && onClose(), dialog);
 
   return createPortal(
     <AnimatePresence>
@@ -37,8 +34,10 @@ export function Modal({ open, onClose, title, children, footer, className }: Mod
           onClick={onClose}
         >
           <motion.div
+            ref={dialog}
             role="dialog"
             aria-modal
+            tabIndex={-1}
             className={cn(
               "flex max-h-full w-full flex-col rounded-2xl border border-line bg-surface shadow-card-hover",
               // Vlastní šířka (max-w-2xl…) nahradí výchozí – dvě třídy max-w by se přebíjely podle pořadí v CSS

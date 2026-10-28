@@ -20,6 +20,7 @@ import { VerifiedBadge } from "@/components/package/VerifiedBadge";
 import { isVerified } from "@/lib/verified";
 import { localize, type CollectionStory } from "@/data/editorial";
 import { useCollectionInstall } from "@/hooks/useCollectionInstall";
+import { useOverlay } from "@/hooks/useOverlay";
 import { useCatalogIndex } from "@/hooks/usePackages";
 import { brandGradient, paletteFor } from "@/lib/color";
 import { useCollectionModal } from "@/store/collectionModal";
@@ -32,13 +33,8 @@ const glass = (ink: string, percent: number) => `color-mix(in srgb, ${ink} ${per
 export function CollectionModal() {
   const { story, close } = useCollectionModal();
 
-  // Esc zavře detail
-  useEffect(() => {
-    if (!story) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [story, close]);
+  // Esc zavře detail (fokus si řeší panel sám – zavírací tlačítko)
+  useOverlay(!!story, (e) => e.key === "Escape" && close());
 
   // Při odchodu z domovské stránky (např. zpět v historii) detail nezůstane otevřený
   useEffect(() => close, [close]);

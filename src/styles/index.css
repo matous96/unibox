@@ -116,3 +116,7 @@ body,
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+/* Dialog dostává fokus jen programově (klávesy pak nejdou na stránku pod ním) – bez rámečku kolem celého okna */
+[aria-modal]:focus-visible {
+  outline: none;
+}

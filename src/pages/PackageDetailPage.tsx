@@ -51,6 +51,7 @@ import {
   usePackageState,
 } from "@/hooks/usePackages";
 import { useInstallActions } from "@/hooks/useInstallActions";
+import { overlayOpen } from "@/hooks/useOverlay";
 import { allArchitectures } from "@/lib/arch";
 import { cn, formatRelative, formatSize, formatSizeText } from "@/lib/utils";
 import { useGithubStars } from "@/services/github";
@@ -170,7 +171,8 @@ function PackageDetailView({ entry: fullEntry, inCatalog }: { entry: CatalogEntr
     if (!canInstall) return;
     const onKey = (e: globalThis.KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
-      if (e.key !== "Enter" || target?.closest("input, textarea, select, [role=dialog]")) return;
+      // Ne pod otevřeným dialogem nebo prohlížečem snímků (fokus tam nemusí být uvnitř)
+      if (e.key !== "Enter" || overlayOpen() || target?.closest("input, textarea, select, [role=dialog]")) return;
       if (e.ctrlKey) {
         e.preventDefault();
         actions.install();

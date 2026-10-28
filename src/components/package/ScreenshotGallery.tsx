@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
+import { useOverlay } from "@/hooks/useOverlay";
 import { cn } from "@/lib/utils";
 import type { ScreenshotSource } from "@/types";
 
@@ -271,16 +272,17 @@ function Lightbox({ items, name, index, onChange, onClose }: LightboxProps) {
     [index, count, onChange],
   );
 
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
+  // Fokus do prohlížeče – Enter by jinak znovu „klikl“ na náhled pod ním a skočil na první snímek
+  const viewer = useRef<HTMLDivElement>(null);
+  useOverlay(
+    open,
+    (e) => {
       if (e.key === "Escape") onClose();
       else if (e.key === "ArrowRight") go(1);
       else if (e.key === "ArrowLeft") go(-1);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, go, onClose]);
+    },
+    viewer,
+  );
 
   const item = open ? items[index] : null;
 
@@ -288,6 +290,12 @@ function Lightbox({ items, name, index, onChange, onClose }: LightboxProps) {
     <AnimatePresence>
       {open && item && (
         <motion.div
+          // Celoobrazovkový prohlížeč je dialog – čtečky obrazovky ho tak oznámí a ignorují stránku pod ním
+          ref={viewer}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${name} – ${t("package.screenshots")}`}
+          tabIndex={-1}
           className="fixed inset-0 z-50 flex flex-col bg-black/85 backdrop-blur-md"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

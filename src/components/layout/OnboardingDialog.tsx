@@ -22,13 +22,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { Switch } from "@/components/settings/SettingsUi";
 import { SourceIcon } from "@/components/package/SourceIcon";
 import { Button } from "@/components/ui/Button";
 import { UniboxLogo } from "@/components/ui/Logo";
+import { useOverlay } from "@/hooks/useOverlay";
 import { useInstallableStats } from "@/hooks/usePackages";
 import { isTauri } from "@/lib/tauri";
 import { cn, formatAppCount } from "@/lib/utils";
@@ -69,16 +70,16 @@ export function OnboardingDialog() {
     setPage(([current]) => (next < 0 || next >= STEPS.length ? [current, 0] : [next, next > current ? 1 : -1]));
   }, []);
 
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
+  const dialog = useRef<HTMLDivElement>(null);
+  useOverlay(
+    open,
+    (e) => {
       if (e.key === "Escape") complete();
       else if (e.key === "ArrowRight") go(index + 1);
       else if (e.key === "ArrowLeft") go(index - 1);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, index, go, complete]);
+    },
+    dialog,
+  );
 
   return createPortal(
     <AnimatePresence>
@@ -90,9 +91,11 @@ export function OnboardingDialog() {
           exit={{ opacity: 0 }}
         >
           <motion.div
+            ref={dialog}
             role="dialog"
             aria-modal
             aria-label={t("onboarding.title")}
+            tabIndex={-1}
             className="relative flex max-h-full w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-card-hover"
             initial={{ scale: 0.95, y: 12 }}
             animate={{ scale: 1, y: 0 }}

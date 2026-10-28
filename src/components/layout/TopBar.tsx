@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate, useSearchParams } from "react-router";
 import { IconButton } from "@/components/ui/Button";
 import { CommunityBar } from "./CommunityBar";
+import { overlayOpen } from "@/hooks/useOverlay";
 import { catalogSearchIndex, useCatalog, useInstallableStats } from "@/hooks/usePackages";
 import { getSource } from "@/services/managers";
 import { formatAppCount, formatCompactCount } from "@/lib/utils";
@@ -51,7 +52,8 @@ export function TopBar() {
   // Klávesová zkratka pro vyhledávání.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && (e.key === "k" || e.key === "f")) {
+      // Pod otevřeným dialogem ne – fokus by skončil ve skrytém poli a psaní by měnilo stránku pod ním
+      if ((e.ctrlKey || e.metaKey) && (e.key === "k" || e.key === "f") && !overlayOpen()) {
         e.preventDefault();
         inputRef.current?.focus();
         inputRef.current?.select();
