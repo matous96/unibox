@@ -134,22 +134,25 @@ export function RatingsSection({ entry }: { entry: CatalogEntry }) {
 
       {/* Průměr a histogram */}
       <div className="mt-3 mb-8 flex flex-wrap items-end justify-between gap-8">
-        <div className="flex items-end gap-4">
-          <span className="font-display text-[88px] leading-[0.85] font-bold tracking-tight">
-            {summary?.count ? fmt.average(summary.average) : "–"}
-          </span>
-          {summary && (
-            <span className="pb-1 text-lg text-muted">
-              {summary.count
-                ? t("reviews.ratingsCount", { formatted: fmt.count(summary.count) })
-                : t("reviews.noRatings")}
-            </span>
-          )}
-        </div>
+        {!summary ? (
+          // Načítání – místo velkého čísla jen obrys, ať se sekce neposkočí
+          <span className="h-[75px] w-40 animate-pulse rounded-2xl bg-surface-2" />
+        ) : summary.count > 0 ? (
+          <div className="flex items-end gap-4">
+            <span className="font-display text-[88px] leading-[0.85] font-bold tracking-tight">{fmt.average(summary.average)}</span>
+            <span className="pb-1 text-lg text-muted">{t("reviews.ratingsCount", { formatted: fmt.count(summary.count) })}</span>
+          </div>
+        ) : (
+          // Bez hodnocení prázdné hvězdičky – pomlčka v písmu 88 px vypadala jako bílý obdélník
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <Stars value={0} size={30} className="gap-1 text-fg" />
+            <span className="text-lg text-muted">{t("reviews.noRatings")}</span>
+          </div>
+        )}
         {summary && summary.count > 0 && <Histogram summary={summary} />}
       </div>
 
-      {/* Nejužitečnější recenze */}
+      {/* Nejužitečnější recenze; bez hodnocení stačí výzva výše, druhé „buďte první“ by se opakovalo */}
       {withText &&
         (list && list.length > 0 ? (
           <Shelf title={t("reviews.mostHelpful")}>
@@ -158,7 +161,7 @@ export function RatingsSection({ entry }: { entry: CatalogEntry }) {
             ))}
           </Shelf>
         ) : (
-          list && <p className="mb-8 text-sm text-muted">{t("reviews.noReviews")}</p>
+          list && !!summary?.count && <p className="mb-8 text-sm text-muted">{t("reviews.noReviews")}</p>
         ))}
 
       {/* Hodnocení kliknutím + akce */}
