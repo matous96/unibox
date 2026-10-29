@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import i18n from "@/i18n";
+import i18n, { detectLanguage } from "@/i18n";
 import { getSource, isSourceId, SOURCE_IDS } from "@/services/managers/sources";
 import type { SortMode, SourceId, ThemeSetting, UserMode, ViewMode } from "@/types";
 
@@ -48,7 +48,8 @@ export const useSettings = create<SettingsState>()(
     (set, get) => ({
       // Výchozí „Systém“; když systém předvolbu neposkytne, použije se tmavý (viz useTheme).
       theme: "system",
-      language: "cs",
+      // Nový uživatel: jazyk Windows, pokud ho Unibox má, jinak angličtina
+      language: detectLanguage(),
       userMode: "regular",
       viewMode: "grid",
       sortMode: "popularity",

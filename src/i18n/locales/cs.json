@@ -114,8 +114,8 @@
     "hlOpenText": "Zdrojový kód je veřejný na GitHubu – přispět může kdokoli.",
     "hlSafe": "Bezpečně",
     "hlSafeText": "Instaluje se z oficiálních repozitářů, práva správce jen přes dialog UAC.",
-    "hlLang": "Česky i anglicky",
-    "hlLangText": "Rozhraní je připravené na další jazyky – stačí přidat překlad.",
+    "hlLang": "Sedm jazyků",
+    "hlLangText": "Čeština, angličtina, němčina, španělština, francouzština, portugalština a čínština.",
     "sourcesTitle": "Zdroje balíčků",
     "techTitle": "Postaveno na",
     "techText": "Díky skvělým open source projektům a komunitám, které spravují repozitáře balíčků.",
@@ -204,7 +204,7 @@
     "verifyStep2": "nebo balíček publikujte z organizace na GitHubu, která je uvedená v manifestu.",
     "verifyCta": "Požádat o ověření",
     "questionsTitle": "Máte otázky?",
-    "questionsText": "Zeptejte se komunity na fóru nebo na Discordu."
+    "questionsText": "Zeptejte se komunity na fóru."
   },
   "publishWinget": {
     "back": "Publikovat",

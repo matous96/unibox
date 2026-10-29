@@ -338,7 +338,19 @@ function AppearanceSection() {
       </Row>
       <AccentColorRow />
       <Row label={t("settings.language")}>
-        <Segmented value={language} onChange={setLanguage} options={LANGUAGES.map((l) => ({ value: l.code as string, label: l.label }))} />
+        {/* Sedm jazyků se do přepínače nevejde – rozbalovací seznam */}
+        <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          aria-label={t("settings.language")}
+          className="h-9 w-48 cursor-pointer rounded-lg border border-line bg-surface-2 px-3 text-sm outline-none focus:border-accent/50"
+        >
+          {LANGUAGES.map((l) => (
+            <option key={l.code} value={l.code}>
+              {l.label}
+            </option>
+          ))}
+        </select>
       </Row>
       <Row label={t("userMode.label")} hint={t("userMode.settingsHint")}>
         <UserModeToggle />

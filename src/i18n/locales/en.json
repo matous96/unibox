@@ -114,8 +114,8 @@
     "hlOpenText": "The source code is public on GitHub – anyone can contribute.",
     "hlSafe": "Safe",
     "hlSafeText": "Installs come from official repositories; admin rights only via the UAC prompt.",
-    "hlLang": "Czech and English",
-    "hlLangText": "The interface is ready for more languages – just add a translation.",
+    "hlLang": "Seven languages",
+    "hlLangText": "Czech, English, German, Spanish, French, Portuguese and Chinese.",
     "sourcesTitle": "Package sources",
     "techTitle": "Built with",
     "techText": "Thanks to great open source projects and the communities maintaining the package repositories.",
@@ -204,7 +204,7 @@
     "verifyStep2": "or publish the package from the GitHub organization listed in the manifest.",
     "verifyCta": "Request verification",
     "questionsTitle": "Got questions?",
-    "questionsText": "Ask the community on the forum or on Discord."
+    "questionsText": "Ask the community on the forum."
   },
   "publishWinget": {
     "back": "Publish",

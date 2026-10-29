@@ -222,6 +222,5 @@ export function dayIndex(date = new Date()): number {
   return Math.floor((date.getTime() - date.getTimezoneOffset() * 60_000) / 86_400_000);
 }
 
-/** Text v požadovaném jazyce. */
-export const localize = (text: Localized, language: string) =>
-  (language === "en" ? text.en : undefined) ?? text.cs;
+/** Text v požadovaném jazyce – redakční texty jsou česky a anglicky, ostatní jazyky dostanou angličtinu. */
+export const localize = (text: Localized, language: string) => (language === "cs" ? text.cs : (text.en ?? text.cs));
