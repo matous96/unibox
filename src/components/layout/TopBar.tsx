@@ -94,7 +94,7 @@ export function TopBar() {
           title={breakdown}
           aria-label={t("search.placeholder")}
           spellCheck={false}
-          className="h-10 w-full rounded-full border border-line bg-surface pr-20 pl-10 text-sm shadow-sm outline-none transition-shadow placeholder:text-muted focus:border-accent/50 focus:ring-4 focus:ring-accent/15 [&::-webkit-search-cancel-button]:hidden"
+          className="h-10 w-full rounded-full border border-line bg-surface pr-20 pl-10 text-sm text-ellipsis shadow-sm outline-none transition-shadow placeholder:text-muted focus:border-accent/50 focus:ring-4 focus:ring-accent/15 [&::-webkit-search-cancel-button]:hidden"
         />
         <div className="absolute top-1/2 right-2 flex -translate-y-1/2 items-center gap-1">
           {value ? (

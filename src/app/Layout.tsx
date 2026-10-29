@@ -100,6 +100,8 @@ export function Layout() {
     if (!el || saved === null) {
       scrollRestore.target = null;
       if (pageChanged) el?.scrollTo({ top: 0 });
+      // Nahrazená adresa (filtr) bez dalšího posunu by jinak neměla uloženou pozici pro Zpět
+      if (el) positions.current.set(location.key, el.scrollTop);
       return;
     }
     // Seznam se dorovnává (virtualizace, data z mezipaměti) – zkoušet, dokud je stránka
