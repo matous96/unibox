@@ -18,6 +18,8 @@ interface SettingsState {
   preferredSource: SourceId;
   /** Desktop: zavření okna ho schová do oznamovací oblasti (Unibox běží dál). */
   closeToTray: boolean;
+  /** Desktop: barevná tečka na ikoně u hodin (aktualizace, probíhající operace, chyba, hotovo). */
+  trayBadge: boolean;
   /** Barva zvýraznění (tlačítka, odznaky, aktivní stavy) jako HEX; null = výchozí modrá Uniboxu. */
   accentColor: string | null;
   /** Před operací ukončit procesy aplikace běžící na pozadí (bez okna) bez dotazu. */
@@ -36,6 +38,7 @@ interface SettingsState {
   toggleSource: (source: SourceId, enabled: boolean) => void;
   setPreferredSource: (source: SourceId) => void;
   setCloseToTray: (enabled: boolean) => void;
+  setTrayBadge: (enabled: boolean) => void;
   setAccentColor: (color: string | null) => void;
   setCloseBackgroundProcesses: (enabled: boolean) => void;
   setAdvancedUninstall: (enabled: boolean) => void;
@@ -56,6 +59,7 @@ export const useSettings = create<SettingsState>()(
       enabledSources: [...SOURCE_IDS],
       preferredSource: "winget",
       closeToTray: true,
+      trayBadge: true,
       accentColor: null,
       closeBackgroundProcesses: true,
       advancedUninstall: false,
@@ -77,6 +81,7 @@ export const useSettings = create<SettingsState>()(
       },
       setPreferredSource: (preferredSource) => set({ preferredSource }),
       setCloseToTray: (closeToTray) => set({ closeToTray }),
+      setTrayBadge: (trayBadge) => set({ trayBadge }),
       setAccentColor: (accentColor) => set({ accentColor: accentColor && /^#[0-9a-f]{6}$/i.test(accentColor) ? accentColor : null }),
       setCloseBackgroundProcesses: (closeBackgroundProcesses) => set({ closeBackgroundProcesses }),
       setAdvancedUninstall: (advancedUninstall) => set({ advancedUninstall }),

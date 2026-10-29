@@ -1547,6 +1547,8 @@
     "desktop": "Aplicación de escritorio",
     "closeToTray": "Seguir en ejecución al cerrar",
     "closeToTrayHint": "Al cerrar la ventana, Unibox se oculta en el área de notificación junto al reloj y las instalaciones en curso terminan. Ciérralo desde el menú del icono.",
+    "trayBadge": "Estado en el icono del área de notificación",
+    "trayBadgeHint": "Un punto de color en el icono del área de notificación: naranja – hay actualizaciones, azul – hay una operación o comprobación en curso, rojo – error, verde – listo.",
     "uninstall": "Desinstalación y aplicaciones en ejecución",
     "closeBackgroundProcesses": "Cerrar sin preguntar una aplicación que se ejecuta en segundo plano",
     "closeBackgroundProcessesHint": "Antes de instalar, actualizar o desinstalar, Unibox cierra los procesos de la aplicación que no tienen ventana (como un icono en el área de notificación o un proceso atascado en memoria). Si la aplicación tiene una ventana abierta, se ofrece cerrarla con un clic.",

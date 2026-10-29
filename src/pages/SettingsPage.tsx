@@ -171,7 +171,7 @@ function NewsSection() {
 /** Obecné: upozornění na režim, účet a chování desktopové aplikace. */
 function GeneralSection() {
   const { t } = useTranslation();
-  const { closeToTray, setCloseToTray } = useSettings();
+  const { closeToTray, setCloseToTray, trayBadge, setTrayBadge } = useSettings();
   const showOnboarding = useOnboarding((s) => s.show);
 
   return (
@@ -205,6 +205,9 @@ function GeneralSection() {
           <AutostartRow />
           <Row label={t("settings.closeToTray")} hint={t("settings.closeToTrayHint")}>
             <Switch checked={closeToTray} onChange={setCloseToTray} label={t("settings.closeToTray")} />
+          </Row>
+          <Row label={t("settings.trayBadge")} hint={t("settings.trayBadgeHint")}>
+            <Switch checked={trayBadge} onChange={setTrayBadge} label={t("settings.trayBadge")} />
           </Row>
           <AppUpdateRows />
         </Card>

@@ -1517,6 +1517,8 @@
     "desktop": "桌面应用",
     "closeToTray": "关闭后继续运行",
     "closeToTrayHint": "关闭窗口会把 Unibox 隐藏到时钟旁的通知区域，正在进行的安装会继续完成。可从图标菜单中退出。",
+    "trayBadge": "通知区域图标上的状态",
+    "trayBadgeHint": "通知区域图标上的彩色圆点：橙色——有可用更新，蓝色——正在进行操作或检查，红色——出错，绿色——已完成。",
     "uninstall": "卸载和正在运行的应用",
     "closeBackgroundProcesses": "不经询问关闭在后台运行的应用",
     "closeBackgroundProcessesHint": "在安装、更新或卸载之前，Unibox 会结束该应用没有窗口的进程（例如通知区域图标或卡在内存中的进程）。如果应用有打开的窗口，会提供一键关闭。",

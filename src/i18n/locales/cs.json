@@ -1577,6 +1577,8 @@
     "desktop": "Desktopová aplikace",
     "closeToTray": "Při zavření běžet na pozadí",
     "closeToTrayHint": "Zavřením okna se Unibox schová do oznamovací oblasti u hodin a rozběhnuté instalace doběhnou. Ukončit ho jde z nabídky ikony.",
+    "trayBadge": "Stav na ikoně u hodin",
+    "trayBadgeHint": "Barevná tečka na ikoně v oznamovací oblasti: oranžová – jsou k dispozici aktualizace, modrá – probíhá operace nebo kontrola, červená – chyba, zelená – hotovo.",
     "uninstall": "Odinstalace a běžící aplikace",
     "closeBackgroundProcesses": "Ukončit aplikaci běžící na pozadí bez dotazu",
     "closeBackgroundProcessesHint": "Před instalací, aktualizací nebo odinstalací Unibox sám ukončí procesy aplikace, které nemají okno (např. ikona u hodin, proces visící v paměti). Aplikaci s otevřeným oknem vám nabídne zavřít jedním kliknutím.",

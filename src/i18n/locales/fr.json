@@ -1547,6 +1547,8 @@
     "desktop": "Application de bureau",
     "closeToTray": "Continuer à fonctionner après la fermeture",
     "closeToTrayHint": "Fermer la fenêtre masque Unibox dans la zone de notification près de l’horloge, et les installations en cours se terminent. Quittez-le depuis le menu de l’icône.",
+    "trayBadge": "État sur l’icône de la zone de notification",
+    "trayBadgeHint": "Un point de couleur sur l’icône de la zone de notification : orange – des mises à jour sont disponibles, bleu – une opération ou une vérification est en cours, rouge – erreur, vert – terminé.",
     "uninstall": "Désinstallation et applications en cours",
     "closeBackgroundProcesses": "Fermer sans demander une application qui tourne en arrière-plan",
     "closeBackgroundProcessesHint": "Avant une installation, une mise à jour ou une désinstallation, Unibox arrête les processus de l’application qui n’ont pas de fenêtre (une icône dans la zone de notification ou un processus resté en mémoire, par exemple). Pour une application dont la fenêtre est ouverte, la fermeture est proposée en un clic.",

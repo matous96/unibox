@@ -1547,6 +1547,8 @@
     "desktop": "Aplicativo para desktop",
     "closeToTray": "Continuar rodando ao fechar",
     "closeToTrayHint": "Fechar a janela esconde o Unibox na área de notificação ao lado do relógio, e as instalações em andamento terminam. Saia pelo menu do ícone.",
+    "trayBadge": "Status no ícone da área de notificação",
+    "trayBadgeHint": "Um ponto colorido no ícone da área de notificação: laranja – há atualizações, azul – uma operação ou verificação em andamento, vermelho – erro, verde – pronto.",
     "uninstall": "Desinstalação e aplicativos em execução",
     "closeBackgroundProcesses": "Fechar sem perguntar um aplicativo rodando em segundo plano",
     "closeBackgroundProcessesHint": "Antes de instalar, atualizar ou desinstalar, o Unibox encerra os processos do aplicativo que não têm janela (como um ícone na área de notificação ou um processo preso na memória). Se o aplicativo tem uma janela aberta, é oferecido fechá-lo com um clique.",

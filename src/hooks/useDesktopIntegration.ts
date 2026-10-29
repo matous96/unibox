@@ -3,7 +3,8 @@
  *  - chování zavření okna (do oznamovací oblasti / ukončit),
  *  - texty nabídky ikony v oznamovací oblasti v jazyce aplikace – položka
  *    aktualizací i popisek ukazují jejich počet („Unibox – 4 aktualizace“),
- *  - stav operací na ikoně: barevná tečka a popisek (useTrayStatus),
+ *  - stav na ikoně: barevná tečka (operace z useTrayStatus, oranžová = čekají
+ *    aktualizace; v Nastavení jde vypnout) a popisek,
  *  - rychlé odkazy z nabídky ikony (Procházet balíčky, Dostupné aktualizace,
  *    Nainstalované) – backend pošle stránku, aplikace na ni přejde,
  *  - kontrola nové verze Uniboxu chvíli po spuštění (jen sestavená aplikace,
@@ -24,16 +25,19 @@ export function useDesktopIntegration() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const closeToTray = useSettings((s) => s.closeToTray);
+  const trayBadge = useSettings((s) => s.trayBadge);
   const updates = useUpdates().updatable.length;
   const tray = useTrayStatus();
+  // Probíhající operace a jejich výsledek mají přednost před čekajícími aktualizacemi
+  const badge = !trayBadge ? "idle" : tray.status === "idle" && updates > 0 ? "updates" : tray.status;
 
   useEffect(() => {
     if (isTauri()) invoke("set_close_to_tray", { enabled: closeToTray }).catch(() => undefined);
   }, [closeToTray]);
 
   useEffect(() => {
-    if (isTauri()) invoke("set_tray_status", { status: tray.status }).catch(() => undefined);
-  }, [tray.status]);
+    if (isTauri()) invoke("set_tray_status", { status: badge }).catch(() => undefined);
+  }, [badge]);
 
   useEffect(() => {
     if (!isTauri()) return;

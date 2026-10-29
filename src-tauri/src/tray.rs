@@ -6,8 +6,9 @@
 //!   hlavním panelu se přepne na tmavou variantu (`icons/tray-dark.png`).
 //!   Předloha se zmenší přesně na velikost ikon v oznamovací oblasti (16 px × měřítko
 //!   Windows: 24 px při 150 %, 32 px při 200 %) – Windows ji pak už neškáluje.
-//! - Stav operací je barevná tečka vpravo dole (`set_tray_status`): modrá = probíhá
-//!   instalace / aktualizace, červená = chyba, zelená = hotovo.
+//! - Stav je barevná tečka vpravo dole (`set_tray_status`): modrá = probíhá
+//!   instalace / aktualizace, červená = chyba, zelená = hotovo, oranžová = čekají
+//!   aktualizace. Frontend posílá Idle, když je tečka v Nastavení vypnutá.
 //! - Zavření okna ho jen schová, Unibox běží dál (fronta instalací doběhne);
 //!   lze vypnout v Nastavení (`set_close_to_tray`).
 //! - Levé tlačítko na ikoně okno ukáže. Pravé otevře nabídku po vzoru UniGetUI:
@@ -79,6 +80,8 @@ pub enum TrayStatus {
     Error,
     /// Operace doběhly v pořádku.
     Done,
+    /// Nic neběží a jsou k dispozici aktualizace.
+    Updates,
 }
 
 impl TrayStatus {
@@ -89,6 +92,7 @@ impl TrayStatus {
             TrayStatus::Busy => Some([0x3B, 0x82, 0xF6]),
             TrayStatus::Error => Some([0xEF, 0x44, 0x44]),
             TrayStatus::Done => Some([0x22, 0xC5, 0x5E]),
+            TrayStatus::Updates => Some([0xF9, 0x73, 0x16]),
         }
     }
 }
@@ -303,7 +307,14 @@ mod tests {
         }
         // Náhled ikon pro kontrolu očima: UNIBOX_TRAY_PREVIEW=<složka> cargo test status_dot
         if let Some(dir) = std::env::var_os("UNIBOX_TRAY_PREVIEW") {
-            for (name, status) in [("idle", TrayStatus::Idle), ("busy", TrayStatus::Busy), ("error", TrayStatus::Error), ("done", TrayStatus::Done)] {
+            let statuses = [
+                ("idle", TrayStatus::Idle),
+                ("busy", TrayStatus::Busy),
+                ("error", TrayStatus::Error),
+                ("done", TrayStatus::Done),
+                ("updates", TrayStatus::Updates),
+            ];
+            for (name, status) in statuses {
                 for (variant, master) in [("light", ICON_LIGHT), ("dark", ICON_DARK)] {
                     for size in [24, 32] {
                         let path = std::path::Path::new(&dir).join(format!("tray-{variant}-{name}-{size}.png"));

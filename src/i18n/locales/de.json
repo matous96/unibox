@@ -1517,6 +1517,8 @@
     "desktop": "Desktop-App",
     "closeToTray": "Nach dem Schließen weiterlaufen",
     "closeToTrayHint": "Das Schließen des Fensters blendet Unibox in den Infobereich neben der Uhr aus, laufende Installationen werden abgeschlossen. Beenden Sie es über das Menü des Symbols.",
+    "trayBadge": "Status am Symbol im Infobereich",
+    "trayBadgeHint": "Ein farbiger Punkt am Symbol im Infobereich: Orange – Updates verfügbar, Blau – ein Vorgang oder eine Prüfung läuft, Rot – Fehler, Grün – fertig.",
     "uninstall": "Deinstallation und laufende Apps",
     "closeBackgroundProcesses": "Im Hintergrund laufende App ohne Nachfrage schließen",
     "closeBackgroundProcessesHint": "Vor einer Installation, einem Update oder einer Deinstallation beendet Unibox die Prozesse der App, die kein Fenster haben (etwa ein Infobereichssymbol oder ein im Speicher hängender Prozess). Bei einer App mit offenem Fenster wird das Schließen mit einem Klick angeboten.",

@@ -1517,6 +1517,8 @@
     "desktop": "Desktop app",
     "closeToTray": "Keep running when closed",
     "closeToTrayHint": "Closing the window hides Unibox in the notification area next to the clock and running installs finish. Quit it from the icon's menu.",
+    "trayBadge": "Status on the tray icon",
+    "trayBadgeHint": "A colored dot on the icon in the notification area: orange – updates are available, blue – an operation or check is running, red – an error, green – done.",
     "uninstall": "Uninstall and running apps",
     "closeBackgroundProcesses": "Close an app running in the background without asking",
     "closeBackgroundProcessesHint": "Before an install, update or uninstall, Unibox ends the app's processes that have no window (such as a tray icon or a process stuck in memory). An app with an open window gets a one-click offer to close it.",
