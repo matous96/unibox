@@ -1,0 +1,22 @@
+<!--
+  Ikona okna testovací verze Uniboxu (hlavní panel, Alt+Tab): logo s oranžovým podkladem
+  místo modrého a nápisem „test“ místo „unibox“ – aby nešla zaměnit s nainstalovaným Uniboxem.
+  Okno ji dostane za běhu (tray::test_window_icon), instalátor a .exe mají ikonu z icon.ico.
+  PNG:  pnpm tauri icon assets/unibox-test.svg -o <složka> -p 256  → 256x256.png do src-tauri/icons/window-test.png
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fb923c"/>
+    <stop offset="1" stop-color="#ea580c"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#bg)"/>
+  <rect x="19" y="17" width="10" height="10" rx="2.5" fill="#f59e0b" transform="rotate(-12 24 22)"/>
+  <rect x="27" y="10" width="10" height="10" rx="2.5" fill="#38bdf8"/>
+  <rect x="35" y="17" width="10" height="10" rx="2.5" fill="#10b981" transform="rotate(12 40 22)"/>
+  <path d="M15 31 H32 L27 24 H9 Z" fill="#fff" fill-opacity="0.7"/>
+  <path d="M32 31 H49 L55 24 H37 Z" fill="#fff" fill-opacity="0.7"/>
+  <rect x="15" y="31" width="34" height="21" rx="3" fill="#fff"/>
+  <text x="32" y="45.6" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="-0.2" fill="#c2410c">test</text>
+</svg>

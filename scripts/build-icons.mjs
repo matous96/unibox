@@ -5,7 +5,7 @@
 // icon.ico se skládá ručně z PNG záznamů, protože `tauri icon` umí jen jednu předlohu.
 //   node scripts/build-icons.mjs
 import { execFileSync } from "node:child_process";
-import { copyFileSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -40,8 +40,8 @@ try {
     }
   }
 
-  // Soubory, které repozitář má (bez android/ios a ikon oznamovací oblasti)
-  const existing = readdirSync(icons).filter((file) => file.endsWith(".png") && !file.startsWith("tray"));
+  // Soubory, které repozitář má a `tauri icon` je vytváří (ne ikony oznamovací oblasti ani okna testovací verze)
+  const existing = readdirSync(icons).filter((file) => file.endsWith(".png") && existsSync(join(work, "text", file)));
   for (const file of existing) copyFileSync(join(work, PNG_SOURCE[file] ?? "text", file), join(icons, file));
 
   const frames = ICO.map(([size, from]) => ({ size, data: readFileSync(join(work, `${from}-ico`, `${size}x${size}.png`)) }));

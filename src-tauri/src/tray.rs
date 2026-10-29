@@ -2,11 +2,11 @@
 //!
 //! - Ikonu vytvoří Tauri z `tauri.conf.json` (`app.trayIcon`): jednobarevná
 //!   verze loga na průhledném pozadí (`icons/tray.png`, 64 × 64, zdroj
-//!   `assets/tray-icon.svg`) – vypadá jako systémové ikony Windows. Na světlém
-//!   hlavním panelu se přepne na tmavou variantu (`icons/tray-dark.png`).
+//!   `assets/tray-icon.svg`, v krabici nápis „unibox“, u testovací verze „test“) – vypadá
+//!   jako systémové ikony Windows. Na světlém hlavním panelu se přepne na tmavou variantu.
 //!   Předloha se zmenší přesně na velikost ikon v oznamovací oblasti (16 px × měřítko
 //!   Windows: 24 px při 150 %, 32 px při 200 %) – Windows ji pak už neškáluje.
-//! - Stav je barevná tečka vpravo dole (`set_tray_status`): modrá = probíhá
+//! - Stav je barevná tečka vpravo nahoře (`set_tray_status`, dole by zakryla nápis): modrá = probíhá
 //!   instalace / aktualizace, červená = chyba, zelená = hotovo, oranžová = čekají
 //!   aktualizace. Frontend posílá Idle, když je tečka v Nastavení vypnutá.
 //! - Zavření okna ho jen schová, Unibox běží dál (fronta instalací doběhne);
@@ -67,6 +67,9 @@ impl Default for TrayLabels {
 /// Bílá ikona (tmavý hlavní panel) a tmavá (světlý hlavní panel) – předlohy 64 × 64.
 const ICON_LIGHT: &[u8] = include_bytes!("../icons/tray.png");
 const ICON_DARK: &[u8] = include_bytes!("../icons/tray-dark.png");
+/// Testovací verze: plná krabice s nápisem „test“ (zdroj `assets/tray-icon-test.svg`).
+const ICON_TEST_LIGHT: &[u8] = include_bytes!("../icons/tray-test.png");
+const ICON_TEST_DARK: &[u8] = include_bytes!("../icons/tray-test-dark.png");
 
 /// Stav operací na ikoně (posílá frontend podle fronty úloh).
 #[derive(Deserialize, Clone, Copy, PartialEq, Eq, Debug, Default)]
@@ -164,11 +167,44 @@ fn menu<R: Runtime>(app: &AppHandle<R>, labels: &TrayLabels) -> tauri::Result<Me
 /// Nastaví ikonu: barva podle hlavního panelu (bílá na tmavém, tmavá na světlém),
 /// velikost podle měřítka Windows a tečka podle stavu operací.
 fn apply_icon<R: Runtime>(tray: &TrayIcon<R>) {
-    let master = if taskbar_is_light() { ICON_DARK } else { ICON_LIGHT };
+    // Testovací verze má v krabici nápis „test“ místo „unibox“
+    let master = match (is_test_build(tray.app_handle()), taskbar_is_light()) {
+        (false, false) => ICON_LIGHT,
+        (false, true) => ICON_DARK,
+        (true, false) => ICON_TEST_LIGHT,
+        (true, true) => ICON_TEST_DARK,
+    };
     let status = *STATUS.lock().unwrap_or_else(|e| e.into_inner());
     if let Some(icon) = render_icon(master, tray_icon_size(), status) {
         let _ = tray.set_icon(Some(Image::new_owned(icon.as_raw().clone(), icon.width(), icon.height())));
     }
+}
+
+/// Ikona okna testovací verze (hlavní panel, Alt+Tab): oranžové logo s nápisem „test“
+/// (zdroj `assets/unibox-test.svg`), ať nejde zaměnit s nainstalovaným Uniboxem.
+const WINDOW_ICON_TEST: &[u8] = include_bytes!("../icons/window-test.png");
+
+/// Ikona okna testovací verze zmenšená na velké ikony Windows (32 px × měřítko) –
+/// hlavní panel ji pak už neškáluje z 256 px.
+pub fn test_window_icon() -> Option<Image<'static>> {
+    let master = image::load_from_memory(WINDOW_ICON_TEST).ok()?.to_rgba8();
+    let size = window_icon_size();
+    let icon = imageops::resize(&master, size, size, imageops::FilterType::Lanczos3);
+    Some(Image::new_owned(icon.into_raw(), size, size))
+}
+
+/// Velikost velkých ikon (okno, hlavní panel) v pixelech.
+#[cfg(windows)]
+fn window_icon_size() -> u32 {
+    use windows_sys::Win32::UI::WindowsAndMessaging::{GetSystemMetrics, SM_CXICON};
+    // SAFETY: GetSystemMetrics jen čte systémovou hodnotu
+    let size = unsafe { GetSystemMetrics(SM_CXICON) };
+    if (16..=256).contains(&size) { size as u32 } else { 48 }
+}
+
+#[cfg(not(windows))]
+fn window_icon_size() -> u32 {
+    48
 }
 
 /// Velikost ikon v oznamovací oblasti v pixelech (16 × měřítko Windows).
@@ -189,8 +225,8 @@ fn tray_icon_size() -> u32 {
 const DOT_RADIUS: f32 = 0.22;
 const DOT_MARGIN: f32 = 0.02;
 
-/// Zmenší předlohu na `size` × `size` a vpravo dole přidá tečku stavu
-/// s průhledným lemem, aby se oddělila od kresby (vyhlazené okraje).
+/// Zmenší předlohu na `size` × `size` a vpravo nahoře (místo pravé aplikace, nápis v krabici
+/// zůstane) přidá tečku stavu s průhledným lemem, aby se oddělila od kresby (vyhlazené okraje).
 fn render_icon(master_png: &[u8], size: u32, status: TrayStatus) -> Option<RgbaImage> {
     let master = image::load_from_memory(master_png).ok()?.to_rgba8();
     let mut icon = imageops::resize(&master, size, size, imageops::FilterType::Lanczos3);
@@ -199,9 +235,10 @@ fn render_icon(master_png: &[u8], size: u32, status: TrayStatus) -> Option<RgbaI
     let s = size as f32;
     let radius = s * DOT_RADIUS;
     let gap = (s * 0.07).max(1.0);
-    let center = s - radius - s * DOT_MARGIN;
+    let center_x = s - radius - s * DOT_MARGIN;
+    let center_y = radius + s * DOT_MARGIN;
     for (x, y, pixel) in icon.enumerate_pixels_mut() {
-        let distance = ((x as f32 + 0.5 - center).powi(2) + (y as f32 + 0.5 - center).powi(2)).sqrt();
+        let distance = ((x as f32 + 0.5 - center_x).powi(2) + (y as f32 + 0.5 - center_y).powi(2)).sqrt();
         // Lem: kresba pod ním zmizí (podíl pokrytí pixelu kvůli vyhlazení)
         let cut = (radius + gap + 0.5 - distance).clamp(0.0, 1.0);
         let base_alpha = pixel[3] as f32 / 255.0 * (1.0 - cut);
@@ -295,15 +332,19 @@ mod tests {
     #[test]
     fn status_dot_in_corner() {
         for size in [16, 24, 32] {
-            let plain = render_icon(ICON_LIGHT, size, TrayStatus::Idle).unwrap();
-            assert_eq!(plain.dimensions(), (size, size));
-            let busy = render_icon(ICON_LIGHT, size, TrayStatus::Busy).unwrap();
-            // Střed tečky má barvu stavu a je neprůhledný
-            let c = (size as f32 * (1.0 - DOT_RADIUS - DOT_MARGIN)) as u32;
-            let pixel = busy.get_pixel(c, c);
-            assert_eq!((pixel[0], pixel[1], pixel[2], pixel[3]), (0x3B, 0x82, 0xF6, 255), "velikost {size}");
-            // Levý horní roh (aplikace nad krabicí) zůstane beze změny
-            assert_eq!(busy.get_pixel(size / 2, 2), plain.get_pixel(size / 2, 2));
+            for master in [ICON_LIGHT, ICON_TEST_LIGHT] {
+                let plain = render_icon(master, size, TrayStatus::Idle).unwrap();
+                assert_eq!(plain.dimensions(), (size, size));
+                let busy = render_icon(master, size, TrayStatus::Busy).unwrap();
+                // Střed tečky vpravo nahoře má barvu stavu a je neprůhledný
+                let x = (size as f32 * (1.0 - DOT_RADIUS - DOT_MARGIN)) as u32;
+                let y = (size as f32 * (DOT_RADIUS + DOT_MARGIN)) as u32;
+                let pixel = busy.get_pixel(x, y);
+                assert_eq!((pixel[0], pixel[1], pixel[2], pixel[3]), (0x3B, 0x82, 0xF6, 255), "velikost {size}");
+                // Krabice s nápisem dole zůstane beze změny
+                assert_eq!(busy.get_pixel(size / 2, size - 3), plain.get_pixel(size / 2, size - 3));
+                assert_eq!(busy.get_pixel(x, size - 3), plain.get_pixel(x, size - 3));
+            }
         }
         // Náhled ikon pro kontrolu očima: UNIBOX_TRAY_PREVIEW=<složka> cargo test status_dot
         if let Some(dir) = std::env::var_os("UNIBOX_TRAY_PREVIEW") {
@@ -315,7 +356,8 @@ mod tests {
                 ("updates", TrayStatus::Updates),
             ];
             for (name, status) in statuses {
-                for (variant, master) in [("light", ICON_LIGHT), ("dark", ICON_DARK)] {
+                let variants = [("light", ICON_LIGHT), ("dark", ICON_DARK), ("test-light", ICON_TEST_LIGHT), ("test-dark", ICON_TEST_DARK)];
+                for (variant, master) in variants {
                     for size in [24, 32] {
                         let path = std::path::Path::new(&dir).join(format!("tray-{variant}-{name}-{size}.png"));
                         render_icon(master, size, status).unwrap().save(path).unwrap();
