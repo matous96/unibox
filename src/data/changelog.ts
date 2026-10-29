@@ -28,6 +28,53 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: "0.1.18",
+    date: "2026-10-29",
+    highlights: [
+      {
+        cs: "Sedm jazyků: k češtině a angličtině přibyla němčina, španělština, francouzština, portugalština a čínština. Nový uživatel dostane jazyk podle Windows; přepnete ho v horní liště nebo v Nastavení → Vzhled.",
+        en: "Seven languages: German, Spanish, French, Portuguese and Chinese join Czech and English. New users get the language of their Windows; switch it in the top bar or in Settings → Appearance.",
+      },
+      {
+        cs: "Příkazy pro terminál: přehled příkazů pro WinGet, Chocolatey, Scoop i správce pro vývojáře – hledání, instalace, aktualizace, záloha a údržba, každý s vysvětlením a tlačítkem Kopírovat. Najdete je v Nápovědě, v Nastavení a u každé aplikace.",
+        en: "Terminal commands: an overview of commands for WinGet, Chocolatey, Scoop and developer package managers – search, install, update, backup and maintenance, each with an explanation and a Copy button. Find them in Help, in Settings and on every app's page.",
+      },
+      {
+        cs: "Hry ze Steamu mají svou skutečnou ikonu a Unibox pozná i hry z EA app – mají vlastní filtr mezi nainstalovanými.",
+        en: "Steam games show their real icon and Unibox now recognizes EA app games too – with their own filter among installed apps.",
+      },
+      {
+        cs: "Na kartách a v seznamech je vidět kategorie aplikace (prohlížeč, grafika…), takže hned víte, k čemu neznámá aplikace slouží.",
+        en: "Cards and lists show the app's category (browser, graphics…), so you know right away what an unfamiliar app is for.",
+      },
+      {
+        cs: "Zpět vrátí stránku tam, kde jste byli: posun i filtry na Nainstalovaných, v Nejstahovanějších a v kategoriích zůstanou.",
+        en: "Back returns you to where you were: the scroll position and filters on Installed, Top charts and categories stay put.",
+      },
+      {
+        cs: "Nové logo s tenkým nápisem „unibox“ v krabici a v Nastavení → Obecné nenápadná možnost podpořit vývoj.",
+        en: "A new logo with a thin “unibox” lettering on the box, and an unobtrusive way to support development in Settings → General.",
+      },
+    ],
+    featured: [
+      {
+        title: { cs: "Sedm jazyků", en: "Seven languages" },
+        text: {
+          cs: "Němčina, španělština, francouzština, portugalština a čínština k češtině a angličtině. Jazyk se nastaví podle Windows.",
+          en: "German, Spanish, French, Portuguese and Chinese alongside Czech and English. The language follows your Windows.",
+        },
+      },
+      {
+        title: { cs: "Příkazy pro terminál", en: "Terminal commands" },
+        text: {
+          cs: "Přehled příkazů pro všechny správce balíčků s vysvětlením – zkopírujete je jedním kliknutím.",
+          en: "An overview of commands for every package manager with explanations – copy them with one click.",
+        },
+        href: { cs: "spravci.html", en: "package-managers.html" },
+      },
+    ],
+  },
+  {
     version: "0.1.17",
     date: "2026-10-28",
     highlights: [

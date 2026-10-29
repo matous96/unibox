@@ -78,6 +78,7 @@
           <h1>What’s new in&nbsp;Unibox</h1>
           <p class="lead">Every change since the first public version 0.1.0, newest first. Fifteen updates shipped in the week after its release.</p>
           <nav class="versions-nav" aria-label="Jump to version">
+            <a class="chip" href="#v0-1-18">0.1.18</a>
             <a class="chip" href="#v0-1-17">0.1.17</a>
             <a class="chip" href="#v0-1-16">0.1.16</a>
             <a class="chip" href="#v0-1-15">0.1.15</a>
@@ -99,8 +100,8 @@
           </nav>
         </div>
         <dl class="stats reveal">
-          <div><dt>Current version</dt><dd>0.1.17</dd></div>
-          <div><dt>Updates since 0.1.0</dt><dd>17</dd></div>
+          <div><dt>Current version</dt><dd>0.1.18</dd></div>
+          <div><dt>Updates since 0.1.0</dt><dd>18</dd></div>
           <div><dt>Apps in the catalog</dt><dd>25,100+</dd></div>
           <div><dt>Package managers for real</dt><dd>WinGet · Chocolatey · Scoop + 8 for developers</dd></div>
         </dl>
@@ -195,6 +196,11 @@
             <h3>Faster startup</h3>
             <p>The catalog appears right away from the saved copy and the fresh one downloads in the background – startup doesn’t wait for the internet.</p>
           </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.18</span>
+            <h3>Seven languages</h3>
+            <p>German, Spanish, French, Portuguese and Chinese alongside Czech and English. The language follows your Windows.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -209,6 +215,44 @@
         </div>
 
         <div class="timeline">
+          <!-- 0.1.18 -->
+          <article class="release" id="v0-1-18">
+            <div class="release__meta">
+              <span class="release__ver">0.1.18</span>
+              <time class="release__date" datetime="2026-10-29">Oct 29, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>Seven languages and terminal commands</h2>
+                <span class="badge badge--live">Latest</span>
+              </div>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li><strong>Seven languages</strong> – German, Spanish, French, Portuguese and Chinese (Simplified) join Czech and English. New users get the language of their Windows, or English otherwise. Switch it in the top bar or in Settings → Appearance.</li>
+                  <li><strong>Terminal commands</strong> – an overview of commands for WinGet, Chocolatey, Scoop, npm, Bun, pip, Cargo, vcpkg, .NET Tool and PowerShell: search and info, installing (a specific version too), updating and pinning, backup and maintenance. Each command comes with an explanation and a Copy button. Find them in Help, in Settings and on every app’s page.</li>
+                  <li><strong>EA app games</strong> – Unibox recognizes EA app games in any library; they get their own filter among installed apps, the Games category and their own icon.</li>
+                  <li><strong>Categories on cards</strong> – every app shows what it’s for (browser, graphics…), even if you don’t know it.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li><strong>Back to where you were</strong> – coming back from an app’s page keeps the scroll position and filters on Installed, Top charts and categories.</li>
+                  <li>Steam games show their real icon (up to 256&nbsp;px) and a banner like other apps.</li>
+                  <li>A new logo with a thin “unibox” lettering on the box.</li>
+                  <li>Settings → General has an unobtrusive way to support Unibox’s development.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Fixed</h3>
+                <ul>
+                  <li>The search box text got cut off mid-word in a smaller window – it now ends with an ellipsis.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
           <!-- 0.1.17 -->
           <article class="release" id="v0-1-17">
             <div class="release__meta">
@@ -218,7 +262,6 @@
             <div class="card release__body">
               <div class="release__head">
                 <h2>Faster startup and privacy in reviews</h2>
-                <span class="badge badge--live">Latest</span>
               </div>
               <div class="changes changes--better">
                 <h3>Improved</h3>
@@ -741,7 +784,6 @@
         <a data-link="github" href="#">GitHub</a>
         <a href="changelog.html">What’s new</a>
         <a data-link="releases" href="#">All releases</a>
-        <a data-link="discord" href="#">Discord</a>
         <a data-link="email" href="#">Email</a>
         <a href="privacy.html">Privacy</a>
         <a href="code-signing.html">Code signing</a>

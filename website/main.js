@@ -1,5 +1,5 @@
 // ==========================================================================
-// Odkazy webu na jednom místě. Až budou GitHub, Discord a e-mail hotové,
+// Odkazy webu na jednom místě. Až bude e-mail hotový,
 // stačí je vyplnit tady – všechny prvky s data-link="…" se aktualizují samy.
 // Prázdná hodnota = zástupný odkaz (zatím nikam nevede).
 // ==========================================================================
@@ -7,9 +7,8 @@ const LINKS = {
   github: "https://github.com/matous96/unibox",
   releases: "https://github.com/matous96/unibox/releases",
   // Instalátory z vydání na GitHubu – verzi přepisuje `pnpm website:release` (scripts/website-release.mjs)
-  downloadExe: "https://github.com/matous96/unibox/releases/download/v0.1.17/Unibox_0.1.17_x64-setup.exe",
-  downloadMsi: "https://github.com/matous96/unibox/releases/download/v0.1.17/Unibox_0.1.17_x64_en-US.msi",
-  discord: "",      // např. "https://discord.gg/<kód>"
+  downloadExe: "https://github.com/matous96/unibox/releases/download/v0.1.18/Unibox_0.1.18_x64-setup.exe",
+  downloadMsi: "https://github.com/matous96/unibox/releases/download/v0.1.18/Unibox_0.1.18_x64_en-US.msi",
   email: "",        // např. "mailto:ahoj@unibox.app"
 };
 
