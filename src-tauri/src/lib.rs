@@ -146,6 +146,7 @@ pub fn run() {
             choco::choco_operation,
             scoop::scoop_status,
             scoop::scoop_installed,
+            scoop::scoop_refresh_buckets,
             scoop::scoop_search,
             scoop::scoop_versions,
             scoop::scoop_setup,

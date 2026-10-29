@@ -2,7 +2,8 @@
 //!
 //! - Nainstalované aplikace se čtou přímo ze složek Scoopu
 //!   (`apps\<aplikace>\current`) – bez spouštění PowerShellu. Novější verzi
-//!   prozradí manifest v bucketu (stav po posledním `scoop update`).
+//!   prozradí manifest v bucketu – buckety obnoví `scoop update` (kontrola aktualizací
+//!   Uniboxu ho spustí nejvýš jednou za 3 hodiny, `scoop_refresh_buckets`).
 //!   Přenosné aplikace ze Scoopu v registru Windows nejsou, winget je nevidí.
 //! - Operace: skript scoop.ps1 ve Windows PowerShellu, vždy bez práv správce
 //!   (Scoop instaluje pro aktuálního uživatele). Instalace z bucketu, který
@@ -212,6 +213,53 @@ pub async fn scoop_versions(package_id: String) -> Result<Vec<String>, String> {
     .await
 }
 
+/// Jak často nejvýš obnovovat buckety – stejně jako Scoop sám před instalací.
+const BUCKETS_REFRESH: std::time::Duration = std::time::Duration::from_secs(3 * 60 * 60);
+
+/// Kdy se buckety naposledy stáhly (`git fetch` v `scoop update` zapíše `.git\FETCH_HEAD`);
+/// None = nikdy nebo neznámo.
+fn buckets_fetched_at(buckets: &Path) -> Option<std::time::SystemTime> {
+    std::fs::read_dir(buckets)
+        .ok()?
+        .flatten()
+        .filter_map(|bucket| std::fs::metadata(bucket.path().join(".git").join("FETCH_HEAD")).ok()?.modified().ok())
+        .max()
+}
+
+/// Obnoví Scoop a jeho buckety (`scoop update`), aby výpis nainstalovaných znal nové verze –
+/// manifesty v bucketech jinak zůstanou ve stavu po posledním ručním `scoop update`.
+/// Nejvýš jednou za 3 hodiny; vrátí, zda obnova proběhla.
+#[tauri::command]
+pub async fn scoop_refresh_buckets() -> Result<bool, String> {
+    background(|| {
+        let root = root();
+        let buckets = root.join("buckets");
+        if !script(&root).is_file() || !buckets.is_dir() {
+            return Ok(false);
+        }
+        let fresh = buckets_fetched_at(&buckets)
+            .and_then(|at| at.elapsed().ok())
+            .is_some_and(|age| age < BUCKETS_REFRESH);
+        if fresh {
+            return Ok(false);
+        }
+        let script_text = [
+            "$ErrorActionPreference = 'Continue'".to_string(),
+            "$ProgressPreference = 'SilentlyContinue'".to_string(),
+            format!("$scoop = {}", ps_string(&script(&root).to_string_lossy())),
+            "& $scoop update *>&1".to_string(),
+            "exit $LASTEXITCODE".to_string(),
+        ]
+        .join("\n");
+        let encoded = BASE64.encode(script_text.encode_utf16().flat_map(u16::to_le_bytes).collect::<Vec<u8>>());
+        let mut command = crate::process::hidden_command(&powershell_exe().to_string_lossy());
+        command.args(["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-EncodedCommand", &encoded]);
+        let output = crate::process::run(command, std::time::Duration::from_secs(180))?;
+        Ok(output.code == 0)
+    })
+    .await
+}
+
 /// Nainstaluje Scoop oficiálním instalátorem (get.scoop.sh) pro aktuálního
 /// uživatele – bez práv správce (Scoop je odmítá).
 #[tauri::command]
@@ -359,6 +407,7 @@ pub async fn scoop_operation(
             .iter()
             .map(|s| s.to_string())
             .collect(),
+        retry_args: None,
         kind: request.kind,
         elevated: false,
         interactive: false,
@@ -377,7 +426,7 @@ mod tests {
     use super::*;
 
     fn request(kind: Kind, id: &str) -> OperationRequest {
-        OperationRequest { kind, package_id: id.into(), version: None, options: None }
+        OperationRequest { kind, package_id: id.into(), version: None, options: None, name: None }
     }
 
     #[test]

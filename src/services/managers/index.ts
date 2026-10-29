@@ -20,6 +20,7 @@ import { wingetManager } from "./winget";
 export * from "./sources";
 export type { CacheInfo, OperationHandle, OperationRequest, OperationResult, PackageManager } from "./types";
 export { refreshChocoOutdated } from "./choco";
+export { refreshScoopBuckets } from "./scoop";
 
 /** Běží aplikace uvnitř Tauri (ne v obyčejném prohlížeči)? */
 export { isTauri };

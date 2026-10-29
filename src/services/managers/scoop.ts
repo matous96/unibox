@@ -20,6 +20,14 @@ interface BackendInstalled {
   availableVersion: string | null;
 }
 
+/**
+ * Obnoví buckety Scoopu (`scoop update`), aby výpis nainstalovaných znal nové verze.
+ * Backend to udělá nejvýš jednou za 3 hodiny; vrátí, zda obnova proběhla.
+ */
+export function refreshScoopBuckets(): Promise<boolean> {
+  return invoke<boolean>("scoop_refresh_buckets");
+}
+
 export const scoopManager: PackageManager = {
   id: "scoop",
 

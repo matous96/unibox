@@ -22,7 +22,7 @@ import { queryClient, queryKeys } from "@/app/queryClient";
 import i18n from "@/i18n";
 import { dueTime, type Schedule } from "@/lib/schedule";
 import { isTauri } from "@/lib/tauri";
-import { refreshChocoOutdated } from "@/services/managers";
+import { refreshChocoOutdated, refreshScoopBuckets } from "@/services/managers";
 import { notifyEvent } from "@/services/notify";
 import { INTERVAL_MS, useAutoUpdates } from "@/store/autoUpdates";
 import { updateOptionsFor } from "@/store/installOptions";
@@ -77,8 +77,15 @@ function currentUpdatable(): InstalledPackage[] {
 
 /** Načte znovu seznam nainstalovaných u správců a zapíše nově viděné verze. */
 async function refreshInstalled() {
-  // Dostupné aktualizace Chocolatey (dotaz na repozitář) nejdřív – výpis nainstalovaných je pak použije
-  if (isTauri() && useSettings.getState().enabledSources.includes("chocolatey")) await refreshChocoOutdated().catch(() => undefined);
+  // Nejdřív dostupné verze od správců, výpis nainstalovaných je pak použije: dotaz na repozitář
+  // Chocolatey a obnova bucketů Scoopu (jinak zůstanou ve stavu po posledním ručním `scoop update`)
+  const enabled = useSettings.getState().enabledSources;
+  if (isTauri()) {
+    await Promise.all([
+      enabled.includes("chocolatey") && refreshChocoOutdated().catch(() => undefined),
+      enabled.includes("scoop") && refreshScoopBuckets().catch(() => undefined),
+    ]);
+  }
   await queryClient.refetchQueries({ queryKey: queryKeys.installed });
   const raw = queryClient.getQueriesData<InstalledPackage[]>({ queryKey: queryKeys.installed }).flatMap(([, d]) => d ?? []);
   const holds = useUpdateHolds.getState();
