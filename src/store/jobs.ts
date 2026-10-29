@@ -49,6 +49,7 @@ import { applySecurityPolicy } from "./security";
 import { sourcePriority, useSettings } from "./settings";
 import { sourceScope } from "./sourceLock";
 import type { ToastTone } from "./toasts";
+import { AUTO_FAILURE_LIMIT, useUpdateHolds, versionKey } from "./updateHolds";
 
 export interface EnqueueRequest {
   appId: string;
@@ -64,6 +65,8 @@ export interface EnqueueRequest {
   background?: boolean;
   /** Sledovat instalaci snímkem systému („Nainstalovat se sledováním“). */
   track?: boolean;
+  /** Automatická aktualizace: nabízená verze. */
+  targetVersion?: string;
 }
 
 interface JobsState {
@@ -155,6 +158,22 @@ const processNames = (processes: { name: string }[]) => [...new Set(processes.ma
  * Vrací false, když uživatel operaci zrušil. Úlohy na pozadí (automatické
  * aktualizace) aplikace nezavírají.
  */
+/**
+ * Automatická aktualizace: běží-li aplikace v okně, počká (nikdo ji nechce zavírat uprostřed
+ * práce a instalátor by ji stejně nepřepsal) – zkusí se při příští kontrole. Procesy bez okna
+ * (ikona u hodin, proces v paměti) se podle Nastavení ukončí jako u ruční aktualizace.
+ */
+async function backgroundReady(job: Job): Promise<boolean> {
+  const found = await findAppProcesses(job.packageId, job.appName).catch(() => []);
+  if (!found.length) return true;
+  const quiet = useSettings.getState().closeBackgroundProcesses ? found.filter(closableInBackground) : [];
+  if (quiet.length < found.length) return false;
+  const alive = await endProcesses(quiet.map((p) => p.pid)).catch(() => quiet.map((p) => p.pid));
+  if (alive.length) return false;
+  writeLog(job.source, "warning", i18n.t("logs.msg.endedProcesses", { name: job.appName, processes: processNames(quiet) }));
+  return true;
+}
+
 async function prepareProcesses(job: Job): Promise<boolean> {
   if (job.background || job.kind === "download") return true;
   const found = await findAppProcesses(job.packageId, job.appName).catch(() => []);
@@ -277,6 +296,7 @@ export const useJobs = create<JobsState>()((set, get) => {
       options: job.options,
       outcome: result.outcome,
       error: result.error,
+      background: job.background,
       startedAt,
       finishedAt: new Date().toISOString(),
     });
@@ -292,6 +312,13 @@ export const useJobs = create<JobsState>()((set, get) => {
     if (!job) return processNext();
 
     running = true;
+    // Automatická aktualizace běžící aplikace počká na příští kontrolu – bez oznámení
+    if (job.background && job.kind === "update" && !(await backgroundReady(job))) {
+      writeLog(job.source, "info", i18n.t("logs.msg.skippedRunning", { name: job.appName }));
+      remove(appId);
+      running = false;
+      return processNext();
+    }
     const first = job;
     // Chybějící správce (Chocolatey, Scoop) – nejdřív výzva k jeho instalaci;
     // běžící aplikaci zavřít (nebo se zeptat), ať ji instalátor může přepsat
@@ -373,7 +400,22 @@ export const useJobs = create<JobsState>()((set, get) => {
             : fallbacks.length > 0
               ? ["failure", "error", "toast.fallbackFailed", "notifications.fallbackFailed"]
               : ["failure", "error", "toast.failed", "notifications.failed"];
-    batch[outcome]++;
+    // Selhání automatické aktualizace jen do historie (zvoneček) – Unibox to zkusí příště;
+    // po AUTO_FAILURE_LIMIT pokusech o stejnou verzi ji nechá na uživateli a jednou to klidně oznámí
+    const quietFailure = !!job.background && outcome === "error";
+    if (quietFailure && job.kind === "update" && job.targetVersion) {
+      const failures = useUpdateHolds.getState().recordAutoFailure(versionKey(job, job.targetVersion));
+      if (failures === AUTO_FAILURE_LIMIT) {
+        notifyEvent({
+          type: "failure",
+          tone: "info",
+          title: job.appName,
+          message: i18n.t("autoUpdates.gaveUp", { version: job.targetVersion }),
+          record: { kind: job.kind, source: job.source, appId },
+        });
+      }
+    }
+    if (!quietFailure) batch[outcome]++;
     const batchTotal = batch.success + batch.error + batch.cancelled;
     const more = queue.length > 0;
     // Během dávky víc operací jednotlivé úspěchy jen do historie – na konci přijde souhrn
@@ -385,13 +427,14 @@ export const useJobs = create<JobsState>()((set, get) => {
         : [];
     notifyEvent({
       type,
-      tone,
+      // Selhání na pozadí do zvonečku jako informace – bez červeného počtu nových chyb
+      tone: quietFailure ? "info" : tone,
       title: params.name,
       message: i18n.t(noteKey, params),
       // S nabídkou jiného zdroje chybu vysvětlí dialog – v rohu okna se neopakuje
       toast: alternatives.length ? false : i18n.t(toastKey, params),
       record: { kind: job.kind, source: job.source, appId },
-      popup: !(summarize && outcome === "success"),
+      popup: !(summarize && outcome === "success") && !quietFailure,
     });
     if (alternatives.length) void offerFallback(job, error ?? "", alternatives);
     if (!more) {
@@ -428,7 +471,7 @@ export const useJobs = create<JobsState>()((set, get) => {
   return {
     jobs: {},
 
-    enqueue: ({ appId, appName, source, packageId, kind, version, options, background, track }) => {
+    enqueue: ({ appId, appName, source, packageId, kind, version, options, background, track, targetVersion }) => {
       if (get().jobs[appId]) return; // už ve frontě nebo běží
       set({
         jobs: {
@@ -444,6 +487,7 @@ export const useJobs = create<JobsState>()((set, get) => {
             options,
             background,
             track,
+            targetVersion,
             progress: { phase: "queued", percent: null },
           },
         },

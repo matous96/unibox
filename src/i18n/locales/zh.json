@@ -526,7 +526,8 @@
       "endedProcesses": "{{name}} 正在后台运行——已结束进程 {{processes}}，以便安装程序覆盖它。",
       "endedLeftoverProcesses": "卸载 {{name}} 后，已结束仍从其文件夹运行的进程：{{processes}}。",
       "selfUpdating": "{{name}} 在更新到 {{target}} 后自行回到了版本 {{version}}——它使用自己的更新程序。将不再通过包管理器提供更新。",
-      "traced": "{{name}} 的安装监视：记录了 {{count}} 个新项目（文件夹、快捷方式、注册表）。卸载后会提示删除它们。"
+      "traced": "{{name}} 的安装监视：记录了 {{count}} 个新项目（文件夹、快捷方式、注册表）。卸载后会提示删除它们。",
+      "skippedRunning": "{{name}} 正在运行——自动更新将等你关闭它后再进行。"
     },
     "notice": {
       "prefetchFailed": "无法提前下载安装程序（{{detail}}）——将由 WinGet 下载。",
@@ -1899,9 +1900,10 @@
     "preselect": "默认选中所有更新",
     "preselectHint": "打开“更新”时全部勾选——在底部栏一键更新。",
     "optionsNote": "应用已保存的安装选项（管理员身份、参数、文件夹…）同样适用于其更新——可在“安装选项”中设置。",
-    "trayNote": "自动更新失败时，通知区域图标会变为红色，并记录到通知历史（铃铛）。",
+    "trayNote": "自动更新失败时会记录到通知历史（铃铛）中，Unibox 下次会重试——失败三次后交由你处理。正在运行的应用会等你关闭后再更新。",
     "allApps": "自动更新（设置 → 软件包更新）",
-    "thisApp": "自动更新"
+    "thisApp": "自动更新",
+    "gaveUp": "自动更新到版本 {{version}} 已失败三次——请在“可用更新”中手动更新。"
   },
   "security": {
     "warningTitle": "警告！",

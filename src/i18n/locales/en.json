@@ -526,7 +526,8 @@
       "endedProcesses": "{{name}} was running in the background – ended the processes {{processes}} so the installer can overwrite it.",
       "endedLeftoverProcesses": "After uninstalling {{name}}, ended the processes still running from its folder: {{processes}}.",
       "selfUpdating": "{{name}} went back to version {{version}} on its own after updating to {{target}} – it uses its own updater. Updates through the package manager are no longer offered.",
-      "traced": "Install monitor for {{name}}: recorded {{count}} new items (folders, shortcuts, registry). They'll be offered for removal after an uninstall."
+      "traced": "Install monitor for {{name}}: recorded {{count}} new items (folders, shortcuts, registry). They'll be offered for removal after an uninstall.",
+      "skippedRunning": "{{name}} is running – the automatic update will wait until you close it."
     },
     "notice": {
       "prefetchFailed": "Couldn't download the installer in advance ({{detail}}) – WinGet will download it.",
@@ -1899,9 +1900,10 @@
     "preselect": "Select all updates by default",
     "preselectHint": "Opening Updates checks them all – update them with one click in the bar at the bottom.",
     "optionsNote": "An app's saved install options (as administrator, arguments, folder…) apply to its updates too – set them in Install options.",
-    "trayNote": "A failed automatic update switches the tray icon to the red state and is written to the notification history (bell).",
+    "trayNote": "A failed automatic update is written to the notification history (bell) and Unibox tries again next time – after three failures it leaves it to you. Running apps wait until you close them.",
     "allApps": "Updated automatically (Settings → Package updates)",
-    "thisApp": "Update automatically"
+    "thisApp": "Update automatically",
+    "gaveUp": "The automatic update to version {{version}} failed three times – update it manually in Available updates."
   },
   "security": {
     "warningTitle": "Warning!",

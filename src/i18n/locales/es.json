@@ -538,7 +538,8 @@
       "endedProcesses": "{{name}} se estaba ejecutando en segundo plano: se cerraron los procesos {{processes}} para que el instalador pueda sobrescribirlo.",
       "endedLeftoverProcesses": "Tras desinstalar {{name}}, se cerraron los procesos que seguían ejecutándose desde su carpeta: {{processes}}.",
       "selfUpdating": "{{name}} volvió por sí solo a la versión {{version}} después de actualizarse a {{target}}: usa su propio actualizador. Ya no se ofrecerán actualizaciones mediante el gestor de paquetes.",
-      "traced": "Monitor de instalación de {{name}}: se registraron {{count}} elementos nuevos (carpetas, accesos directos, registro). Se ofrecerá eliminarlos después de una desinstalación."
+      "traced": "Monitor de instalación de {{name}}: se registraron {{count}} elementos nuevos (carpetas, accesos directos, registro). Se ofrecerá eliminarlos después de una desinstalación.",
+      "skippedRunning": "{{name}} se está ejecutando: la actualización automática esperará a que la cierres."
     },
     "notice": {
       "prefetchFailed": "No se pudo descargar el instalador por adelantado ({{detail}}): lo descargará WinGet.",
@@ -1956,9 +1957,10 @@
     "preselect": "Seleccionar todas las actualizaciones de forma predeterminada",
     "preselectHint": "Al abrir Actualizaciones, todas quedan marcadas: actualízalas con un clic en la barra inferior.",
     "optionsNote": "Las opciones de instalación guardadas de una aplicación (como administrador, argumentos, carpeta…) también se aplican a sus actualizaciones: configúralas en Opciones de instalación.",
-    "trayNote": "Una actualización automática fallida pone en rojo el icono del área de notificación y se anota en el historial de notificaciones (campana).",
+    "trayNote": "Una actualización automática fallida se anota en el historial de notificaciones (campana) y Unibox lo vuelve a intentar la próxima vez; tras tres fallos, te la deja a ti. Las aplicaciones en ejecución esperan a que las cierres.",
     "allApps": "Se actualiza automáticamente (Configuración → Actualizaciones de paquetes)",
-    "thisApp": "Actualizar automáticamente"
+    "thisApp": "Actualizar automáticamente",
+    "gaveUp": "La actualización automática a la versión {{version}} falló tres veces: actualízala manualmente en Actualizaciones disponibles."
   },
   "security": {
     "warningTitle": "¡Atención!",

@@ -30,7 +30,7 @@ import { installerHostChange } from "@/store/installerUrls";
 import { useJobs } from "@/store/jobs";
 import { useNotificationPrefs } from "@/store/notificationPrefs";
 import { useSettings } from "@/store/settings";
-import { useUpdateHolds, versionKey } from "@/store/updateHolds";
+import { AUTO_FAILURE_LIMIT, useUpdateHolds, versionKey } from "@/store/updateHolds";
 import { pinKey, useUpdatePins } from "@/store/updatePins";
 import { applyUpdateRules, currentUpdateRules } from "@/store/updateRules";
 import type { InstalledPackage } from "@/types";
@@ -136,7 +136,11 @@ async function runScheduledInstall() {
 /** Zařadí aktualizace k instalaci podle nastavení (vše / vybrané, baterie, úspora, měřené připojení). */
 async function installUpdates(updatable: InstalledPackage[]): Promise<Omit<CheckResult, "available">> {
   const { autoInstall, selected, skipOnBattery, skipOnSaver, skipOnMetered } = useAutoUpdates.getState();
-  const chosen = autoInstall === "all" ? updatable : updatable.filter((p) => selected.includes(pinKey(p)));
+  // Verze, jejichž automatická aktualizace už AUTO_FAILURE_LIMIT× selhala, zůstanou na uživateli
+  const failed = useUpdateHolds.getState().failed;
+  const chosen = (autoInstall === "all" ? updatable : updatable.filter((p) => selected.includes(pinKey(p)))).filter(
+    (p) => (failed[versionKey(p, p.availableVersion!)] ?? 0) < AUTO_FAILURE_LIMIT,
+  );
   if (autoInstall === "off" || !chosen.length || !isTauri()) {
     retryAt = null;
     return { queued: 0 };
@@ -198,6 +202,7 @@ async function installUpdates(updatable: InstalledPackage[]): Promise<Omit<Check
       // Uložené volby aplikace (jako správce, parametry…) platí i pro automatickou aktualizaci
       options: updateOptionsFor(appId, pkg, item?.entry),
       background: true,
+      targetVersion: pkg.availableVersion ?? undefined,
     });
     queued++;
   }

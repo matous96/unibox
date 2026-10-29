@@ -1,7 +1,8 @@
 /**
  * Stav operací pro ikonu v oznamovací oblasti (barevná tečka, tray.rs):
  *  - busy – ve frontě běží nebo čeká instalace / aktualizace / odinstalace (modrá),
- *  - error / done – výsledek poslední dávky operací (červená / zelená). U aplikace
+ *  - error / done – výsledek poslední dávky operací (červená / zelená; selhání automatické
+ *    aktualizace na pozadí se nepočítá – jde jen do historie). U aplikace
  *    se záložním zdrojem rozhoduje poslední pokus (WinGet selhal, Chocolatey
  *    nainstaloval = hotovo).
  * Výsledek zmizí, jakmile ho uživatel uvidí: okno v pozadí nebo schované
@@ -39,6 +40,8 @@ export function useTrayStatus(): { status: TrayStatus; running: number; checking
     const outcomes = new Map<string, OperationOutcome>();
     for (const item of useHistory.getState().items) {
       if (item.finishedAt < since) break;
+      // Selhání automatické aktualizace se na ikoně nehlásí – Unibox to zkusí příště
+      if (item.background && item.outcome === "error") continue;
       if (!outcomes.has(item.appId)) outcomes.set(item.appId, item.outcome);
     }
     const values = [...outcomes.values()];

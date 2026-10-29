@@ -10,7 +10,9 @@
  *    verzi, Discord ji po spuštění vlastním aktualizátorem vrátí na tu, kterou mu
  *    nabízí jeho server – a winget by aktualizaci nabízel pořád dokola),
  *  - selfUpdating: aplikace, které se takhle vrátily – aktualizují se samy,
- *    aktualizace přes správce se jim nenabízejí (klíč pinKey, „Nabídnout znovu“ ho smaže).
+ *    aktualizace přes správce se jim nenabízejí (klíč pinKey, „Nabídnout znovu“ ho smaže),
+ *  - failed: kolikrát automatická aktualizace na verzi selhala – po AUTO_FAILURE_LIMIT
+ *    pokusech se už automaticky nezkouší (ručně ano), nová verze začíná od nuly.
  * Klíč ostatních: „zdroj:id@verze“ (versionKey).
  */
 import { create } from "zustand";
@@ -27,6 +29,8 @@ const DAY_MS = 24 * 60 * 60_000;
 const KEEP_DAYS = 120;
 /** Jak dlouho po úspěšné aktualizaci hlídat návrat na starší verzi (dny) – aplikace se mohla spustit až později. */
 const WATCH_DAYS = 7;
+/** Po kolika neúspěšných automatických pokusech o stejnou verzi ji nechat na uživateli. */
+export const AUTO_FAILURE_LIMIT = 3;
 
 /** Hlídaná aktualizace: kdy proběhla a jestli už správce cílovou verzi ukázal jako nainstalovanou. */
 export interface WatchedUpdate {
@@ -54,6 +58,7 @@ interface UpdateHoldsState {
   allowed: Record<string, string>;
   watched: Record<string, WatchedUpdate>;
   selfUpdating: Record<string, SelfUpdating>;
+  failed: Record<string, number>;
   /** Čas pro přepočet pravidel (mění se, když minimální stáří některé verze vyprší); neukládá se. */
   clock: number;
   /** Zapíše poprvé viděné nabízené verze a smaže staré záznamy. */
@@ -66,6 +71,8 @@ interface UpdateHoldsState {
   watchUpdate: (key: string) => void;
   /** Porovná hlídané aktualizace se seznamem od správce; vrátí nově zjištěné návraty. */
   checkReverts: (packages: InstalledPackage[]) => Revert[];
+  /** Automatická aktualizace na verzi selhala; vrátí počet neúspěchů. */
+  recordAutoFailure: (key: string) => number;
   /** Aktualizace aplikace, která se aktualizuje sama, znovu nabízet. */
   releaseSelfUpdating: (key: string) => void;
   tick: () => void;
@@ -79,6 +86,7 @@ export const useUpdateHolds = create<UpdateHoldsState>()(
       allowed: {},
       watched: {},
       selfUpdating: {},
+      failed: {},
       clock: Date.now(),
       see: (packages) => {
         const now = Date.now();
@@ -99,14 +107,21 @@ export const useUpdateHolds = create<UpdateHoldsState>()(
         const firstSeen = { ...seen, ...added };
         const stuck = { ...get().stuck };
         const allowed = { ...get().allowed };
+        const failed = { ...get().failed };
         for (const key of old) {
           delete firstSeen[key];
           delete stuck[key];
           delete allowed[key];
+          delete failed[key];
         }
-        set({ firstSeen, stuck, allowed });
+        set({ firstSeen, stuck, allowed, failed });
       },
       recordStuck: (key) => set({ stuck: { ...get().stuck, [key]: (get().stuck[key] ?? 0) + 1 } }),
+      recordAutoFailure: (key) => {
+        const count = (get().failed[key] ?? 0) + 1;
+        set({ failed: { ...get().failed, [key]: count } });
+        return count;
+      },
       allow: (key) => set({ allowed: { ...get().allowed, [key]: new Date().toISOString() } }),
       watchUpdate: (key) => set({ watched: { ...get().watched, [key]: { at: new Date().toISOString() } } }),
       checkReverts: (packages) => {
@@ -162,7 +177,7 @@ export const useUpdateHolds = create<UpdateHoldsState>()(
     }),
     {
       name: "unibox-update-holds",
-      partialize: ({ firstSeen, stuck, allowed, watched, selfUpdating }) => ({ firstSeen, stuck, allowed, watched, selfUpdating }),
+      partialize: ({ firstSeen, stuck, allowed, watched, selfUpdating, failed }) => ({ firstSeen, stuck, allowed, watched, selfUpdating, failed }),
     },
   ),
 );

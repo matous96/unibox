@@ -550,7 +550,8 @@
       "endedProcesses": "{{name}} běžela na pozadí – ukončeny procesy {{processes}}, aby ji instalátor mohl přepsat.",
       "endedLeftoverProcesses": "Po odinstalaci aplikace {{name}} ukončeny procesy, které z její složky dál běžely: {{processes}}.",
       "selfUpdating": "{{name}} se po aktualizaci na {{target}} sama vrátila na verzi {{version}} – aktualizuje se vlastním aktualizátorem. Aktualizace přes správce se jí už nenabízejí.",
-      "traced": "Sledování instalace {{name}}: zaznamenáno nových položek – {{count}} (složky, zástupci, registr). Po odinstalaci se nabídnou ke smazání."
+      "traced": "Sledování instalace {{name}}: zaznamenáno nových položek – {{count}} (složky, zástupci, registr). Po odinstalaci se nabídnou ke smazání.",
+      "skippedRunning": "{{name}} běží – automatická aktualizace počká, až aplikaci zavřete."
     },
     "notice": {
       "prefetchFailed": "Instalátor se nepodařilo stáhnout předem ({{detail}}) – stáhne ho WinGet.",
@@ -2013,9 +2014,10 @@
     "preselect": "Předem vybrat všechny aktualizace",
     "preselectHint": "Při otevření Aktualizací se všechny zaškrtnou – aktualizujete je jedním kliknutím v liště dole.",
     "optionsNote": "Uložené volby instalace aplikace (jako správce, parametry, složka…) platí i pro její aktualizace – nastavíte je v Možnostech instalace.",
-    "trayNote": "Selhání automatické aktualizace přepne ikonu u hodin do červeného stavu a zapíše se do historie oznámení (zvoneček).",
+    "trayNote": "Nepovedená automatická aktualizace se zapíše do historie oznámení (zvoneček) a Unibox ji zkusí příště – po třech neúspěších ji nechá na vás. Běžící aplikace počkají, až je zavřete.",
     "allApps": "Aktualizuje se automaticky (Nastavení → Aktualizace balíčků)",
-    "thisApp": "Automaticky aktualizovat"
+    "thisApp": "Automaticky aktualizovat",
+    "gaveUp": "Automatická aktualizace na verzi {{version}} se třikrát nepovedla – aktualizujte ji ručně v Dostupných aktualizacích."
   },
   "security": {
     "warningTitle": "Upozornění!",

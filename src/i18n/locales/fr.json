@@ -538,7 +538,8 @@
       "endedProcesses": "{{name}} tournait en arrière-plan – les processus {{processes}} ont été arrêtés pour que le programme d’installation puisse le remplacer.",
       "endedLeftoverProcesses": "Après la désinstallation de {{name}}, les processus qui tournaient encore depuis son dossier ont été arrêtés : {{processes}}.",
       "selfUpdating": "{{name}} est revenu de lui-même à la version {{version}} après sa mise à jour vers {{target}} – il utilise son propre outil de mise à jour. Les mises à jour via le gestionnaire de paquets ne sont plus proposées.",
-      "traced": "Suivi de l’installation de {{name}} : {{count}} nouveaux éléments enregistrés (dossiers, raccourcis, registre). Leur suppression sera proposée après une désinstallation."
+      "traced": "Suivi de l’installation de {{name}} : {{count}} nouveaux éléments enregistrés (dossiers, raccourcis, registre). Leur suppression sera proposée après une désinstallation.",
+      "skippedRunning": "{{name}} est en cours d’exécution – la mise à jour automatique attendra que vous la fermiez."
     },
     "notice": {
       "prefetchFailed": "Impossible de télécharger le programme d’installation à l’avance ({{detail}}) – WinGet le téléchargera.",
@@ -1956,9 +1957,10 @@
     "preselect": "Sélectionner toutes les mises à jour par défaut",
     "preselectHint": "À l’ouverture des Mises à jour, toutes sont cochées – mettez-les à jour en un clic dans la barre du bas.",
     "optionsNote": "Les options d’installation enregistrées d’une application (administrateur, arguments, dossier…) s’appliquent aussi à ses mises à jour – réglez-les dans les Options d’installation.",
-    "trayNote": "Une mise à jour automatique échouée fait passer l’icône de la zone de notification au rouge et est inscrite dans l’historique des notifications (cloche).",
+    "trayNote": "Une mise à jour automatique échouée est inscrite dans l’historique des notifications (cloche) et Unibox réessaie la fois suivante – après trois échecs, il vous la laisse. Les applications en cours d’exécution attendent que vous les fermiez.",
     "allApps": "Mise à jour automatiquement (Paramètres → Mises à jour des paquets)",
-    "thisApp": "Mettre à jour automatiquement"
+    "thisApp": "Mettre à jour automatiquement",
+    "gaveUp": "La mise à jour automatique vers la version {{version}} a échoué trois fois – mettez-la à jour manuellement dans Mises à jour disponibles."
   },
   "security": {
     "warningTitle": "Attention !",

@@ -526,7 +526,8 @@
       "endedProcesses": "{{name}} lief im Hintergrund – die Prozesse {{processes}} wurden beendet, damit das Installationsprogramm die Dateien überschreiben kann.",
       "endedLeftoverProcesses": "Nach der Deinstallation von {{name}} wurden die noch aus seinem Ordner laufenden Prozesse beendet: {{processes}}.",
       "selfUpdating": "{{name}} ist nach dem Update auf {{target}} von selbst zu Version {{version}} zurückgekehrt – es nutzt einen eigenen Updater. Updates über den Paketmanager werden nicht mehr angeboten.",
-      "traced": "Installationsüberwachung für {{name}}: {{count}} neue Elemente erfasst (Ordner, Verknüpfungen, Registrierung). Sie werden nach einer Deinstallation zum Entfernen angeboten."
+      "traced": "Installationsüberwachung für {{name}}: {{count}} neue Elemente erfasst (Ordner, Verknüpfungen, Registrierung). Sie werden nach einer Deinstallation zum Entfernen angeboten.",
+      "skippedRunning": "{{name}} läuft – das automatische Update wartet, bis Sie die App schließen."
     },
     "notice": {
       "prefetchFailed": "Das Installationsprogramm konnte nicht vorab heruntergeladen werden ({{detail}}) – WinGet lädt es herunter.",
@@ -1899,9 +1900,10 @@
     "preselect": "Standardmäßig alle Updates auswählen",
     "preselectHint": "Beim Öffnen der Updates sind alle markiert – aktualisieren Sie sie mit einem Klick in der Leiste unten.",
     "optionsNote": "Die gespeicherten Installationsoptionen einer App (als Administrator, Argumente, Ordner…) gelten auch für ihre Updates – stellen Sie sie in den Installationsoptionen ein.",
-    "trayNote": "Ein fehlgeschlagenes automatisches Update schaltet das Symbol im Infobereich in den roten Zustand und wird in den Benachrichtigungsverlauf (Glocke) geschrieben.",
+    "trayNote": "Ein fehlgeschlagenes automatisches Update wird in den Benachrichtigungsverlauf (Glocke) geschrieben, und Unibox versucht es beim nächsten Mal erneut – nach drei Fehlschlägen überlässt es das Ihnen. Laufende Apps warten, bis Sie sie schließen.",
     "allApps": "Wird automatisch aktualisiert (Einstellungen → Paket-Updates)",
-    "thisApp": "Automatisch aktualisieren"
+    "thisApp": "Automatisch aktualisieren",
+    "gaveUp": "Das automatische Update auf Version {{version}} ist dreimal fehlgeschlagen – aktualisieren Sie die App manuell unter Verfügbare Updates."
   },
   "security": {
     "warningTitle": "Achtung!",

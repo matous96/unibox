@@ -19,6 +19,8 @@ export interface HistoryEntry {
   options?: InstallOptions;
   outcome: OperationOutcome;
   error?: string;
+  /** Automatická aktualizace na pozadí – její selhání se hlásí jen sem, ne na ikoně u hodin. */
+  background?: boolean;
   startedAt: string;
   finishedAt: string;
 }

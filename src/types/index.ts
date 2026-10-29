@@ -376,6 +376,8 @@ export interface Job {
   background?: boolean;
   /** Sledovat instalaci snímkem systému (i když je v Nastavení vypnuté). */
   track?: boolean;
+  /** Automatická aktualizace: nabízená verze (počítadlo neúspěchů v updateHolds). */
+  targetVersion?: string;
   progress: OperationProgress;
   error?: string;
 }
