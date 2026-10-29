@@ -1,4 +1,4 @@
-import { Bug, ChevronDown, CircleQuestionMark, Mail, MessagesSquare, type LucideIcon } from "lucide-react";
+import { Bug, ChevronDown, ChevronRight, CircleQuestionMark, Mail, MessagesSquare, Terminal, type LucideIcon } from "lucide-react";
 import { useEffect, type ComponentType } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router";
@@ -61,6 +61,21 @@ export function HelpPage() {
           ))}
         </div>
       </section>
+
+      {/* Výuka příkazů pro terminál – pro ty, kdo mají raději příkazový řádek */}
+      <Link
+        to="/commands"
+        className="mb-10 flex items-center gap-4 rounded-2xl border border-line bg-surface px-5 py-4 transition-colors hover:bg-surface-2"
+      >
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent/12 text-accent">
+          <Terminal className="size-5" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-semibold">{t("help.commandsTitle")}</span>
+          <span className="block text-sm text-muted">{t("help.commandsText")}</span>
+        </span>
+        <ChevronRight className="size-5 shrink-0 text-muted" />
+      </Link>
 
       <section className="mb-10">
         <h2 className="font-display text-xl font-bold">{t("help.contactTitle")}</h2>

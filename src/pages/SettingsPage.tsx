@@ -24,6 +24,7 @@ import {
   ShieldAlert,
   SkipForward,
   Sparkles,
+  Terminal,
   Upload,
 } from "lucide-react";
 import { Fragment, useRef } from "react";
@@ -36,6 +37,7 @@ import { SourceIcon } from "@/components/package/SourceIcon";
 import { ReleaseList } from "@/components/layout/ReleaseList";
 import { formatPinUntil, unpinLabel } from "@/components/package/UpdatePin";
 import { AccentColorRow } from "@/components/settings/AccentColorRow";
+import { CommandGuide } from "@/components/settings/CommandGuide";
 import { NotificationsSection } from "@/components/settings/NotificationsSection";
 import { PackageUpdatesSection } from "@/components/settings/PackageUpdatesSection";
 import { SecuritySection } from "@/components/settings/SecuritySection";
@@ -74,6 +76,7 @@ const SECTIONS = [
   { id: "security", icon: ShieldAlert },
   { id: "managers", icon: Boxes },
   { id: "backup", icon: Archive },
+  { id: "commands", icon: Terminal },
   { id: "news", icon: Sparkles },
 ] as const;
 
@@ -128,6 +131,7 @@ export function SettingsPage() {
               <CatalogCard />
             </>
           )}
+          {section === "commands" && <CommandGuide placeholders />}
           {section === "news" && <NewsSection />}
         </div>
       </div>

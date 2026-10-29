@@ -1,10 +1,12 @@
-import { Check, ChevronDown, Copy, Terminal } from "lucide-react";
+import { Check, ChevronDown, ChevronRight, Copy, Terminal } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import { Segmented } from "@/components/ui/CollectionToolbar";
 import { cn } from "@/lib/utils";
 import { getSource, sourceCommand } from "@/services/managers";
+import { appCommand, type AppCommandKind } from "@/services/managers/commandGuide";
 import { useToasts } from "@/store/toasts";
 import type { CommandKind, InstalledPackage, PackageSource, SourceId } from "@/types";
 
@@ -23,19 +25,26 @@ interface PackageCommandProps {
 
 /**
  * Příkazy pro příkazový řádek všech správců, ve kterých je aplikace dostupná
- * (winget / Scoop / Chocolatey) – instalace, aktualizace, odinstalace –
- * každý s vlastním tlačítkem Kopírovat. Doplňuje tlačítko Instalovat
- * pro ruční instalaci nebo skripty.
+ * (winget / Scoop / Chocolatey…) – instalace, aktualizace, odinstalace, informace,
+ * verze a zamknutí verze – každý s vlastním tlačítkem Kopírovat. Doplňuje tlačítko
+ * Instalovat pro ruční instalaci nebo skripty; další příkazy jsou na stránce
+ * Příkazy pro terminál.
  */
+type Kind = CommandKind | AppCommandKind;
+const APP_KINDS: readonly string[] = ["info", "versions", "pin"];
+
 export function PackageCommand({ sources, active, installed, name }: PackageCommandProps) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const [kind, setKind] = useState<CommandKind>("install");
+  const [kind, setKind] = useState<Kind>("install");
 
-  const kinds: { value: CommandKind; label: string }[] = [
+  const kinds: { value: Kind; label: string }[] = [
     { value: "install", label: t("package.cliInstall") },
     { value: "update", label: t("package.cliUpgrade") },
     { value: "uninstall", label: t("package.cliUninstall") },
+    { value: "info", label: t("package.cliInfo") },
+    { value: "versions", label: t("package.cliVersions") },
+    { value: "pin", label: t("package.cliPin") },
   ];
 
   return (
@@ -74,6 +83,13 @@ export function PackageCommand({ sources, active, installed, name }: PackageComm
                   highlighted={pkg.source === active}
                 />
               ))}
+              <Link
+                to={`/commands?source=${active ?? sources[0]?.source ?? "winget"}`}
+                className="mt-1 inline-flex items-center gap-1 self-start text-sm font-medium text-accent hover:underline"
+              >
+                {t("package.cliMore")}
+                <ChevronRight className="size-4" />
+              </Link>
             </div>
           </motion.div>
         )}
@@ -83,12 +99,13 @@ export function PackageCommand({ sources, active, installed, name }: PackageComm
 }
 
 /** Jeden řádek: správce, příkaz se zvýrazněným id balíčku a tlačítko Kopírovat. */
-function CommandRow({ pkg, kind, highlighted }: { pkg: PackageSource; kind: CommandKind; highlighted: boolean }) {
+function CommandRow({ pkg, kind, highlighted }: { pkg: PackageSource; kind: Kind; highlighted: boolean }) {
   const { t } = useTranslation();
   const toast = useToasts((s) => s.push);
   const [copied, setCopied] = useState(false);
   const meta = getSource(pkg.source);
-  const command = sourceCommand(pkg.source, kind, pkg.packageId);
+  // null = správce to neumí (např. zamknutí verze u npm)
+  const command = APP_KINDS.includes(kind) ? appCommand(pkg.source, kind as AppCommandKind, pkg.packageId) : sourceCommand(pkg.source, kind as CommandKind, pkg.packageId);
 
   // Po 2 s vrátit tlačítko zpět na „Kopírovat“
   useEffect(() => {
@@ -98,6 +115,7 @@ function CommandRow({ pkg, kind, highlighted }: { pkg: PackageSource; kind: Comm
   }, [copied]);
 
   const copy = async () => {
+    if (!command) return;
     try {
       await navigator.clipboard.writeText(command);
       setCopied(true);
@@ -108,9 +126,10 @@ function CommandRow({ pkg, kind, highlighted }: { pkg: PackageSource; kind: Comm
 
   // Zvýraznění id balíčku v textu příkazu (u Scoopu mimo instalaci jen název aplikace)
   const target = pkg.source === "scoop" && kind !== "install" ? pkg.packageId.split("/").pop()! : pkg.packageId;
-  const index = command.lastIndexOf(target);
-  const before = index >= 0 ? command.slice(0, index) : command;
-  const after = index >= 0 ? command.slice(index + target.length) : "";
+  const text = command ?? "";
+  const index = text.lastIndexOf(target);
+  const before = index >= 0 ? text.slice(0, index) : text;
+  const after = index >= 0 ? text.slice(index + target.length) : "";
 
   return (
     <div
@@ -123,12 +142,17 @@ function CommandRow({ pkg, kind, highlighted }: { pkg: PackageSource; kind: Comm
         <span className={cn("size-2 rounded-full", meta.dot)} />
         {meta.label}
       </span>
-      <code className="min-w-0 flex-1 truncate font-mono text-[15px] select-text">
-        <span className="text-fg">{before}</span>
-        {index >= 0 && <span className="font-semibold text-accent">{target}</span>}
-        <span className="text-fg">{after}</span>
-      </code>
+      {command ? (
+        <code className="min-w-0 flex-1 truncate font-mono text-[15px] select-text">
+          <span className="text-fg">{before}</span>
+          {index >= 0 && <span className="font-semibold text-accent">{target}</span>}
+          <span className="text-fg">{after}</span>
+        </code>
+      ) : (
+        <span className="min-w-0 flex-1 py-2 text-sm text-muted">{t("package.cliUnsupported", { manager: meta.label })}</span>
+      )}
       <button
+        hidden={!command}
         type="button"
         onClick={copy}
         aria-label={`${t("package.copyCommand")} (${meta.label})`}

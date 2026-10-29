@@ -584,7 +584,152 @@
     "discordHint": "Quick help in chat",
     "bug": "Report a bug",
     "bugHint": "New issue on GitHub",
-    "email": "Email"
+    "email": "Email",
+    "commandsTitle": "Terminal commands",
+    "commandsText": "Searching, installing, updating and maintenance for WinGet, Chocolatey, Scoop and developer package managers – with explanations."
+  },
+  "commands": {
+    "title": "Terminal commands",
+    "subtitle": "Everything Unibox does with a click, you can also do from the command line. Pick a package manager and copy a command.",
+    "managers": "Package managers",
+    "howTo": "Run the commands in Windows Terminal or PowerShell. The examples use one sample app and can be copied as they are – you'll find the exact command for any other app on its page, in the “… from the command line” section.",
+    "howToPlaceholders": "Run the commands in Windows Terminal or PowerShell. Replace <package> (<ID> for WinGet) with the package and <name> with what you're looking for – you'll find the exact command for a specific app on its page, in the “… from the command line” section.",
+    "versionPlaceholder": "<version>",
+    "idPlaceholder": "<ID>",
+    "packagePlaceholder": "<package>",
+    "queryPlaceholder": "<name>",
+    "note": {
+      "winget": "WinGet comes with Windows 10 and 11 (App Installer). It looks apps up by their exact ID – find it on the app's page or with winget search.",
+      "chocolatey": "Installing, updating and uninstalling with Chocolatey needs a Terminal run as administrator.",
+      "scoop": "Scoop installs into your user folder without admin rights. Apps live in buckets – add “extras” (Firefox, VLC…) with scoop bucket add extras.",
+      "npm": "Global npm packages are command-line tools (TypeScript, ESLint…). npm comes with Node.js.",
+      "bun": "Bun is a fast replacement for Node.js and npm. It adds global packages with bun add -g; updating means installing again with @latest.",
+      "pip": "pip installs Python packages. Run it as python -m pip – that uses the pip of the Python on your PATH. Searching PyPI from the command line isn't possible, use pypi.org.",
+      "cargo": "Cargo is Rust's package manager – cargo install builds a tool from source. The install command also installs a newer version.",
+      "vcpkg": "vcpkg manages C and C++ libraries (classic mode – no vcpkg.json in a project).",
+      "dotnet": ".NET tools (dotnet tool) install globally into your user folder. They need the .NET SDK.",
+      "pwsh": "PowerShell 7 modules via PSResourceGet (*-PSResource commands).",
+      "powershell": "Windows PowerShell 5.1 modules via PowerShellGet (*-Module commands)."
+    },
+    "group": {
+      "start": "Getting started",
+      "find": "Search and info",
+      "install": "Install and uninstall",
+      "update": "Updates",
+      "overview": "Overview and backup",
+      "maintenance": "Maintenance",
+      "publish": "For app publishers"
+    },
+    "cmd": {
+      "version": {
+        "title": "Manager version",
+        "text": "Prints the {{manager}} version – and checks that it's installed."
+      },
+      "selfUpdate": {
+        "title": "Update the manager",
+        "text": "Updates {{manager}} itself to the latest version."
+      },
+      "search": {
+        "title": "Search for an app",
+        "text": "Finds packages by name or description."
+      },
+      "info": {
+        "title": "App info",
+        "text": "Description, publisher, version and links."
+      },
+      "versions": {
+        "title": "Available versions",
+        "text": "Lists the versions you can install."
+      },
+      "install": {
+        "title": "Install",
+        "text": "Installs the latest version."
+      },
+      "installVersion": {
+        "title": "Install a specific version",
+        "text": "Installs the given version – replace <version> with a version number."
+      },
+      "download": {
+        "title": "Download without installing",
+        "text": "Downloads the installer (package) into the current folder."
+      },
+      "uninstall": {
+        "title": "Uninstall",
+        "text": "Removes the app from your PC."
+      },
+      "outdated": {
+        "title": "Available updates",
+        "text": "Lists installed packages that have a newer version."
+      },
+      "update": {
+        "title": "Update an app",
+        "text": "Updates one app to the latest version."
+      },
+      "updateAll": {
+        "title": "Update everything",
+        "text": "Updates all packages that have a newer version."
+      },
+      "pin": {
+        "title": "Pin the version",
+        "text": "The app stays on its current version – updating everything skips it."
+      },
+      "unpin": {
+        "title": "Unpin the version",
+        "text": "Removes the pin – the app gets updated again."
+      },
+      "list": {
+        "title": "Installed",
+        "text": "Lists installed packages."
+      },
+      "export": {
+        "title": "Export the list",
+        "text": "Saves the list of installed packages to a file – install them on another PC by importing it."
+      },
+      "import": {
+        "title": "Import the list",
+        "text": "Installs all packages from an exported file."
+      },
+      "sources": {
+        "title": "Package sources",
+        "text": "Lists the repositories {{manager}} takes packages from."
+      },
+      "refresh": {
+        "title": "Refresh sources",
+        "text": "Downloads the current package lists from the sources."
+      },
+      "cache": {
+        "title": "Clear the cache",
+        "text": "Deletes downloaded installers and archives. Installed apps stay."
+      },
+      "diagnose": {
+        "title": "Diagnostics",
+        "text": "Prints details about the environment and helps find installation problems."
+      },
+      "settings": {
+        "title": "Manager settings",
+        "text": "Opens or lists the {{manager}} settings."
+      },
+      "pinList": {
+        "title": "Pinned apps",
+        "text": "Lists apps with a pinned version."
+      },
+      "addSource": {
+        "title": "Add a source",
+        "text": "Adds another app source – for Scoop, the “extras” bucket with Firefox, VLC and more."
+      },
+      "repair": {
+        "title": "Repair an app",
+        "text": "Repairs a broken installation (runs the repair in the app's installer)."
+      },
+      "hash": {
+        "title": "Installer checksum",
+        "text": "Computes a file's SHA-256 – handy when writing a manifest."
+      },
+      "validate": {
+        "title": "Validate a manifest",
+        "text": "Checks a manifest before submitting it to the winget-pkgs repository."
+      }
+    }
   },
   "search": {
     "placeholder": "Search apps…",
@@ -723,7 +868,12 @@
     "next": "Next",
     "notInCatalog": "This package is not in the catalog, so it has no description or icon.",
     "notFound": "Package not found.",
-    "confirmUninstall": "Really uninstall {{name}} (via {{source}})?"
+    "confirmUninstall": "Really uninstall {{name}} (via {{source}})?",
+    "cliInfo": "Info",
+    "cliVersions": "Versions",
+    "cliPin": "Pin version",
+    "cliMore": "More commands and explanations",
+    "cliUnsupported": "{{manager}} can't do this"
   },
   "report": {
     "button": "Report a problem",
@@ -1626,7 +1776,8 @@
     "security": "Administrator rights and other dangerous settings",
     "managers": "Package managers",
     "backup": "Backup and catalog",
-    "news": "What’s new"
+    "news": "What’s new",
+    "commands": "Terminal commands"
   },
   "notifPrefs": {
     "main": "Notifications",

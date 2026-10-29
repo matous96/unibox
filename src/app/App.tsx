@@ -5,6 +5,7 @@ import { BundlesPage } from "@/pages/BundlesPage";
 import { CategoriesPage } from "@/pages/CategoriesPage";
 import { CategoryPage } from "@/pages/CategoryPage";
 import { FavoritesPage } from "@/pages/FavoritesPage";
+import { CommandsPage } from "@/pages/CommandsPage";
 import { HelpPage } from "@/pages/HelpPage";
 import { HistoryPage } from "@/pages/HistoryPage";
 import { HomePage } from "@/pages/HomePage";
@@ -61,6 +62,7 @@ export function App() {
             <Route path="history" element={<HistoryPage />} />
             <Route path="logs" element={<LogsPage />} />
             <Route path="help" element={<HelpPage />} />
+            <Route path="commands" element={<CommandsPage />} />
             {/* Neznámá adresa (zastaralý odkaz, odkaz z novější verze) – bez ní by okno zůstalo
                 prázdné i bez titulkové lišty a postranního panelu */}
             <Route path="*" element={<Navigate to="/" replace />} />

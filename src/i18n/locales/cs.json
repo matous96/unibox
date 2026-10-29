@@ -608,7 +608,152 @@
     "discordHint": "Rychlá pomoc v chatu",
     "bug": "Nahlásit chybu",
     "bugHint": "Nové hlášení na GitHubu",
-    "email": "E-mail"
+    "email": "E-mail",
+    "commandsTitle": "Příkazy pro terminál",
+    "commandsText": "Hledání, instalace, aktualizace a údržba pro WinGet, Chocolatey, Scoop i správce pro vývojáře – s vysvětlením."
+  },
+  "commands": {
+    "title": "Příkazy pro terminál",
+    "subtitle": "Všechno, co Unibox dělá kliknutím, zvládnete i z příkazového řádku. Vyberte správce balíčků a zkopírujte příkaz.",
+    "managers": "Správci balíčků",
+    "howTo": "Příkazy spouštějte v Terminálu Windows nebo v PowerShellu. Příklady jsou pro jednu ukázkovou aplikaci a jdou rovnou zkopírovat – přesný příkaz pro jinou aplikaci najdete v jejím detailu v sekci „… přes příkazový řádek“.",
+    "howToPlaceholders": "Příkazy spouštějte v Terminálu Windows nebo v PowerShellu. Místo <balíček> (u WinGetu <ID>) doplňte balíček a místo <název> hledaný výraz – přesný příkaz pro konkrétní aplikaci najdete v jejím detailu v sekci „… přes příkazový řádek“.",
+    "versionPlaceholder": "<verze>",
+    "idPlaceholder": "<ID>",
+    "packagePlaceholder": "<balíček>",
+    "queryPlaceholder": "<název>",
+    "note": {
+      "winget": "WinGet je součástí Windows 10 a 11 (Instalační služba aplikace). Aplikace hledá podle přesného ID – najdete ho v detailu aplikace nebo příkazem winget search.",
+      "chocolatey": "Instalace, aktualizace a odinstalace přes Chocolatey potřebují Terminál spuštěný jako správce.",
+      "scoop": "Scoop instaluje do složky uživatele bez práv správce. Aplikace jsou v bucketech – „extras“ (Firefox, VLC…) přidáte příkazem scoop bucket add extras.",
+      "npm": "Globální balíčky npm jsou nástroje pro příkazový řádek (TypeScript, ESLint…). npm je součástí Node.js.",
+      "bun": "Bun je rychlá náhrada Node.js a npm. Globální balíčky přidává příkazem bun add -g, aktualizace je nová instalace s @latest.",
+      "pip": "pip instaluje balíčky Pythonu. Spouštějte ho přes python -m pip – použije se pip toho Pythonu, který je v PATH. Hledání v PyPI z příkazového řádku nejde, použijte pypi.org.",
+      "cargo": "Cargo je správce balíčků Rustu – cargo install nástroj přeloží ze zdrojových kódů. Novější verzi nainstaluje stejný příkaz jako instalaci.",
+      "vcpkg": "vcpkg spravuje knihovny pro C a C++ (klasický režim – bez vcpkg.json v projektu).",
+      "dotnet": "Nástroje .NET (dotnet tool) se instalují globálně do složky uživatele. Potřebují .NET SDK.",
+      "pwsh": "Moduly PowerShellu 7 přes PSResourceGet (příkazy *-PSResource).",
+      "powershell": "Moduly Windows PowerShellu 5.1 přes PowerShellGet (příkazy *-Module)."
+    },
+    "group": {
+      "start": "Začínáme",
+      "find": "Hledání a informace",
+      "install": "Instalace a odinstalace",
+      "update": "Aktualizace",
+      "overview": "Přehled a záloha",
+      "maintenance": "Údržba",
+      "publish": "Pro tvůrce aplikací"
+    },
+    "cmd": {
+      "version": {
+        "title": "Verze správce",
+        "text": "Vypíše verzi {{manager}} – zároveň ověří, že je nainstalovaný."
+      },
+      "selfUpdate": {
+        "title": "Aktualizace správce",
+        "text": "Aktualizuje samotného správce {{manager}} na nejnovější verzi."
+      },
+      "search": {
+        "title": "Hledat aplikaci",
+        "text": "Najde balíčky podle názvu nebo popisu."
+      },
+      "info": {
+        "title": "Informace o aplikaci",
+        "text": "Popis, vydavatel, verze a odkazy."
+      },
+      "versions": {
+        "title": "Dostupné verze",
+        "text": "Vypíše verze, které jde nainstalovat."
+      },
+      "install": {
+        "title": "Instalovat",
+        "text": "Nainstaluje nejnovější verzi."
+      },
+      "installVersion": {
+        "title": "Instalovat konkrétní verzi",
+        "text": "Nainstaluje zadanou verzi – <verze> nahraďte číslem verze."
+      },
+      "download": {
+        "title": "Stáhnout bez instalace",
+        "text": "Stáhne instalátor (balíček) do aktuální složky."
+      },
+      "uninstall": {
+        "title": "Odinstalovat",
+        "text": "Odebere aplikaci z počítače."
+      },
+      "outdated": {
+        "title": "Dostupné aktualizace",
+        "text": "Vypíše nainstalované balíčky, pro které je novější verze."
+      },
+      "update": {
+        "title": "Aktualizovat aplikaci",
+        "text": "Aktualizuje jednu aplikaci na nejnovější verzi."
+      },
+      "updateAll": {
+        "title": "Aktualizovat vše",
+        "text": "Aktualizuje všechny balíčky, pro které je novější verze."
+      },
+      "pin": {
+        "title": "Zamknout verzi",
+        "text": "Aplikace zůstane na současné verzi – aktualizace všeho ji přeskočí."
+      },
+      "unpin": {
+        "title": "Odemknout verzi",
+        "text": "Zruší zamknutí – aplikace se zase bude aktualizovat."
+      },
+      "list": {
+        "title": "Nainstalované",
+        "text": "Vypíše nainstalované balíčky."
+      },
+      "export": {
+        "title": "Export seznamu",
+        "text": "Uloží seznam nainstalovaných balíčků do souboru – na jiném počítači je nainstalujete importem."
+      },
+      "import": {
+        "title": "Import seznamu",
+        "text": "Nainstaluje všechny balíčky ze souboru z exportu."
+      },
+      "sources": {
+        "title": "Zdroje balíčků",
+        "text": "Vypíše repozitáře, ze kterých {{manager}} balíčky bere."
+      },
+      "refresh": {
+        "title": "Obnovit zdroje",
+        "text": "Stáhne aktuální seznamy balíčků ze zdrojů."
+      },
+      "cache": {
+        "title": "Vyčistit mezipaměť",
+        "text": "Smaže stažené instalátory a archivy. Nainstalované aplikace zůstanou."
+      },
+      "diagnose": {
+        "title": "Diagnostika",
+        "text": "Vypíše informace o prostředí a pomůže najít problémy s instalací."
+      },
+      "settings": {
+        "title": "Nastavení správce",
+        "text": "Otevře nebo vypíše nastavení {{manager}}."
+      },
+      "pinList": {
+        "title": "Zamknuté aplikace",
+        "text": "Vypíše aplikace se zamknutou verzí."
+      },
+      "addSource": {
+        "title": "Přidat zdroj",
+        "text": "Přidá další zdroj aplikací – u Scoopu bucket „extras“ s Firefoxem, VLC a dalšími."
+      },
+      "repair": {
+        "title": "Opravit aplikaci",
+        "text": "Opraví poškozenou instalaci (spustí opravu v instalátoru aplikace)."
+      },
+      "hash": {
+        "title": "Kontrolní součet instalátoru",
+        "text": "Spočítá SHA-256 souboru – hodí se při psaní manifestu."
+      },
+      "validate": {
+        "title": "Ověřit manifest",
+        "text": "Zkontroluje manifest před odesláním do repozitáře winget-pkgs."
+      }
+    }
   },
   "search": {
     "placeholder": "Hledat aplikace…",
@@ -753,7 +898,12 @@
     "next": "Další",
     "notInCatalog": "Tento balíček není v katalogu, proto u něj chybí popis a ikona.",
     "notFound": "Balíček nebyl nalezen.",
-    "confirmUninstall": "Opravdu odinstalovat {{name}} (přes {{source}})?"
+    "confirmUninstall": "Opravdu odinstalovat {{name}} (přes {{source}})?",
+    "cliInfo": "Informace",
+    "cliVersions": "Verze",
+    "cliPin": "Zamknout verzi",
+    "cliMore": "Další příkazy a vysvětlení",
+    "cliUnsupported": "{{manager}} tohle neumí"
   },
   "report": {
     "button": "Nahlásit problém",
@@ -1718,7 +1868,8 @@
     "security": "Oprávnění správce a nebezpečná nastavení",
     "managers": "Správci balíčků",
     "backup": "Záloha a katalog",
-    "news": "Novinky"
+    "news": "Novinky",
+    "commands": "Příkazy pro terminál"
   },
   "notifPrefs": {
     "main": "Oznámení",
