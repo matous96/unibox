@@ -1,8 +1,8 @@
 <!--
   Hlavní soubor loga Unibox (1024 × 1024) – zdroj pro ikony desktopové aplikace a logo webu.
-  V kroku 3 z něj vygenerujete všechny velikosti příkazem:  pnpm tauri icon assets/unibox-logo.svg
-  Na krabici je tenký nápis „unibox“ (písmo Segoe UI Variable jako v aplikaci); malé velikosti
-  ikony (16–32 px) a favicona webu ho nemají – viz assets/unibox-mark.svg.
+  Ikony aplikace se z něj (a z unibox-logo-small.svg a unibox-mark.svg) skládají příkazem:  node scripts/build-icons.mjs
+  Na krabici je tenký nápis „unibox“ (písmo Segoe UI Variable jako v aplikaci); nejmenší ikona
+  (16 px) a favicona webu ho nemají – viz assets/unibox-mark.svg; ikony 24–48 px mají výraznější nápis (unibox-logo-small.svg).
 -->
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 64 64">
   <defs>
