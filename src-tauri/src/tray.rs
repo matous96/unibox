@@ -98,13 +98,29 @@ static STATUS: Mutex<TrayStatus> = Mutex::new(TrayStatus::Idle);
 /// Zavřít okno = schovat do oznamovací oblasti (výchozí), nebo ukončit aplikaci.
 static CLOSE_TO_TRAY: AtomicBool = AtomicBool::new(true);
 
+/// Testovací (vývojová) verze – identifikátor končí „.dev“ (src-tauri/tauri.dev.conf.json).
+pub fn is_test_build<R: Runtime>(app: &AppHandle<R>) -> bool {
+    app.config().identifier.ends_with(".dev")
+}
+
+/// „Unibox“ v titulku okna a popisku ikony; u testovací verze „Unibox (test)“, ať nejde
+/// zaměnit s nainstalovaným Uniboxem, který běží vedle.
+pub fn display_name<R: Runtime>(app: &AppHandle<R>, text: &str) -> String {
+    if is_test_build(app) {
+        text.replacen("Unibox", "Unibox (test)", 1)
+    } else {
+        text.to_string()
+    }
+}
+
 /// Připojí nabídku a obsluhu kliknutí k ikoně z konfigurace (texty zatím
 /// česky, frontend je hned přepíše). Bez ikony v konfiguraci ji vytvoří.
 pub fn setup<R: Runtime>(app: &AppHandle<R>) -> tauri::Result<()> {
     let tray = match app.tray_by_id(TRAY_ID) {
         Some(tray) => tray,
-        None => TrayIconBuilder::with_id(TRAY_ID).tooltip("Unibox").build(app)?,
+        None => TrayIconBuilder::with_id(TRAY_ID).build(app)?,
     };
+    tray.set_tooltip(Some(display_name(app, "Unibox")))?;
     tray.set_menu(Some(menu(app, &TrayLabels::default())?))?;
     tray.set_show_menu_on_left_click(false)?;
     tray.on_menu_event(|app, event| match event.id().as_ref() {
@@ -250,7 +266,7 @@ pub fn set_close_to_tray(enabled: bool) {
 pub fn set_tray_labels(app: AppHandle, labels: TrayLabels) -> Result<(), String> {
     let tray = app.tray_by_id(TRAY_ID).ok_or("Ikona v oznamovací oblasti chybí")?;
     tray.set_menu(Some(menu(&app, &labels).map_err(|e| e.to_string())?)).map_err(|e| e.to_string())?;
-    tray.set_tooltip(Some(labels.tooltip)).map_err(|e| e.to_string())
+    tray.set_tooltip(Some(display_name(&app, &labels.tooltip))).map_err(|e| e.to_string())
 }
 
 /// Stav operací – barevná tečka na ikoně (při stejném stavu se ikona nepřekresluje).

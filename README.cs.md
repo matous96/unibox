@@ -175,6 +175,13 @@ pnpm desktop         # vývoj: Vite + překlad Rustu + okno aplikace (port 1420 
 pnpm desktop:build   # instalátory .msi a .exe (NSIS) do src-tauri/target/release/bundle
 ```
 
+`pnpm desktop` i `pnpm tauri dev` (obal `scripts/tauri.mjs`) spouští jedinou testovací verzi
+„Unibox (test)“ s identifikátorem `org.unibox.dev` (`src-tauri/tauri.dev.conf.json`): běží vedle
+nainstalovaného Uniboxu a má vlastní data (nastavení, přihlášení, oblíbené). Se stejným
+identifikátorem by ji ochrana proti druhé instanci hned ukončila a jen přepnula na
+nainstalovanou aplikaci (např. po automatickém spuštění Windows). WebView2 má ve vývoji
+ladění na `127.0.0.1:9222` (Chrome DevTools Protocol) – automatické testy běží přímo v ní.
+
 Backend je v `src-tauri/` (`src/lib.rs`, příkazy v samostatných modulech). Frontend
 pozná desktopový režim funkcí `isTauri()` (`src/lib/tauri.ts`); ve webové verzi se
 správci balíčků jen simulují.

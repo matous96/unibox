@@ -135,7 +135,7 @@ Build Tools with C++.
 ```bash
 pnpm install
 pnpm dev                # web version with sample data at http://localhost:1420
-pnpm desktop            # desktop app (Tauri) with hot reload
+pnpm desktop            # desktop app (Tauri) with hot reload – one test version (org.unibox.dev, DevTools on port 9222), runs next to an installed Unibox
 pnpm pipeline --local   # build the real catalog into public/catalog.json
 pnpm typecheck          # type checks
 ```

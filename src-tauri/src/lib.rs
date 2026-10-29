@@ -87,6 +87,13 @@ pub fn run() {
         .register_asynchronous_uri_scheme_protocol(icons::SCHEME, icons::handle)
         .setup(|app| {
             tray::setup(app.handle())?;
+            // Testovací verze: „Unibox (test)“ na hlavním panelu (popisek ikony nastaví tray)
+            if tray::is_test_build(app.handle()) {
+                use tauri::Manager;
+                if let Some(window) = app.get_webview_window("main") {
+                    let _ = window.set_title(&tray::display_name(app.handle(), "Unibox"));
+                }
+            }
             // Obsluha odkazů unibox:// pro tento Unibox (HKCU, bez práv správce). Instalátor ji
             // zapíše sám; tady kvůli vývojové verzi a přenosnému spuštění. Selhání start nezastaví.
             #[cfg(windows)]
