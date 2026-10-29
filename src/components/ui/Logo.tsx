@@ -10,8 +10,9 @@ interface UniboxLogoProps {
 
 /**
  * Logo Unibox – otevřená krabice, ze které vystupují tři „aplikace“
- * v barvách zdrojů (Chocolatey, winget, Scoop). Stejný tvar je
- * v public/favicon.svg a v assets/unibox-logo.svg (zdroj pro ikony aplikace).
+ * v barvách zdrojů (Chocolatey, winget, Scoop), na krabici tenký nápis „unibox“
+ * (od 28 px). Stejné logo je v assets/unibox-logo.svg (zdroj pro ikony aplikace a web),
+ * bez nápisu pro malé velikosti v assets/unibox-mark.svg a public/favicon.svg.
  */
 export function UniboxLogo({ size = 36, className, title }: UniboxLogoProps) {
   // Unikátní id gradientu, aby se nehádalo více log na jedné stránce
@@ -45,6 +46,21 @@ export function UniboxLogo({ size = 36, className, title }: UniboxLogoProps) {
       <path d="M15 31 H32 L27 24 H9 Z" fill="#fff" fillOpacity="0.7" />
       <path d="M32 31 H49 L55 24 H37 Z" fill="#fff" fillOpacity="0.7" />
       <rect x="15" y="31" width="34" height="21" rx="3" fill="#fff" />
+
+      {/* Tenký nápis na krabici – v malém logu (pilíře na Domů) by byl jen šmouha */}
+      {size >= 28 && (
+        <text
+          x="32"
+          y="44.2"
+          textAnchor="middle"
+          fontSize="8"
+          fontWeight="300"
+          letterSpacing="0.2"
+          fill="#4560f5"
+        >
+          unibox
+        </text>
+      )}
     </svg>
   );
 }

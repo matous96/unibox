@@ -1,0 +1,19 @@
+<!--
+  Logo Unibox bez nápisu – pro malé velikosti (ikona 16–32 px, favicona a malé ikonky webu),
+  kde by tenký nápis „unibox“ byl jen šmouha. Jinak stejné jako assets/unibox-logo.svg.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5b77ff"/>
+      <stop offset="1" stop-color="#4560f5"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#bg)"/>
+  <rect x="19" y="17" width="10" height="10" rx="2.5" fill="#f59e0b" transform="rotate(-12 24 22)"/>
+  <rect x="27" y="10" width="10" height="10" rx="2.5" fill="#38bdf8"/>
+  <rect x="35" y="17" width="10" height="10" rx="2.5" fill="#10b981" transform="rotate(12 40 22)"/>
+  <path d="M15 31 H32 L27 24 H9 Z" fill="#fff" fill-opacity="0.7"/>
+  <path d="M32 31 H49 L55 24 H37 Z" fill="#fff" fill-opacity="0.7"/>
+  <rect x="15" y="31" width="34" height="21" rx="3" fill="#fff"/>
+</svg>
