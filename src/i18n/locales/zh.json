@@ -1225,7 +1225,8 @@
     "downloading": "正在下载",
     "interactive": "请完成安装向导",
     "installing": "正在安装",
-    "uninstalling": "正在卸载"
+    "uninstalling": "正在卸载",
+    "estimate": "估计值——安装程序不报告进度"
   },
   "status": {
     "updates": "更新",

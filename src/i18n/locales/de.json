@@ -1225,7 +1225,8 @@
     "downloading": "Wird heruntergeladen",
     "interactive": "Installationsassistent abschließen",
     "installing": "Wird installiert",
-    "uninstalling": "Wird deinstalliert"
+    "uninstalling": "Wird deinstalliert",
+    "estimate": "Schätzung – das Installationsprogramm meldet keinen Fortschritt"
   },
   "status": {
     "updates": "Updates",

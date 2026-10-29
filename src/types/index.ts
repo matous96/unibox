@@ -352,6 +352,8 @@ export interface OperationProgress {
   phase: OperationPhase;
   /** 0–100, nebo null u neurčitého průběhu. */
   percent: number | null;
+  /** Začátek fáze (Date.now()) – pro odhad procent u fází, které je nehlásí (lib/phaseEstimate). */
+  since?: number;
 }
 
 /** Výsledný stav dokončené operace. */

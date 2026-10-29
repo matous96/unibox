@@ -342,6 +342,7 @@ pub async fn choco_operation(id: String, request: OperationRequest, on_event: Ch
     let spec = Spec {
         program: root.join("choco.exe").to_string_lossy().into_owned(),
         args,
+        retry_args: None,
         kind: request.kind,
         elevated: options.is_some_and(|o| o.as_admin) || !user_writable(&root),
         interactive: options.is_some_and(|o| o.interactive) && request.kind == Kind::Install,
@@ -361,7 +362,7 @@ mod tests {
     use super::*;
 
     fn request(kind: Kind, id: &str) -> OperationRequest {
-        OperationRequest { kind, package_id: id.into(), version: None, options: None }
+        OperationRequest { kind, package_id: id.into(), version: None, options: None, name: None }
     }
 
     #[test]

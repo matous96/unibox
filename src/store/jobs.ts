@@ -33,8 +33,9 @@ import type { LoadedCatalog } from "@/services/catalog";
 import { notifyEvent, type NotifyEventType } from "@/services/notify";
 import { closableInBackground, endProcesses, findAppProcesses } from "@/services/processes";
 import { traceBegin, traceDiscard, traceEnd, traceKey } from "@/services/tracker";
+import { recordPhaseDuration } from "@/lib/phaseEstimate";
 import { isTauri } from "@/lib/tauri";
-import type { InstallOptions, Job, OperationKind, OperationOutcome, PackageSource, SourceId } from "@/types";
+import type { InstallOptions, Job, OperationKind, OperationOutcome, OperationPhase, PackageSource, SourceId } from "@/types";
 import { refreshAfterOperation } from "./afterOperation";
 import { useHistory } from "./history";
 import { useLeftovers } from "./leftovers";
@@ -245,14 +246,25 @@ export const useJobs = create<JobsState>()((set, get) => {
       message: i18n.t("notifications.progress", { kind: i18n.t(`history.kind.${job.kind}`), source: getSource(job.source).label }),
       toast: false,
     });
+    // Začátek aktuální fáze – odhad procent u instalace a její skutečná délka pro příště
+    // (bez zúžení typu na null – mění se v callbacku)
+    let phase = null as OperationPhase | null;
+    let phaseSince = Date.now();
     const handle = managers[job.source].startOperation(
       // Vlastní argumenty, příkazy před / po instalaci a „jako správce“ jen podle Nastavení → Oprávnění správce
-      { kind: job.kind, packageId: job.packageId, version: job.version, options: applySecurityPolicy(job.options) },
-      (progress) => patch(job.appId, { progress }),
+      { kind: job.kind, packageId: job.packageId, version: job.version, options: applySecurityPolicy(job.options), name: job.appName },
+      (progress) => {
+        if (progress.phase !== phase) {
+          phase = progress.phase;
+          phaseSince = Date.now();
+        }
+        patch(job.appId, { progress: { ...progress, since: phaseSince } });
+      },
     );
     handles.set(job.appId, handle);
     const result = await handle.done;
     handles.delete(job.appId);
+    if (result.outcome === "success" && phase) recordPhaseDuration(job, phase, Date.now() - phaseSince);
 
     useHistory.getState().add({
       id: job.id,

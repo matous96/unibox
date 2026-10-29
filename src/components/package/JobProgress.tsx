@@ -1,6 +1,8 @@
 import { X } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IconButton } from "@/components/ui/Button";
+import { ESTIMATED_PHASES, estimatePercent, expectedPhaseMs } from "@/lib/phaseEstimate";
 import { cn } from "@/lib/utils";
 import { useJobs } from "@/store/jobs";
 import type { Job } from "@/types";
@@ -12,12 +14,22 @@ interface JobProgressProps {
 
 /**
  * Živý průběh operace: popisek fáze, procenta, pruh a tlačítko Zrušit.
- * Neurčitý průběh (percent = null) se zobrazí jako běžící animace.
+ * Instalace a odinstalace procenta nehlásí – ukáže se odhad (lib/phaseEstimate);
+ * ostatní neurčitý průběh (fronta, UAC, průvodce) je běžící animace.
  */
 export function JobProgress({ job, className }: JobProgressProps) {
   const { t } = useTranslation();
   const cancel = useJobs((s) => s.cancel);
-  const { phase, percent } = job.progress;
+  const { phase, since } = job.progress;
+  const estimated = job.progress.percent === null && since !== undefined && ESTIMATED_PHASES.has(phase);
+  const expected = useMemo(() => (estimated ? expectedPhaseMs(job, phase) : 0), [estimated, job, phase]);
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (!estimated) return;
+    const timer = window.setInterval(() => setNow(Date.now()), 500);
+    return () => window.clearInterval(timer);
+  }, [estimated]);
+  const percent = estimated ? estimatePercent(Math.max(0, now - (since ?? now)), expected) : job.progress.percent;
   const waiting = phase === "queued" || phase === "elevating" || phase === "interactive";
   // Fáze, kdy se čeká na uživatele (UAC, průvodce instalací) – zvýraznit
   const needsUser = phase === "elevating" || phase === "interactive";
@@ -29,12 +41,16 @@ export function JobProgress({ job, className }: JobProgressProps) {
           <span className={cn("truncate font-medium", needsUser ? "text-amber-500" : "text-fg")}>
             {t(`phase.${phase}`)}
           </span>
-          {percent !== null && <span className="tabular-nums text-muted">{percent} %</span>}
+          {percent !== null && (
+            <span className="tabular-nums text-muted" title={estimated ? t("phase.estimate") : undefined}>
+              {percent} %
+            </span>
+          )}
         </div>
         <div className="relative h-1.5 overflow-hidden rounded-full bg-surface-3">
           {percent !== null ? (
             <div
-              className="h-full rounded-full bg-accent transition-[width] duration-200 ease-out"
+              className={cn("h-full rounded-full bg-accent transition-[width] ease-out", estimated ? "duration-500" : "duration-200")}
               style={{ width: `${percent}%` }}
             />
           ) : (

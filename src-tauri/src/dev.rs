@@ -996,6 +996,7 @@ pub async fn dev_operation(
     let spec = Spec {
         program: program.to_string_lossy().into_owned(),
         args,
+        retry_args: None,
         kind: request.kind,
         elevated: false,
         interactive: false,
@@ -1014,7 +1015,7 @@ mod tests {
     use super::*;
 
     fn request(kind: Kind, id: &str) -> OperationRequest {
-        OperationRequest { kind, package_id: id.into(), version: None, options: None }
+        OperationRequest { kind, package_id: id.into(), version: None, options: None, name: None }
     }
 
     #[test]

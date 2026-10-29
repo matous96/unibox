@@ -487,6 +487,8 @@ fn interpret(kind: Kind, code: i32) -> Verdict {
         0x8A15_0019 => Verdict::error("requiresAdmin").retry_elevated(),
         0x8A15_0030 => Verdict::error("uninstallFailed").retry_elevated(),
         0x8A15_0006 => Verdict::error("installerFailed").retry_elevated(),
+        // Instalace MSI selhala – mj. aplikace pro všechny uživatele bez ALLUSERS=1 (machine_retry_args)
+        MSI_INSTALL_FAILED => Verdict::error("installerFailed").retry_elevated(),
         other => Verdict::error(match other {
             // Odkaz na instalátor v manifestu nefunguje (HRESULT 0x8019xxxx = stav HTTP):
             // 403 Forbidden, 404 Not Found, 410 Gone – jiný zdroj instalace ho může mít
@@ -541,9 +543,19 @@ pub async fn winget_operation(
         _ => None,
     };
     let (pre_command, post_command) = operations::custom_commands(&request);
+    let args = operation_args(&request, &downloads);
+    // Registr se čte jen u aktualizace (mimo vlákno asynchronního běhu)
+    let retry_args = if request.kind == Kind::Update {
+        let (package_id, name, scope) = (request.package_id.clone(), request.name.clone(), options.and_then(|o| o.scope.clone()));
+        let base = args.clone();
+        crate::process::background(move || Ok(machine_retry_args(&package_id, name.as_deref(), scope.as_deref(), &base))).await?
+    } else {
+        None
+    };
     let spec = Spec {
         program: winget_exe(),
-        args: operation_args(&request, &downloads),
+        args,
+        retry_args,
         kind: request.kind,
         elevated: options.is_some_and(|o| o.as_admin),
         interactive: options.is_some_and(|o| o.interactive) && matches!(request.kind, Kind::Install | Kind::Update),
@@ -555,6 +567,41 @@ pub async fn winget_operation(
         post_command,
     };
     operations::execute(id, spec, on_event).await
+}
+
+/// Aktualizace aplikace nainstalované pro všechny uživatele: instalátor MSI bez určeného
+/// rozsahu se spustí jen pro aktuálního uživatele a instalaci pro všechny odmítne přepsat
+/// („This app is already installed for everyone… pass ALLUSERS=1“, msiexec 1603 → winget
+/// 0x8A150049). Opakování s právy správce po této chybě proto dostane `--custom ALLUSERS=1`.
+/// Jen bez rozsahu zvoleného ve volbách a když registr zná aplikaci jen „pro počítač“.
+fn machine_retry_args(package_id: &str, name: Option<&str>, scope: Option<&str>, args: &[String]) -> Option<(i32, Vec<String>)> {
+    if scope.is_some_and(|s| matches!(s, "user" | "machine")) {
+        return None;
+    }
+    let registry = arp::Registry::load();
+    let entries = registry.matching(package_id, name.unwrap_or_default(), "");
+    if entries.is_empty() || entries.iter().any(|entry| entry.user) {
+        return None;
+    }
+    Some((MSI_INSTALL_FAILED as i32, with_custom(args, "ALLUSERS=1")))
+}
+
+/// winget 0x8A150049 – instalace MSI selhala (APPINSTALLER_CLI_ERROR_MSI_INSTALL_FAILED).
+const MSI_INSTALL_FAILED: u32 = 0x8A15_0049;
+
+/// Přidá parametr instalátoru do `--custom` (winget přijme jen jeden), pokud tam ještě není.
+fn with_custom(args: &[String], extra: &str) -> Vec<String> {
+    let mut out = args.to_vec();
+    let name = extra.split('=').next().unwrap_or(extra).to_ascii_uppercase();
+    match out.iter().position(|arg| arg == "--custom") {
+        Some(i) if i + 1 < out.len() => {
+            if !out[i + 1].split_whitespace().any(|part| part.to_ascii_uppercase().starts_with(&format!("{name}="))) {
+                out[i + 1] = format!("{} {extra}", out[i + 1]);
+            }
+        }
+        _ => out.extend(["--custom".to_string(), extra.to_string()]),
+    }
+    out
 }
 
 /// `winget show` pro instalátor, který winget pro operaci vybere (stejná
@@ -683,6 +730,7 @@ mod tests {
             package_id: id.into(),
             version: None,
             options: None,
+            name: None,
         };
         let args = operation_args(&request("9NKSQGP7F2NH"), Path::new("C:\\Stažené"));
         assert!(args.windows(2).any(|w| w == ["--source", "msstore"]));
@@ -697,6 +745,7 @@ mod tests {
             package_id: "VideoLAN.VLC".into(),
             version: Some("3.0.0".into()),
             options,
+            name: None,
         };
         let plain = operation_args(&update(None), Path::new("C:\\Stažené"));
         assert!(plain.contains(&"--silent".to_string()) && !plain.contains(&"--version".to_string()));
@@ -732,6 +781,24 @@ mod tests {
         assert_eq!(uninstall.error_key, Some("uninstallFailed"));
         assert!(uninstall.retry_elevated);
         assert!(!interpret(Kind::Update, 0x8A15_0111_u32 as i32).retry_elevated);
+        // Selhaná instalace MSI (EffectCraft 0.18.0 pro všechny uživatele bez ALLUSERS=1) → znovu jako správce
+        let msi = interpret(Kind::Update, MSI_INSTALL_FAILED as i32);
+        assert_eq!(msi.error_key, Some("installerFailed"));
+        assert!(msi.retry_elevated);
+    }
+
+    #[test]
+    fn custom_installer_argument() {
+        let s = |items: &[&str]| items.iter().map(|i| i.to_string()).collect::<Vec<_>>();
+        // Bez --custom se přidá
+        assert_eq!(with_custom(&s(&["upgrade", "--silent"]), "ALLUSERS=1"), s(&["upgrade", "--silent", "--custom", "ALLUSERS=1"]));
+        // Ke stávajícím vlastním parametrům se připojí (winget bere jen jeden --custom)
+        assert_eq!(
+            with_custom(&s(&["upgrade", "--custom", "ADDDESKTOPICON=0"]), "ALLUSERS=1"),
+            s(&["upgrade", "--custom", "ADDDESKTOPICON=0 ALLUSERS=1"])
+        );
+        // Už zadaný ALLUSERS se nepřepíše
+        assert_eq!(with_custom(&s(&["upgrade", "--custom", "allusers=2"]), "ALLUSERS=1"), s(&["upgrade", "--custom", "allusers=2"]));
     }
 
     #[test]

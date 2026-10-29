@@ -18,6 +18,8 @@ export interface OperationRequest {
   version?: string;
   /** Volby instalace / stažení. */
   options?: InstallOptions;
+  /** Název aplikace – backendu pomůže dohledat její záznam v registru. */
+  name?: string;
 }
 
 /** Mezipaměť správce balíčků. */

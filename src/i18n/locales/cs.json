@@ -1265,7 +1265,8 @@
     "downloading": "Stahování",
     "interactive": "Dokončete průvodce instalací",
     "installing": "Instalace",
-    "uninstalling": "Odinstalace"
+    "uninstalling": "Odinstalace",
+    "estimate": "Odhad – instalátor průběh nehlásí"
   },
   "status": {
     "updates": "Aktualizace",

@@ -1245,7 +1245,8 @@
     "downloading": "Baixando",
     "interactive": "Conclua o assistente de instalação",
     "installing": "Instalando",
-    "uninstalling": "Desinstalando"
+    "uninstalling": "Desinstalando",
+    "estimate": "Estimativa – o instalador não informa o progresso"
   },
   "status": {
     "updates": "Atualizações",

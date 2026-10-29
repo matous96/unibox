@@ -71,6 +71,9 @@ pub struct OperationRequest {
     pub version: Option<String>,
     #[serde(default)]
     pub options: Option<InstallOptions>,
+    /// Název aplikace – vodítko pro dohledání záznamu v registru (správce zná jen id).
+    #[serde(default)]
+    pub name: Option<String>,
 }
 
 /// Fáze průběhu – stejné názvy jako OperationPhase ve frontendu.
@@ -147,6 +150,9 @@ pub struct OperationResult {
 pub struct Spec {
     pub program: String,
     pub args: Vec<String>,
+    /// Jiné argumenty pro opakování s právy správce po konkrétním návratovém kódu
+    /// (kód, argumenty); jinak se opakuje s `args`.
+    pub retry_args: Option<(i32, Vec<String>)>,
     pub kind: Kind,
     pub elevated: bool,
     pub interactive: bool,
@@ -252,7 +258,7 @@ pub async fn execute(id: String, spec: Spec, channel: Channel<OpEvent>) -> Resul
         }
 
         // 2) Správce balíčků
-        let mut exit = run(&spec, spec.elevated, &token, &mut tracker)?;
+        let mut exit = run(&spec, &spec.args, spec.elevated, &token, &mut tracker)?;
 
         // 3) Selhání kvůli oprávněním (např. odinstalace MSI pro všechny uživatele) → znovu jako správce
         //    (ne se zákazem povýšení v Nastavení; ne po pádu instalátoru – ten práva správce nespraví)
@@ -263,7 +269,11 @@ pub async fn execute(id: String, spec: Spec, channel: Channel<OpEvent>) -> Resul
             && (spec.interpret)(spec.kind, exit.code).retry_elevated
         {
             tracker.notice("retryElevated", None);
-            exit = run(&spec, true, &token, &mut tracker)?;
+            let args = match &spec.retry_args {
+                Some((code, args)) if *code == exit.code => args,
+                _ => &spec.args,
+            };
+            exit = run(&spec, args, true, &token, &mut tracker)?;
         }
 
         let detail = tracker.take_last_line();
@@ -287,7 +297,7 @@ pub async fn execute(id: String, spec: Spec, channel: Channel<OpEvent>) -> Resul
 }
 
 /// Spustí příkaz správce – normálně, nebo s právy správce (UAC).
-fn run(spec: &Spec, elevated: bool, token: &CancelToken, tracker: &mut Tracker) -> Result<Exit, String> {
+fn run(spec: &Spec, args: &[String], elevated: bool, token: &CancelToken, tracker: &mut Tracker) -> Result<Exit, String> {
     if elevated {
         tracker.elevating();
     }
@@ -298,13 +308,13 @@ fn run(spec: &Spec, elevated: bool, token: &CancelToken, tracker: &mut Tracker) 
     if elevated {
         // „Požádat o práva správce jen jednou“ – další operace obslouží už povýšený pomocník
         if security::policy().cache_elevation {
-            elevation::run_elevated_cached(&spec.program, &spec.args, token, on_output)
+            elevation::run_elevated_cached(&spec.program, args, token, on_output)
         } else {
-            elevation::run_elevated(&spec.program, &spec.args, token, on_output)
+            elevation::run_elevated(&spec.program, args, token, on_output)
         }
     } else {
         let mut command = process::hidden_command(&spec.program);
-        command.args(&spec.args);
+        command.args(args);
         process::run_streaming(command, token, on_output)
     }
 }
