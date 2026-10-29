@@ -3,11 +3,11 @@ import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import { isTauri } from "@/lib/tauri";
-import { DiscordIcon, GitHubIcon } from "@/components/ui/BrandIcons";
+import { GitHubIcon } from "@/components/ui/BrandIcons";
 import { UniboxLogo } from "@/components/ui/Logo";
 import { SourceIcon } from "@/components/package/SourceIcon";
 import { VerifiedBadge } from "@/components/package/VerifiedBadge";
-import { DISCORD_URL, FORUM_URL, GITHUB_URL } from "@/config";
+import { FORUM_URL, GITHUB_URL } from "@/config";
 import { useInstallableStats } from "@/hooks/usePackages";
 import { cn, formatAppCount } from "@/lib/utils";
 import { getSource } from "@/services/managers";
@@ -188,15 +188,6 @@ export function PublishPage() {
           >
             <MessagesSquare className="size-4" />
             {t("nav.forum")}
-          </a>
-          <a
-            href={DISCORD_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-10 items-center gap-2 rounded-full border border-line bg-surface px-5 text-sm font-semibold transition-colors hover:bg-surface-3"
-          >
-            <DiscordIcon className="size-4" />
-            Discord
           </a>
         </div>
       </section>

@@ -38,7 +38,7 @@ const OFFICIAL_PUBLISHERS = new Set([
   "the qt company", "openssl", "git for windows",
   // Komunikace, zábava a hry
   "valve", "discord", "spotify", "telegram fz", "telegram messenger", "whatsapp", "electronic arts", "ubisoft",
-  "blizzard entertainment", "riot games", "gog", "gog sp z o o", "plex", "netflix", "steam",
+  "blizzard entertainment", "riot games", "gog", "gog sp z o o", "plex", "netflix", "steam", "ea app",
   // Prohlížeče a bezpečnost
   "brave software", "opera software", "opera norway", "vivaldi technologies", "proton", "bitwarden", "1password",
   "agilebits", "keepassxc team", "malwarebytes", "eset", "avast software", "kaspersky", "bitdefender", "yubico",

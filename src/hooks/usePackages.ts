@@ -5,11 +5,13 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "@/app/queryClient";
+import { eaIconSrc, steamIconSrc } from "@/lib/iconSrc";
 import { installedNameKey } from "@/lib/nameKey";
+import { isTauri } from "@/lib/tauri";
 import { wingetBaseId } from "@/lib/wingetVariant";
 import { normalize } from "@/lib/utils";
 import { loadCatalog, type LoadedCatalog } from "@/services/catalog";
-import { getAllInstalled, getSource, isSourceId, sortBySourceOrder, steamAppId } from "@/services/managers";
+import { getAllInstalled, getSource, isEaGame, isSourceId, sortBySourceOrder, steamAppId } from "@/services/managers";
 import { useJobs } from "@/store/jobs";
 import { activeSources, sourcePriority, useSettings } from "@/store/settings";
 import { inLockedSource, useSourceScope } from "@/store/sourceLock";
@@ -366,16 +368,21 @@ export function fallbackEntry(source: SourceId, packageId: string, name: string,
   };
   if (source !== "winget") return { ...base, publisher: bare };
 
-  // Hra ze Steamu: kategorie Hry, odkaz do obchodu a obrázek hry jako banner
+  // Hra ze Steamu: kategorie Hry (banner jako u aplikací – ikona a název na vzorku herních
+  // symbolů; obrázek hry ze Steamu má nízké rozlišení), ikona, kterou uložil Steam, a odkaz do obchodu
   const appId = steamAppId(packageId);
   if (appId) {
     return {
       ...base,
       publisher: "Steam",
       categories: ["games"],
+      iconUrl: isTauri() ? steamIconSrc(appId) : null,
       homepage: `https://store.steampowered.com/app/${appId}`,
-      bannerUrl: `https://cdn.cloudflare.steamstatic.com/steam/apps/${appId}/header.jpg`,
     };
+  }
+  // Hra z EA app: kategorie Hry a ikona hry z jejího záznamu v registru (stejně jako u Steamu)
+  if (isEaGame(packageId)) {
+    return { ...base, publisher: "EA app", categories: ["games"], iconUrl: isTauri() ? eaIconSrc(packageId) : null };
   }
   return base;
 }

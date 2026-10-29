@@ -248,7 +248,7 @@ export interface Catalog {
  *  - local: program nainstalovaný mimo správce balíčků (winget ho jen najde
  *    v seznamu Programy a funkce, umí ho odinstalovat, ale ne aktualizovat).
  */
-export type InstallOrigin = SourceId | "msstore" | "steam" | "local";
+export type InstallOrigin = SourceId | "msstore" | "steam" | "ea" | "local";
 
 /** Zdroj screenshotů: komunitní databáze UniGetUI, nebo popis balíčku v Chocolatey. */
 export type ScreenshotSource = "unigetui" | "chocolatey";

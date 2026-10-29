@@ -1,13 +1,17 @@
 /**
  * Odkazy na komunitu projektu. Hodnoty lze přepsat v souboru .env.local
- * (VITE_GITHUB_URL, VITE_DISCORD_URL).
+ * (VITE_GITHUB_URL, VITE_FORUM_URL…).
  *
- * TODO: doplnit skutečné adresy, až bude Discord server a e-mail projektu.
+ * TODO: doplnit skutečný e-mail projektu.
  */
 export const GITHUB_URL: string = import.meta.env.VITE_GITHUB_URL ?? "https://github.com/matous96/unibox";
-export const DISCORD_URL: string = import.meta.env.VITE_DISCORD_URL ?? "https://discord.gg/YOUR-INVITE";
 /** Fórum komunity – výchozí jsou diskuze (Discussions) v repozitáři na GitHubu. */
 export const FORUM_URL: string = import.meta.env.VITE_FORUM_URL ?? `${GITHUB_URL}/discussions`;
+/**
+ * Dobrovolný příspěvek na vývoj (Revolut) – karta Podpořit Unibox v Nastavení.
+ * Prázdná hodnota (VITE_SUPPORT_URL=) kartu skryje.
+ */
+export const SUPPORT_URL: string = import.meta.env.VITE_SUPPORT_URL ?? "https://revolut.me/matous96";
 /** Kontaktní e-mail projektu (ikona obálky v horní liště). */
 export const CONTACT_EMAIL: string = import.meta.env.VITE_CONTACT_EMAIL ?? "YOUR-EMAIL@example.com";
 

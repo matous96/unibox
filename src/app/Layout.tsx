@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
-import { useEffect, useRef, type ComponentType, type ReactNode } from "react";
-import { Outlet, useLocation } from "react-router";
+import { useEffect, useLayoutEffect, useRef, type ComponentType, type ReactNode } from "react";
+import { Outlet, useLocation, useNavigationType } from "react-router";
 import { LoginDialog } from "@/components/auth/LoginDialog";
 import { OnboardingDialog } from "@/components/layout/OnboardingDialog";
 import { DevSourceOverview } from "@/components/home/DevSourceOverview";
@@ -27,7 +27,7 @@ import { useDeepLinks } from "@/hooks/useDeepLinks";
 import { useDesktopIntegration } from "@/hooks/useDesktopIntegration";
 import { useSecurityPolicySync } from "@/hooks/useSecurityPolicySync";
 import { useExternalLinks } from "@/hooks/useExternalLinks";
-import { ScrollContainerContext } from "@/hooks/useScrollContainer";
+import { ScrollContainerContext, scrollRestore } from "@/hooks/useScrollContainer";
 import { useTheme } from "@/hooks/useTheme";
 import { isTauri } from "@/lib/tauri";
 import { isDevLock, useSourceScope } from "@/store/sourceLock";
@@ -68,12 +68,60 @@ export function Layout() {
   useExternalLinks();
   const desktop = isTauri();
   const location = useLocation();
+  const navigationType = useNavigationType();
   const scroller = useRef<HTMLElement>(null);
 
-  // Při přechodu na jinou stránku skočit nahoru (ne při psaní ve vyhledávání).
+  // Posun stránky podle záznamu historie – Zpět / Vpřed ho obnoví (jako v prohlížeči)
+  const positions = useRef(new Map<string, number>());
+  const currentKey = useRef(location.key);
+  const lastPath = useRef(location.pathname);
   useEffect(() => {
-    scroller.current?.scrollTo({ top: 0 });
-  }, [location.pathname]);
+    const el = scroller.current;
+    if (!el) return;
+    const onScroll = () => positions.current.set(currentKey.current, el.scrollTop);
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Cíl obnovení musí znát už virtualizované seznamy nové stránky – připojí se dřív než efekt níže
+  if (location.key !== currentKey.current) {
+    scrollRestore.target = navigationType === "POP" ? (positions.current.get(location.key) ?? null) : null;
+  }
+
+  // Nová stránka začíná nahoře (psaní ve vyhledávání ani filtry v adrese posun nemění);
+  // při návratu Zpět / Vpřed se obnoví uložený posun. Klíč se přepne v layout efektu,
+  // dřív než přijde událost scroll z kratšího obsahu nové stránky.
+  useLayoutEffect(() => {
+    currentKey.current = location.key;
+    const pageChanged = lastPath.current !== location.pathname;
+    lastPath.current = location.pathname;
+    const el = scroller.current;
+    const saved = scrollRestore.target;
+    if (!el || saved === null) {
+      scrollRestore.target = null;
+      if (pageChanged) el?.scrollTo({ top: 0 });
+      return;
+    }
+    // Seznam se dorovnává (virtualizace, data z mezipaměti) – zkoušet, dokud je stránka
+    // dost vysoká (nejvýš ~1 s); otočení kolečkem obnovení zastaví
+    let frame = 0;
+    let tries = 0;
+    const finish = () => {
+      cancelAnimationFrame(frame);
+      scrollRestore.target = null;
+    };
+    const restore = () => {
+      el.scrollTop = saved;
+      if (Math.abs(el.scrollTop - saved) > 1 && tries++ < 60) frame = requestAnimationFrame(restore);
+      else scrollRestore.target = null;
+    };
+    el.addEventListener("wheel", finish, { once: true, passive: true });
+    restore();
+    return () => {
+      finish();
+      el.removeEventListener("wheel", finish);
+    };
+  }, [location.key]);
 
   return (
     <div className="flex h-full flex-col overflow-hidden">

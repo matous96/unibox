@@ -155,7 +155,7 @@ function PackageDetailView({ entry: fullEntry, inCatalog }: { entry: CatalogEntr
   const [chosen, setChosen] = useState<SourceId | undefined>();
   const originLabel = useOriginLabel();
   // Hra ze Steamu / program mimo správce, který není v katalogu
-  const unmanaged = !!installed && !inCatalog && (installed.origin === "steam" || installed.origin === "local");
+  const unmanaged = !!installed && !inCatalog && (installed.origin === "steam" || installed.origin === "ea" || installed.origin === "local");
   // Zdroj uložený v Možnostech instalace platí, dokud uživatel nezvolí jiný
   const savedSource = useInstallOptions((s) => s.byApp[entry.id]?.source);
   // Vypnutá kontrola součtu v Možnostech instalace – indikátor SHA-256 varuje
@@ -347,6 +347,7 @@ function PackageDetailView({ entry: fullEntry, inCatalog }: { entry: CatalogEntr
                     </a>
                   </p>
                 )}
+                {installed.origin === "ea" && <p className="text-xs text-muted">{t("package.managedByEa")}</p>}
                 {installed.diskLocation ? (
                   <p className="text-xs break-all text-muted">{t("package.diskInstall", { folder: installed.diskLocation })}</p>
                 ) : (

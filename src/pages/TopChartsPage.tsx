@@ -5,9 +5,10 @@ import { PackageRow } from "@/components/package/PackageRow";
 import { ratingsEnabled, useRatingFormat, useRatingSummaries } from "@/components/package/RatingsSection";
 import { matchesSource, SourceFilter, type SourceFilterValue } from "@/components/package/SourceFilter";
 import { CardSkeletons, EmptyState, PageHeader } from "@/components/ui/States";
-import { getSource } from "@/services/managers";
+import { getSource, isSourceId } from "@/services/managers";
 import { CATEGORIES } from "@/data/categories";
 import { useDismiss } from "@/hooks/useDismiss";
+import { useUrlState } from "@/hooks/useUrlState";
 import { useCatalog, useModeFilter } from "@/hooks/usePackages";
 import { trendingScore } from "@/lib/trending";
 import { cn, topN } from "@/lib/utils";
@@ -38,9 +39,10 @@ const RATING_PRIOR = 5;
 export function TopChartsPage() {
   const { t } = useTranslation();
   const { data, isLoading } = useCatalog();
-  const [category, setCategory] = useState<CategoryId | "all">("all");
-  const [pickedFilter, setSourceFilter] = useState<SourceFilterValue>("all");
-  const [sort, setSort] = useState<TopSort>("popularity");
+  // Kategorie, správce a řazení v adrese – po otevření detailu a návratu zpět zůstanou
+  const [category, setCategory] = useUrlState<CategoryId | "all">("category", "all", (v) => CATEGORIES.some((c) => c.id === v));
+  const [pickedFilter, setSourceFilter] = useUrlState<SourceFilterValue>("source", "all", isSourceId);
+  const [sort, setSort] = useUrlState<TopSort>("sort", "popularity", (v) => v === "rating" || v === "movers");
   // Zamčený zdroj (levý panel) má přednost – filtr stránky se pak neukazuje
   const { lock } = useSourceScope();
   const sourceFilter = lock ? "all" : pickedFilter;

@@ -9,7 +9,7 @@ import { invoke } from "@tauri-apps/api/core";
 import i18n from "@/i18n";
 import type { InstalledPackage, ManagerStatus, RepoSearchResult } from "@/types";
 import { hex, startBackendOperation, type BackendResult } from "./backend";
-import { detectWingetOrigin } from "./sources";
+import { detectWingetOrigin, rememberEaGame } from "./sources";
 import type { CacheInfo, PackageManager } from "./types";
 
 /** Nainstalovaný balíček, jak ho vrací backend. */
@@ -22,6 +22,8 @@ interface BackendInstalled {
   wingetSource: string | null;
   /** Program nalezený jen podle složky na disku (InstalledPackage.diskLocation). */
   diskLocation?: string;
+  /** Hra z EA app (backend ji pozná podle složky hry). */
+  eaGame?: boolean;
 }
 
 /** Backend nespustil hledání, protože ho nahradilo novější. */
@@ -48,11 +50,10 @@ export const wingetManager: PackageManager = {
 
   async getInstalled(): Promise<InstalledPackage[]> {
     const items = await invoke<BackendInstalled[]>("winget_installed");
-    return items.map(({ wingetSource, ...p }) => ({
-      ...p,
-      source: "winget",
-      origin: detectWingetOrigin(p.packageId, wingetSource),
-    }));
+    return items.map(({ wingetSource, eaGame, ...p }) => {
+      if (eaGame) rememberEaGame(p.packageId);
+      return { ...p, source: "winget", origin: detectWingetOrigin(p.packageId, wingetSource) };
+    });
   },
 
   async search(query, signal): Promise<RepoSearchResult[]> {

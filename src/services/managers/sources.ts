@@ -168,6 +168,7 @@ export const ORIGINS: OriginMeta[] = [
   { id: "msstore", label: "WinGet (Microsoft Store)", dot: "bg-sky-300" },
   ...SOURCES.filter((s) => s.id !== "winget").map((s) => ({ id: s.id, label: s.label, dot: s.dot })),
   { id: "steam", label: "Steam", dot: "bg-slate-400" },
+  { id: "ea", label: "EA app", dot: "bg-orange-500" },
   { id: "local", label: "", dot: "bg-zinc-500" },
 ];
 
@@ -179,12 +180,22 @@ export function steamAppId(packageId: string): string | null {
 }
 
 /**
+ * Hry z EA app – z id je nepoznáme (záznam v registru má GUID), pozná je backend podle
+ * složky hry a výpis nainstalovaných je tu zapamatuje (karty, oblíbené, historie).
+ */
+const eaGames = new Set<string>();
+export const rememberEaGame = (packageId: string) => void eaGames.add(packageId.toLowerCase());
+export const isEaGame = (packageId: string) => eaGames.has(packageId.toLowerCase());
+
+/**
  * Určí původ balíčku nalezeného wingetem. Get-WinGetPackage vrací u každého
  * balíčku `Id` a `Source` („winget“, „msstore“, nebo prázdné u programů
- * nainstalovaných mimo winget). Hry ze Steamu mají Id „ARP\…\Steam App <číslo>“.
+ * nainstalovaných mimo winget). Hry ze Steamu mají Id „ARP\…\Steam App <číslo>“,
+ * hry z EA app označí backend (rememberEaGame).
  */
 export function detectWingetOrigin(packageId: string, wingetSource: string | null): InstallOrigin {
   if (steamAppId(packageId)) return "steam";
+  if (isEaGame(packageId)) return "ea";
   if (wingetSource === "msstore") return "msstore";
   if (wingetSource === "winget") return "winget";
   return "local";

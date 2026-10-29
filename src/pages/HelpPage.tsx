@@ -2,9 +2,8 @@ import { Bug, ChevronDown, ChevronRight, CircleQuestionMark, Mail, MessagesSquar
 import { useEffect, type ComponentType } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router";
-import { DiscordIcon } from "@/components/ui/BrandIcons";
 import { PageHeader } from "@/components/ui/States";
-import { CONTACT_EMAIL, DISCORD_URL, FORUM_URL, GITHUB_URL } from "@/config";
+import { CONTACT_EMAIL, FORUM_URL, GITHUB_URL } from "@/config";
 
 /** Témata častých otázek (texty v překladech: help.faq.<id>.q / .a). Bezpečnost jako první. */
 const FAQ = ["safe", "how", "source", "uac", "bundles", "failed", "add"] as const;
@@ -25,7 +24,6 @@ export function HelpPage() {
 
   const contacts: { label: string; hint: string; href: string; Icon: LucideIcon | ComponentType<{ className?: string }> }[] = [
     { label: t("nav.forum"), hint: t("help.forumHint"), href: FORUM_URL, Icon: MessagesSquare },
-    { label: "Discord", hint: t("help.discordHint"), href: DISCORD_URL, Icon: DiscordIcon },
     { label: t("help.bug"), hint: t("help.bugHint"), href: `${GITHUB_URL}/issues/new`, Icon: Bug },
     { label: t("help.email"), hint: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, Icon: Mail },
   ];

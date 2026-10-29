@@ -13,6 +13,7 @@ import {
   FileJson,
   FlaskConical,
   GraduationCap,
+  Heart,
   Info,
   Lock,
   LockOpen,
@@ -55,6 +56,7 @@ import { getSource, isTauri, SOURCES } from "@/services/managers";
 import { forgetTrace, installTraces } from "@/services/tracker";
 import { useAuth } from "@/store/auth";
 import { useOnboarding } from "@/store/onboarding";
+import { SUPPORT_URL } from "@/config";
 import { APP_VERSION } from "@/services/updates";
 import { useAppUpdate } from "@/store/appUpdate";
 import { useSettings } from "@/store/settings";
@@ -209,7 +211,30 @@ function GeneralSection() {
       )}
 
       {isTauri() && <UninstallCard />}
+
+      {SUPPORT_URL && <SupportCard />}
     </>
+  );
+}
+
+/** Nenápadná možnost podpořit vývoj – jen odkaz na konci Obecných, žádné připomínání. */
+function SupportCard() {
+  const { t } = useTranslation();
+  return (
+    <Card title={t("settings.support")}>
+      <Row label={t("settings.supportRow")} hint={t("settings.supportHint")}>
+        {/* Odkaz ven otevře systémový prohlížeč (useExternalLinks) */}
+        <a
+          href={SUPPORT_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-line bg-surface-2 px-3 text-xs font-semibold whitespace-nowrap transition-colors hover:bg-surface-3"
+        >
+          <Heart className="size-3.5 text-rose-500" />
+          {t("settings.supportButton")}
+        </a>
+      </Row>
+    </Card>
   );
 }
 

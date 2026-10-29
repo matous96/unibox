@@ -1,6 +1,6 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useLayoutEffect, useRef, useState } from "react";
-import { useScrollContainer } from "@/hooks/useScrollContainer";
+import { scrollRestore, useScrollContainer } from "@/hooks/useScrollContainer";
 import { useSettings } from "@/store/settings";
 import type { CatalogEntry } from "@/types";
 import { PackageCard } from "./PackageCard";
@@ -71,6 +71,9 @@ export function PackageCollection({ packages, showUninstall }: PackageCollection
     gap: mode === "list" ? ROW_GAP : CARD_GAP,
     overscan: OVERSCAN[mode],
     scrollMargin: offset,
+    // Při připojení virtualizér posune stránku na svou výchozí pozici – převzít obnovovaný posun (Zpět) nebo současný,
+    // jinak by návrat Zpět (obnovený posun) i připojení do posunuté stránky skočily nahoru
+    initialOffset: () => scrollRestore.target ?? scroller?.current?.scrollTop ?? 0,
     // Změřená výška patří řádku s danými aplikacemi a počtem sloupců (jiný filtr či šířka = jiný řádek)
     getItemKey: (row) => `${mode}:${columns}:${packages[row * columns]?.id ?? row}`,
   });

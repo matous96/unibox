@@ -10,6 +10,7 @@ import { useFavorites } from "@/store/favorites";
 import { useInstallerHostChange } from "@/store/installerUrls";
 import { useSelection } from "@/store/selection";
 import type { CatalogEntry } from "@/types";
+import { CategoryBadge } from "./CategoryBadge";
 import { usePackageMenuHandlers } from "./InstallMenu";
 import { PackageAction } from "./PackageAction";
 import { PackageIcon } from "./PackageIcon";
@@ -77,20 +78,24 @@ export const PackageCard = memo(function PackageCard({ entry, showUninstall, cla
         />
       </div>
 
-      {/* Pravý horní roh – vždy stejné místo: odznak nové verze, po najetí rychlé akce */}
-      {status === "updatable" && installed?.availableVersion && (
-        <span
-          title={hostChange ? t("hostChange.title", { from: hostChange.from, to: hostChange.to }) : undefined}
-          className={cn(
-            "absolute top-4 right-4 inline-flex h-6 max-w-[45%] items-center gap-1 rounded-full px-2 text-[11px] font-semibold tabular-nums transition-opacity group-hover:opacity-0 group-focus-within:opacity-0",
-            // Instalátor nové verze z jiného serveru (winget) – oranžově
-            hostChange ? "bg-amber-500/15 text-amber-700 dark:text-amber-300" : "bg-accent/12 text-accent",
-          )}
-        >
-          {hostChange ? <TriangleAlert className="size-3 shrink-0" /> : <ArrowUpCircle className="size-3 shrink-0" />}
-          <span className="truncate">{installed.availableVersion}</span>
-        </span>
-      )}
+      {/* Pravý horní roh – vždy stejné místo: odznak nové verze a kategorie (ať je hned vidět,
+          k čemu aplikace slouží), po najetí je nahradí rychlé akce */}
+      <div className="absolute top-4 right-4 flex max-w-[55%] flex-col items-end gap-1.5 transition-opacity group-hover:opacity-0 group-focus-within:opacity-0">
+        {status === "updatable" && installed?.availableVersion && (
+          <span
+            title={hostChange ? t("hostChange.title", { from: hostChange.from, to: hostChange.to }) : undefined}
+            className={cn(
+              "inline-flex h-6 max-w-full items-center gap-1 rounded-full px-2 text-[11px] font-semibold tabular-nums",
+              // Instalátor nové verze z jiného serveru (winget) – oranžově
+              hostChange ? "bg-amber-500/15 text-amber-700 dark:text-amber-300" : "bg-accent/12 text-accent",
+            )}
+          >
+            {hostChange ? <TriangleAlert className="size-3 shrink-0" /> : <ArrowUpCircle className="size-3 shrink-0" />}
+            <span className="truncate">{installed.availableVersion}</span>
+          </span>
+        )}
+        <CategoryBadge category={category} />
+      </div>
       <QuickActions
         entry={entry}
         className="absolute top-3 right-3 rounded-full border border-line bg-surface/95 p-0.5 opacity-0 shadow-card backdrop-blur transition-opacity group-hover:opacity-100 focus-within:opacity-100"
@@ -136,7 +141,7 @@ export const PackageCard = memo(function PackageCard({ entry, showUninstall, cla
         {entry.description || entry.sources[0]?.packageId}
       </p>
 
-      {/* Patička u spodního okraje: zdroj / kategorie + akce, nebo živý průběh přes celou šířku */}
+      {/* Patička u spodního okraje: zdroj + akce, nebo živý průběh přes celou šířku */}
       <div className="mt-auto pt-4">
         <div className="flex h-9 min-w-0 items-center justify-between gap-2">
           {job ? (
@@ -147,10 +152,6 @@ export const PackageCard = memo(function PackageCard({ entry, showUninstall, cla
                 {installed ? (
                   // U nainstalované aplikace je důležitější, odkud je nainstalovaná
                   <OriginBadge origin={installed.origin} compact />
-                ) : category ? (
-                  <span className="truncate rounded-full bg-surface-2 px-2.5 py-1 text-[11px] font-medium text-muted">
-                    {t(`categories.${category}`)}
-                  </span>
                 ) : (
                   <SourceBadge source={entry.sources[0].source} />
                 )}

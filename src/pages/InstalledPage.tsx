@@ -1,14 +1,15 @@
 import { RefreshCw, Search } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router";
 import { PackageCollection } from "@/components/package/PackageCollection";
 import { Button } from "@/components/ui/Button";
 import { CollectionToolbar } from "@/components/ui/CollectionToolbar";
 import { CardSkeletons, EmptyState, ErrorState, PageHeader } from "@/components/ui/States";
 import { useInstalledItems, useUpdates } from "@/hooks/useInstalledItems";
 import { useSortedPackages } from "@/hooks/usePackages";
+import { useUrlState } from "@/hooks/useUrlState";
 import { cn, normalize } from "@/lib/utils";
+import { ORIGINS } from "@/services/managers";
 import { OriginFilter, type OriginFilterValue } from "@/components/package/SourceFilter";
 import { useAutoUpdates } from "@/store/autoUpdates";
 import { useSelection } from "@/store/selection";
@@ -21,12 +22,11 @@ export function InstalledPage() {
   const { t } = useTranslation();
   const { data: installed, items, isLoading, isError, refetch, isFetching } = useInstalledItems();
   const { updatable, pending: pendingUpdates, updateAll } = useUpdates();
-  // Filtr je v URL (?filter=updates), aby na něj mohl odkazovat postranní panel.
-  const [params, setParams] = useSearchParams();
-  const filter: Filter = params.get("filter") === "updates" ? "updates" : "all";
-  const setFilter = (next: Filter) => setParams(next === "updates" ? { filter: "updates" } : {}, { replace: true });
-  const [text, setText] = useState("");
-  const [originFilter, setOriginFilter] = useState<OriginFilterValue>("all");
+  // Filtry jsou v adrese (?filter=updates&origin=steam&q=…): na záložku aktualizací odkazuje
+  // postranní panel a po otevření detailu a návratu zpět zůstanou
+  const [filter, setFilter] = useUrlState<Filter>("filter", "all", (v) => v === "updates");
+  const [text, setText] = useUrlState<string>("q", "");
+  const [originFilter, setOriginFilter] = useUrlState<OriginFilterValue>("origin", "all", (v) => ORIGINS.some((o) => o.id === v));
 
   // Nastavení → Aktualizace balíčků: při otevření seznamu aktualizací je předem zaškrtnout
   const preselect = useAutoUpdates((s) => s.preselectUpdates);
@@ -49,13 +49,17 @@ export function InstalledPage() {
     return counts;
   }, [items, updatable, filter]);
 
+  // Zdroj, který ve zvolené záložce nic nemá (Steam v Dostupných aktualizacích), se nepoužije –
+  // jeho filtr by tam nebyl vidět a seznam by byl bez vysvětlení prázdný. Na Vše zase platí.
+  const origin: OriginFilterValue = originFilter !== "all" && originCounts[originFilter] ? originFilter : "all";
+
   const entries = useMemo(() => {
     const q = normalize(text.trim());
     return (filter === "updates" ? updatable : items)
-      .filter((i) => originFilter === "all" || i.pkg.origin === originFilter)
+      .filter((i) => origin === "all" || i.pkg.origin === origin)
       .map((i) => i.entry)
       .filter((e) => !q || normalize(e.name).includes(q) || normalize(e.id).includes(q));
-  }, [items, updatable, filter, originFilter, text]);
+  }, [items, updatable, filter, origin, text]);
   const sorted = useSortedPackages(entries);
 
   const tabs: { id: Filter; label: string; count: number }[] = [
@@ -128,7 +132,7 @@ export function InstalledPage() {
 
       {/* Filtr podle původu instalace (WinGet: winget / msstore, Steam, Chocolatey, Scoop, Lokální) */}
       <div className="mb-5">
-        <OriginFilter value={originFilter} onChange={setOriginFilter} counts={originCounts} />
+        <OriginFilter value={origin} onChange={setOriginFilter} counts={originCounts} />
       </div>
 
       {isLoading ? (

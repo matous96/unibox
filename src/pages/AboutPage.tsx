@@ -3,9 +3,9 @@ import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import pkgJson from "../../package.json";
 import { SourceIcon } from "@/components/package/SourceIcon";
-import { DiscordIcon, GitHubIcon } from "@/components/ui/BrandIcons";
+import { GitHubIcon } from "@/components/ui/BrandIcons";
 import { UniboxLogo } from "@/components/ui/Logo";
-import { CONTACT_EMAIL, DISCORD_URL, FORUM_URL, GITHUB_URL } from "@/config";
+import { CONTACT_EMAIL, FORUM_URL, GITHUB_URL } from "@/config";
 import { useInstallableStats } from "@/hooks/usePackages";
 import { cn, formatAppCount } from "@/lib/utils";
 import { SOURCES } from "@/services/managers";
@@ -38,7 +38,6 @@ export function AboutPage() {
   const community = [
     { label: "GitHub", href: GITHUB_URL, Icon: GitHubIcon },
     { label: t("nav.forum"), href: FORUM_URL, Icon: MessagesSquare },
-    { label: "Discord", href: DISCORD_URL, Icon: DiscordIcon },
     { label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, Icon: Mail },
   ];
 

@@ -85,6 +85,8 @@ fn serve(dir: &Path, uri: &str) -> Result<(Vec<u8>, &'static str), String> {
         "/remote" => remote_icon(dir, &param("u").ok_or("chybí adresa")?),
         "/app" => app_icon(dir, &param("id").ok_or("chybí AppID")?).map(|bytes| (bytes, "image/png")),
         "/file" => file_icon(dir, &param("p").ok_or("chybí cesta")?).map(|bytes| (bytes, "image/png")),
+        "/steam" => steam_icon(dir, &param("app").ok_or("chybí číslo hry")?).map(|bytes| (bytes, "image/png")),
+        "/ea" => ea_icon(dir, &param("id").ok_or("chybí id hry")?).map(|bytes| (bytes, "image/png")),
         _ => Err("neznámá cesta".into()),
     }
 }
@@ -306,6 +308,74 @@ fn file_icon(dir: &Path, path: &str) -> Result<Vec<u8>, String> {
     shell_icon(dir, &format!("file-{}.png", hash(&path.to_lowercase())), path)
 }
 
+/// Ikona hry ze Steamu podle čísla hry: soubor .ico, který Steam uloží do
+/// `…\Steam\steam\games\` a uvede v DisplayIcon záznamu „Steam App <číslo>“
+/// v Programech a funkcích (většinou až 256 px). Jen soubory z té složky.
+fn steam_icon(dir: &Path, app: &str) -> Result<Vec<u8>, String> {
+    if app.is_empty() || app.len() > 10 || !app.bytes().all(|b| b.is_ascii_digit()) {
+        return Err("neplatné číslo hry".into());
+    }
+    let path = dir.join(format!("steam-{app}.png"));
+    if is_fresh(&path, APP_ICON_TTL) {
+        return std::fs::read(&path).map_err(|e| e.to_string());
+    }
+    let icon = steam_icon_file(app).ok_or("hra ikonu nemá")?;
+    let png = ico_to_png(&std::fs::read(&icon).map_err(|e| e.to_string())?).ok_or("ikona hry je prázdná")?;
+    std::fs::write(&path, &png).map_err(|e| e.to_string())?;
+    Ok(png)
+}
+
+/// Ikona hry z EA app podle id záznamu v registru („ARP\Machine\X86\{…}“): DisplayIcon
+/// hry (.ico nebo spustitelný soubor). Jen záznamy, které jsou opravdu hrou z EA app.
+fn ea_icon(dir: &Path, package_id: &str) -> Result<Vec<u8>, String> {
+    let name = format!("ea-{}.png", hash(&package_id.to_lowercase()));
+    let path = dir.join(&name);
+    if is_fresh(&path, APP_ICON_TTL) {
+        return std::fs::read(&path).map_err(|e| e.to_string());
+    }
+    let registry = crate::arp::Registry::load();
+    let entry = registry.by_winget_id(package_id).filter(|entry| entry.is_ea_game()).ok_or("hra z EA app nenalezena")?;
+    let icon = entry.icon_file().ok_or("hra ikonu nemá")?;
+    if !icon.extension().is_some_and(|ext| ext.eq_ignore_ascii_case("ico")) {
+        // Spustitelný soubor – ikona přes shell (stejně jako u programů z nabídky Start)
+        return shell_icon(dir, &name, &icon.to_string_lossy());
+    }
+    let png = ico_to_png(&std::fs::read(&icon).map_err(|e| e.to_string())?).ok_or("ikona hry je prázdná")?;
+    std::fs::write(&path, &png).map_err(|e| e.to_string())?;
+    Ok(png)
+}
+
+/// Soubor ikony hry z registru – jen .ico ve složce `steam\games` instalace Steamu.
+#[cfg(windows)]
+fn steam_icon_file(app: &str) -> Option<PathBuf> {
+    use winreg::enums::{HKEY_LOCAL_MACHINE, KEY_READ, KEY_WOW64_32KEY, KEY_WOW64_64KEY};
+    use winreg::RegKey;
+    let key = format!(r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App {app}");
+    [KEY_WOW64_64KEY, KEY_WOW64_32KEY].into_iter().find_map(|view| {
+        let value: String = RegKey::predef(HKEY_LOCAL_MACHINE).open_subkey_with_flags(&key, KEY_READ | view).ok()?.get_value("DisplayIcon").ok()?;
+        steam_games_icon(&value)
+    })
+}
+
+#[cfg(not(windows))]
+fn steam_icon_file(_app: &str) -> Option<PathBuf> {
+    None
+}
+
+/// Hodnota DisplayIcon („C:\…\Steam\steam\games\<hash>.ico“, případně v uvozovkách
+/// a s „,0“) → cesta, jen když jde o existující .ico ve složce `steam\games`.
+fn steam_games_icon(value: &str) -> Option<PathBuf> {
+    let value = value.trim().trim_matches('"');
+    let value = value.rsplit_once(',').filter(|(_, index)| index.trim().parse::<i32>().is_ok()).map_or(value, |(path, _)| path);
+    let path = PathBuf::from(value.trim().trim_matches('"'));
+    let is_ico = path.extension().is_some_and(|ext| ext.eq_ignore_ascii_case("ico"));
+    let games = path.parent()?;
+    let in_steam_games = games.file_name().is_some_and(|n| n.eq_ignore_ascii_case("games"))
+        && games.parent()?.file_name().is_some_and(|n| n.eq_ignore_ascii_case("steam"))
+        && !value.contains("..");
+    (is_ico && in_steam_games && path.is_file()).then_some(path)
+}
+
 /// Ikona položky shellu (`parsing_name`) s mezipamětí v souboru `name`.
 ///
 /// Extrakce z existujícího souboru selže jen výjimečně a přechodně – hlavně když
@@ -470,6 +540,27 @@ fn trim_padding(width: u32, height: u32, rgba: Vec<u8>) -> (u32, u32, Vec<u8>) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn steam_icons_only_from_steam_games_folder() {
+        let root = std::env::temp_dir().join(format!("unibox-steam-icon-test-{}", std::process::id()));
+        let games = root.join("Steam").join("steam").join("games");
+        std::fs::create_dir_all(&games).unwrap();
+        let icon = games.join("3d642f225dfb.ico");
+        std::fs::write(&icon, b"x").unwrap();
+        let other = root.join("other.ico");
+        std::fs::write(&other, b"x").unwrap();
+
+        let shown = icon.to_string_lossy().to_string();
+        assert_eq!(steam_games_icon(&shown), Some(icon.clone()));
+        assert_eq!(steam_games_icon(&format!("\"{shown}\",0")), Some(icon.clone()));
+        // Mimo steam\games, jiný typ souboru, neexistující soubor, „..“
+        assert_eq!(steam_games_icon(&other.to_string_lossy()), None);
+        assert_eq!(steam_games_icon(&games.join("game.exe").to_string_lossy()), None);
+        assert_eq!(steam_games_icon(&games.join("missing.ico").to_string_lossy()), None);
+        assert_eq!(steam_games_icon(&format!(r"{}\..\games\3d642f225dfb.ico", games.display())), None);
+        let _ = std::fs::remove_dir_all(&root);
+    }
 
     #[test]
     fn sniffs_formats() {

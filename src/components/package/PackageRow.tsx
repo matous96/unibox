@@ -12,6 +12,7 @@ import { SelectCheckbox } from "./SelectCheckbox";
 import { PackageAction } from "./PackageAction";
 import { PackageIcon } from "./PackageIcon";
 import { QuickActions } from "./QuickActions";
+import { CategoryBadge } from "./CategoryBadge";
 import { OriginBadge, SourceDots } from "./SourceBadge";
 import { VerifiedBadge } from "./VerifiedBadge";
 import { isVerified } from "@/lib/verified";
@@ -63,6 +64,7 @@ export const PackageRow = memo(function PackageRow({ entry, showUninstall, compa
           </h3>
           <span className="truncate text-xs text-muted">{entry.publisher}</span>
           {!installed && entry.sources.length > 1 && <SourceDots sources={entry.sources.map((s) => s.source)} />}
+          <CategoryBadge category={entry.categories[0]} className="hidden shrink-0 sm:inline-flex" />
         </div>
         <p className="truncate text-[13px] text-muted">{entry.description || entry.sources[0]?.packageId}</p>
       </div>

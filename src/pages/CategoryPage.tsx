@@ -11,13 +11,20 @@ import { getSource } from "@/services/managers";
 import { useSourceScope } from "@/store/sourceLock";
 
 /** Seznam aplikací v jedné kategorii s filtrem podle správce balíčků. */
+/** Poslední filtr správců v kategoriích (do restartu aplikace). */
+let lastSourceFilter: SourceFilterValue = "all";
+
 export function CategoryPage() {
   const { t } = useTranslation();
   const { categoryId = "" } = useParams();
   const category = getCategory(categoryId);
   const { data, isLoading } = useCatalog();
-  // Filtr se záměrně zachovává při přechodu mezi kategoriemi.
-  const [pickedFilter, setSourceFilter] = useState<SourceFilterValue>("all");
+  // Filtr se záměrně zachovává při přechodu mezi kategoriemi i po návratu z detailu (paměť relace)
+  const [pickedFilter, setPickedFilter] = useState<SourceFilterValue>(() => lastSourceFilter);
+  const setSourceFilter = (next: SourceFilterValue) => {
+    lastSourceFilter = next;
+    setPickedFilter(next);
+  };
   // Zamčený zdroj (levý panel) má přednost – filtr stránky se pak neukazuje
   const { lock } = useSourceScope();
   const sourceFilter = lock ? "all" : pickedFilter;

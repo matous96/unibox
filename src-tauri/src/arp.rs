@@ -353,6 +353,18 @@ impl ArpEntry {
         format!(r"ARP\{scope}\{arch}\{}", self.key)
     }
 
+    /// Hra z EA app (dříve Origin): EA do složky každé hry ukládá `__Installer\installerdata.xml`
+    /// – platí, ať je knihovna her kdekoli (D:\Games\EA app, C:\Program Files\EA Games…).
+    pub fn is_ea_game(&self) -> bool {
+        let location = expand(self.install_location.trim().trim_matches('"'));
+        !location.is_empty() && Path::new(&location).join("__Installer").join("installerdata.xml").is_file()
+    }
+
+    /// Existující soubor ikony programu z DisplayIcon (.ico nebo spustitelný soubor).
+    pub fn icon_file(&self) -> Option<PathBuf> {
+        executable_path(&self.display_icon).filter(|path| path.is_file())
+    }
+
     /// Složky, které záznamu patří (instalace, ikona, odinstalátor) – bez společných složek a Windows.
     pub fn folders(&self) -> Vec<PathBuf> {
         referenced_paths(self)
@@ -378,6 +390,11 @@ impl Registry {
     /// Všechny záznamy (i skryté a pozůstatky).
     pub fn entries(&self) -> &[ArpEntry] {
         &self.entries
+    }
+
+    /// Záznam podle id, jaké vypisuje winget („ARP\Machine\X86\{…}“).
+    pub fn by_winget_id(&self, package_id: &str) -> Option<&ArpEntry> {
+        self.entries.iter().find(|entry| entry.winget_id().eq_ignore_ascii_case(package_id))
     }
 
     fn from_entries(entries: Vec<ArpEntry>) -> Self {

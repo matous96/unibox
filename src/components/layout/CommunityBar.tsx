@@ -2,8 +2,8 @@ import { Heart, Mail } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 import { AccountButton } from "@/components/auth/AccountButton";
-import { DiscordIcon, GitHubIcon } from "@/components/ui/BrandIcons";
-import { CONTACT_EMAIL, DISCORD_URL, FORUM_URL, GITHUB_URL } from "@/config";
+import { GitHubIcon } from "@/components/ui/BrandIcons";
+import { CONTACT_EMAIL, FORUM_URL, GITHUB_URL } from "@/config";
 import { cn } from "@/lib/utils";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { NotificationCenter } from "./NotificationCenter";
@@ -52,9 +52,6 @@ export function CommunityBar() {
 
       <a href={GITHUB_URL} target="_blank" rel="noreferrer" title="GitHub" aria-label="GitHub" className={iconLink}>
         <GitHubIcon className="size-[18px]" />
-      </a>
-      <a href={DISCORD_URL} target="_blank" rel="noreferrer" title={t("community.discord")} aria-label="Discord" className={iconLink}>
-        <DiscordIcon className="size-[18px]" />
       </a>
       <a
         href={`mailto:${CONTACT_EMAIL}`}

@@ -127,7 +127,8 @@ struct PsInstalled {
 
 /// Nainstalovaný balíček; `winget_source` je „winget“, „msstore“, nebo None
 /// u programů nainstalovaných mimo winget (původ určí frontend).
-/// `disk_location` má program nalezený jen podle složky na disku (id „DISK\<složka>“).
+/// `disk_location` má program nalezený jen podle složky na disku (id „DISK\<složka>“),
+/// `ea_game` hra z EA app (frontend ji ukáže jako hru se zdrojem EA app).
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Installed {
@@ -138,6 +139,8 @@ pub struct Installed {
     winget_source: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     disk_location: Option<String>,
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    ea_game: bool,
 }
 
 impl Installed {
@@ -153,6 +156,7 @@ impl Installed {
             package_id: p.id,
             name: p.name,
             disk_location: None,
+            ea_game: false,
         }
     }
 
@@ -165,6 +169,7 @@ impl Installed {
             available_version: None,
             winget_source: None,
             disk_location: None,
+            ea_game: entry.is_ea_game(),
         }
     }
 
@@ -177,6 +182,7 @@ impl Installed {
             available_version: None,
             winget_source: None,
             disk_location: Some(location),
+            ea_game: false,
         }
     }
 }
@@ -214,6 +220,15 @@ fn verified(p: &PsInstalled, registry: &arp::Registry) -> bool {
     entries.is_empty() || entries.iter().any(|entry| !arp::is_leftover(entry))
 }
 
+/// Hra z EA app? Jen programy mimo winget (id „ARP\…“), podle jejich záznamu v registru.
+fn is_ea_game(p: &PsInstalled, registry: &arp::Registry) -> bool {
+    if !p.source.is_empty() {
+        return false;
+    }
+    let version = if p.version.eq_ignore_ascii_case("unknown") { "" } else { &p.version };
+    registry.matching(&p.id, &p.name, version).iter().any(|entry| entry.is_ea_game())
+}
+
 /// Nainstalované programy ve třech úrovních:
 ///  1. winget (Get-WinGetPackage) – balíčky wingetu a Storu i programy z registru,
 ///     každý ověřený v registru a na disku,
@@ -227,7 +242,14 @@ pub async fn winget_installed() -> Result<Vec<Installed>, String> {
     background(|| {
         let registry = arp::Registry::load();
         let mut items: Vec<Installed> = match winget_list() {
-            Ok(items) => items.into_iter().filter(|p| verified(p, &registry)).map(Installed::from_winget).collect(),
+            Ok(items) => items
+                .into_iter()
+                .filter(|p| verified(p, &registry))
+                .map(|p| {
+                    let ea_game = is_ea_game(&p, &registry);
+                    Installed { ea_game, ..Installed::from_winget(p) }
+                })
+                .collect(),
             Err(error) => {
                 eprintln!("Výpis wingetu selhal, nainstalované podle registru: {error}");
                 registry.installed().into_iter().map(Installed::from_arp).collect()

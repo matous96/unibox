@@ -14,7 +14,7 @@ export interface InstalledItem {
 }
 
 /** Původ, u kterého aplikaci Unibox nespravuje (hry ze Steamu, programy mimo správce). */
-export const isUnmanagedOrigin = (origin: InstallOrigin) => origin === "steam" || origin === "local";
+export const isUnmanagedOrigin = (origin: InstallOrigin) => origin === "steam" || origin === "ea" || origin === "local";
 
 export function useInstalledItems() {
   const query = useInstalled();
