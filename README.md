@@ -111,7 +111,7 @@ retries it with administrator rights by itself.
 the **EXE** installer installs for the current user without administrator rights, the
 **MSI** suits company deployments. Requirements: Windows 10 or 11 (64-bit) and WebView2,
 which comes preinstalled with Windows. HubGet then keeps itself up to date. More on the
-website: [matous96.github.io/unibox](https://matous96.github.io/unibox/en/index.html).
+website: [hubget.eu](https://hubget.eu/en/index.html).
 
 > [!NOTE]
 > The installer isn't digitally signed yet (signing through the SignPath Foundation is

@@ -28,6 +28,52 @@ export interface Release {
 
 export const CHANGELOG: Release[] = [
   {
+    version: "0.1.19",
+    date: "2026-10-30",
+    highlights: [
+      {
+        cs: "Unibox se teď jmenuje HubGet a web najdete na hubget.eu. Aktualizace převede instalaci sama – nastavení, oblíbené, sady, přihlášení i historie zůstanou, stejně jako zástupci a připnutí na hlavním panelu.",
+        en: "Unibox is now called HubGet, and its website lives at hubget.eu. The update moves your installation over by itself – settings, favorites, collections, sign-in and history stay, as do your shortcuts and taskbar pin.",
+      },
+      {
+        cs: "Klidné automatické aktualizace: běžící aplikace počkají, až je zavřete, nepovedená aktualizace se zkusí příště a na pozadí nikdy nevyskočí dialog UAC. Co potřebuje práva správce, čeká v Dostupných aktualizacích – potvrdíte to všechno jedním dialogem Windows.",
+        en: "Calm automatic updates: running apps wait until you close them, a failed update is retried next time, and no UAC dialog ever pops up in the background. Anything that needs administrator rights waits in Updates available – confirm it all with a single Windows dialog.",
+      },
+      {
+        cs: "Filtr platformy x64 / ARM64 / x86 v hledání, kategoriích a Nejstahovanějších – verze pro jiné procesory výsledky nezahltí.",
+        en: "A platform filter (x64 / ARM64 / x86) in search, categories and Top charts – versions for other processors no longer flood the results.",
+      },
+      {
+        cs: "Procenta u instalace a aktualizace a oranžová tečka na ikoně u hodin, když jsou k dispozici aktualizace (vypnete v Nastavení → Obecné).",
+        en: "Percentages while installing and updating, and an orange dot on the icon by the clock when updates are available (turn it off in Settings → General).",
+      },
+      {
+        cs: "Méně chyb při aktualizacích: aplikace a moduly PowerShellu pro všechny uživatele se aktualizují rovnou jako správce, aktualizace MSI pro všechny uživatele projdou a Scoop si před kontrolou obnoví buckety.",
+        en: "Fewer update errors: apps and PowerShell modules installed for all users update as administrator right away, MSI updates for all users go through, and Scoop refreshes its buckets before checking.",
+      },
+      {
+        cs: "Nová volba v Nastavení → Obecné: běžící aplikaci před aktualizací nebo odinstalací ukončit natvrdo bez dotazu.",
+        en: "A new option in Settings → General: force-close a running app before updating or uninstalling it, without asking.",
+      },
+    ],
+    featured: [
+      {
+        title: { cs: "Nový název: HubGet", en: "A new name: HubGet" },
+        text: {
+          cs: "Unibox je teď HubGet na hubget.eu. Aktualizace převede instalaci sama – nastavení i historie zůstanou.",
+          en: "Unibox is now HubGet at hubget.eu. The update moves your installation over by itself – settings and history stay.",
+        },
+      },
+      {
+        title: { cs: "Klidné aktualizace", en: "Calm updates" },
+        text: {
+          cs: "Běžící aplikace počkají a na pozadí nevyskočí dialog UAC – co potřebuje správce, potvrdíte jedním dialogem.",
+          en: "Running apps wait and no UAC dialog pops up in the background – confirm admin updates with one dialog.",
+        },
+      },
+    ],
+  },
+  {
     version: "0.1.18",
     date: "2026-10-29",
     highlights: [
@@ -52,8 +98,8 @@ export const CHANGELOG: Release[] = [
         en: "Back returns you to where you were: the scroll position and filters on Installed, Top charts and categories stay put.",
       },
       {
-        cs: "Nové logo s tenkým nápisem „hubget“ v krabici a v Nastavení → Obecné nenápadná možnost podpořit vývoj.",
-        en: "A new logo with a thin “hubget” lettering on the box, and an unobtrusive way to support development in Settings → General.",
+        cs: "Nové logo s tenkým nápisem „unibox“ v krabici a v Nastavení → Obecné nenápadná možnost podpořit vývoj.",
+        en: "A new logo with a thin “unibox” lettering on the box, and an unobtrusive way to support development in Settings → General.",
       },
     ],
     featured: [

@@ -16,9 +16,10 @@ import { sortBySourceOrder } from "@/services/managers/sources";
 
 const CACHE_NAME = "unibox-catalog";
 const CACHE_URL = "/__unibox/catalog.json";
-// Ve vývoji bez nastavení žádný – načte se místní z pipeline
+// Ve vývoji bez nastavení žádný – načte se místní z pipeline. Web a katalog jsou na GitHub Pages
+// s doménou hubget.eu; starší verze stahují z matous96.github.io/unibox, které na ni přesměruje.
 const REMOTE_URL: string | undefined =
-  import.meta.env.VITE_CATALOG_URL || (import.meta.env.DEV ? undefined : "https://matous96.github.io/unibox/catalog.json");
+  import.meta.env.VITE_CATALOG_URL || (import.meta.env.DEV ? undefined : "https://hubget.eu/catalog.json");
 /** Katalog z public/ – ve vývoji „místní“, v sestavené aplikaci „přibalený“. */
 const CATALOG_FILE = "/catalog.json";
 

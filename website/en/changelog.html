@@ -76,8 +76,9 @@
         <div class="page-head__inner reveal">
           <p class="eyebrow">What’s new</p>
           <h1>What’s new in&nbsp;HubGet</h1>
-          <p class="lead">Every change since the first public version 0.1.0, newest first. Fifteen updates shipped in the week after its release.</p>
+          <p class="lead">Every change since the first public version 0.1.0, newest first. Nineteen updates have shipped since its release on October&nbsp;21.</p>
           <nav class="versions-nav" aria-label="Jump to version">
+            <a class="chip" href="#v0-1-19">0.1.19</a>
             <a class="chip" href="#v0-1-18">0.1.18</a>
             <a class="chip" href="#v0-1-17">0.1.17</a>
             <a class="chip" href="#v0-1-16">0.1.16</a>
@@ -100,8 +101,8 @@
           </nav>
         </div>
         <dl class="stats reveal">
-          <div><dt>Current version</dt><dd>0.1.18</dd></div>
-          <div><dt>Updates since 0.1.0</dt><dd>18</dd></div>
+          <div><dt>Current version</dt><dd>0.1.19</dd></div>
+          <div><dt>Updates since 0.1.0</dt><dd>19</dd></div>
           <div><dt>Apps in the catalog</dt><dd>25,100+</dd></div>
           <div><dt>Package managers for real</dt><dd>WinGet · Chocolatey · Scoop + 8 for developers</dd></div>
         </dl>
@@ -201,6 +202,11 @@
             <h3>Seven languages</h3>
             <p>German, Spanish, French, Portuguese and Chinese alongside Czech and English. The language follows your Windows.</p>
           </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Version 0.1.19</span>
+            <h3>A new name, HubGet, and calm updates</h3>
+            <p>Unibox is now HubGet at hubget.eu. Automatic updates never get in your way – confirm anything that needs administrator rights with one dialog.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -215,6 +221,50 @@
         </div>
 
         <div class="timeline">
+          <!-- 0.1.19 -->
+          <article class="release" id="v0-1-19">
+            <div class="release__meta">
+              <span class="release__ver">0.1.19</span>
+              <time class="release__date" datetime="2026-10-30">Oct 30, 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>HubGet and calm updates</h2>
+                <span class="badge badge--live">Latest</span>
+              </div>
+              <div class="changes changes--new">
+                <h3>New</h3>
+                <ul>
+                  <li><strong>A new name: HubGet</strong> – Unibox is now called HubGet, and its website lives at hubget.eu. The update moves your installation over by itself: settings, favorites, collections, sign-in and history stay, as do your shortcuts and taskbar pin.</li>
+                  <li><strong>Waiting for your confirmation</strong> – automatic updates don’t run updates that need administrator rights in the background, so no unexpected UAC dialog pops up. You’ll find them in Updates available and confirm them all with a single Windows dialog.</li>
+                  <li><strong>Platform filter</strong> – pick x64, ARM64 or x86 in search, categories and Top charts. Versions for other processors (such as Discord for ARM64 and x86) no longer flood the results.</li>
+                  <li><strong>Install percentages</strong> – installs and updates show an estimated percentage based on how long each phase took before.</li>
+                  <li><strong>A dot by the clock</strong> – an orange dot on the notification area icon when updates are available. Turn it off in Settings → General.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Improved</h3>
+                <ul>
+                  <li><strong>Calm automatic updates</strong> – running apps wait until you close them. A failed update is retried next time, and after the third failure HubGet leaves it to you – no error pop-ups.</li>
+                  <li>Apps and PowerShell modules installed for all users update as administrator right away, without a failed first attempt.</li>
+                  <li>Scoop refreshes its buckets before checking for updates, so it sees new versions.</li>
+                  <li>A new option in Settings → General: force-close a running app before updating or uninstalling it, without asking.</li>
+                  <li>The welcome tour has a new step about notifications and updates.</li>
+                  <li>A lettered icon on the taskbar and by the clock.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Fixed</h3>
+                <ul>
+                  <li>Updating MSI apps installed for all users failed with error 0x8A150049.</li>
+                  <li>Updating a PowerShell module in Program Files (such as Microsoft.WinGet.Client) failed with “Administrator rights are required”.</li>
+                  <li>Some Steam games had no icon.</li>
+                  <li>The “All” count on Installed didn’t match the number of apps shown.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
           <!-- 0.1.18 -->
           <article class="release" id="v0-1-18">
             <div class="release__meta">
@@ -224,7 +274,6 @@
             <div class="card release__body">
               <div class="release__head">
                 <h2>Seven languages and terminal commands</h2>
-                <span class="badge badge--live">Latest</span>
               </div>
               <div class="changes changes--new">
                 <h3>New</h3>
@@ -240,7 +289,7 @@
                 <ul>
                   <li><strong>Back to where you were</strong> – coming back from an app’s page keeps the scroll position and filters on Installed, Top charts and categories.</li>
                   <li>Steam games show their real icon (up to 256&nbsp;px) and a banner like other apps.</li>
-                  <li>A new logo with a thin “hubget” lettering on the box.</li>
+                  <li>A new logo with a thin “unibox” lettering on the box.</li>
                   <li>Settings → General has an unobtrusive way to support HubGet’s development.</li>
                 </ul>
               </div>

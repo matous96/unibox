@@ -76,8 +76,9 @@
         <div class="page-head__inner reveal">
           <p class="eyebrow">Novinky</p>
           <h1>Co je nového v&nbsp;HubGetu</h1>
-          <p class="lead">Všechny změny od první veřejné verze 0.1.0, nejnovější nahoře. Za týden od jejího vydání vyšlo patnáct aktualizací.</p>
+          <p class="lead">Všechny změny od první veřejné verze 0.1.0, nejnovější nahoře. Od jejího vydání 21.&nbsp;10. vyšlo devatenáct aktualizací.</p>
           <nav class="versions-nav" aria-label="Přejít na verzi">
+            <a class="chip" href="#v0-1-19">0.1.19</a>
             <a class="chip" href="#v0-1-18">0.1.18</a>
             <a class="chip" href="#v0-1-17">0.1.17</a>
             <a class="chip" href="#v0-1-16">0.1.16</a>
@@ -100,8 +101,8 @@
           </nav>
         </div>
         <dl class="stats reveal">
-          <div><dt>Aktuální verze</dt><dd>0.1.18</dd></div>
-          <div><dt>Aktualizací od verze 0.1.0</dt><dd>18</dd></div>
+          <div><dt>Aktuální verze</dt><dd>0.1.19</dd></div>
+          <div><dt>Aktualizací od verze 0.1.0</dt><dd>19</dd></div>
           <div><dt>Aplikací v katalogu</dt><dd>25&nbsp;100+</dd></div>
           <div><dt>Správci naostro</dt><dd>WinGet · Chocolatey · Scoop + 8 pro vývojáře</dd></div>
         </dl>
@@ -201,6 +202,11 @@
             <h3>Sedm jazyků</h3>
             <p>Němčina, španělština, francouzština, portugalština a&nbsp;čínština k&nbsp;češtině a&nbsp;angličtině. Jazyk se nastaví podle Windows.</p>
           </article>
+          <article class="card highlight reveal">
+            <span class="highlight__ver">Verze 0.1.19</span>
+            <h3>Nový název HubGet a&nbsp;klidné aktualizace</h3>
+            <p>Unibox je teď HubGet na hubget.eu. Automatické aktualizace nikoho neruší – co potřebuje práva správce, potvrdíte jedním dialogem.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -215,6 +221,50 @@
         </div>
 
         <div class="timeline">
+          <!-- 0.1.19 -->
+          <article class="release" id="v0-1-19">
+            <div class="release__meta">
+              <span class="release__ver">0.1.19</span>
+              <time class="release__date" datetime="2026-10-30">30. 10. 2026</time>
+            </div>
+            <div class="card release__body">
+              <div class="release__head">
+                <h2>HubGet a&nbsp;klidné aktualizace</h2>
+                <span class="badge badge--live">Nejnovější</span>
+              </div>
+              <div class="changes changes--new">
+                <h3>Nové</h3>
+                <ul>
+                  <li><strong>Nový název HubGet</strong> – Unibox se teď jmenuje HubGet a&nbsp;web najdete na hubget.eu. Aktualizace převede instalaci sama: nastavení, oblíbené, sady, přihlášení i&nbsp;historie zůstanou, stejně jako zástupci a&nbsp;připnutí na hlavním panelu.</li>
+                  <li><strong>Čeká na potvrzení</strong> – aktualizace, které potřebují práva správce, automatika na pozadí nespouští, takže nevyskočí nečekaný dialog UAC. Najdete je v&nbsp;Dostupných aktualizacích a&nbsp;potvrdíte je všechny jedním dialogem Windows.</li>
+                  <li><strong>Filtr platformy</strong> – v&nbsp;hledání, kategoriích a&nbsp;Nejstahovanějších vyberete x64, ARM64 nebo x86. Verze pro jiné procesory (třeba Discord pro ARM64 a&nbsp;x86) pak výsledky nezahltí.</li>
+                  <li><strong>Procenta u&nbsp;instalace</strong> – průběh instalace i&nbsp;aktualizace ukazuje odhad v&nbsp;procentech podle toho, jak dlouho jednotlivé fáze trvaly dřív.</li>
+                  <li><strong>Tečka u&nbsp;hodin</strong> – oranžová tečka na ikoně v&nbsp;oznamovací oblasti, když jsou k&nbsp;dispozici aktualizace. Vypnete ji v&nbsp;Nastavení → Obecné.</li>
+                </ul>
+              </div>
+              <div class="changes changes--better">
+                <h3>Vylepšeno</h3>
+                <ul>
+                  <li><strong>Klidné automatické aktualizace</strong> – běžící aplikace počkají, až je zavřete. Nepovedená aktualizace se zkusí příště a&nbsp;po třetím neúspěchu ji HubGet nechá na vás – bez vyskakovacích chyb.</li>
+                  <li>Aplikace a&nbsp;moduly PowerShellu nainstalované pro všechny uživatele se aktualizují rovnou jako správce, bez neúspěšného prvního pokusu.</li>
+                  <li>Scoop si před kontrolou aktualizací obnoví buckety, takže vidí nové verze.</li>
+                  <li>Nová volba v&nbsp;Nastavení → Obecné: běžící aplikaci před aktualizací nebo odinstalací ukončit natvrdo bez dotazu.</li>
+                  <li>Úvodní průvodce má nový krok o&nbsp;oznámeních a&nbsp;aktualizacích.</li>
+                  <li>Ikona na hlavním panelu a&nbsp;u&nbsp;hodin s&nbsp;nápisem.</li>
+                </ul>
+              </div>
+              <div class="changes changes--fix">
+                <h3>Opraveno</h3>
+                <ul>
+                  <li>Aktualizace aplikací MSI nainstalovaných pro všechny uživatele končily chybou 0x8A150049.</li>
+                  <li>Aktualizace modulu PowerShellu v&nbsp;Program Files (např. Microsoft.WinGet.Client) končila chybou „Administrator rights are required“.</li>
+                  <li>Některé hry ze Steamu neměly ikonu.</li>
+                  <li>Počet „Vše“ v&nbsp;Nainstalovaných nesouhlasil s&nbsp;počtem zobrazených aplikací.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
           <!-- 0.1.18 -->
           <article class="release" id="v0-1-18">
             <div class="release__meta">
@@ -224,7 +274,6 @@
             <div class="card release__body">
               <div class="release__head">
                 <h2>Sedm jazyků a&nbsp;příkazy pro terminál</h2>
-                <span class="badge badge--live">Nejnovější</span>
               </div>
               <div class="changes changes--new">
                 <h3>Nové</h3>
@@ -240,7 +289,7 @@
                 <ul>
                   <li><strong>Zpět tam, kde jste byli</strong> – po návratu z&nbsp;detailu aplikace zůstane posun stránky i&nbsp;filtry na Nainstalovaných, v&nbsp;Nejstahovanějších a&nbsp;v&nbsp;kategoriích.</li>
                   <li>Hry ze Steamu mají svou skutečnou ikonu (až 256&nbsp;px) a&nbsp;banner jako ostatní aplikace.</li>
-                  <li>Nové logo s&nbsp;tenkým nápisem „hubget“ v&nbsp;krabici.</li>
+                  <li>Nové logo s&nbsp;tenkým nápisem „unibox“ v&nbsp;krabici.</li>
                   <li>V&nbsp;Nastavení → Obecné je nenápadná možnost podpořit vývoj HubGetu.</li>
                 </ul>
               </div>
