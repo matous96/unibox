@@ -1,6 +1,6 @@
 // Kolikrát se stáhly soubory vydání na GitHubu (veřejné počítadlo download_count):
 // instalátor EXE a MSI a latest.json, který si stáhne každá kontrola aktualizací
-// nainstalovaného Uniboxu (hrubý odhad, kolik kopií běží – není to počet lidí).
+// nainstalovaného HubGetu (hrubý odhad, kolik kopií běží – není to počet lidí).
 // GitHub ukazuje jen součet za celou dobu, bez toho, kdo a kdy stahoval; počítají se
 // i vlastní stažení při testování. Koncepty vydání bez přihlášení vidět nejsou.
 //
@@ -42,4 +42,4 @@ for (const row of rows) {
 }
 const total = (key) => rows.reduce((sum, row) => sum + row[key], 0);
 console.log(`${"Celkem".padEnd(10)} ${"".padEnd(12)} ${pad(total("exe"), 6)} ${pad(total("msi"), 6)} ${pad(total("checks"), 12)}`);
-console.log("\nlatest.json = kontroly aktualizací z nainstalovaných Uniboxů (hrubý odhad, kolik kopií běží).");
+console.log("\nlatest.json = kontroly aktualizací z nainstalovaných HubGetů (hrubý odhad, kolik kopií běží).");

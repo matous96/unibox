@@ -9,7 +9,7 @@ import type { Arch } from "@/types";
 /** Běží aplikace uvnitř Tauri (desktopová aplikace), ne v obyčejném prohlížeči? */
 export const isTauri = () => typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
 
-/** Testovací verze: vývojový režim v desktopové aplikaci (tauri dev, „Unibox (test)“). */
+/** Testovací verze: vývojový režim v desktopové aplikaci (tauri dev, „HubGet (test)“). */
 export const isTestBuild = () => import.meta.env.DEV && isTauri();
 
 /** Údaje o počítači z backendu (příkaz system_info). */

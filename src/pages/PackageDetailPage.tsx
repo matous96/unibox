@@ -335,7 +335,7 @@ function PackageDetailView({ entry: fullEntry, inCatalog }: { entry: CatalogEntr
                   {t("package.installedVia")}
                   <OriginBadge origin={installed.origin} />
                 </span>
-                {/* Hry ze Steamu aktualizuje Steam sám; programy mimo správce Unibox jen odinstaluje */}
+                {/* Hry ze Steamu aktualizuje Steam sám; programy mimo správce HubGet jen odinstaluje */}
                 {installed.origin === "steam" && (
                   <p className="text-xs text-muted">
                     {t("package.managedBySteam")}{" "}
@@ -463,7 +463,7 @@ function PackageDetailView({ entry: fullEntry, inCatalog }: { entry: CatalogEntr
         <PackageCommand sources={entry.sources} active={shownSource.source} installed={installed} name={entry.name} />
       )}
 
-      {/* ── Screenshoty (od uživatelů Uniboxu, z databáze UniGetUI a popisů balíčků v Chocolatey) ── */}
+      {/* ── Screenshoty (od uživatelů HubGetu, z databáze UniGetUI a popisů balíčků v Chocolatey) ── */}
       <AppScreenshots entry={entry} />
 
       {/* ── Co je nového v aktuální verzi ────────────────────────── */}

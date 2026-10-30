@@ -44,7 +44,7 @@ export const useHistory = create<HistoryState>()(
     }),
     {
       name: "unibox-history",
-      // Záznamy se zdrojem, který Unibox už nepodporuje, zahodit
+      // Záznamy se zdrojem, který HubGet už nepodporuje, zahodit
       merge: (persisted, current) => {
         const saved = persisted as Partial<HistoryState> | undefined;
         return { ...current, ...saved, items: (saved?.items ?? []).filter((i) => isSourceId(i.source)) };

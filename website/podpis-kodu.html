@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Zásady podepisování kódu – Unibox</title>
-  <meta name="description" content="Jak a kdo podepisuje Unibox: bezplatný podpis kódu SignPath.io s certifikátem SignPath Foundation, sestavení z veřejného repozitáře a schvalování každého vydání.">
+  <title>Zásady podepisování kódu – HubGet</title>
+  <meta name="description" content="Jak a kdo podepisuje HubGet: bezplatný podpis kódu SignPath.io s certifikátem SignPath Foundation, sestavení z veřejného repozitáře a schvalování každého vydání.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0d0f14" media="(prefers-color-scheme: dark)">
@@ -24,9 +24,9 @@
 
   <header class="nav" id="nav">
     <div class="wrap nav__inner">
-      <a class="brand" href="index.html" aria-label="Unibox – úvod">
+      <a class="brand" href="index.html" aria-label="HubGet – úvod">
         <img src="assets/unibox-logo.svg" alt="" width="32" height="32">
-        <span>Unibox</span>
+        <span>HubGet</span>
       </a>
       <nav class="nav__links" aria-label="Hlavní navigace">
         <a href="funkce.html">Funkce</a>
@@ -48,8 +48,8 @@
       <div class="wrap">
         <div class="page-head__inner">
           <p class="eyebrow">Zásady podepisování kódu</p>
-          <h1>Podepsaný Unibox</h1>
-          <p class="lead">Digitální podpis potvrzuje, že instalátor pochází z&nbsp;projektu Unibox a nikdo ho cestou nezměnil.</p>
+          <h1>Podepsaný HubGet</h1>
+          <p class="lead">Digitální podpis potvrzuje, že instalátor pochází z&nbsp;projektu HubGet a nikdo ho cestou nezměnil.</p>
         </div>
       </div>
     </section>
@@ -61,9 +61,9 @@
       <h2>Co se podepisuje</h2>
       <ul>
         <li>Program <strong>unibox.exe</strong> a instalátory <strong>EXE (NSIS)</strong> a <strong>MSI</strong> z&nbsp;oficiálních vydání na <a data-link="releases" href="#">GitHubu</a>.</li>
-        <li>Každý podepsaný soubor vzniká automatickým sestavením (GitHub Actions) ze zdrojového kódu ve veřejném <a data-link="github" href="#">repozitáři Uniboxu</a> – nikdy z&nbsp;počítače vývojáře.</li>
+        <li>Každý podepsaný soubor vzniká automatickým sestavením (GitHub Actions) ze zdrojového kódu ve veřejném <a data-link="github" href="#">repozitáři HubGetu</a> – nikdy z&nbsp;počítače vývojáře.</li>
         <li>Podepisujeme jen soubory sestavené z&nbsp;vlastního kódu projektu. Nástroje a knihovny třetích stran podepisují jejich autoři.</li>
-        <li>Vydavatelem v&nbsp;podpisu je <strong>SignPath Foundation</strong>, název produktu je <strong>Unibox</strong>.</li>
+        <li>Vydavatelem v&nbsp;podpisu je <strong>SignPath Foundation</strong>, název produktu je <strong>HubGet</strong>.</li>
       </ul>
 
       <h2>Kdo za podpisem stojí</h2>
@@ -79,12 +79,12 @@
       <p>Všichni členové týmu používají dvoufázové ověření na GitHubu i v SignPath.</p>
 
       <h2>Ochrana soukromí</h2>
-      <p>Unibox neodesílá telemetrii ani údaje o vašem počítači. Kdy a proč komunikuje se servery (katalog, ikony, správci balíčků, volitelné přihlášení), popisují <a href="soukromi.html">zásady ochrany soukromí</a>.</p>
+      <p>HubGet neodesílá telemetrii ani údaje o vašem počítači. Kdy a proč komunikuje se servery (katalog, ikony, správci balíčků, volitelné přihlášení), popisují <a href="soukromi.html">zásady ochrany soukromí</a>.</p>
 
       <h2>Jak podpis ověřit</h2>
       <ul>
         <li>Pravým tlačítkem na instalátor → <strong>Vlastnosti → Digitální podpisy</strong>: podepsal „SignPath Foundation“.</li>
-        <li>V PowerShellu: <code>Get-AuthenticodeSignature .\Unibox_*_x64-setup.exe</code> – stav <code>Valid</code>.</li>
+        <li>V PowerShellu: <code>Get-AuthenticodeSignature .\HubGet_*_x64-setup.exe</code> – stav <code>Valid</code>.</li>
         <li>Instalátor stažený odjinud než z&nbsp;oficiálních vydání, bez podpisu nebo s&nbsp;jiným vydavatelem nespouštějte.</li>
       </ul>
 
@@ -96,7 +96,7 @@
   <footer class="footer">
     <div class="wrap footer__inner">
       <div class="footer__brand">
-        <a class="brand" href="index.html"><img src="assets/unibox-logo.svg" alt="" width="28" height="28"><span>Unibox</span></a>
+        <a class="brand" href="index.html"><img src="assets/unibox-logo.svg" alt="" width="28" height="28"><span>HubGet</span></a>
         <p>Obchod s aplikacemi pro Windows. Open source, licence MIT.</p>
       </div>
       <nav class="footer__links" aria-label="Odkazy">
@@ -108,7 +108,7 @@
       </nav>
     </div>
     <div class="wrap footer__note">
-      <p>Unibox není spojen se společností Microsoft ani s projekty WinGet, Chocolatey a Scoop. Windows je ochranná známka společnosti Microsoft.</p>
+      <p>HubGet není spojen se společností Microsoft ani s projekty WinGet, Chocolatey a Scoop. Windows je ochranná známka společnosti Microsoft.</p>
     </div>
   </footer>
 

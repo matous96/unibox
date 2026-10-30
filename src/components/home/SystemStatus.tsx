@@ -12,7 +12,7 @@ import { CleanupDialog } from "./CleanupDialog";
 
 /**
  * Rychlý přehled stavu počítače nahoře na domovské stránce: dostupné
- * aktualizace s „Aktualizovat vše“, kolik aplikací Unibox spravuje (podle
+ * aktualizace s „Aktualizovat vše“, kolik aplikací HubGet spravuje (podle
  * původu instalace) a rychlé akce – export / import profilu a vyčištění systému.
  */
 export function SystemStatus() {
@@ -94,7 +94,7 @@ function UpdatesCard() {
   );
 }
 
-/** Kolik aplikací na PC spravuje Unibox – rozpis podle původu instalace. */
+/** Kolik aplikací na PC spravuje HubGet – rozpis podle původu instalace. */
 function ManagementCard() {
   const { t } = useTranslation();
   const originLabel = useOriginLabel();

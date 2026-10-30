@@ -1,5 +1,5 @@
 /**
- * Datová pipeline Uniboxu – sestaví catalog.json ze skutečných zdrojů:
+ * Datová pipeline HubGetu – sestaví catalog.json ze skutečných zdrojů:
  * winget (CDN Microsoftu), Chocolatey Community Repository a buckety Scoopu.
  *
  * Spuštění:  pnpm pipeline [--details N|all] [--sizes N] [--limit N] [--local]

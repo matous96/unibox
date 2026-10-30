@@ -1,6 +1,6 @@
 /**
  * Úvodní průvodce pro nové uživatele (store/onboarding.ts): při prvním spuštění
- * po instalaci se sám ukáže a v sedmi krocích představí Unibox – univerzální
+ * po instalaci se sám ukáže a v sedmi krocích představí HubGet – univerzální
  * katalog, hodnocení a recenze, filtrování podle zdroje, oznámení a aktualizace,
  * pokročilou odinstalaci a správu po spuštění se zálohami. Každý krok má vlevo ukázku (zjednodušený výřez aplikace),
  * vpravo popis. Další / Předchozí (i šipkami), tečky pro skok na krok,
@@ -34,7 +34,7 @@ import { Switch } from "@/components/settings/SettingsUi";
 import { SourceIcon } from "@/components/package/SourceIcon";
 import { Button } from "@/components/ui/Button";
 import { Stars } from "@/components/ui/Stars";
-import { UniboxLogo } from "@/components/ui/Logo";
+import { HubGetLogo } from "@/components/ui/Logo";
 import { useOverlay } from "@/hooks/useOverlay";
 import { useInstallableStats } from "@/hooks/usePackages";
 import { isTauri } from "@/lib/tauri";
@@ -263,7 +263,7 @@ function WelcomeVisual() {
   return (
     <div className="flex flex-col items-center gap-6">
       <div className="rounded-[22px] shadow-2xl shadow-accent/40">
-        <UniboxLogo size={112} />
+        <HubGetLogo size={112} />
       </div>
       <div className="flex flex-wrap justify-center gap-2">
         {[ShieldCheck, Search, Check].map((Icon, i) => (
@@ -439,7 +439,7 @@ function NotificationsVisual() {
       <div className="flex items-center gap-3 self-end rounded-xl border border-line bg-surface px-3 py-2 shadow-sm">
         <span className="text-[11px] text-muted">{t("tray.updatesCount", { count: 3 })}</span>
         <span className="relative">
-          <UniboxLogo size={22} />
+          <HubGetLogo size={22} />
           <span className="absolute -top-0.5 -right-0.5 size-2.5 rounded-full bg-orange-500 ring-2 ring-surface" />
         </span>
         <span className="text-[11px] font-medium tabular-nums">10:24</span>

@@ -5,7 +5,7 @@
 # nahradí .sig a latest.json. Instalátor zůstává stejný (stejné bajty, stejný
 # podpis kódu), mění se jen podpis pro tauri-plugin-updater.
 #
-# Kdy: když nainstalované Unibox aktualizaci odmítnou kvůli podpisu – třeba
+# Kdy: když nainstalované HubGet aktualizaci odmítnou kvůli podpisu – třeba
 # vydání 0.1.15, podepsané bez verze, které aplikace s requireSignedVersion
 # nenainstalovala (MissingSignedVersion).
 #
@@ -65,10 +65,13 @@ jobs:
           }
           $dir = "src-tauri/target/release/bundle/nsis"
           New-Item -ItemType Directory -Force $dir | Out-Null
-          gh release download "v$version" --pattern "Unibox_${version}_x64-setup.exe" --dir $dir
+          # Instalátor se jmenuje podle názvu aplikace v době vydání (do 0.1.18 Unibox_…, pak HubGet_…)
+          gh release download "v$version" --pattern "*_${version}_x64-setup.exe" --dir $dir
           if ($LASTEXITCODE -ne 0) { throw "Vydání v$version nebo jeho instalátor nenalezen" }
+          $installer = Get-ChildItem $dir -Filter "*_${version}_x64-setup.exe" | Select-Object -First 1
+          if (-not $installer) { throw "Instalátor vydání v$version nenalezen" }
           "version=$version" >> $env:GITHUB_OUTPUT
-          "installer=$dir/Unibox_${version}_x64-setup.exe" >> $env:GITHUB_OUTPUT
+          "installer=$dir/$($installer.Name)" >> $env:GITHUB_OUTPUT
 
       - name: Podpis s verzí a latest.json
         shell: pwsh
@@ -78,7 +81,7 @@ jobs:
           pnpm tauri signer sign --app-version $version $installer
           if ($LASTEXITCODE -ne 0) { throw "Podpis aktualizace se nepovedl" }
           node scripts/check-updater-signature.mjs $installer $version
-          if ($LASTEXITCODE -ne 0) { throw "Podpis aktualizace by nainstalovaný Unibox odmítl" }
+          if ($LASTEXITCODE -ne 0) { throw "Podpis aktualizace by nainstalovaný HubGet odmítl" }
           node scripts/updater-manifest.mjs
 
       - name: Nahradit podpis a latest.json ve vydání

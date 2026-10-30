@@ -1,6 +1,6 @@
 <!--
-  Logo Unibox bez nápisu – pro malé velikosti (ikona 16–32 px, favicona a malé ikonky webu),
-  kde by tenký nápis „unibox“ byl jen šmouha. Jinak stejné jako assets/unibox-logo.svg.
+  Logo HubGet bez nápisu – pro malé velikosti (ikona 16–32 px, favicona a malé ikonky webu),
+  kde by tenký nápis „hubget“ byl jen šmouha. Jinak stejné jako assets/unibox-logo.svg.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 64 64">
   <defs>

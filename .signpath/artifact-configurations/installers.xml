@@ -10,10 +10,10 @@
     <parameter name="version" required="true" />
   </parameters>
   <zip-file>
-    <pe-file path="nsis/Unibox_${version}_x64-setup.exe" product-name="Unibox" product-version="${version}">
+    <pe-file path="nsis/HubGet_${version}_x64-setup.exe" product-name="HubGet" product-version="${version}">
       <authenticode-sign />
     </pe-file>
-    <msi-file path="msi/Unibox_${version}_x64_*.msi" max-matches="unbounded">
+    <msi-file path="msi/HubGet_${version}_x64_*.msi" max-matches="unbounded">
       <authenticode-sign />
     </msi-file>
   </zip-file>

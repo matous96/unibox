@@ -4,14 +4,14 @@ import { useTranslation } from "react-i18next";
 import pkgJson from "../../package.json";
 import { SourceIcon } from "@/components/package/SourceIcon";
 import { GitHubIcon } from "@/components/ui/BrandIcons";
-import { UniboxLogo } from "@/components/ui/Logo";
+import { HubGetLogo } from "@/components/ui/Logo";
 import { CONTACT_EMAIL, FORUM_URL, GITHUB_URL } from "@/config";
 import { useInstallableStats } from "@/hooks/usePackages";
 import { cn, formatAppCount } from "@/lib/utils";
 import { SOURCES } from "@/services/managers";
 import { useSettings } from "@/store/settings";
 
-/** Technologie, na kterých Unibox stojí (s odkazy). */
+/** Technologie, na kterých HubGet stojí (s odkazy). */
 const TECH = [
   { name: "Tauri", url: "https://tauri.app" },
   { name: "React", url: "https://react.dev" },
@@ -22,7 +22,7 @@ const TECH = [
   { name: "Simple Icons", url: "https://simpleicons.org" },
 ];
 
-/** Stránka O Uniboxu: co to je, zdroje, technologie, komunita a upozornění. */
+/** Stránka O HubGetu: co to je, zdroje, technologie, komunita a upozornění. */
 export function AboutPage() {
   const { t } = useTranslation();
   const language = useSettings((s) => s.language);
@@ -47,8 +47,8 @@ export function AboutPage() {
       <section className="relative mb-10 overflow-hidden rounded-3xl border border-line bg-surface px-10 py-12 text-center shadow-card">
         <div aria-hidden className="absolute -top-28 left-1/2 size-96 -translate-x-1/2 rounded-full bg-accent/15 blur-3xl" />
         <div className="relative flex flex-col items-center">
-          <UniboxLogo size={104} className="rounded-[25px] shadow-2xl shadow-accent/30" title="Unibox" />
-          <h1 className="mt-5 font-display text-5xl font-bold tracking-tight">Unibox</h1>
+          <HubGetLogo size={104} className="rounded-[25px] shadow-2xl shadow-accent/30" title="HubGet" />
+          <h1 className="mt-5 font-display text-5xl font-bold tracking-tight">HubGet</h1>
           <p className="mt-1 text-sm text-muted tabular-nums">{t("about.version", { version: pkgJson.version })}</p>
           <p className="mt-4 max-w-xl text-lg">{t("about.tagline")}</p>
           <p className="mt-3 max-w-2xl text-sm text-muted">

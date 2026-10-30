@@ -109,7 +109,7 @@ export function HomePage() {
 
   return (
     <>
-      {/* ── Dnes: vlevo datum a nadpis, uprostřed tři sliby Uniboxu, vpravo přepínač režimu ── */}
+      {/* ── Dnes: vlevo datum a nadpis, uprostřed tři sliby HubGetu, vpravo přepínač režimu ── */}
       {/* Sliby na střed volného místa mezi nadpisem a přepínačem (přepínač je mnohem širší než
           „Dnes“ – na středu celého řádku by vypadaly posunuté doprava). Na užších obrazovkách
           se přesunou na vlastní řádek pod nadpis. */}
@@ -148,7 +148,7 @@ export function HomePage() {
         )}
       </div>
 
-      {/* Stav počítače: aktualizace, co spravuje Unibox, export / import, vyčištění */}
+      {/* Stav počítače: aktualizace, co spravuje HubGet, export / import, vyčištění */}
       <SystemStatus />
 
       {/* Režim Vývojář: nástroje pro vývojáře hned pod přehledem */}

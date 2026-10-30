@@ -40,7 +40,7 @@ export interface BundleFile {
   name: string;
   createdAt: string;
   packages: BundleItem[];
-  /** Jen u profilu počítače – starší verze Uniboxu pole ignorují. */
+  /** Jen u profilu počítače – starší verze HubGetu pole ignorují. */
   config?: ProfileConfig;
 }
 
@@ -107,7 +107,7 @@ export const useBundle = create<BundleState>()(
     }),
     {
       name: "unibox-bundle",
-      // Položky se zdrojem, který Unibox už nepodporuje, zahodit
+      // Položky se zdrojem, který HubGet už nepodporuje, zahodit
       merge: (persisted, current) => {
         const saved = persisted as Partial<BundleState> | undefined;
         const items = (saved?.items ?? []).filter((i) => isSourceId(i.source));

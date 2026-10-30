@@ -18,7 +18,7 @@ interface ShareButtonProps {
 }
 
 /**
- * Sdílení aplikace: odkaz do Uniboxu, příkaz pro instalaci, systémové
+ * Sdílení aplikace: odkaz do HubGetu, příkaz pro instalaci, systémové
  * sdílení Windows a rychlé sdílení e-mailem či na sociální sítě.
  */
 export function ShareButton({ entry, pkg }: ShareButtonProps) {

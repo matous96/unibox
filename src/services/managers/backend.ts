@@ -16,7 +16,7 @@ import type { OperationHandle, OperationRequest } from "./types";
 type BackendEvent =
   | { type: "progress"; phase: OperationPhase; percent: number | null }
   | { type: "line"; text: string }
-  /** Hláška Uniboxu (předstažení selhalo, opakování jako správce…). */
+  /** Hláška HubGetu (předstažení selhalo, opakování jako správce…). */
   | { type: "notice"; key: string; detail: string | null };
 
 export interface BackendResult {

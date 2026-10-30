@@ -1,7 +1,7 @@
 /**
  * Předvolby oznámení (Nastavení → Oznámení, po vzoru UniGetUI). Řídí:
  *  - vyskakovací oznámení – ve Windows (centrum oznámení systému, i když je
- *    Unibox schovaný u hodin) a v okně aplikace (roh vpravo dole),
+ *    HubGet schovaný u hodin) a v okně aplikace (roh vpravo dole),
  *  - co se zapisuje do historie oznámení (zvoneček v horní liště).
  * Hlavní vypínač vypne všechna vyskakovací oznámení; historie ve zvonečku
  * se dál plní podle typů níže, ať o chybě nepřijdete.
@@ -11,7 +11,7 @@ import { persist } from "zustand/middleware";
 import type { SourceId } from "@/types";
 
 export interface NotificationPrefs {
-  /** Hlavní vypínač vyskakovacích oznámení Uniboxu. */
+  /** Hlavní vypínač vyskakovacích oznámení HubGetu. */
   enabled: boolean;
   /** Po dokončení dávky operací jedno souhrnné oznámení (místo jednoho za každou aplikaci). */
   batchSummary: boolean;

@@ -225,7 +225,7 @@ export function sourceCommand(
   const pinned = install && version && meta.supportsVersions ? version : undefined;
   // Jen podporované volby a jen u instalace
   const opt = (key: Exclude<keyof OptionSupport, "download" | "customArgs">) => (install && meta.options[key] ? options[key] : undefined);
-  // Parametry instalátoru: vlastní (uživatel) a z voleb Uniboxu (PATH, bez restartu…) dohromady
+  // Parametry instalátoru: vlastní (uživatel) a z voleb HubGetu (PATH, bez restartu…) dohromady
   const installerArgs = install && meta.options.customArgs ? combinedInstallerArgs(options) : undefined;
   const flags: string[] = [];
 

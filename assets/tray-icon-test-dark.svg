@@ -1,7 +1,7 @@
 <!--
-  Ikona testovací verze Uniboxu pro oznamovací oblast – tmavá varianta (světlý hlavní panel):
+  Ikona testovací verze HubGetu pro oznamovací oblast – tmavá varianta (světlý hlavní panel):
   stejná kresba jako tray-icon-dark.svg, jen krabice je plná a je v ní vyříznutý nápis „test“,
-  aby šla odlišit od nainstalovaného Uniboxu, který běží vedle. Tečku stavu kreslí tray.rs
+  aby šla odlišit od nainstalovaného HubGetu, který běží vedle. Tečku stavu kreslí tray.rs
   vpravo nahoře (vpravo dole by zakryla nápis).
   PNG:  pnpm tauri icon assets/tray-icon-test-dark.svg -o <složka> -p 64  → 64x64.png do src-tauri/icons/tray-test-dark.png
 -->

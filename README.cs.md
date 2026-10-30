@@ -2,9 +2,9 @@
 
 [English](README.md) · **Čeština**
 
-<img src="assets/unibox-logo.svg" width="128" height="128" alt="Logo Uniboxu">
+<img src="assets/unibox-logo.svg" width="128" height="128" alt="Logo HubGetu">
 
-# Unibox
+# HubGet
 
 ### Jeden obchod pro všechny aplikace ve Windows
 
@@ -20,14 +20,14 @@ instalátorů po webu, bez reklam a přibalených doplňků.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/readme/cs/okno-tmave.webp">
-  <img src="assets/readme/cs/okno-svetle.webp" alt="Okno Uniboxu – domovská stránka Dnes s tipy, kolekcemi a Aplikací dne">
+  <img src="assets/readme/cs/okno-svetle.webp" alt="Okno HubGetu – domovská stránka Dnes s tipy, kolekcemi a Aplikací dne">
 </picture>
 
 Domovská stránka Dnes – tipy, kolekce a Aplikace dne. Česky i anglicky, světlý i tmavý motiv podle Windows.
 
 </div>
 
-## Proč Unibox
+## Proč HubGet
 
 | 🛡️ Bezpečné – bez virů | ⚡ Jednoduché | 🔄 Vše pod kontrolou |
 |:---|:---|:---|
@@ -62,7 +62,7 @@ Instalace jedním kliknutím z vybraného zdroje, s průběhem stahování pří
 <p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/readme/cs/stahovani-tmave.webp">
-  <img src="assets/readme/cs/stahovani-svetle.webp" alt="Okno Uniboxu s detailem aplikace Discord během stahování (47 %), výběrem zdroje a ověřením SHA-256">
+  <img src="assets/readme/cs/stahovani-svetle.webp" alt="Okno HubGetu s detailem aplikace Discord během stahování (47 %), výběrem zdroje a ověřením SHA-256">
 </picture>
 </p>
 
@@ -70,7 +70,7 @@ Instalace jedním kliknutím z vybraného zdroje, s průběhem stahování pří
 
 Přehled všech aplikací v počítači – i programů instalovaných mimo WinGet, aplikací
 z Microsoft Storu a her ze Steamu. Aktualizace jedním tlačítkem **Aktualizovat vše**,
-nebo automaticky podle plánu. Selže-li operace kvůli oprávněním, Unibox ji sám zopakuje
+nebo automaticky podle plánu. Selže-li operace kvůli oprávněním, HubGet ji sám zopakuje
 s právy správce.
 
 <picture>
@@ -110,7 +110,7 @@ s právy správce.
 **[Stáhnout nejnovější verzi](https://github.com/matous96/unibox/releases/latest)** –
 instalátor **EXE** instaluje pro aktuálního uživatele bez práv správce, **MSI** se hodí
 pro nasazení ve firmách. Požadavky: Windows 10 nebo 11 (64bit) a WebView2, který je ve
-Windows předinstalovaný. Unibox se pak aktualizuje sám. Víc na webu:
+Windows předinstalovaný. HubGet se pak aktualizuje sám. Víc na webu:
 [matous96.github.io/unibox](https://matous96.github.io/unibox/).
 
 > [!NOTE]
@@ -121,7 +121,7 @@ Windows předinstalovaný. Unibox se pak aktualizuje sám. Víc na webu:
 
 ## Zdarma a open source
 
-Unibox je zdarma, bez reklam a bez telemetrie, pod licencí [MIT](LICENSE). Katalog se
+HubGet je zdarma, bez reklam a bez telemetrie, pod licencí [MIT](LICENSE). Katalog se
 každý den generuje na GitHub Actions, přihlášení, hodnocení a synchronizace běží na
 bezplatném tarifu Supabase. Přihlášení je dobrovolné – bez účtu funguje všechno kromě
 hodnocení, recenzí a synchronizace.
@@ -176,8 +176,8 @@ pnpm desktop:build   # instalátory .msi a .exe (NSIS) do src-tauri/target/relea
 ```
 
 `pnpm desktop` i `pnpm tauri dev` (obal `scripts/tauri.mjs`) spouští jedinou testovací verzi
-„Unibox (test)“ s identifikátorem `org.unibox.dev` (`src-tauri/tauri.dev.conf.json`): běží vedle
-nainstalovaného Uniboxu a má vlastní data (nastavení, přihlášení, oblíbené). Se stejným
+„HubGet (test)“ s identifikátorem `org.unibox.dev` (`src-tauri/tauri.dev.conf.json`): běží vedle
+nainstalovaného HubGetu a má vlastní data (nastavení, přihlášení, oblíbené). Se stejným
 identifikátorem by ji ochrana proti druhé instanci hned ukončila a jen přepnula na
 nainstalovanou aplikaci (např. po automatickém spuštění Windows). WebView2 má ve vývoji
 ladění na `127.0.0.1:9222` (Chrome DevTools Protocol) – automatické testy běží přímo v ní.
@@ -190,9 +190,9 @@ správci balíčků jen simulují.
 
 winget, Chocolatey a Scoop běží naostro: hledání v repozitáři (`choco search`,
 manifesty v bucketech Scoopu), verze, instalace, aktualizace, odinstalace a seznam
-nainstalovaných. Chybí-li Chocolatey nebo Scoop, Unibox při instalaci z nich nabídne
+nainstalovaných. Chybí-li Chocolatey nebo Scoop, HubGet při instalaci z nich nabídne
 jejich instalaci na jedno kliknutí oficiálním skriptem (`ManagerSetupDialog` –
-Chocolatey s právy správce, Scoop bez nich). Přes kterého správce Unibox aplikaci
+Chocolatey s právy správce, Scoop bez nich). Přes kterého správce HubGet aplikaci
 nainstaloval, si pamatuje (`store/installedVia.ts`) – štítek „Nainstalováno přes“
 a správa sedí i po restartu.
 
@@ -202,7 +202,7 @@ Bun, pip, Cargo, vcpkg, .NET Tool, PowerShell 7 (PSResourceGet) a Windows PowerS
 v `store/settings.ts`): běžnému uživateli by do hledání přidali knihovny a zpomalili
 seznam nainstalovaných.
 - Nástroje se hledají v PATH z registru (nový Node.js či Python je vidět bez restartu
-  Uniboxu – PATH procesu se doplní) a v obvyklých složkách (`.cargo\bin`, `.bun\bin`,
+  HubGetu – PATH procesu se doplní) a v obvyklých složkách (`.cargo\bin`, `.bun\bin`,
   `Program Files\nodejs`…); npm se spouští přímo jako `node npm-cli.js`, pip přes
   `py -3 -m pip` / `python -m pip` (ne zástupce Microsoft Storu).
 - Nainstalované: `npm ls -g` + `npm outdated -g`, globální balíčky Bunu ze složky
@@ -220,7 +220,7 @@ seznam nainstalovaných.
   `cargo test --lib dev::tests::live -- --ignored --nocapture`.
 
 **Běžící aplikace** (`src-tauri/src/running.rs`, `prepareProcesses` v `store/jobs.ts`):
-před instalací, aktualizací a odinstalací Unibox najde procesy aplikace – podle složky
+před instalací, aktualizací a odinstalací HubGet najde procesy aplikace – podle složky
 instalace z registru (jistě) a podle složky či souboru pojmenovaného jako aplikace
 (`obs-studio`, `Discord.exe` – i bez záznamu v registru). U každého zjistí, jestli má
 viditelné okno a jestli je okenní program (hlavička PE):
@@ -247,7 +247,7 @@ uživatel dostane srozumitelnou hlášku s doporučením jiného zdroje.
 | Modul (`src-tauri/src/`) | Co dělá |
 |---|---|
 | `process.rs` | CLI motor: spouštění bez okna konzole, výstup po řádcích (UTF-8, `\r` průběhu, točítko, escape sekvence), zrušení celého stromu procesů |
-| `elevation.rs` | „Jako správce“: Unibox spustí sám sebe s `--unibox-elevated` přes UAC; povýšený proces spustí správce balíčků (jen povolené programy) a výstup zapisuje do dočasného souboru, který aplikace průběžně čte |
+| `elevation.rs` | „Jako správce“: HubGet spustí sám sebe s `--unibox-elevated` přes UAC; povýšený proces spustí správce balíčků (jen povolené programy) a výstup zapisuje do dočasného souboru, který aplikace průběžně čte |
 | `powershell.rs` | Trvale běžící PowerShell pro modul Microsoft.WinGet.Client – výpis nainstalovaných ~0,6 s, hledání ~0,2–1 s (první volání po startu déle) |
 | `operations.rs` | Fronta operací (vždy jen jedna instalace najednou), předstažení instalátoru, opakování jako správce, zrušení podle id |
 | `download.rs` | Stažení instalátoru přes `curl.exe` s průběhem v procentech a ověřením SHA-256 |
@@ -270,7 +270,7 @@ uživatel dostane srozumitelnou hlášku s doporučením jiného zdroje.
 | `tray.rs` | Ikona v oznamovací oblasti s tečkou stavu operací, zavření okna = běh na pozadí |
 
 - **Předstažení instalátoru:** winget stahuje přes Delivery Optimization, která soubor
-  zapisuje až na konci (průběh nejde sledovat) a umí se i na minutu zastavit. Unibox
+  zapisuje až na konci (průběh nejde sledovat) a umí se i na minutu zastavit. HubGet
   proto zjistí instalátor (`winget show`: adresa, SHA-256) a stáhne ho sám přes curl
   tam, kde ho winget hledá (`%TEMP%\WinGet\<id>.<verze>\<sha256>`). winget pak jen
   ověří kontrolní součet a instaluje. Platí pro instalaci, aktualizaci i stažení.
@@ -278,14 +278,14 @@ uživatel dostane srozumitelnou hlášku s doporučením jiného zdroje.
   a procenta se odhadují z rostoucího souboru.
 - **Opakování jako správce:** tichá odinstalace MSI nainstalovaného pro všechny
   uživatele bez práv správce končí chybou 1603 (`0x8A150030`). Tyto chyby
-  (a „vyžaduje správce“, chyba instalátoru) Unibox automaticky zopakuje s právy
+  (a „vyžaduje správce“, chyba instalátoru) HubGet automaticky zopakuje s právy
   správce (UAC).
 - Aplikace s neznámou nainstalovanou verzí („Unknown“) se mezi aktualizace nepočítají –
   ani po aktualizaci verzi nezískají (stejně jako `winget upgrade` bez `--include-unknown`).
 - Výsledek operace se čte z návratového kódu (HRESULT wingetu), ne z textu výstupu –
   winget je lokalizovaný. Kódy se překládají na srozumitelné hlášky (`wingetError.*`),
   „vyžaduje restart“ se oznámí zvlášť.
-- Výstup příkazů se zapisuje do Protokolů (šedé řádky), hlášky Uniboxu (předstažení,
+- Výstup příkazů se zapisuje do Protokolů (šedé řádky), hlášky HubGetu (předstažení,
   opakování jako správce) jako varování.
 - **Stav po operaci** (`store/afterOperation.ts`): karta i detail se po instalaci,
   aktualizaci a odinstalaci přepnou hned (optimistická úprava seznamu v cache), pak se
@@ -307,14 +307,14 @@ uživatel dostane srozumitelnou hlášku s doporučením jiného zdroje.
   (`data-tauri-drag-region`, dvojklik = maximalizovat) a tlačítka minimalizace,
   maximalizace a zavření ve stylu Windows 11.
 - **Spouštění při startu Windows** (Nastavení → Desktopová aplikace, výchozí vypnuto):
-  tauri-plugin-autostart zapíše Unibox do `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`
-  s příznakem `--autostart` – po přihlášení se okno neotevře, Unibox běží jen jako ikona
+  tauri-plugin-autostart zapíše HubGet do `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`
+  s příznakem `--autostart` – po přihlášení se okno neotevře, HubGet běží jen jako ikona
   u hodin (okno se vytváří skryté, `visible: false`, a ukáže se jen při běžném spuštění).
-- Zavření okna Unibox jen schová do oznamovací oblasti u hodin (vypnutelné
+- Zavření okna HubGet jen schová do oznamovací oblasti u hodin (vypnutelné
   v Nastavení → Desktopová aplikace); ikona ukazuje počet aktualizací. Nabídka
   ikony po vzoru UniGetUI: Procházet balíčky, Dostupné aktualizace, Nainstalované
-  (ukážou okno na dané stránce – událost `tray-navigate`), Zobrazit Unibox, Ukončit.
-  Druhé spuštění Uniboxu jen ukáže běžící okno (single instance).
+  (ukážou okno na dané stránce – událost `tray-navigate`), Zobrazit HubGet, Ukončit.
+  Druhé spuštění HubGetu jen ukáže běžící okno (single instance).
 - **Otevřít:** nainstalovanou aplikaci jde spustit z karty i z detailu (`src-tauri/src/apps.rs`,
   `src/lib/launch.ts`). Spustitelné aplikace jsou položky nabídky Start (složka
   `shell:AppsFolder` – klasické programy i aplikace ze Storu; bez odkazů na web,
@@ -337,7 +337,7 @@ uživatel dostane srozumitelnou hlášku s doporučením jiného zdroje.
   3. **disk** (`disk.rs`) – složky v Program Files, `%LocalAppData%(\Programs)`
      a `%AppData%` s EXE pojmenovaným jako složka, které nezná winget ani registr.
      Počítají se jen se zástupcem v nabídce Start (EA app nechá po odinstalaci
-     na disku i EXE) a jen spárované s katalogem; odinstalovat je Unibox neumí.
+     na disku i EXE) a jen spárované s katalogem; odinstalovat je HubGet neumí.
 
   **Ověření spustitelnosti** (`arp::presence`): program je nainstalovaný, jen když
   existuje jeho EXE – ne odinstalátor ani aktualizátor (Squirrel `Update.exe`):
@@ -489,18 +489,18 @@ aktualizaci tauri-cli ji porovnejte s novou výchozí šablonou
 - jazyk instalátoru se volí podle Windows (čeština, jinak angličtina), ikona odinstalátoru
   je ikona aplikace, místo „Nullsoft Install System“ je dole název a verze.
 
-### Aktualizace Uniboxu (auto-updater)
+### Aktualizace HubGetu (auto-updater)
 
-Nainstalovaný Unibox po spuštění (a z nabídky ⋯ / Nastavení) zkontroluje
+Nainstalovaný HubGet po spuštění (a z nabídky ⋯ / Nastavení) zkontroluje
 `latest.json` v GitHub Releases (`plugins.updater.endpoints` v `tauri.conf.json`).
-Je-li novější verze, zobrazí dialog „Je k dispozici nová verze Uniboxu…“
+Je-li novější verze, zobrazí dialog „Je k dispozici nová verze HubGetu…“
 (Aktualizovat / Později / Přeskočit tuto verzi). Instalátor se po stažení ověří
 podpisem – veřejný klíč je v `tauri.conf.json`, soukromý jen u vydavatele – a spustí
-se v pasivním režimu; Unibox se pak sám znovu spustí. `requireSignedVersion` brání
+se v pasivním režimu; HubGet se pak sám znovu spustí. `requireSignedVersion` brání
 podvržení: podpis nese číslo verze, takže starší podepsaný instalátor nejde vydávat
 za novou verzi.
 
-Po prvním spuštění nové verze ukáže Unibox dialog **„Co je nového v Uniboxu“**
+Po prvním spuštění nové verze ukáže HubGet dialog **„Co je nového v HubGetu“**
 (`WhatsNewDialog`, `store/whatsNew.ts`) s novinkami všech vydání od naposledy
 spuštěné verze (nejvýš pět). Verze se ukládá do localStorage a zavřením dialogu
 („Rozumím“) se označí jako zobrazená. Čistá instalace dialog neukazuje. Novinky
@@ -513,24 +513,24 @@ Vydání nové verze:
    jeho podpis (`.sig`) a `latest.json`.
 2. Na GitHubu vytvořte Release se značkou `v<verze>` (např. `v0.2.0`) a nahrajte
    do něj **instalátor** a **latest.json**.
-3. Hotovo – nainstalované Unibox si novou verzi najdou samy.
+3. Hotovo – nainstalované HubGet si novou verzi najdou samy.
 
 Kolikrát se vydání stáhla, vypíše `pnpm downloads` (`scripts/downloads.mjs`, veřejné
 počítadlo GitHubu): instalátor EXE a MSI a `latest.json` – ten si stáhne každá kontrola
-aktualizací nainstalovaného Uniboxu, takže hrubě ukazuje, kolik kopií běží. GitHub
+aktualizací nainstalovaného HubGetu, takže hrubě ukazuje, kolik kopií běží. GitHub
 uvádí jen součty za celou dobu (bez toho, kdo a kdy stahoval) a počítá i vlastní
 stažení při testování.
 
 Soukromý klíč je v `%USERPROFILE%\.tauri\unibox-updater.key` (mimo repozitář,
 bez hesla; jiné umístění: proměnná `UNIBOX_UPDATER_KEY`). **Zálohujte ho** – bez něj
-nejde vydat aktualizaci, kterou by už nainstalované Unibox přijaly. Aktualizace se
+nejde vydat aktualizaci, kterou by už nainstalované HubGet přijaly. Aktualizace se
 hledají ve vydáních repozitáře `matous96/unibox` (`plugins.updater.endpoints`).
 
 Výsledek v `src-tauri/target/release/bundle/`:
 
-- `nsis/Unibox_<verze>_x64-setup.exe` – instalátor EXE (instaluje pro aktuálního
+- `nsis/HubGet_<verze>_x64-setup.exe` – instalátor EXE (instaluje pro aktuálního
   uživatele, bez práv správce; čeština / angličtina),
-- `msi/Unibox_<verze>_x64_en-US.msi` – instalátor MSI (pro nasazení ve firmách).
+- `msi/HubGet_<verze>_x64_en-US.msi` – instalátor MSI (pro nasazení ve firmách).
 
 ### Podpis kódu (Windows SmartScreen)
 
@@ -590,7 +590,7 @@ Get-AuthenticodeSignature .\src-tauri\target\release\bundle\nsis\Unibox_0.1.11_x
 
 Stav `UnknownError` („…ukončen v kořenovém certifikátu, který nemá důvěru…“) je
 u vývojového certifikátu v pořádku – Windows mu nedůvěřuje. Na **testovacím**
-počítači mu důvěru dát jde (UAC pak ukáže vydavatele „Unibox (dev)“; Windows se
+počítači mu důvěru dát jde (UAC pak ukáže vydavatele „HubGet (dev)“; Windows se
 zeptá na potvrzení):
 
 ```powershell
@@ -598,7 +598,7 @@ Import-Certificate -FilePath "$env:USERPROFILE\.tauri\unibox-dev-signing.cer" -C
 ```
 
 Odebrání po testu:
-`Get-ChildItem Cert:\CurrentUser\Root | Where-Object Subject -like 'CN=Unibox (dev)*' | Remove-Item`.
+`Get-ChildItem Cert:\CurrentUser\Root | Where-Object Subject -like 'CN=HubGet (dev)*' | Remove-Item`.
 Na jiných počítačích to nic nezmění a SmartScreen u stažených souborů nevypne –
 vývojový certifikát **nikdy nepoužívejte pro distribuci**.
 
@@ -606,11 +606,11 @@ vývojový certifikát **nikdy nepoužívejte pro distribuci**.
 jako stažené z internetu (Mark of the Web). Instalátor sestavený na vlastním počítači
 značku nemá, takže se u něj SmartScreen vůbec neukáže – s podpisem to nesouvisí.
 Testujete-li na svém počítači kopii staženou z GitHubu nebo přenesenou prohlížečem,
-značku odstraní `Unblock-File .\Unibox_<verze>_x64-setup.exe` (nebo Vlastnosti souboru →
+značku odstraní `Unblock-File .\HubGet_<verze>_x64-setup.exe` (nebo Vlastnosti souboru →
 Odblokovat). Inteligentní řízení aplikací (Smart App Control) ve Windows 11 je samostatná
 kontrola – je-li zapnuté, může nepodepsané i self-signed sestavení zablokovat i tak.
 
-**Certifikát pro distribuci** – aby Windows Unibox přestal označovat jako neznámý.
+**Certifikát pro distribuci** – aby Windows HubGet přestal označovat jako neznámý.
 Ceny jsou orientační, ověřte je u vydavatele:
 
 - **SignPath Foundation** – zdarma pro open-source projekty (licence schválená OSI,
@@ -663,7 +663,7 @@ Podmínky SignPath Foundation (signpath.org/terms) a co je v projektu připraven
 | Projekt už vydaný a udržovaný | vydání 0.1.14 a 0.1.15 na GitHubu ✓ |
 | Stránka „Code signing policy“ s poděkováním SignPath, rolemi a odkazem na zásady soukromí, odkaz z úvodní stránky a ze stahování | [matous96.github.io/unibox/podpis-kodu.html](https://matous96.github.io/unibox/podpis-kodu.html), [en/code-signing.html](https://matous96.github.io/unibox/en/code-signing.html), role: matous96 ✓ |
 | Zásady ochrany soukromí; software, který kontaktuje servery, je ukáže při instalaci a umožní funkce vypnout | `website/soukromi.html`, `website/en/privacy.html` ✓; instalátor NSIS i MSI ukáže před instalací stránku „Ochrana soukromí a licence“ ✓ (`bundle.licenseFile`); kontrolu aktualizací, synchronizaci a přihlášení jde vypnout ✓ |
-| Název a verze produktu v souborech (kontrola v konfiguraci artefaktů) | `Unibox` + verze z `tauri.conf.json` ✓ |
+| Název a verze produktu v souborech (kontrola v konfiguraci artefaktů) | `HubGet` + verze z `tauri.conf.json` ✓ |
 | Dvoufázové ověření pro všechny členy týmu na GitHubu i v SignPathu | zapnout |
 
 Postup:
@@ -805,7 +805,7 @@ hlídá to workflow níže, které databázi i zálohuje):
    Credentials) s návratovou adresou, kterou Supabase u poskytovatele ukáže
    (`https://<projekt>.supabase.co/auth/v1/callback`). Jen s GitHubem nastavte
    `VITE_AUTH_PROVIDERS=github` – aplikace pak tlačítko Google neukáže. Přihlášení
-   e-mailem Unibox nepoužívá, poskytovatele **Email** vypněte.
+   e-mailem HubGet nepoužívá, poskytovatele **Email** vypněte.
 4. **Authentication → URL Configuration → Redirect URLs**: přidejte
    `http://127.0.0.1:47823/auth/callback`, `http://127.0.0.1:47824/auth/callback`,
    `http://127.0.0.1:47825/auth/callback` (desktop) a `http://localhost:1420/**` (vývoj na webu –
@@ -913,9 +913,9 @@ je pro jistotu ignoruje).
 ### Publikování aplikací (WinGet)
 
 Vývojáři publikují aplikaci do komunitního open-source repozitáře
-[microsoft/winget-pkgs](https://github.com/microsoft/winget-pkgs) – zdarma; Unibox
+[microsoft/winget-pkgs](https://github.com/microsoft/winget-pkgs) – zdarma; HubGet
 z něj bere katalog, takže se aplikace po schválení objeví sama. Průvodce
-**Publikovat → Vytvořit manifest v Uniboxu** (`pages/PublishWingetPage.tsx`, jen desktop):
+**Publikovat → Vytvořit manifest v HubGetu** (`pages/PublishWingetPage.tsx`, jen desktop):
 
 1. **Instalátor** (`src-tauri/src/publish.rs`): z adresy https ho stáhne do dočasné
    složky (curl), spočítá SHA-256 a velikost, pozná typ (MSI / WiX, MSIX, Inno Setup,
@@ -932,13 +932,13 @@ z něj bere katalog, takže se aplikace po schválení objeví sama. Průvodce
 4. **Odeslání**: pull request do winget-pkgs z účtu vývojáře na GitHubu – přihlášení
    OAuth device flow (kód v prohlížeči, oprávnění `public_repo`, token jen v paměti),
    fork, jeden commit do nové větve a pull request s kontrolním seznamem winget-pkgs.
-   Unibox předem ověří, že tahle verze ve WinGetu ještě není.
+   HubGet předem ověří, že tahle verze ve WinGetu ještě není.
 
 Přímé odeslání potřebuje client_id bezplatné aplikace GitHub OAuth (bez tajného
 klíče – device flow ho nepotřebuje):
 
 1. GitHub → **Settings → Developer settings → OAuth Apps → New OAuth App** (název
-   Unibox, web projektu, Authorization callback URL může být web projektu).
+   HubGet, web projektu, Authorization callback URL může být web projektu).
 2. V nastavení aplikace zapněte **Enable Device Flow**.
 3. Do `.env.local`: `VITE_GITHUB_CLIENT_ID=<Client ID>`.
 
@@ -962,14 +962,14 @@ z deps.dev (Google Open Source Insights, čísla pár dní stará), s proměnnou
   (jen rozsahy, které instalátor podle manifestu podporuje). Nabízí jen volby, které
   zvolený správce umí (`InlineInstallParameters`).
 - **Indikátor SHA-256** vedle „Bezpečná instalace“: kontrolní součet instalátoru
-  z manifestu (kliknutím se zkopíruje); Unibox stažený instalátor před spuštěním
+  z manifestu (kliknutím se zkopíruje); HubGet stažený instalátor před spuštěním
   porovná s tímto součtem a winget ho ověří znovu. Bez součtu v katalogu „SHA-256
   ověří <správce>“, se zapnutým „Bez kontroly součtu“ varování (`SafeInstallNote`).
 - **Export a import profilu** (Nastavení → Záloha a katalog, Domů → Rychlé akce,
   `lib/profile.ts`, `hooks/useProfileTransfer.ts`): všechny spravované aplikace
   i s nastavením – volby instalace, ignorované / odložené aktualizace a automatické
-  aktualizace (`config` v souboru; starší Unibox pole ignoruje):
-  - **JSON** – formát sady Uniboxu (`unibox-bundle`),
+  aktualizace (`config` v souboru; starší HubGet pole ignoruje):
+  - **JSON** – formát sady HubGetu (`unibox-bundle`),
   - **HTML** – samostatná přehledná stránka (seznam podle správců, hledání, příkazy
     pro ruční instalaci, odkaz `unibox://bundle`); data nese v
     `<script type="application/json" id="unibox-profile">`, takže jde importovat taky,
@@ -1029,7 +1029,7 @@ z deps.dev (Google Open Source Insights, čísla pár dní stará), s proměnnou
 - **Hromadný výběr**: zaškrtávátko v rohu karty / řádku (po najetí myší), výběr platí
   napříč stránkami; lišta dole nabídne Instalovat / Aktualizovat / Do sady balíčků.
 - **Zbytky po odinstalaci** (`src-tauri/src/leftovers.rs`, `store/leftovers.ts`): po
-  úspěšné odinstalaci Unibox najde složky aplikace v `%AppData%`, `%LocalAppData%`
+  úspěšné odinstalaci HubGet najde složky aplikace v `%AppData%`, `%LocalAppData%`
   a `%LocalAppData%\Programs` (podle názvu a id, i pod složkou vydavatele –
   `Google\Chrome`) a nabídne přesun do Koše. Hledá 2,5 s po odinstalaci (odinstalátory
   NSIS / MSI dokončují úklid až po návratu správce); dokud je aplikace pořád
@@ -1059,7 +1059,7 @@ z deps.dev (Google Open Source Insights, čísla pár dní stará), s proměnnou
     po každé kontrole, nebo s vlastním plánem; na baterii, při úspoře baterie a na
     měřeném připojení podle voleb ne (backend `power_network_status`) – odložené
     aktualizace oznámí a zkusí je znovu za 15 min,
-  - zmeškaný termín (Unibox neběžel, počítač spal – mezera mezi minutovými tiky) se
+  - zmeškaný termín (HubGet neběžel, počítač spal – mezera mezi minutovými tiky) se
     dožene 10 min po spuštění, hned, nebo se přeskočí; nový plán v čase platí od změny,
   - uložené volby instalace aplikace platí i pro aktualizace (`updateOptionsFor`):
     jako správce, interaktivně, kontrolní součet, architektura, rozsah, složka,
@@ -1080,7 +1080,7 @@ z deps.dev (Google Open Source Insights, čísla pár dní stará), s proměnnou
   v detailu a automatická aktualizace verzi vynechá (jednou oznámí).
 - **Úvodní průvodce** (`components/layout/OnboardingDialog.tsx`, `store/onboarding.ts`):
   při prvním spuštění po instalaci (`hasCompletedOnboarding: false` v localStorage;
-  kdo Unibox používal už dřív, ho sám neuvidí) pět kroků s ukázkou – vítání, katalog,
+  kdo HubGet používal už dřív, ho sám neuvidí) pět kroků s ukázkou – vítání, katalog,
   filtr zdrojů, pokročilá odinstalace (s přepínačem), Po spuštění a zálohy. Další /
   Předchozí i šipkami, „Přeskočit úvod“ i Esc; znovu Nastavení → Obecné.
 - **Předvolby oznámení** (Nastavení → Předvolby oznámení): hlavní vypínač, souhrn po dávce
@@ -1093,7 +1093,7 @@ z deps.dev (Google Open Source Insights, čísla pár dní stará), s proměnnou
   jen instalace podle id z oficiálních zdrojů – `elevation.rs`), zákaz povýšení, vlastní
   argumenty, příkazy před / po instalaci, vlastní cesty ke správcům, převzetí argumentů
   a příkazů z importované sady. Backend je hlídá znovu (`security.rs`). Delegování
-  na Devolutions Agent Unibox zatím neumí – přepínač je vypnutý, kontrola ukáže stav agenta.
+  na Devolutions Agent HubGet zatím neumí – přepínač je vypnutý, kontrola ukáže stav agenta.
 - **Barva zvýraznění** (Nastavení → Vzhled): předvolby nebo vlastní HEX – proměnná
   `--accent` (useTheme), uloží se do nastavení.
 - **Centrum oznámení** (zvoneček v horní liště): historie posledních událostí a chyb –
@@ -1105,22 +1105,22 @@ z deps.dev (Google Open Source Insights, čísla pár dní stará), s proměnnou
   `components/layout/NotificationCenter.tsx`).
 - **Záložní zdroj instalace**: když instalace selže tak, že by jiný správce mohl pomoct
   (nefunkční odkaz – chyba 404, jiný soubor, běžící jiná instalace, balíček ve zdroji
-  chybí nebo nemá instalátor pro tento počítač, instalátor selhal), Unibox nabídne
+  chybí nebo nemá instalátor pro tento počítač, instalátor selhal), HubGet nabídne
   instalaci od dalších zapnutých správců, kteří aplikaci mají (`FallbackOfferDialog`,
   `store/fallbackOffer.ts`). Nenainstalovaného správce fronta nejdřív nabídne nainstalovat.
   Úlohy na pozadí zkusí ostatní nainstalované správce samy (`store/jobs.ts`).
 
 ### Odkazy unibox:// (web, sdílené sady)
 
-Unibox je obsluhou schématu `unibox://` (tauri-plugin-deep-link; instalátor ho
-zaregistruje, vývojová verze při startu v HKCU). Odkaz otevře Unibox – běžící
+HubGet je obsluhou schématu `unibox://` (tauri-plugin-deep-link; instalátor ho
+zaregistruje, vývojová verze při startu v HKCU). Odkaz otevře HubGet – běžící
 dostane odkaz od druhého spuštění (single-instance) – a přejde na stránku:
 
 | Odkaz | Stránka |
 |---|---|
 | `unibox://app/<id>` | detail aplikace (`mozilla-firefox`) |
 | `unibox://import?apps=<seznam>&name=<název>` | předvyplněná hromadná instalace |
-| `unibox://bundle?d=<data>` | sdílená sada z Uniboxu (data v odkazu, `lib/bundleShare.ts`) |
+| `unibox://bundle?d=<data>` | sdílená sada z HubGetu (data v odkazu, `lib/bundleShare.ts`) |
 
 `apps` je seznam oddělený čárkami – id z katalogu (`videolan-vlc`), balíček se zdrojem
 (`winget:VideoLAN.VLC`, `scoop:extras/vlc`) nebo samotné id WinGetu (`VideoLAN.VLC`),
@@ -1128,7 +1128,7 @@ nejvýš 100 položek. Zdroj se u id z katalogu vybere podle Nastavení. Odkaz n
 neinstaluje – otevře seznam a instalaci potvrdí uživatel. Příklad pro web:
 
 ```html
-<a href="unibox://import?apps=mozilla-firefox,videolan-vlc,7zip-7zip&name=Nov%C3%BD%20po%C4%8D%C3%ADta%C4%8D">Otevřít v Uniboxu</a>
+<a href="unibox://import?apps=mozilla-firefox,videolan-vlc,7zip-7zip&name=Nov%C3%BD%20po%C4%8D%C3%ADta%C4%8D">Otevřít v HubGetu</a>
 ```
 
 ### Přidání jazyka

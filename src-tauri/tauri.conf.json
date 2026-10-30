@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Unibox",
+  "productName": "HubGet",
   "version": "0.1.18",
   "identifier": "org.unibox.app",
   "build": {
@@ -14,7 +14,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Unibox",
+        "title": "HubGet",
         "width": 1440,
         "height": 920,
         "minWidth": 1024,
@@ -31,7 +31,7 @@
       "iconPath": "icons/tray.png",
       "iconAsTemplate": false,
       "showMenuOnLeftClick": false,
-      "tooltip": "Unibox"
+      "tooltip": "HubGet"
     },
     "security": {
       "csp": "default-src 'self'; img-src 'self' data: https: http://icon.localhost icon:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost https:",
@@ -42,15 +42,16 @@
     "active": true,
     "targets": ["nsis", "msi"],
     "category": "Utility",
-    "publisher": "Unibox",
-    "copyright": "© 2026 Unibox",
+    "publisher": "HubGet",
+    "copyright": "© 2026 HubGet",
     "shortDescription": "Obchod s aplikacemi pro Windows",
-    "longDescription": "Unibox – bezpečná a jednoduchá instalace a správa aplikací přes winget, Chocolatey, Scoop a další správce balíčků.",
+    "longDescription": "HubGet – bezpečná a jednoduchá instalace a správa aplikací přes winget, Chocolatey, Scoop a další správce balíčků.",
     "license": "MIT",
     "licenseFile": "installer/license.rtf",
     "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.ico"],
     "windows": {
       "webviewInstallMode": { "type": "downloadBootstrapper" },
+      "wix": { "upgradeCode": "83d1d49d-f9b7-5631-9b6f-d3de240a2612" },
       "nsis": {
         "template": "nsis/installer.nsi",
         "installerHooks": "nsis/unibox-ui.nsh",
@@ -67,7 +68,7 @@
   },
   "plugins": {
     "deep-link": {
-      "desktop": { "schemes": ["unibox"] }
+      "desktop": { "schemes": ["hubget", "unibox"] }
     },
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEM2NjA2NTI0NjgwMEE4M0MKUldROHFBQm9KR1ZneHMzL01zMFBibTNkbGFPRE5MQzV2dENKUU05R0xJYzRzTzVQRXFOYW0vaDgK",

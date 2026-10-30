@@ -1,10 +1,10 @@
 /**
  * Automatická kontrola a instalace aktualizací balíčků na pozadí (Nastavení →
- * Aktualizace balíčků, po vzoru UniGetUI). Běží, dokud je Unibox spuštěný –
+ * Aktualizace balíčků, po vzoru UniGetUI). Běží, dokud je HubGet spuštěný –
  * i schovaný u hodin:
  *  - každou minutu se podívá, jestli je kontrola / instalace na řadě: v pevném
  *    intervalu, nebo každý den / ve vybrané dny v zadaný čas (lib/schedule.ts),
- *  - zmeškaný termín (Unibox neběžel, počítač spal) dožene se zpožděním, hned,
+ *  - zmeškaný termín (HubGet neběžel, počítač spal) dožene se zpožděním, hned,
  *    nebo počká na další termín – podle nastavení,
  *  - kontrola = nové načtení seznamu nainstalovaných u správců (dostupné verze),
  *    během ní je ikona u hodin modrá (useTrayStatus),
@@ -56,7 +56,7 @@ const MISSED_DELAY = 10 * 60_000;
 /** Instalace odložená kvůli baterii nebo připojení se zkusí znovu za tuto dobu. */
 const RETRY_DELAY = 15 * 60_000;
 
-/** Od kdy plánovač běží bez přerušení (spuštění Uniboxu, probuzení počítače). */
+/** Od kdy plánovač běží bez přerušení (spuštění HubGetu, probuzení počítače). */
 let aliveSince = Date.now();
 let lastTick = Date.now();
 /** Přeskočené termíny (podle úlohy) – další se počítá od nich. */
@@ -242,7 +242,7 @@ function runIfDue(task: Task, run: () => Promise<unknown>) {
     catchUpAt[task] = null;
     return;
   }
-  // Termín propásnutý, když Unibox neběžel nebo počítač spal
+  // Termín propásnutý, když HubGet neběžel nebo počítač spal
   if (due < aliveSince - 60_000) {
     const policy = s.missed;
     if (policy === "skip") {
@@ -263,7 +263,7 @@ export function useAutoUpdateScheduler() {
   const { items } = useInstalledItems();
   currentItems = items;
 
-  // Nově nabízené verze – od kdy je Unibox vidí (minimální stáří u verzí, které katalog nezná)
+  // Nově nabízené verze – od kdy je HubGet vidí (minimální stáří u verzí, které katalog nezná)
   useEffect(() => {
     if (items.length) useUpdateHolds.getState().see(items.map((i) => i.pkg));
   }, [items]);

@@ -1,4 +1,4 @@
-# Vydání Uniboxu: sestavení na GitHub Actions, digitální podpis přes SignPath
+# Vydání HubGetu: sestavení na GitHub Actions, digitální podpis přes SignPath
 # (zdarma pro open source – SignPath Foundation) a koncept GitHub Release.
 #
 # Spuštění: značka v<verze> (git tag v0.1.14 && git push --tags), nebo ručně
@@ -179,12 +179,12 @@ jobs:
         shell: pwsh
         run: |
           $version = "${{ steps.version.outputs.version }}"
-          $installer = "src-tauri/target/release/bundle/nsis/Unibox_${version}_x64-setup.exe"
+          $installer = "src-tauri/target/release/bundle/nsis/HubGet_${version}_x64-setup.exe"
           # Verze v podpisu – aplikace s requireSignedVersion podpis bez ní odmítne (tauri build ji doplní sám, ruční podpis ne)
           pnpm tauri signer sign --app-version $version $installer
           if ($LASTEXITCODE -ne 0) { throw "Podpis aktualizací se nepovedl" }
           node scripts/check-updater-signature.mjs $installer $version
-          if ($LASTEXITCODE -ne 0) { throw "Podpis aktualizace by nainstalovaný Unibox odmítl" }
+          if ($LASTEXITCODE -ne 0) { throw "Podpis aktualizace by nainstalovaný HubGet odmítl" }
           node scripts/updater-manifest.mjs
 
       - name: Ověření podpisu kódu
@@ -206,4 +206,4 @@ jobs:
           $version = "${{ steps.version.outputs.version }}"
           $files = @(Get-ChildItem src-tauri/target/release/bundle -Recurse -Include *.exe, *.msi, *.sig, latest.json).FullName
           $signed = if ($env:SIGNPATH_API_TOKEN) { "Podepsáno přes SignPath (certifikát SignPath Foundation)." } else { "Bez digitálního podpisu." }
-          gh release create "v$version" @files --draft --title "Unibox $version" --notes "Unibox $version – $signed"
+          gh release create "v$version" @files --draft --title "HubGet $version" --notes "HubGet $version – $signed"

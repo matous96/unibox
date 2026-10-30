@@ -29,7 +29,7 @@ export function buildBundleScript(name: string, items: BundleItem[], locale: str
   const text = locale.startsWith("cs") ? TEXTS.cs : TEXTS.en;
   const needsAdmin = items.some((i) => getSource(i.source).needsAdmin);
   const lines: string[] = [
-    `# Unibox – ${text.title}${name ? ` "${name}"` : ""}`,
+    `# HubGet – ${text.title}${name ? ` "${name}"` : ""}`,
     `# ${text.generated(new Date().toLocaleString(locale), items.length)}`,
     `# ${text.run}:  powershell -ExecutionPolicy Bypass -File .\\${fileName}`,
   ];

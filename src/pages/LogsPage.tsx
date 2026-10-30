@@ -23,7 +23,7 @@ const LEVEL_CLASS: Record<LogLevel, string> = {
 };
 
 /**
- * Protokoly správců balíčků: příkazy, které Unibox spouští, a jejich výsledek.
+ * Protokoly správců balíčků: příkazy, které HubGet spouští, a jejich výsledek.
  * Zobrazení připomíná konzoli; nové řádky se posouvají dolů.
  */
 export function LogsPage() {

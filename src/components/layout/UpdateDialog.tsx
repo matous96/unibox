@@ -1,5 +1,5 @@
 /**
- * Dialog „Je k dispozici nová verze Uniboxu“ – otevře ho kontrola při
+ * Dialog „Je k dispozici nová verze HubGetu“ – otevře ho kontrola při
  * spuštění nebo ruční kontrola (nabídka ⋯, Nastavení). Nabízí aktualizaci,
  * odložení a přeskočení verze; během instalace ukazuje průběh stažení.
  */

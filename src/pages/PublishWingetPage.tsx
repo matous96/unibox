@@ -4,7 +4,7 @@
  * doplní se popis, z údajů vznikne manifest (lib/wingetManifest.ts), ověří se
  * příkazem `winget validate` a odešle jako pull request do microsoft/winget-pkgs
  * (zdarma, open source) – nebo se uloží a odešle ručně. Po schválení
- * moderátory WinGetu se aplikace objeví v Uniboxu s další aktualizací katalogu.
+ * moderátory WinGetu se aplikace objeví v HubGetu s další aktualizací katalogu.
  */
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { AlertTriangle, ArrowLeft, Check, CheckCircle2, ClipboardCopy, ExternalLink, FolderDown, GitPullRequest, Search, ShieldCheck } from "lucide-react";

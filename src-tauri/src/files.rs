@@ -24,7 +24,7 @@ pub async fn save_text_file<R: Runtime>(
         if !extensions.is_empty() {
             dialog = dialog.add_filter(&filter_name, &extensions);
         }
-        // Dialog patří k oknu Uniboxu (modální, nad oknem)
+        // Dialog patří k oknu HubGetu (modální, nad oknem)
         if let Some(window) = app.get_webview_window("main") {
             dialog = dialog.set_parent(&window);
         }

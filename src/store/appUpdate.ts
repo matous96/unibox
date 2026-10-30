@@ -1,5 +1,5 @@
 /**
- * Stav aktualizace Uniboxu: nalezená verze, dialog „Je k dispozici nová
+ * Stav aktualizace HubGetu: nalezená verze, dialog „Je k dispozici nová
  * verze…“, průběh instalace. Ukládá se jen nastavení (automatická kontrola)
  * a přeskočená verze.
  */
@@ -54,7 +54,7 @@ export const useAppUpdate = create<AppUpdateState>()(
           set({ update, dialogOpen: true, checking: false, error: null, progress: null });
           return "available";
         } catch (error) {
-          console.warn("Kontrola aktualizací Uniboxu selhala:", error);
+          console.warn("Kontrola aktualizací HubGetu selhala:", error);
           set({ checking: false });
           return "error";
         }
@@ -68,7 +68,7 @@ export const useAppUpdate = create<AppUpdateState>()(
           await installUpdate(update, (progress) => set({ progress }));
         } catch (error) {
           // Skutečná příčina (síť, podpis…) – v dialogu pod obecnou hláškou, ať jde nahlásit
-          console.error("Aktualizaci Uniboxu se nepodařilo nainstalovat:", error);
+          console.error("Aktualizaci HubGetu se nepodařilo nainstalovat:", error);
           set({ installing: false, error: error instanceof Error ? error.message : String(error) });
         }
       },

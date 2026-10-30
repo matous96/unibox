@@ -415,7 +415,7 @@ fn operation_args(request: &OperationRequest, downloads: &Path) -> Vec<String> {
         if let Some(location) = options.location.as_deref().filter(|l| !l.is_empty()) {
             push(&["--location", location]);
         }
-        // Vlastní parametry (jen s povolením v Nastavení) a parametry z voleb Uniboxu
+        // Vlastní parametry (jen s povolením v Nastavení) a parametry z voleb HubGetu
         if let Some(custom) = options.combined_args() {
             push(&["--custom", custom.as_str()]);
         }
@@ -531,7 +531,7 @@ pub async fn winget_operation(
     if request.kind == Kind::Download {
         download_dirs.push(downloads.clone());
     }
-    // Instalátor stáhne předem Unibox (přesný průběh, bez zasekávání Delivery
+    // Instalátor stáhne předem HubGet (přesný průběh, bez zasekávání Delivery
     // Optimization); winget ho najde ve své pracovní složce – při instalaci,
     // aktualizaci i „Stáhnout instalátor“
     // (aplikace z Microsoft Storu stahuje Store sám – předstažení nemá smysl)

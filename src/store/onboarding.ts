@@ -2,7 +2,7 @@
  * Úvodní průvodce pro nové uživatele (components/layout/OnboardingDialog.tsx):
  *  - hasCompletedOnboarding se ukládá do localStorage; při prvním spuštění po
  *    instalaci je false a průvodce se ukáže sám,
- *  - kdo Unibox používal už dřív (v úložišti jsou jeho data – HAD_PREVIOUS_RUN),
+ *  - kdo HubGet používal už dřív (v úložišti jsou jeho data – HAD_PREVIOUS_RUN),
  *    průvodce automaticky neuvidí,
  *  - dokončením i přeskočením se uloží true; znovu ho spustí Nastavení →
  *    Obecné → „Znovu spustit úvodní tutoriál“ (show).

@@ -1,7 +1,7 @@
 import { useId } from "react";
 import { isTestBuild } from "@/lib/tauri";
 
-interface UniboxLogoProps {
+interface HubGetLogoProps {
   /** Velikost v pixelech (logo je čtvercové). */
   size?: number;
   className?: string;
@@ -10,14 +10,14 @@ interface UniboxLogoProps {
 }
 
 /**
- * Logo Unibox – otevřená krabice, ze které vystupují tři „aplikace“
- * v barvách zdrojů (Chocolatey, winget, Scoop), na krabici tenký nápis „unibox“
+ * Logo HubGet – otevřená krabice, ze které vystupují tři „aplikace“
+ * v barvách zdrojů (Chocolatey, winget, Scoop), na krabici tenký nápis „hubget“
  * (od 28 px). Stejné logo je v assets/unibox-logo.svg (zdroj pro ikony aplikace a web),
  * bez nápisu pro malé velikosti v assets/unibox-mark.svg a public/favicon.svg.
  * Testovací verze (tauri dev) má oranžový podklad a nápis „test“ – stejně jako ikona
- * okna a ikona u hodin (assets/unibox-test.svg), aby nešla zaměnit s nainstalovaným Uniboxem.
+ * okna a ikona u hodin (assets/unibox-test.svg), aby nešla zaměnit s nainstalovaným HubGetem.
  */
-export function UniboxLogo({ size = 36, className, title }: UniboxLogoProps) {
+export function HubGetLogo({ size = 36, className, title }: HubGetLogoProps) {
   // Unikátní id gradientu, aby se nehádalo více log na jedné stránce
   const gradientId = useId();
   const test = isTestBuild();
@@ -76,7 +76,7 @@ export function UniboxLogo({ size = 36, className, title }: UniboxLogoProps) {
           letterSpacing="0.2"
           fill="#4560f5"
         >
-          unibox
+          hubget
         </text>
       )}
     </svg>

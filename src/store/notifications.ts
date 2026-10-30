@@ -17,7 +17,7 @@ export type NotificationTone = "success" | "error" | "info";
 export interface AppNotification {
   id: string;
   tone: NotificationTone;
-  /** Název aplikace u operace, null = obecné hlášení Uniboxu. */
+  /** Název aplikace u operace, null = obecné hlášení HubGetu. */
   title: string | null;
   message: string;
   /** U operací z fronty: druh, zdroj a aplikace (odkaz na detail). */

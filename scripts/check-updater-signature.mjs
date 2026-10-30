@@ -1,5 +1,5 @@
 // Kontrola podpisu aktualizace (.sig vedle instalátoru) stejně, jak ho ověří
-// nainstalovaný Unibox (tauri-plugin-updater): podpis klíčem z tauri.conf.json
+// nainstalovaný HubGet (tauri-plugin-updater): podpis klíčem z tauri.conf.json
 // a verze v důvěryhodném komentáři – s requireSignedVersion aplikace podpis
 // bez verze odmítne (MissingSignedVersion) a aktualizace se nenainstaluje.
 // Používají ho workflow Vydání a Podpis aktualizace:

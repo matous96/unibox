@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Code signing policy – Unibox</title>
-  <meta name="description" content="How and by whom Unibox is signed: free code signing by SignPath.io with a SignPath Foundation certificate, builds from the public repository and approval of every release.">
+  <title>Code signing policy – HubGet</title>
+  <meta name="description" content="How and by whom HubGet is signed: free code signing by SignPath.io with a SignPath Foundation certificate, builds from the public repository and approval of every release.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0d0f14" media="(prefers-color-scheme: dark)">
@@ -24,9 +24,9 @@
 
   <header class="nav" id="nav">
     <div class="wrap nav__inner">
-      <a class="brand" href="index.html" aria-label="Unibox – home">
+      <a class="brand" href="index.html" aria-label="HubGet – home">
         <img src="../assets/unibox-logo.svg" alt="" width="32" height="32">
-        <span>Unibox</span>
+        <span>HubGet</span>
       </a>
       <nav class="nav__links" aria-label="Main navigation">
         <a href="features.html">Features</a>
@@ -48,8 +48,8 @@
       <div class="wrap">
         <div class="page-head__inner">
           <p class="eyebrow">Code signing policy</p>
-          <h1>Signed Unibox</h1>
-          <p class="lead">A digital signature confirms that an installer comes from the Unibox project and nobody changed it along the way.</p>
+          <h1>Signed HubGet</h1>
+          <p class="lead">A digital signature confirms that an installer comes from the HubGet project and nobody changed it along the way.</p>
         </div>
       </div>
     </section>
@@ -60,9 +60,9 @@
       <h2>What gets signed</h2>
       <ul>
         <li>The <strong>unibox.exe</strong> program and the <strong>EXE (NSIS)</strong> and <strong>MSI</strong> installers from the official releases on <a data-link="releases" href="#">GitHub</a>.</li>
-        <li>Every signed file is produced by an automated build (GitHub Actions) from the source code in the public <a data-link="github" href="#">Unibox repository</a> – never on a developer's computer.</li>
+        <li>Every signed file is produced by an automated build (GitHub Actions) from the source code in the public <a data-link="github" href="#">HubGet repository</a> – never on a developer's computer.</li>
         <li>We only sign files built from the project's own code. Third-party tools and libraries are signed by their authors.</li>
-        <li>The publisher in the signature is <strong>SignPath Foundation</strong>, the product name is <strong>Unibox</strong>.</li>
+        <li>The publisher in the signature is <strong>SignPath Foundation</strong>, the product name is <strong>HubGet</strong>.</li>
       </ul>
 
       <h2>Who stands behind the signature</h2>
@@ -78,12 +78,12 @@
       <p>All team members use multi-factor authentication on GitHub and SignPath.</p>
 
       <h2>Privacy</h2>
-      <p>Unibox doesn't send telemetry or information about your computer. When and why it talks to servers (catalog, icons, package managers, optional sign-in) is described in the <a href="privacy.html">privacy policy</a>.</p>
+      <p>HubGet doesn't send telemetry or information about your computer. When and why it talks to servers (catalog, icons, package managers, optional sign-in) is described in the <a href="privacy.html">privacy policy</a>.</p>
 
       <h2>How to verify the signature</h2>
       <ul>
         <li>Right-click the installer → <strong>Properties → Digital Signatures</strong>: signed by “SignPath Foundation”.</li>
-        <li>In PowerShell: <code>Get-AuthenticodeSignature .\Unibox_*_x64-setup.exe</code> – status <code>Valid</code>.</li>
+        <li>In PowerShell: <code>Get-AuthenticodeSignature .\HubGet_*_x64-setup.exe</code> – status <code>Valid</code>.</li>
         <li>Don't run an installer downloaded from anywhere other than the official releases, without a signature or with a different publisher.</li>
       </ul>
 
@@ -95,7 +95,7 @@
   <footer class="footer">
     <div class="wrap footer__inner">
       <div class="footer__brand">
-        <a class="brand" href="index.html"><img src="../assets/unibox-logo.svg" alt="" width="28" height="28"><span>Unibox</span></a>
+        <a class="brand" href="index.html"><img src="../assets/unibox-logo.svg" alt="" width="28" height="28"><span>HubGet</span></a>
         <p>An app store for Windows. Open source, MIT license.</p>
       </div>
       <nav class="footer__links" aria-label="Links">
@@ -107,7 +107,7 @@
       </nav>
     </div>
     <div class="wrap footer__note">
-      <p>Unibox is not affiliated with Microsoft or with the WinGet, Chocolatey and Scoop projects. Windows is a trademark of Microsoft Corporation.</p>
+      <p>HubGet is not affiliated with Microsoft or with the WinGet, Chocolatey and Scoop projects. Windows is a trademark of Microsoft Corporation.</p>
     </div>
   </footer>
 

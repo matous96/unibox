@@ -1,25 +1,25 @@
-﻿; Funkce a texty vzhledu instalátoru Uniboxu (nastavení viz unibox-ui.nsh).
+﻿; Funkce a texty vzhledu instalátoru HubGetu (nastavení viz unibox-ui.nsh).
 ; Vkládá ho šablona installer.nsi po jazycích – proměnné stránek Modern UI
 ; už v tu chvíli existují.
 
-LangString uniboxWelcomeTitle ${LANG_CZECH} "Vítejte v Uniboxu"
-LangString uniboxWelcomeText ${LANG_CZECH} "Unibox je obchod s aplikacemi pro Windows. Přes 25 000 aplikací z WinGetu, Chocolatey a Scoopu nainstalujete jedním kliknutím – bezpečně, bez reklam a přibalených doplňků.$\r$\n$\r$\nInstalace verze ${VERSION} zabere jen chvíli a nepotřebuje práva správce."
-LangString uniboxFinishTitle ${LANG_CZECH} "Unibox je připravený"
-LangString uniboxFinishText ${LANG_CZECH} "Instalace je hotová. Unibox najdete v nabídce Start."
+LangString uniboxWelcomeTitle ${LANG_CZECH} "Vítejte v HubGetu"
+LangString uniboxWelcomeText ${LANG_CZECH} "HubGet je obchod s aplikacemi pro Windows. Přes 25 000 aplikací z WinGetu, Chocolatey a Scoopu nainstalujete jedním kliknutím – bezpečně, bez reklam a přibalených doplňků.$\r$\n$\r$\nInstalace verze ${VERSION} zabere jen chvíli a nepotřebuje práva správce."
+LangString uniboxFinishTitle ${LANG_CZECH} "HubGet je připravený"
+LangString uniboxFinishText ${LANG_CZECH} "Instalace je hotová. HubGet najdete v nabídce Start."
 
-LangString uniboxWelcomeTitle ${LANG_ENGLISH} "Welcome to Unibox"
-LangString uniboxWelcomeText ${LANG_ENGLISH} "Unibox is an app store for Windows. Install over 25,000 apps from WinGet, Chocolatey and Scoop in one click – safely, with no ads or bundled extras.$\r$\n$\r$\nInstalling version ${VERSION} takes just a moment and doesn't need administrator rights."
-LangString uniboxFinishTitle ${LANG_ENGLISH} "Unibox is ready"
-LangString uniboxFinishText ${LANG_ENGLISH} "Installation is complete. You'll find Unibox in the Start menu."
+LangString uniboxWelcomeTitle ${LANG_ENGLISH} "Welcome to HubGet"
+LangString uniboxWelcomeText ${LANG_ENGLISH} "HubGet is an app store for Windows. Install over 25,000 apps from WinGet, Chocolatey and Scoop in one click – safely, with no ads or bundled extras.$\r$\n$\r$\nInstalling version ${VERSION} takes just a moment and doesn't need administrator rights."
+LangString uniboxFinishTitle ${LANG_ENGLISH} "HubGet is ready"
+LangString uniboxFinishText ${LANG_ENGLISH} "Installation is complete. You'll find HubGet in the Start menu."
 
 !macro UNIBOX_FUNCTIONS UN
 
-  ; Nastaví obrázek $Unibox.ImgPath do ovládacího prvku $Unibox.ImgHwnd přesně
-  ; v jeho velikosti: výřez se stejným poměrem stran (na střed, s $Unibox.ImgAlign = 1
+  ; Nastaví obrázek $HubGet.ImgPath do ovládacího prvku $HubGet.ImgHwnd přesně
+  ; v jeho velikosti: výřez se stejným poměrem stran (na střed, s $HubGet.ImgAlign = 1
   ; zarovnaný vpravo) a kvalitní zmenšení (HALFTONE) – obrázek je ostrý při
   ; jakémkoli zvětšení obrazovky i velikosti písma. Novou bitmapu vrátí
-  ; v $Unibox.ImgResult (0 = nepovedlo se, zůstane obrázek od Modern UI).
-  Function ${UN}Unibox.SmoothImage
+  ; v $HubGet.ImgResult (0 = nepovedlo se, zůstane obrázek od Modern UI).
+  Function ${UN}HubGet.SmoothImage
     Push $0
     Push $1
     Push $2
@@ -36,18 +36,18 @@ LangString uniboxFinishText ${LANG_ENGLISH} "Installation is complete. You'll fi
     Push $R3
     Push $R4
     Push $R5
-    StrCpy $Unibox.ImgResult 0
+    StrCpy $HubGet.ImgResult 0
 
     ; Velikost ovládacího prvku v pixelech ($1 × $2)
     System::Call "*(i 0, i 0, i 0, i 0) p .r0"
-    System::Call "user32::GetClientRect(p $Unibox.ImgHwnd, p r0)"
+    System::Call "user32::GetClientRect(p $HubGet.ImgHwnd, p r0)"
     System::Call "*$0(i, i, i .r1, i .r2)"
     System::Free $0
     IntCmp $1 0 unibox_done unibox_done
     IntCmp $2 0 unibox_done unibox_done
 
     ; Zdrojový obrázek ($3) a jeho rozměry ($4 × $5)
-    System::Call 'user32::LoadImageW(p 0, w "$Unibox.ImgPath", i 0, i 0, i 0, i 0x2010) p .r3'
+    System::Call 'user32::LoadImageW(p 0, w "$HubGet.ImgPath", i 0, i 0, i 0, i 0x2010) p .r3'
     IntCmp $3 0 unibox_done
     System::Call "*(i, i, i, i, i, p) p .r0"
     System::Call "gdi32::GetObjectW(p r3, i 24, p r0)"
@@ -71,7 +71,7 @@ LangString uniboxFinishText ${LANG_ENGLISH} "Installation is complete. You'll fi
       IntOp $8 $1 * $5
       IntOp $8 $8 / $2
       IntOp $6 $4 - $8
-      ${If} $Unibox.ImgAlign != 1
+      ${If} $HubGet.ImgAlign != 1
         IntOp $6 $6 / 2
       ${EndIf}
       StrCpy $7 0
@@ -95,8 +95,8 @@ LangString uniboxFinishText ${LANG_ENGLISH} "Installation is complete. You'll fi
     System::Call "gdi32::DeleteObject(p r3)"
 
     ; STM_SETIMAGE, IMAGE_BITMAP
-    SendMessage $Unibox.ImgHwnd 0x0172 0 $R3
-    StrCpy $Unibox.ImgResult $R3
+    SendMessage $HubGet.ImgHwnd 0x0172 0 $R3
+    StrCpy $HubGet.ImgResult $R3
 
     unibox_done:
     Pop $R5
@@ -118,16 +118,16 @@ LangString uniboxFinishText ${LANG_ENGLISH} "Installation is complete. You'll fi
   FunctionEnd
 
   ; Záhlaví: titulek polotučným písmem, podtitulek tlumeně, ostré logo vpravo
-  Function ${UN}Unibox.GUIInit
+  Function ${UN}HubGet.GUIInit
     Push $0
     CreateFont $0 "$(^Font)" 10 600
     SendMessage $mui.Header.Text ${WM_SETFONT} $0 0
     SetCtlColors $mui.Header.SubText "${UNIBOX_MUTED_COLOR}" "${MUI_BGCOLOR}"
     !ifdef MUI_HEADERIMAGE
-      StrCpy $Unibox.ImgHwnd $mui.Header.Image
-      StrCpy $Unibox.ImgPath "$PLUGINSDIR\modern-header.bmp"
-      StrCpy $Unibox.ImgAlign 1
-      Call ${UN}Unibox.SmoothImage
+      StrCpy $HubGet.ImgHwnd $mui.Header.Image
+      StrCpy $HubGet.ImgPath "$PLUGINSDIR\modern-header.bmp"
+      StrCpy $HubGet.ImgAlign 1
+      Call ${UN}HubGet.SmoothImage
     !endif
     Pop $0
   FunctionEnd
@@ -141,24 +141,24 @@ LangString uniboxFinishText ${LANG_ENGLISH} "Installation is complete. You'll fi
 !macro UNIBOX_STYLE_WIZARD_PAGE IMAGE TITLE TEXT
   Push $0
   ; Bitmapa z minulého zobrazení (tlačítko Zpět) už nikde není
-  ${If} $Unibox.SidebarBitmap <> 0
-    System::Call "gdi32::DeleteObject(p $Unibox.SidebarBitmap)"
+  ${If} $HubGet.SidebarBitmap <> 0
+    System::Call "gdi32::DeleteObject(p $HubGet.SidebarBitmap)"
   ${EndIf}
-  StrCpy $Unibox.ImgHwnd ${IMAGE}
-  StrCpy $Unibox.ImgPath "$PLUGINSDIR\modern-wizard.bmp"
-  StrCpy $Unibox.ImgAlign 0
-  Call Unibox.SmoothImage
-  StrCpy $Unibox.SidebarBitmap $Unibox.ImgResult
+  StrCpy $HubGet.ImgHwnd ${IMAGE}
+  StrCpy $HubGet.ImgPath "$PLUGINSDIR\modern-wizard.bmp"
+  StrCpy $HubGet.ImgAlign 0
+  Call HubGet.SmoothImage
+  StrCpy $HubGet.SidebarBitmap $HubGet.ImgResult
   CreateFont $0 "$(^Font)" 16 600
   SendMessage ${TITLE} ${WM_SETFONT} $0 1
   SetCtlColors ${TEXT} "${UNIBOX_MUTED_COLOR}" "${MUI_BGCOLOR}"
   Pop $0
 !macroend
 
-Function Unibox.WelcomeShow
+Function HubGet.WelcomeShow
   !insertmacro UNIBOX_STYLE_WIZARD_PAGE $mui.WelcomePage.Image $mui.WelcomePage.Title $mui.WelcomePage.Text
 FunctionEnd
 
-Function Unibox.FinishShow
+Function HubGet.FinishShow
   !insertmacro UNIBOX_STYLE_WIZARD_PAGE $mui.FinishPage.Image $mui.FinishPage.Title $mui.FinishPage.Text
 FunctionEnd

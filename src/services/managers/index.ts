@@ -80,7 +80,7 @@ function wingetKeys(p: InstalledPackage): string[] {
  *  - přenosný balíček Chocolatey zůstane, jen když ho winget nevidí,
  *  - balíček s instalátorem musí winget vidět v registru – jinak byl program
  *    mezitím odinstalován jinak a záznam Chocolatey je zastaralý. Když ho
- *    winget zná jen jako záznam registru (bez vlastního balíčku), nebo ho Unibox
+ *    winget zná jen jako záznam registru (bez vlastního balíčku), nebo ho HubGet
  *    nainstaloval přes Chocolatey (store/installedVia), ukáže se pod Chocolatey;
  *    jinak zůstane winget.
  * Shoda: název nebo id balíčku („thunderbird“) odpovídá názvu či id u wingetu,

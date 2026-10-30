@@ -1,4 +1,4 @@
-# Grafika instalátoru Uniboxu (NSIS): boční panel úvodní a závěrečné obrazovky
+# Grafika instalátoru HubGetu (NSIS): boční panel úvodní a závěrečné obrazovky
 # a obrázek v záhlaví ostatních stránek. Kreslí se ve vysokém rozlišení podle
 # loga (website/assets/unibox-logo.svg) – instalátor si je pak kvalitně zmenší
 # podle DPI obrazovky (src-tauri/nsis/unibox-ui.nsh).
@@ -39,7 +39,7 @@ function Glow($g, [float]$cx, [float]$cy, [float]$r, [string]$hex, [int]$alpha) 
   $b.Dispose(); $p.Dispose()
 }
 
-# Logo Uniboxu (viewBox 64 × 64) v levém horním rohu ($x, $y) o velikosti $size
+# Logo HubGetu (viewBox 64 × 64) v levém horním rohu ($x, $y) o velikosti $size
 function Logo($g, [float]$x, [float]$y, [float]$size) {
   $state = $g.Save()
   $g.TranslateTransform($x, $y)
@@ -100,7 +100,7 @@ Logo $g $lx $ly $L
 $font = New-Object System.Drawing.Font('Segoe UI Semibold', 72, [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)
 $fmt = New-Object System.Drawing.StringFormat
 $fmt.Alignment = 'Center'
-$g.DrawString('Unibox', $font, (New-Object System.Drawing.SolidBrush (Color '#ffffff')), (New-Object System.Drawing.RectangleF 0, ($ly + $L + 46), $W, 110), $fmt)
+$g.DrawString('HubGet', $font, (New-Object System.Drawing.SolidBrush (Color '#ffffff')), (New-Object System.Drawing.RectangleF 0, ($ly + $L + 46), $W, 110), $fmt)
 
 # Tři barevné body (dlaždice z loga)
 $dots = @('#f59e0b', '#38bdf8', '#10b981')

@@ -2,17 +2,17 @@
 //!
 //! - Ikonu vytvoří Tauri z `tauri.conf.json` (`app.trayIcon`): jednobarevná
 //!   verze loga na průhledném pozadí (`icons/tray.png`, 64 × 64, zdroj
-//!   `assets/tray-icon.svg`, v krabici nápis „unibox“, u testovací verze „test“) – vypadá
+//!   `assets/tray-icon.svg`, v krabici nápis „hubget“, u testovací verze „test“) – vypadá
 //!   jako systémové ikony Windows. Na světlém hlavním panelu se přepne na tmavou variantu.
 //!   Předloha se zmenší přesně na velikost ikon v oznamovací oblasti (16 px × měřítko
 //!   Windows: 24 px při 150 %, 32 px při 200 %) – Windows ji pak už neškáluje.
 //! - Stav je barevná tečka vpravo nahoře (`set_tray_status`, dole by zakryla nápis): modrá = probíhá
 //!   instalace / aktualizace, červená = chyba, zelená = hotovo, oranžová = čekají
 //!   aktualizace. Frontend posílá Idle, když je tečka v Nastavení vypnutá.
-//! - Zavření okna ho jen schová, Unibox běží dál (fronta instalací doběhne);
+//! - Zavření okna ho jen schová, HubGet běží dál (fronta instalací doběhne);
 //!   lze vypnout v Nastavení (`set_close_to_tray`).
 //! - Levé tlačítko na ikoně okno ukáže. Pravé otevře nabídku po vzoru UniGetUI:
-//!   Procházet balíčky, Dostupné aktualizace, Nainstalované | Zobrazit Unibox,
+//!   Procházet balíčky, Dostupné aktualizace, Nainstalované | Zobrazit HubGet,
 //!   Ukončit. Rychlé odkazy ukážou okno a frontendu pošlou stránku (událost
 //!   `tray-navigate`).
 //! - Texty nabídky a popisek (s počtem aktualizací) posílá frontend v jazyce
@@ -57,9 +57,9 @@ impl Default for TrayLabels {
             browse: "Procházet balíčky".into(),
             updates: "Dostupné aktualizace".into(),
             installed: "Nainstalované".into(),
-            show: "Zobrazit Unibox".into(),
+            show: "Zobrazit HubGet".into(),
             quit: "Ukončit".into(),
-            tooltip: "Unibox".into(),
+            tooltip: "HubGet".into(),
         }
     }
 }
@@ -110,11 +110,11 @@ pub fn is_test_build<R: Runtime>(app: &AppHandle<R>) -> bool {
     app.config().identifier.ends_with(".dev")
 }
 
-/// „Unibox“ v titulku okna a popisku ikony; u testovací verze „Unibox (test)“, ať nejde
-/// zaměnit s nainstalovaným Uniboxem, který běží vedle.
+/// „HubGet“ v titulku okna a popisku ikony; u testovací verze „HubGet (test)“, ať nejde
+/// zaměnit s nainstalovaným HubGetem, který běží vedle.
 pub fn display_name<R: Runtime>(app: &AppHandle<R>, text: &str) -> String {
     if is_test_build(app) {
-        text.replacen("Unibox", "Unibox (test)", 1)
+        text.replacen("HubGet", "HubGet (test)", 1)
     } else {
         text.to_string()
     }
@@ -127,7 +127,7 @@ pub fn setup<R: Runtime>(app: &AppHandle<R>) -> tauri::Result<()> {
         Some(tray) => tray,
         None => TrayIconBuilder::with_id(TRAY_ID).build(app)?,
     };
-    tray.set_tooltip(Some(display_name(app, "Unibox")))?;
+    tray.set_tooltip(Some(display_name(app, "HubGet")))?;
     tray.set_menu(Some(menu(app, &TrayLabels::default())?))?;
     tray.set_show_menu_on_left_click(false)?;
     tray.on_menu_event(|app, event| match event.id().as_ref() {
@@ -167,7 +167,7 @@ fn menu<R: Runtime>(app: &AppHandle<R>, labels: &TrayLabels) -> tauri::Result<Me
 /// Nastaví ikonu: barva podle hlavního panelu (bílá na tmavém, tmavá na světlém),
 /// velikost podle měřítka Windows a tečka podle stavu operací.
 fn apply_icon<R: Runtime>(tray: &TrayIcon<R>) {
-    // Testovací verze má v krabici nápis „test“ místo „unibox“
+    // Testovací verze má v krabici nápis „test“ místo „hubget“
     let master = match (is_test_build(tray.app_handle()), taskbar_is_light()) {
         (false, false) => ICON_LIGHT,
         (false, true) => ICON_DARK,
@@ -181,7 +181,7 @@ fn apply_icon<R: Runtime>(tray: &TrayIcon<R>) {
 }
 
 /// Ikona okna testovací verze (hlavní panel, Alt+Tab): oranžové logo s nápisem „test“
-/// (zdroj `assets/unibox-test.svg`), ať nejde zaměnit s nainstalovaným Uniboxem.
+/// (zdroj `assets/unibox-test.svg`), ať nejde zaměnit s nainstalovaným HubGetem.
 const WINDOW_ICON_TEST: &[u8] = include_bytes!("../icons/window-test.png");
 
 /// Ikona okna testovací verze zmenšená na velké ikony Windows (32 px × měřítko) –

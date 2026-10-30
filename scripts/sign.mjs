@@ -1,4 +1,4 @@
-// Podpis souboru (Authenticode) přes signtool.exe – Windows pak u Uniboxu ukáže
+// Podpis souboru (Authenticode) přes signtool.exe – Windows pak u HubGetu ukáže
 // vydavatele místo „Neznámý vydavatel“ a podepsaný instalátor si u SmartScreenu
 // postupně buduje reputaci. Volá ho Tauri při sestavení pro každý podepisovaný
 // soubor (unibox.exe, instalátor NSIS i jeho odinstalátor, MSI); zapíná ho
@@ -56,7 +56,7 @@ export function findSigntool(env = process.env) {
 
 /** Parametry `signtool sign`: SHA-256, časové razítko RFC 3161, název programu a certifikát. */
 export function signArgs(identity, file, env = process.env) {
-  const args = ["sign", "/fd", "SHA256", "/tr", env.UNIBOX_SIGN_TIMESTAMP_URL || TIMESTAMP_URL, "/td", "SHA256", "/d", "Unibox"];
+  const args = ["sign", "/fd", "SHA256", "/tr", env.UNIBOX_SIGN_TIMESTAMP_URL || TIMESTAMP_URL, "/td", "SHA256", "/d", "HubGet"];
   if (identity.kind === "pfx") {
     args.push("/f", identity.file);
     if (identity.password) args.push("/p", identity.password);

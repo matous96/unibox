@@ -1,5 +1,5 @@
 // Ikony aplikace (src-tauri/icons) ze tří předloh loga:
-//   assets/unibox-logo.svg        – s tenkým nápisem „unibox“ (velké ikony, 64 px a víc)
+//   assets/unibox-logo.svg        – s tenkým nápisem „hubget“ (velké ikony, 64 px a víc)
 //   assets/unibox-logo-small.svg  – s výraznějším nápisem (24–48 px: hlavní panel, Alt+Tab)
 //   assets/unibox-mark.svg        – bez nápisu (16 px a malé dlaždice, kde by byl jen šmouha)
 // icon.ico se skládá ručně z PNG záznamů, protože `tauri icon` umí jen jednu předlohu.

@@ -1,6 +1,6 @@
 /**
  * Údaje pro automatická pravidla aktualizací (store/updateRules.ts):
- *  - firstSeen: kdy Unibox nabízenou verzi poprvé uviděl – pro minimální stáří
+ *  - firstSeen: kdy HubGet nabízenou verzi poprvé uviděl – pro minimální stáří
  *    aktualizací u verzí, jejichž datum vydání katalog nezná,
  *  - stuck: kolikrát aktualizace na verzi proběhla „úspěšně“, ale správce ji
  *    nabízí dál (winget u některých balíčků) – po N pokusech se přestane nabízet,

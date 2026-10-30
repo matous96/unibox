@@ -1,6 +1,6 @@
 <!--
-  Ikona okna testovací verze Uniboxu (hlavní panel, Alt+Tab): logo s oranžovým podkladem
-  místo modrého a nápisem „test“ místo „unibox“ – aby nešla zaměnit s nainstalovaným Uniboxem.
+  Ikona okna testovací verze HubGetu (hlavní panel, Alt+Tab): logo s oranžovým podkladem
+  místo modrého a nápisem „test“ místo „hubget“ – aby nešla zaměnit s nainstalovaným HubGetem.
   Okno ji dostane za běhu (tray::test_window_icon), instalátor a .exe mají ikonu z icon.ico.
   PNG:  pnpm tauri icon assets/unibox-test.svg -o <složka> -p 256  → 256x256.png do src-tauri/icons/window-test.png
 -->

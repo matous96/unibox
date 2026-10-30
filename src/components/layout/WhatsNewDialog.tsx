@@ -1,5 +1,5 @@
 /**
- * „Co je nového v Uniboxu“ – po spuštění nové verze (store/whatsNew.ts) ukáže
+ * „Co je nového v HubGetu“ – po spuštění nové verze (store/whatsNew.ts) ukáže
  * novinky vydání, která uživatel ještě neviděl. Tlačítkem Rozumím (i křížkem
  * nebo Esc) se aktuální verze uloží jako zobrazená. Sám se ukáže jen
  * v desktopové aplikaci; znovu ho otevře Nastavení → Novinky (useWhatsNewRequest).

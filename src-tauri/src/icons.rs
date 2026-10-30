@@ -195,7 +195,7 @@ fn download(url: &str) -> Result<Vec<u8>, DownloadError> {
         .args(["--location", "--fail", "--silent", "--connect-timeout", "5", "--max-time", "15", "--max-filesize"])
         .arg(MAX_BYTES.to_string())
         // Některé servery bez User-Agentu prohlížeče obrázek nevydají
-        .args(["--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Unibox"])
+        .args(["--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) HubGet"])
         // Stavový kód HTTP na stderr (data jdou na stdout)
         .args(["--write-out", "%{stderr}%{response_code}"])
         .args(["--output", "-"])

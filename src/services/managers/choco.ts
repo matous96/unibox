@@ -7,7 +7,7 @@
  * repozitář, který trvá i desítky sekund – seznam nainstalovaných proto vezme
  * poslední známý výsledek a nový zjistí na pozadí (pak ho doplní do seznamu).
  * Hledání a verze z repozitáře Chocolatey Community (choco search). Chybějící
- * Chocolatey jde nainstalovat oficiálním skriptem (práva správce). Unibox přes
+ * Chocolatey jde nainstalovat oficiálním skriptem (práva správce). HubGet přes
  * něj instaluje, aktualizuje a odinstaluje – i jako záložní zdroj, když odkaz
  * na instalátor ve WinGetu nefunguje.
  */

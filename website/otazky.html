@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Časté otázky – Unibox</title>
-  <meta name="description" content="Odpovědi na časté otázky o Uniboxu: varování SmartScreenu, účet, bezpečnost, práva správce a instalátory EXE a MSI.">
+  <title>Časté otázky – HubGet</title>
+  <meta name="description" content="Odpovědi na časté otázky o HubGetu: varování SmartScreenu, účet, bezpečnost, práva správce a instalátory EXE a MSI.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0d0f14" media="(prefers-color-scheme: dark)">
-  <meta property="og:title" content="Časté otázky – Unibox">
-  <meta property="og:description" content="Odpovědi na časté otázky o Uniboxu: varování SmartScreenu, účet, bezpečnost, práva správce a instalátory EXE a MSI.">
+  <meta property="og:title" content="Časté otázky – HubGet">
+  <meta property="og:description" content="Odpovědi na časté otázky o HubGetu: varování SmartScreenu, účet, bezpečnost, práva správce a instalátory EXE a MSI.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="cs_CZ">
   <!-- Jazykové verze stránky; po spuštění webu nahradit relativní adresy absolutními (s doménou) -->
@@ -43,9 +43,9 @@
 
   <header class="nav" id="nav">
     <div class="wrap nav__inner">
-      <a class="brand" href="index.html" aria-label="Unibox – úvod">
+      <a class="brand" href="index.html" aria-label="HubGet – úvod">
         <img src="assets/unibox-logo.svg" alt="" width="32" height="32">
-        <span>Unibox</span>
+        <span>HubGet</span>
       </a>
       <nav class="nav__links" aria-label="Hlavní navigace">
         <a href="funkce.html">Funkce</a>
@@ -57,7 +57,7 @@
       </nav>
       <div class="nav__actions">
         <a class="lang-switch" href="en/faq.html" hreflang="en" lang="en" data-lang-switch title="English" aria-label="Switch to English">EN</a>
-        <a class="icon-btn" data-link="github" href="#" aria-label="Unibox na GitHubu" title="GitHub">
+        <a class="icon-btn" data-link="github" href="#" aria-label="HubGet na GitHubu" title="GitHub">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
         </a>
         <button class="icon-btn" id="theme-toggle" type="button" aria-label="Přepnout světlý / tmavý motiv" title="Motiv">
@@ -86,35 +86,35 @@
         <div class="faq reveal">
           <details id="faq-edge">
             <summary>Edge při stahování hlásí, že se instalátor „běžně nestahuje“. Co s tím?</summary>
-            <p>Edge posuzuje reputaci stahovaných souborů. Nový instalátor, který zatím není digitálně podepsaný a stáhlo ho jen málo lidí, ji ještě nemá – proto varuje. Neznamená to, že je v&nbsp;souboru virus. Unibox stahujte jen z&nbsp;tohoto webu nebo z&nbsp;<a data-link="releases" href="#">oficiálních vydání na GitHubu</a>. V&nbsp;Edgi najeďte na stahovaný soubor a&nbsp;klikněte na <strong>…</strong> → <strong>Ponechat</strong> → <strong>Zobrazit další</strong> → <strong>Přesto ponechat</strong>. Při spuštění pak může ještě varovat SmartScreen – viz další otázka. Bezplatný digitální podpis pro open source (SignPath Foundation) připravujeme; s&nbsp;ním by varování mělo časem zmizet.</p>
+            <p>Edge posuzuje reputaci stahovaných souborů. Nový instalátor, který zatím není digitálně podepsaný a stáhlo ho jen málo lidí, ji ještě nemá – proto varuje. Neznamená to, že je v&nbsp;souboru virus. HubGet stahujte jen z&nbsp;tohoto webu nebo z&nbsp;<a data-link="releases" href="#">oficiálních vydání na GitHubu</a>. V&nbsp;Edgi najeďte na stahovaný soubor a&nbsp;klikněte na <strong>…</strong> → <strong>Ponechat</strong> → <strong>Zobrazit další</strong> → <strong>Přesto ponechat</strong>. Při spuštění pak může ještě varovat SmartScreen – viz další otázka. Bezplatný digitální podpis pro open source (SignPath Foundation) připravujeme; s&nbsp;ním by varování mělo časem zmizet.</p>
           </details>
           <details id="faq-smartscreen">
             <summary>Windows při spuštění instalátoru hlásí varování SmartScreenu. Je to v pořádku?</summary>
-            <p>Instalátor Uniboxu zatím není digitálně podepsaný, a Windows proto zobrazí okno „Systém Windows ochránil váš počítač“. Klikněte na <strong>Další informace</strong> a potom na <strong>Přesto spustit</strong>. Podepsaný instalátor je mezi věcmi, které chystáme.</p>
+            <p>Instalátor HubGetu zatím není digitálně podepsaný, a Windows proto zobrazí okno „Systém Windows ochránil váš počítač“. Klikněte na <strong>Další informace</strong> a potom na <strong>Přesto spustit</strong>. Podepsaný instalátor je mezi věcmi, které chystáme.</p>
           </details>
           <details id="faq-preview">
             <summary>Co znamená „preview“ verze?</summary>
-            <p>Unibox je zatím v rané fázi vývoje – první veřejná verze 0.1.0 vyšla v říjnu 2026 a od té doby přibývají aktualizace (viz <a href="novinky.html">Novinky</a>). Naostro fungují WinGet, Chocolatey, Scoop i správci pro vývojáře (npm, pip, Cargo a další) – hledání, instalace, aktualizace i odinstalace. Občas můžete narazit na chybu.</p>
+            <p>HubGet je zatím v rané fázi vývoje – první veřejná verze 0.1.0 vyšla v říjnu 2026 a od té doby přibývají aktualizace (viz <a href="novinky.html">Novinky</a>). Naostro fungují WinGet, Chocolatey, Scoop i správci pro vývojáře (npm, pip, Cargo a další) – hledání, instalace, aktualizace i odinstalace. Občas můžete narazit na chybu.</p>
           </details>
           <details>
-            <summary>Je Unibox zdarma?</summary>
-            <p>Ano. Unibox je open source pod licencí MIT – zdarma, bez reklam a bez přibalených doplňků. Zdrojový kód najdete na <a data-link="github" href="#">GitHubu</a>.</p>
+            <summary>Je HubGet zdarma?</summary>
+            <p>Ano. HubGet je open source pod licencí MIT – zdarma, bez reklam a bez přibalených doplňků. Zdrojový kód najdete na <a data-link="github" href="#">GitHubu</a>.</p>
           </details>
           <details>
             <summary>Potřebuji účet?</summary>
             <p>Ne. Přihlášení přes GitHub je dobrovolné a hodí se jen pro hodnocení, recenze, přidávání snímků obrazovky a synchronizaci mezi počítači. Instalace, aktualizace i odinstalace fungují bez účtu. Co se při přihlášení ukládá, popisují <a href="soukromi.html">zásady ochrany soukromí</a>.</p>
           </details>
           <details>
-            <summary>Odkud Unibox aplikace stahuje? Je to bezpečné?</summary>
-            <p>Jen z oficiálních repozitářů správců balíčků. Unibox instalátor stáhne a WinGet ho před spuštěním ověří kontrolním součtem SHA-256 – pokud by se soubor lišil od zveřejněného, instalace neproběhne.</p>
+            <summary>Odkud HubGet aplikace stahuje? Je to bezpečné?</summary>
+            <p>Jen z oficiálních repozitářů správců balíčků. HubGet instalátor stáhne a WinGet ho před spuštěním ověří kontrolním součtem SHA-256 – pokud by se soubor lišil od zveřejněného, instalace neproběhne.</p>
           </details>
           <details>
-            <summary>Uvidím v Uniboxu i aplikace, které jsem instaloval dřív?</summary>
+            <summary>Uvidím v HubGetu i aplikace, které jsem instaloval dřív?</summary>
             <p>Ano. Přehled nainstalovaných ukáže i programy instalované mimo WinGet, aplikace z Microsoft Storu a hry ze Steamu. Můžete je aktualizovat, odinstalovat nebo spustit tlačítkem Otevřít.</p>
           </details>
           <details>
             <summary>Potřebuji práva správce?</summary>
-            <p>K instalaci Uniboxu ne – instalátor EXE instaluje pro aktuálního uživatele. Pokud nějaká instalace aplikace práva správce vyžaduje, Unibox ji sám zopakuje s jejich vyžádáním (UAC).</p>
+            <p>K instalaci HubGetu ne – instalátor EXE instaluje pro aktuálního uživatele. Pokud nějaká instalace aplikace práva správce vyžaduje, HubGet ji sám zopakuje s jejich vyžádáním (UAC).</p>
           </details>
           <details>
             <summary>Jaký je rozdíl mezi instalátorem EXE a MSI?</summary>
@@ -128,7 +128,7 @@
   <footer class="footer">
     <div class="wrap footer__inner">
       <div class="footer__brand">
-        <a class="brand" href="index.html"><img src="assets/unibox-logo.svg" alt="" width="28" height="28"><span>Unibox</span></a>
+        <a class="brand" href="index.html"><img src="assets/unibox-logo.svg" alt="" width="28" height="28"><span>HubGet</span></a>
         <p>Obchod s aplikacemi pro Windows. Open source, licence MIT.</p>
       </div>
       <nav class="footer__links" aria-label="Odkazy">
@@ -143,7 +143,7 @@
       </nav>
     </div>
     <div class="wrap footer__note">
-      <p>Unibox není spojen se společností Microsoft ani s projekty WinGet, Chocolatey a Scoop. Windows je ochranná známka společnosti Microsoft.</p>
+      <p>HubGet není spojen se společností Microsoft ani s projekty WinGet, Chocolatey a Scoop. Windows je ochranná známka společnosti Microsoft.</p>
     </div>
   </footer>
 

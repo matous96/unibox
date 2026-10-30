@@ -14,7 +14,7 @@ export interface InstalledItem {
   entry: CatalogEntry;
 }
 
-/** Původ, u kterého aplikaci Unibox nespravuje (hry ze Steamu, programy mimo správce). */
+/** Původ, u kterého aplikaci HubGet nespravuje (hry ze Steamu, programy mimo správce). */
 export const isUnmanagedOrigin = (origin: InstallOrigin) => origin === "steam" || origin === "ea" || origin === "local";
 
 export function useInstalledItems() {

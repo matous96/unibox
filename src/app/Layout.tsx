@@ -181,7 +181,7 @@ export function Layout() {
  * oznámení v rohu, hromadné akce (useSelection), přihlášení (useAuth), možnosti
  * a ruční instalace s kontextovou nabídkou (useInstallUi), zbytky po odinstalaci
  * (useLeftovers), import profilu, chybějící správce, běžící aplikace, nabídka
- * jiného zdroje, nová verze Uniboxu, novinky a úvodní průvodce.
+ * jiného zdroje, nová verze HubGetu, novinky a úvodní průvodce.
  */
 const OVERLAYS: [string, ComponentType][] = [
   ["Toasts", Toasts],

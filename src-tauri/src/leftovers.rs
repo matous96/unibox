@@ -23,7 +23,7 @@
 //! Mazání: soubory a složky jdou do Koše (obnovitelné); klíče registru se
 //! nejdřív zálohují (`reg export` do složky aplikace – obnova dvojklikem)
 //! a pak smažou. Co vyžaduje práva správce (Program Files, ProgramData, HKLM),
-//! smaže povýšený pomocník Uniboxu po jednom potvrzení UAC – každou položku
+//! smaže povýšený pomocník HubGetu po jednom potvrzení UAC – každou položku
 //! si znovu ověří stejnými pravidly ([`allowed`]).
 
 use base64::engine::general_purpose::URL_SAFE_NO_PAD;
@@ -38,7 +38,7 @@ use tauri::{AppHandle, Manager};
 use crate::arp;
 use crate::process::{hidden_command, system_tool};
 
-/// Parametr, se kterým se Unibox spouští jako povýšený pomocník úklidu zbytků.
+/// Parametr, se kterým se HubGet spouští jako povýšený pomocník úklidu zbytků.
 pub const ELEVATED_CLEANUP_FLAG: &str = "--unibox-elevated-cleanup";
 
 /// Druh zbytku.

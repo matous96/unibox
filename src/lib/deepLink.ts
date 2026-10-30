@@ -1,5 +1,5 @@
 /**
- * Odkazy unibox:// z webu Uniboxu a sdílených sad → cesta v aplikaci.
+ * Odkazy hubget:// a unibox:// (dřívější název, odkazy z webu a starších verzí) → cesta v aplikaci.
  *
  *   unibox://app/mozilla-firefox                 →  detail aplikace
  *   unibox://bundle?d=…                          →  sdílená sada (data v odkazu, lib/bundleShare.ts)
@@ -11,11 +11,11 @@
  * seznam, instalaci potvrdí uživatel.
  *
  * Windows předá odkaz přes tauri-plugin-deep-link (aplikace je obsluhou
- * schématu unibox://; běžící Unibox ho dostane od druhého spuštění).
+ * obou schémat; běžící HubGet ho dostane od druhého spuštění).
  */
 export function deepLinkToPath(url: string): string | null {
   // Ručně, ne přes URL: starší Chromium (WebView2) u nestandardních schémat neodděluje host
-  const match = url.trim().match(/^unibox:\/*([^?#]*)(?:\?([^#]*))?/i);
+  const match = url.trim().match(/^(?:hubget|unibox):\/*([^?#]*)(?:\?([^#]*))?/i);
   if (!match) return null;
   // unibox://import?… i unibox://import/?… (prohlížeče občas přidají lomítko)
   const [action = "", first] = match[1].split("/").filter(Boolean);

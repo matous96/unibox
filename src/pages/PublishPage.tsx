@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import { isTauri } from "@/lib/tauri";
 import { GitHubIcon } from "@/components/ui/BrandIcons";
-import { UniboxLogo } from "@/components/ui/Logo";
+import { HubGetLogo } from "@/components/ui/Logo";
 import { SourceIcon } from "@/components/package/SourceIcon";
 import { VerifiedBadge } from "@/components/package/VerifiedBadge";
 import { FORUM_URL, GITHUB_URL } from "@/config";
@@ -44,7 +44,7 @@ const CHANNELS: { source: SourceId; commands: string[]; docs: string; recommende
 const VERIFY_URL = `${GITHUB_URL}/issues/new?title=${encodeURIComponent("Žádost o ověření vydavatele: ")}&labels=verification`;
 
 /**
- * Stránka pro vývojáře: jak dostat aplikaci do Uniboxu (vydat ji ve winget,
+ * Stránka pro vývojáře: jak dostat aplikaci do HubGetu (vydat ji ve winget,
  * Chocolatey nebo Scoop), jak vylepšit její stránku a jak získat ověření.
  */
 export function PublishPage() {
@@ -71,7 +71,7 @@ export function PublishPage() {
       <section className="relative mb-10 overflow-hidden rounded-3xl border border-line bg-surface p-10 shadow-card">
         <div aria-hidden className="absolute -top-24 -right-10 size-80 rounded-full bg-accent/15 blur-3xl" />
         <div className="relative flex flex-wrap items-center gap-8">
-          <UniboxLogo size={88} className="rounded-[21px] shadow-xl shadow-accent/30" />
+          <HubGetLogo size={88} className="rounded-[21px] shadow-xl shadow-accent/30" />
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">{t("publish.eyebrow")}</p>
             <h1 className="mt-1 font-display text-4xl font-bold tracking-tight">{t("publish.title")}</h1>
@@ -152,7 +152,7 @@ export function PublishPage() {
               <span className="font-semibold text-accent">1.</span>
               <span>
                 {t("publish.verifyStep1")}{" "}
-                <code className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-xs select-text">unibox-verify=&lt;id&gt;</code>
+                <code className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-xs select-text">hubget-verify=&lt;id&gt;</code>
               </span>
             </li>
             <li className="flex gap-2">
@@ -218,7 +218,7 @@ function ChannelCard({ source, commands, docs, recommended }: (typeof CHANNELS)[
           </code>
         ))}
       </div>
-      {/* WinGet: manifest jde vytvořit a odeslat přímo v Uniboxu (desktop) */}
+      {/* WinGet: manifest jde vytvořit a odeslat přímo v HubGetu (desktop) */}
       {source === "winget" && isTauri() && (
         <Link
           to="/publish/winget"

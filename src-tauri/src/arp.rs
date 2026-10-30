@@ -524,9 +524,9 @@ pub(crate) mod tests {
         // Odinstalátor i ikona chybí, složka neexistuje → pozůstatek
         let leftover = ArpEntry {
             name: "Ollama version 0.40.2".into(),
-            display_icon: r"C:\Neexistujici Unibox\unins001.exe".into(),
-            uninstall: r#""C:\Neexistujici Unibox\unins001.exe""#.into(),
-            install_location: r"C:\Neexistujici Unibox\".into(),
+            display_icon: r"C:\Neexistujici HubGet\unins001.exe".into(),
+            uninstall: r#""C:\Neexistujici HubGet\unins001.exe""#.into(),
+            install_location: r"C:\Neexistujici HubGet\".into(),
             ..Default::default()
         };
         assert!(is_leftover(&leftover));
@@ -669,8 +669,8 @@ pub(crate) mod tests {
             ArpEntry { uninstall: String::new(), ..entry("{C}", "Bez odinstalace", "1.0") },
             ArpEntry { uninstall: format!(r"{windows}\regedit.exe /x"), ..entry("Reg", "Editor", "1.0") },
             ArpEntry {
-                install_location: r"C:\Neexistujici Unibox".into(),
-                uninstall: r#""C:\Neexistujici Unibox\unins000.exe""#.into(),
+                install_location: r"C:\Neexistujici HubGet".into(),
+                uninstall: r#""C:\Neexistujici HubGet\unins000.exe""#.into(),
                 ..entry("Gone", "Pozůstatek", "1.0")
             },
         ]);

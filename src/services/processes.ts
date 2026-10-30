@@ -28,7 +28,7 @@ export const closeProcesses = (pids: number[], force: boolean) => invoke<number[
 export const endProcesses = (pids: number[]) => invoke<number[]>("end_processes", { pids });
 
 /**
- * Proces, který Unibox smí před operací ukončit bez dotazu: jistě patří
+ * Proces, který HubGet smí před operací ukončit bez dotazu: jistě patří
  * aplikaci (složka instalace z registru), nemá okno (běží na pozadí / u hodin)
  * a je okenní program – ne konzolový skript, který spustil uživatel.
  */

@@ -1,8 +1,8 @@
 [package]
 name = "unibox"
 version = "0.1.18"
-description = "Unibox – obchod s aplikacemi pro Windows nad správci balíčků"
-authors = ["Unibox"]
+description = "HubGet – obchod s aplikacemi pro Windows nad správci balíčků"
+authors = ["HubGet"]
 license = "MIT"
 edition = "2021"
 rust-version = "1.80"
@@ -20,7 +20,7 @@ tauri-build = { version = "2", features = [] }
 tauri = { version = "2", features = ["tray-icon", "image-png"] }
 tauri-plugin-opener = "2"
 # Druhé spuštění jen ukáže běžící okno (i schované v oznamovací oblasti);
-# s deep-link předá běžícímu Uniboxu i odkaz unibox://, kterým byl spuštěn
+# s deep-link předá běžícímu HubGetu i odkaz unibox://, kterým byl spuštěn
 tauri-plugin-single-instance = { version = "2", features = ["deep-link"] }
 # Odkazy unibox:// z webu a sdílených sad (unibox://import?apps=…, unibox://bundle?d=…)
 tauri-plugin-deep-link = "2"
@@ -33,7 +33,7 @@ sha2 = "0.10"
 image = { version = "0.25", default-features = false, features = ["ico", "png"] }
 # Systémový dialog „Uložit jako“ (export seznamu aplikací, sady balíčků, protokolů)
 tauri-plugin-dialog = "2"
-# Aktualizace samotného Uniboxu (podepsané vydání z GitHub Releases) a restart po ní
+# Aktualizace samotného HubGetu (podepsané vydání z GitHub Releases) a restart po ní
 tauri-plugin-updater = "2"
 tauri-plugin-process = "2"
 # Spouštění při startu Windows (registr HKCU\…\Run, bez práv správce)

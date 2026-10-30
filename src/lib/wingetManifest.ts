@@ -234,7 +234,7 @@ function yamlLines(lines: Line[], indent = ""): string {
 
 // Repozitář winget-pkgs je anglický – komentář v manifestu taky
 const header = (type: string) =>
-  `# Created with Unibox – open-source app store for Windows\n# yaml-language-server: $schema=https://aka.ms/winget-manifest.${type}.${MANIFEST_VERSION}.schema.json\n\n`;
+  `# Created with HubGet – open-source app store for Windows\n# yaml-language-server: $schema=https://aka.ms/winget-manifest.${type}.${MANIFEST_VERSION}.schema.json\n\n`;
 
 export interface ManifestFile {
   name: string;
@@ -332,7 +332,7 @@ export function pullRequest(d: ManifestData, isUpdate: boolean, validated: boole
       `- [x] Does your manifest conform to the [${MANIFEST_VERSION.replace(/\.0$/, "")} schema](https://github.com/microsoft/winget-pkgs/tree/master/doc/manifest/schema/${MANIFEST_VERSION})?`,
       "",
       "---",
-      "Created with [Unibox](https://github.com/) – open-source app store for Windows.",
+      "Created with [HubGet](https://github.com/) – open-source app store for Windows.",
     ].join("\n"),
   };
 }

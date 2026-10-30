@@ -67,7 +67,7 @@ export async function encryptFile(input, output, passphrase) {
 /** Rozšifruje soubor; špatné heslo nebo jakákoli změna v souboru skončí chybou. */
 export async function decryptFile(input, output, passphrase) {
   const { size } = await stat(input);
-  if (size < HEADER + TAG) throw new Error("Soubor není záloha Uniboxu.");
+  if (size < HEADER + TAG) throw new Error("Soubor není záloha HubGetu.");
   const header = Buffer.alloc(HEADER);
   const tag = Buffer.alloc(TAG);
   const file = await open(input, "r");
@@ -77,7 +77,7 @@ export async function decryptFile(input, output, passphrase) {
   } finally {
     await file.close();
   }
-  if (!header.subarray(0, MAGIC.length).equals(MAGIC)) throw new Error("Soubor není záloha Uniboxu.");
+  if (!header.subarray(0, MAGIC.length).equals(MAGIC)) throw new Error("Soubor není záloha HubGetu.");
   const [version, log2N, r, p] = header.subarray(MAGIC.length, MAGIC.length + 4);
   if (version !== VERSION) throw new Error(`Nepodporovaná verze zálohy: ${version}`);
   // Meze chrání před hlavičkou, která by si řekla o gigabajty paměti

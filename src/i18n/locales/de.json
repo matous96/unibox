@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "Unibox",
-    "title": "Unibox – der App Store für Windows",
+    "name": "HubGet",
+    "title": "HubGet – der App Store für Windows",
     "testBuild": "Testversion"
   },
   "hero": {
@@ -18,7 +18,7 @@
     "dev": "Direkt aus der offiziellen Registry {{source}} installiert, unverändert",
     "how": "Wie funktioniert das?",
     "hashVerified": "SHA-256 geprüft",
-    "hashHint": "Prüfsumme des Installationsprogramms für Version {{version}} aus dem Manifest von {{source}}:\n{{hash}}\n\nUnibox vergleicht das heruntergeladene Installationsprogramm vor dem Start mit dieser Prüfsumme, und {{source}} prüft sie erneut – stimmt sie nicht überein, startet die Installation nicht. Klicken Sie, um die Prüfsumme zu kopieren.",
+    "hashHint": "Prüfsumme des Installationsprogramms für Version {{version}} aus dem Manifest von {{source}}:\n{{hash}}\n\nHubGet vergleicht das heruntergeladene Installationsprogramm vor dem Start mit dieser Prüfsumme, und {{source}} prüft sie erneut – stimmt sie nicht überein, startet die Installation nicht. Klicken Sie, um die Prüfsumme zu kopieren.",
     "hashByManager": "SHA-256 von {{source}} geprüft",
     "hashByManagerHint": "Vor der Installation vergleicht {{source}} die Prüfsumme des heruntergeladenen Installationsprogramms mit der im Manifest – stimmt sie nicht überein, startet die Installation nicht.",
     "hashOff": "SHA-256-Prüfung aus",
@@ -40,7 +40,7 @@
     "startup": "Autostart",
     "publish": "Veröffentlichen",
     "forum": "Forum",
-    "about": "Über Unibox"
+    "about": "Über HubGet"
   },
   "startup": {
     "title": "Autostart",
@@ -48,7 +48,7 @@
     "desktopOnly": "Autostart-Programme lassen sich nur in der Desktop-App verwalten.",
     "refresh": "Neu laden",
     "measure": "Auswirkung messen",
-    "measureHint": "Windows misst die Auswirkung bei jeder Anmeldung. Lesen darf sie nur ein Administrator – Unibox fragt einmal (UAC).",
+    "measureHint": "Windows misst die Auswirkung bei jeder Anmeldung. Lesen darf sie nur ein Administrator – HubGet fragt einmal (UAC).",
     "measured": "Startauswirkung aus der letzten Messung von Windows geladen",
     "statEnabled": "Aktivierte Programme",
     "statHigh": "Mit hoher Auswirkung",
@@ -108,7 +108,7 @@
   "about": {
     "version": "Version {{version}}",
     "tagline": "Ein Store für alle Windows-Apps.",
-    "intro": "Unibox vereint WinGet, Chocolatey und Scoop in einem übersichtlichen Store mit {{count}} Apps – dazu npm, Bun, pip, Cargo, vcpkg, .NET Tool und PowerShell für Entwickler. Mit einem Klick installieren, gesammelt aktualisieren und sich nicht darum kümmern, woher eine App kommt.",
+    "intro": "HubGet vereint WinGet, Chocolatey und Scoop in einem übersichtlichen Store mit {{count}} Apps – dazu npm, Bun, pip, Cargo, vcpkg, .NET Tool und PowerShell für Entwickler. Mit einem Klick installieren, gesammelt aktualisieren und sich nicht darum kümmern, woher eine App kommt.",
     "hlSources": "{{count}} Quellen in einer",
     "hlSourcesText": "Eine App = eine Seite. Sie wählen, mit welchem Paketmanager installiert wird.",
     "hlOpen": "Open Source",
@@ -122,7 +122,7 @@
     "techText": "Danke an großartige Open-Source-Projekte und an die Communitys, die die Paket-Repositorys pflegen.",
     "communityTitle": "Community",
     "communityText": "Ideen, Fehlermeldungen und Fragen sind willkommen.",
-    "disclaimer": "Unibox ist ein unabhängiges Open-Source-Projekt und steht in keiner Verbindung zu Microsoft oder zu den Projekten der unterstützten Paketmanager. Windows, WinGet, .NET, PowerShell und vcpkg sind Marken von Microsoft; Chocolatey ist eine Marke von Chocolatey Software, Inc.; npm ist eine Marke von npm, Inc.; Python und PyPI sind Marken der Python Software Foundation; Rust und Cargo sind Marken der Rust Foundation. Apps und Pakete gehören ihren Autoren."
+    "disclaimer": "HubGet ist ein unabhängiges Open-Source-Projekt und steht in keiner Verbindung zu Microsoft oder zu den Projekten der unterstützten Paketmanager. Windows, WinGet, .NET, PowerShell und vcpkg sind Marken von Microsoft; Chocolatey ist eine Marke von Chocolatey Software, Inc.; npm ist eine Marke von npm, Inc.; Python und PyPI sind Marken der Python Software Foundation; Rust und Cargo sind Marken der Rust Foundation. Apps und Pakete gehören ihren Autoren."
   },
   "privacy": {
     "title": "App-Datenschutz",
@@ -138,7 +138,7 @@
     "notLinkedText": "Die folgenden Daten können erfasst werden, werden aber nicht mit Ihrer Identität verknüpft:",
     "noDataTitle": "Keine Daten erfasst",
     "noDataText": "Der Entwickler gibt an, dass diese App keine Daten erfasst.",
-    "disclaimer": "Die Angaben stammen vom Entwickler und werden von Unibox nicht überprüft.",
+    "disclaimer": "Die Angaben stammen vom Entwickler und werden von HubGet nicht überprüft.",
     "forDevelopers": "So fügen Sie sie hinzu",
     "categories": {
       "purchases": "Käufe",
@@ -170,19 +170,19 @@
   "publish": {
     "eyebrow": "Für Entwickler",
     "title": "Veröffentlichen Sie Ihre App",
-    "subtitle": "Erreichen Sie Unibox-Nutzer neben {{count}} weiteren Apps – ohne Gebühren und ohne eigenen Store.",
+    "subtitle": "Erreichen Sie HubGet-Nutzer neben {{count}} weiteren Apps – ohne Gebühren und ohne eigenen Store.",
     "howTitle": "So funktioniert es",
     "step1Title": "In einem Paketmanager veröffentlichen",
-    "step1Text": "Einer genügt – Apps in WinGet, Chocolatey oder Scoop, Tools und Bibliotheken in npm, PyPI, crates.io, NuGet oder der PowerShell Gallery. Unibox hat kein eigenes Repository; es zeigt die Pakete von dort.",
-    "step2Title": "Unibox übernimmt sie",
+    "step1Text": "Einer genügt – Apps in WinGet, Chocolatey oder Scoop, Tools und Bibliotheken in npm, PyPI, crates.io, NuGet oder der PowerShell Gallery. HubGet hat kein eigenes Repository; es zeigt die Pakete von dort.",
+    "step2Title": "HubGet übernimmt sie",
     "step2Text": "Der Katalog wird täglich aktualisiert. Ihre App erscheint mit den Versionen aus allen Quellen, in denen sie verfügbar ist.",
     "step3Title": "Seite verfeinern und verifizieren lassen",
     "step3Text": "Fügen Sie Screenshots, ein Banner und Kategorien hinzu und bestätigen Sie, dass die App Ihnen gehört – Sie erhalten das blaue Häkchen.",
     "whereTitle": "Wo veröffentlichen",
     "whereSubtitle": "Jeder Paketmanager hat sein eigenes Verfahren. WinGet erreicht die meisten Nutzer, da es mit Windows geliefert wird.",
     "recommended": "Empfohlen",
-    "channel_winget": "Erstellen Sie ein Manifest direkt in Unibox (oder mit wingetcreate) und öffnen Sie einen Pull Request an microsoft/winget-pkgs.",
-    "wingetWizard": "Manifest in Unibox erstellen",
+    "channel_winget": "Erstellen Sie ein Manifest direkt in HubGet (oder mit wingetcreate) und öffnen Sie einen Pull Request an microsoft/winget-pkgs.",
+    "wingetWizard": "Manifest in HubGet erstellen",
     "channel_chocolatey": "Erstellen Sie ein .nupkg-Paket und laden Sie es zur Moderation ins Chocolatey Community Repository hoch.",
     "channel_scoop": "Fügen Sie ein Manifest zum Bucket Extras hinzu (Pull Request) oder erstellen Sie Ihren eigenen Bucket.",
     "channel_npm": "Veröffentlichen Sie das Paket in der npm-Registry – auch Bun installiert daraus. Kennzeichnen Sie Kommandozeilen-Tools mit dem Feld „bin“ in package.json.",
@@ -193,7 +193,7 @@
     "channel_pwsh": "Veröffentlichen Sie das Modul oder Skript in der PowerShell Gallery – PowerShell 7 und 5.1 können es installieren.",
     "docs": "Anleitung",
     "improveTitle": "App-Seite verfeinern",
-    "improveText": "Paket-Repositorys enthalten nur das Nötigste. Den Rest ergänzen Sie per Pull Request zum Unibox-Katalog (data-pipeline/rules).",
+    "improveText": "Paket-Repositorys enthalten nur das Nötigste. Den Rest ergänzen Sie per Pull Request zum HubGet-Katalog (data-pipeline/rules).",
     "improveScreenshots": "Screenshots für die Vorschau-Galerie",
     "improveBanner": "Eigenes Banner und Markenfarbe",
     "improveCategories": "Kategorien, Tags und eine längere Beschreibung",
@@ -210,10 +210,10 @@
   "publishWinget": {
     "back": "Veröffentlichen",
     "title": "In WinGet veröffentlichen",
-    "intro": "WinGet ist der Paketmanager von Windows, und sein Community-Repository microsoft/winget-pkgs ist offen und kostenlos. Unibox baut seinen Katalog daraus auf – nach der Freigabe erscheint Ihre App hier von selbst. Der Assistent erstellt das Manifest, prüft es und sendet es als Pull Request.",
-    "desktopOnly": "Der Manifest-Assistent läuft nur in der Desktop-App von Unibox (er lädt das Installationsprogramm herunter, untersucht es und führt winget validate aus).",
+    "intro": "WinGet ist der Paketmanager von Windows, und sein Community-Repository microsoft/winget-pkgs ist offen und kostenlos. HubGet baut seinen Katalog daraus auf – nach der Freigabe erscheint Ihre App hier von selbst. Der Assistent erstellt das Manifest, prüft es und sendet es als Pull Request.",
+    "desktopOnly": "Der Manifest-Assistent läuft nur in der Desktop-App von HubGet (er lädt das Installationsprogramm herunter, untersucht es und führt winget validate aus).",
     "step1": "Installationsprogramm",
-    "step1Hint": "Download-URL einer bestimmten Version (https). Unibox lädt das Installationsprogramm herunter, berechnet die SHA-256 und erkennt Typ und Architektur – es führt es nie aus.",
+    "step1Hint": "Download-URL einer bestimmten Version (https). HubGet lädt das Installationsprogramm herunter, berechnet die SHA-256 und erkennt Typ und Architektur – es führt es nie aus.",
     "analyze": "Angaben ermitteln",
     "analyzing": "Installationsprogramm wird heruntergeladen und untersucht…",
     "file": "Datei",
@@ -236,7 +236,7 @@
       "zip": "ZIP (portable App)"
     },
     "step2": "App-Angaben",
-    "step2Hint": "Was WinGet und Unibox anzeigen. Einige Angaben sind aus dem Installationsprogramm vorausgefüllt.",
+    "step2Hint": "Was WinGet und HubGet anzeigen. Einige Angaben sind aus dem Installationsprogramm vorausgefüllt.",
     "suggest": "{{id}} verwenden",
     "installerTitle": "Installationsprogramm",
     "field": {
@@ -306,7 +306,7 @@
       "relative": "Ein relativer Pfad im Archiv"
     },
     "step3": "Prüfen",
-    "step3Hint": "Unibox prüft die Angaben und validiert das Manifest mit winget validate – genau wie die WinGet-Moderatoren.",
+    "step3Hint": "HubGet prüft die Angaben und validiert das Manifest mit winget validate – genau wie die WinGet-Moderatoren.",
     "validate": "Manifest prüfen",
     "save": "In Ordner speichern",
     "saved": "Manifest gespeichert: {{path}}",
@@ -322,12 +322,12 @@
     "step4Hint": "Ein Pull Request an microsoft/winget-pkgs von Ihrem GitHub-Konto – kostenlos.",
     "submit": "Pull Request öffnen",
     "submitNeedsValid": "Prüfen Sie zuerst das Manifest – nur ein gültiges kann gesendet werden.",
-    "afterSubmit": "Automatische Tests und WinGet-Moderatoren prüfen den Pull Request (meist innerhalb weniger Tage). Nach dem Zusammenführen erscheint die App mit der nächsten Katalogaktualisierung in Unibox.",
+    "afterSubmit": "Automatische Tests und WinGet-Moderatoren prüfen den Pull Request (meist innerhalb weniger Tage). Nach dem Zusammenführen erscheint die App mit der nächsten Katalogaktualisierung in HubGet.",
     "manualIntro": "Speichern Sie das Manifest in einem Ordner (Schritt 3) und senden Sie es auf eine dieser Arten:",
     "manualWingetcreate": "Mit dem Tool wingetcreate von Microsoft (Open Source) – es meldet sich beim Senden bei GitHub an:",
     "manualGitHub": "Manuell auf GitHub: Forken Sie microsoft/winget-pkgs und fügen Sie die Dateien dem Ordner hinzu",
     "manualDocs": "Anleitung zu winget-pkgs",
-    "submitExplain": "Unibox meldet sich bei Ihrem GitHub-Konto an (Berechtigung public_repo), erstellt einen Fork von winget-pkgs, fügt das Manifest unter {{path}} hinzu und öffnet einen Pull Request. Das Token bleibt nur im Arbeitsspeicher.",
+    "submitExplain": "HubGet meldet sich bei Ihrem GitHub-Konto an (Berechtigung public_repo), erstellt einen Fork von winget-pkgs, fügt das Manifest unter {{path}} hinzu und öffnet einen Pull Request. Das Token bleibt nur im Arbeitsspeicher.",
     "signInAndSubmit": "Bei GitHub anmelden und senden",
     "enterCode": "Geben Sie diesen Code im Browser ein und erlauben Sie den Zugriff:",
     "submitStep": {
@@ -351,7 +351,7 @@
     "title": "Charts",
     "subtitles": {
       "popularity": "Die beliebtesten Apps nach Beliebtheitswert des Katalogs",
-      "rating": "Bestbewertete Apps nach Sternen von Unibox-Nutzern",
+      "rating": "Bestbewertete Apps nach Sternen von HubGet-Nutzern",
       "movers": "Apps, deren Downloads in den letzten 7 Tagen am stärksten gestiegen sind",
       "trending": "Beliebte Apps mit frischem Update"
     },
@@ -364,7 +364,7 @@
     },
     "sortHint": {
       "popularity": "Beliebtheitswert des Katalogs (Standard)",
-      "rating": "Durchschnittliche Sterne von Unibox-Nutzern",
+      "rating": "Durchschnittliche Sterne von HubGet-Nutzern",
       "movers": "Größtes Download-Wachstum der letzten 7 Tage"
     },
     "moversPending": "Die Aufsteiger der Woche erscheinen, sobald der Katalog eine Woche Download-Daten gesammelt hat. Bis dahin werden beliebte Apps mit frischem Update angezeigt.",
@@ -436,7 +436,7 @@
     "nothingToInstall": "Die ausgewählten Apps sind bereits installiert oder warten in der Warteschlange.",
     "opened_one": "Sammlung geladen ({{count}} App)",
     "opened_other": "Sammlung geladen ({{count}} Apps)",
-    "openFailed": "Die Datei konnte nicht geöffnet werden – es ist keine Unibox-Sammlung.",
+    "openFailed": "Die Datei konnte nicht geöffnet werden – es ist keine HubGet-Sammlung.",
     "commandsCopied_one": "{{count}} Befehl kopiert",
     "commandsCopied_other": "{{count}} Befehle kopiert"
   },
@@ -444,30 +444,30 @@
     "more": "Weitere Optionen",
     "logs": "Protokolle der Paketmanager",
     "history": "Vorgangsverlauf",
-    "version": "Unibox Version {{version}}",
+    "version": "HubGet Version {{version}}",
     "versionShort": "Version {{version}}",
     "releaseNotes": "Versionshinweise",
-    "checkUpdates": "Nach Unibox-Updates suchen",
+    "checkUpdates": "Nach HubGet-Updates suchen",
     "checking": "Suche nach Updates…",
-    "upToDate": "Sie haben die neueste Version von Unibox ({{version}}).",
-    "updateAvailable": "Unibox {{version}} ist verfügbar.",
+    "upToDate": "Sie haben die neueste Version von HubGet ({{version}}).",
+    "updateAvailable": "HubGet {{version}} ist verfügbar.",
     "updateFailed": "Die Suche nach Updates ist fehlgeschlagen.",
     "help": "Hilfe",
     "about": "Über",
     "latest": "Neueste"
   },
   "whatsNewDialog": {
-    "title": "Neu in Unibox",
-    "lead": "Unibox wurde auf Version {{version}} aktualisiert. Das ist neu:",
-    "leadMany_one": "Unibox wurde auf Version {{version}} aktualisiert. Neu in der letzten Version:",
-    "leadMany_other": "Unibox wurde auf Version {{version}} aktualisiert. Neu in den letzten {{count}} Versionen:",
+    "title": "Neu in HubGet",
+    "lead": "HubGet wurde auf Version {{version}} aktualisiert. Das ist neu:",
+    "leadMany_one": "HubGet wurde auf Version {{version}} aktualisiert. Neu in der letzten Version:",
+    "leadMany_other": "HubGet wurde auf Version {{version}} aktualisiert. Neu in den letzten {{count}} Versionen:",
     "allVersions": "Alle Versionen",
     "onlyNew": "Nur Neues",
     "gotIt": "Verstanden"
   },
   "history": {
     "title": "Vorgangsverlauf",
-    "subtitle": "Installationen, Updates und Deinstallationen über Unibox",
+    "subtitle": "Installationen, Updates und Deinstallationen über HubGet",
     "openLogs": "Protokolle",
     "clear": "Verlauf löschen",
     "confirmClear": "Den gesamten Vorgangsverlauf löschen?",
@@ -493,7 +493,7 @@
   },
   "logs": {
     "title": "Protokolle der Paketmanager",
-    "subtitle": "Befehle, die Unibox ausführt, und ihre Ergebnisse – nützlich bei der Fehlersuche",
+    "subtitle": "Befehle, die HubGet ausführt, und ihre Ergebnisse – nützlich bei der Fehlersuche",
     "openHistory": "Vorgangsverlauf",
     "mockNote": "Webversion: Die Paketmanager werden simuliert. Das Protokoll zeigt die Befehle, die die Desktop-App ausführen wird.",
     "errorsOnly": "Nur Fehler und Warnungen",
@@ -555,8 +555,8 @@
     "faqTitle": "Häufige Fragen",
     "faq": {
       "how": {
-        "q": "Wie installiert Unibox Apps?",
-        "a": "Unibox lädt selbst nichts herunter und verändert nichts. Es übergibt die Installation an einen Paketmanager – WinGet, Chocolatey, Scoop oder für Entwicklerwerkzeuge zum Beispiel npm oder pip – und zeigt ihren Fortschritt. Die Pakete kommen direkt aus den offiziellen Repositorys."
+        "q": "Wie installiert HubGet Apps?",
+        "a": "HubGet lädt selbst nichts herunter und verändert nichts. Es übergibt die Installation an einen Paketmanager – WinGet, Chocolatey, Scoop oder für Entwicklerwerkzeuge zum Beispiel npm oder pip – und zeigt ihren Fortschritt. Die Pakete kommen direkt aus den offiziellen Repositorys."
       },
       "source": {
         "q": "Woher wird eine App installiert, die in mehreren Quellen ist?",
@@ -564,7 +564,7 @@
       },
       "uac": {
         "q": "Warum erscheint das Fenster der Benutzerkontensteuerung (UAC)?",
-        "a": "Manche Installationsprogramme schreiben in Systemordner und brauchen daher Administratorrechte; Chocolatey verlangt sie immer. Unibox fragt nur für den jeweiligen Vorgang nach der Berechtigung – es läuft nie komplett als Administrator."
+        "a": "Manche Installationsprogramme schreiben in Systemordner und brauchen daher Administratorrechte; Chocolatey verlangt sie immer. HubGet fragt nur für den jeweiligen Vorgang nach der Berechtigung – es läuft nie komplett als Administrator."
       },
       "bundles": {
         "q": "Wie installiere ich mehrere Apps auf einmal?",
@@ -575,12 +575,12 @@
         "a": "Der <history>Vorgangsverlauf</history> zeigt, was fehlgeschlagen ist, und bietet einen neuen Versuch an. Details stehen in den <logs>Protokollen der Paketmanager</logs>. Oft hilft eine andere Quelle oder das Schließen einer App, die das Installationsprogramm blockiert."
       },
       "safe": {
-        "q": "Ist die Installation über Unibox sicher? Kann ich mir einen Virus einfangen?",
-        "a": "Ja – es ist der sicherste Weg, Apps zu installieren. Unibox lädt Programme nicht von beliebigen Websites mit gefälschten „Download“-Schaltflächen herunter, sondern nur aus den offiziellen Repositorys der Paketmanager. Microsoft prüft WinGet-Pakete (SmartScreen, statische Analyse), und WinGet prüft vor der Installation die SHA-256-Prüfsumme des Installationsprogramms – ein manipuliertes Installationsprogramm kommt nicht durch. Chocolatey-Pakete durchlaufen eine Moderation und die Virenprüfung von VirusTotal, und Scoop prüft die Prüfsumme aus seinem Manifest. Dem Installationsprogramm wird nichts beigepackt, und Unibox verändert es nicht. Bei Entwicklerbibliotheken und -werkzeugen (npm, PyPI, crates.io…) ist der Autor für den Inhalt verantwortlich – installieren Sie sie von Herausgebern, denen Sie vertrauen. Unibox ist Open Source und sendet ohne Anmeldung keine persönlichen Daten."
+        "q": "Ist die Installation über HubGet sicher? Kann ich mir einen Virus einfangen?",
+        "a": "Ja – es ist der sicherste Weg, Apps zu installieren. HubGet lädt Programme nicht von beliebigen Websites mit gefälschten „Download“-Schaltflächen herunter, sondern nur aus den offiziellen Repositorys der Paketmanager. Microsoft prüft WinGet-Pakete (SmartScreen, statische Analyse), und WinGet prüft vor der Installation die SHA-256-Prüfsumme des Installationsprogramms – ein manipuliertes Installationsprogramm kommt nicht durch. Chocolatey-Pakete durchlaufen eine Moderation und die Virenprüfung von VirusTotal, und Scoop prüft die Prüfsumme aus seinem Manifest. Dem Installationsprogramm wird nichts beigepackt, und HubGet verändert es nicht. Bei Entwicklerbibliotheken und -werkzeugen (npm, PyPI, crates.io…) ist der Autor für den Inhalt verantwortlich – installieren Sie sie von Herausgebern, denen Sie vertrauen. HubGet ist Open Source und sendet ohne Anmeldung keine persönlichen Daten."
       },
       "add": {
         "q": "Eine App oder Quelle fehlt. Wie füge ich sie hinzu?",
-        "a": "Apps gelangen über die Repositorys der Paketmanager in Unibox – wie, steht auf der Seite <publish>Veröffentlichen</publish>. Eine neue Paketquelle können Sie über die Schaltfläche „Quelle hinzufügen“ in der Seitenleiste vorschlagen."
+        "a": "Apps gelangen über die Repositorys der Paketmanager in HubGet – wie, steht auf der Seite <publish>Veröffentlichen</publish>. Eine neue Paketquelle können Sie über die Schaltfläche „Quelle hinzufügen“ in der Seitenleiste vorschlagen."
       }
     },
     "contactTitle": "Immer noch nicht weiter?",
@@ -594,7 +594,7 @@
   },
   "commands": {
     "title": "Terminal-Befehle",
-    "subtitle": "Alles, was Unibox per Klick erledigt, geht auch über die Kommandozeile. Wählen Sie einen Paketmanager und kopieren Sie einen Befehl.",
+    "subtitle": "Alles, was HubGet per Klick erledigt, geht auch über die Kommandozeile. Wählen Sie einen Paketmanager und kopieren Sie einen Befehl.",
     "managers": "Paketmanager",
     "howTo": "Führen Sie die Befehle im Windows-Terminal oder in PowerShell aus. Die Beispiele verwenden eine Beispiel-App und lassen sich direkt kopieren – den genauen Befehl für jede andere App finden Sie auf deren Seite im Abschnitt „… über die Kommandozeile“.",
     "howToPlaceholders": "Führen Sie die Befehle im Windows-Terminal oder in PowerShell aus. Ersetzen Sie <Paket> (<ID> bei WinGet) durch das Paket und <Name> durch den Suchbegriff – den genauen Befehl für eine bestimmte App finden Sie auf deren Seite im Abschnitt „… über die Kommandozeile“.",
@@ -778,7 +778,7 @@
       "eyebrow": "Aus der Kategorie",
       "title": "Das Beste aus {{category}}",
       "subtitle": "{{names}} und weitere beliebte Apps.",
-      "description": "Beliebte Apps aus der Kategorie {{category}} im Unibox-Katalog – nach Beliebtheit und Nutzerfeedback. Installieren Sie sie einzeln oder alle auf einmal. Beim nächsten Mal wählen wir andere aus."
+      "description": "Beliebte Apps aus der Kategorie {{category}} im HubGet-Katalog – nach Beliebtheit und Nutzerfeedback. Installieren Sie sie einzeln oder alle auf einmal. Beim nächsten Mal wählen wir andere aus."
     }
   },
   "collection": {
@@ -846,8 +846,8 @@
     "managedBySteam": "Dieses Spiel wird von Steam verwaltet – Updates und Dateiprüfung erfolgen in Steam.",
     "openInSteam": "In Steam öffnen",
     "managedByEa": "Dieses Spiel wird von der EA app verwaltet – Updates und Dateiprüfung erfolgen in der EA app.",
-    "localInstall": "Außerhalb der Paketmanager installiert – Unibox kann es deinstallieren, aber nicht aktualisieren.",
-    "diskInstall": "Auf dem Datenträger in {{folder}} gefunden – nicht unter „Installierte Apps“ aufgeführt. Unibox kann es weder deinstallieren noch aktualisieren.",
+    "localInstall": "Außerhalb der Paketmanager installiert – HubGet kann es deinstallieren, aber nicht aktualisieren.",
+    "diskInstall": "Auf dem Datenträger in {{folder}} gefunden – nicht unter „Installierte Apps“ aufgeführt. HubGet kann es weder deinstallieren noch aktualisieren.",
     "availableIn": "Verfügbar über",
     "statRank": "Charts",
     "statRating": "Bewertungen",
@@ -890,7 +890,7 @@
   "report": {
     "button": "Problem melden",
     "title": "Problem melden – {{name}}",
-    "intro": "Was stimmt mit dieser App nicht? Ihre Meldung hilft, den Katalog und Unibox zu verbessern.",
+    "intro": "Was stimmt mit dieser App nicht? Ihre Meldung hilft, den Katalog und HubGet zu verbessern.",
     "types": {
       "install": "Installation oder Update schlägt fehl",
       "info": "Falsche Angaben (Beschreibung, Symbol, Kategorie)",
@@ -913,7 +913,7 @@
   "share": {
     "button": "Teilen",
     "copyLink": "Link kopieren",
-    "copyLinkHint": "Öffnet die App direkt in Unibox",
+    "copyLinkHint": "Öffnet die App direkt in HubGet",
     "copyCommand": "Installationsbefehl kopieren",
     "native": "Über Windows teilen…",
     "nativeHint": "Systemfreigabe (Nearby Sharing, Apps…)",
@@ -921,14 +921,14 @@
     "via": "Teilen über",
     "email": "E-Mail",
     "short": "{{name}} – schau dir diese App an",
-    "message": "Ich empfehle {{name}}: {{description}}\n\nIn Unibox öffnen: {{link}}\nOder installieren mit: {{command}}"
+    "message": "Ich empfehle {{name}}: {{description}}\n\nIn HubGet öffnen: {{link}}\nOder installieren mit: {{command}}"
   },
   "auth": {
     "signIn": "Anmelden",
     "signOut": "Abmelden",
     "account": "Konto",
     "notSignedIn": "Sie sind nicht angemeldet",
-    "title": "Bei Unibox anmelden",
+    "title": "Bei HubGet anmelden",
     "reasonGeneral": "Bewertungen schreiben und Einstellungen zwischen Computern synchronisieren.",
     "reasonReview": "Nur angemeldete Nutzer können bewerten – so bleiben die Bewertungen vertrauenswürdig.",
     "reasonScreenshot": "Nur angemeldete Nutzer können Screenshots hinzufügen – so lassen sich unangemessene zurückverfolgen.",
@@ -937,7 +937,7 @@
     "benefitFavorites": "Lieblings-Apps und Paketsammlungen auf allen Ihren PCs",
     "continueWith": "Weiter mit {{provider}}",
     "waiting": "Schließen Sie die Anmeldung im Browser ab ({{provider}})…",
-    "privacy": "Die Anmeldung erfolgt im Browser – Unibox sieht Ihr Passwort nie.",
+    "privacy": "Die Anmeldung erfolgt im Browser – HubGet sieht Ihr Passwort nie.",
     "sample": "Demomodus – die Anmeldung wird nur simuliert.",
     "sampleShort": "Demo",
     "via": "über {{provider}}",
@@ -959,7 +959,7 @@
       "settings": "Einstellungen",
       "settingsHint": "Design, Akzentfarbe, Sprache, Modus, Ansicht und aktivierte Paketmanager.",
       "notifications": "Benachrichtigungseinstellungen",
-      "notificationsHint": "Über welche Ereignisse Unibox Sie benachrichtigt."
+      "notificationsHint": "Über welche Ereignisse HubGet Sie benachrichtigt."
     },
     "status": "Status",
     "syncing": "Wird synchronisiert…",
@@ -997,28 +997,28 @@
   },
   "crash": {
     "pageTitle": "Diese Seite konnte nicht angezeigt werden",
-    "pageText": "Auf dieser Seite ist etwas Unerwartetes schiefgelaufen. Der Rest von Unibox läuft weiter – versuchen Sie es erneut oder kehren Sie zur Startseite zurück.",
+    "pageText": "Auf dieser Seite ist etwas Unerwartetes schiefgelaufen. Der Rest von HubGet läuft weiter – versuchen Sie es erneut oder kehren Sie zur Startseite zurück.",
     "retry": "Erneut versuchen",
     "home": "Start",
     "copy": "Details kopieren",
-    "appTitle": "Unibox ist auf einen unerwarteten Fehler gestoßen",
-    "appText": "Das Fenster konnte nicht gezeichnet werden. Laden Sie Unibox neu – wenn der Fehler wiederkommt, senden Sie uns bitte die Details.",
+    "appTitle": "HubGet ist auf einen unerwarteten Fehler gestoßen",
+    "appText": "Das Fenster konnte nicht gezeichnet werden. Laden Sie HubGet neu – wenn der Fehler wiederkommt, senden Sie uns bitte die Details.",
     "reload": "Neu laden",
     "toast": "Etwas ist schiefgelaufen: {{message}}"
   },
   "onboarding": {
-    "title": "Unibox-Einführung",
+    "title": "HubGet-Einführung",
     "stepOf": "Schritt {{current}} von {{total}}",
     "skip": "Einführung überspringen",
     "prev": "Zurück",
     "next": "Weiter",
-    "finish": "Unibox verwenden",
+    "finish": "HubGet verwenden",
     "settingsTitle": "Einführung",
     "settingsRow": "Einführung erneut ansehen",
-    "settingsHint": "Eine kurze Tour durch die wichtigsten Funktionen von Unibox – dieselbe wie beim ersten Start.",
+    "settingsHint": "Eine kurze Tour durch die wichtigsten Funktionen von HubGet – dieselbe wie beim ersten Start.",
     "settingsButton": "Starten",
     "welcome": {
-      "title": "Willkommen bei Unibox",
+      "title": "Willkommen bei HubGet",
       "text": "Ein App-Store für Windows. In einer Minute zeigen wir Ihnen, was er kann.",
       "point1": "Über {{count}} Apps an einem Ort",
       "point2": "Sicher, aus offiziellen Quellen – ohne Viren, Werbung oder Beigaben",
@@ -1029,7 +1029,7 @@
     },
     "catalog": {
       "title": "Ein gemeinsamer Katalog",
-      "text": "Apps aus WinGet, Chocolatey und Scoop unter einem Dach. Jede App hat eine Karte mit allen Quellen – Unibox wählt die beste, oder Sie entscheiden.",
+      "text": "Apps aus WinGet, Chocolatey und Scoop unter einem Dach. Jede App hat eine Karte mit allen Quellen – HubGet wählt die beste, oder Sie entscheiden.",
       "point1": "Suche in allen Paketmanagern gleichzeitig",
       "point2": "Schlägt die Installation aus einer Quelle fehl, wird eine andere angeboten",
       "point3": "Im Entwicklermodus auch npm, pip, Cargo und mehr"
@@ -1051,7 +1051,7 @@
     },
     "notifications": {
       "title": "Benachrichtigungen und Updates",
-      "text": "Das Ergebnis jeder Installation, jedes Updates und jeder Deinstallation finden Sie unter der Glocke oben rechts – auch das, was Unibox im Hintergrund erledigt hat.",
+      "text": "Das Ergebnis jeder Installation, jedes Updates und jeder Deinstallation finden Sie unter der Glocke oben rechts – auch das, was HubGet im Hintergrund erledigt hat.",
       "point1": "Bei Fehlern die vollständige Meldung – per Klick kopieren",
       "point2": "Ein orangefarbener Punkt am Symbol neben der Uhr zeigt verfügbare Updates an",
       "point3": "Der gesamte Vorgangsverlauf ist nur einen Klick entfernt",
@@ -1059,7 +1059,7 @@
     },
     "uninstall": {
       "title": "Erweiterte Deinstallation",
-      "text": "Nach einer Deinstallation findet Unibox, was die App zurückgelassen hat – Ordner, Verknüpfungen und Registrierungseinträge – und bietet an, sie zu entfernen, ähnlich wie Revo Uninstaller.",
+      "text": "Nach einer Deinstallation findet HubGet, was die App zurückgelassen hat – Ordner, Verknüpfungen und Registrierungseinträge – und bietet an, sie zu entfernen, ähnlich wie Revo Uninstaller.",
       "point1": "Dateien wandern in den Papierkorb, Registrierungsschlüssel werden vorher gesichert",
       "point2": "Mit Installationsüberwachung entfernt es genau das, was das Installationsprogramm angelegt hat",
       "point3": "Beendet laufende Prozesse der App vor der Deinstallation",
@@ -1099,7 +1099,7 @@
   },
   "devSource": {
     "missing": "{{source}} ist nicht installiert",
-    "missingText": "Ohne ihn lassen sich Pakete weder suchen noch installieren. Unibox installiert ihn mit WinGet.",
+    "missingText": "Ohne ihn lassen sich Pakete weder suchen noch installieren. HubGet installiert ihn mit WinGet.",
     "registry_one": "· {{formatted}} Paket in der Registry",
     "registry_other": "· {{formatted}} Pakete in der Registry",
     "settings": "Einstellungen des Paketmanagers",
@@ -1110,7 +1110,7 @@
   },
   "community": {
     "openSource": "Open Source",
-    "openSourceTitle": "Unibox ist Open Source – den Code finden Sie auf GitHub",
+    "openSourceTitle": "HubGet ist Open Source – den Code finden Sie auf GitHub",
     "email": "Schreiben Sie uns: {{email}}",
     "emailLabel": "Kontakt-E-Mail",
     "language": "Sprache: {{language}}",
@@ -1119,7 +1119,7 @@
     "off": "aus",
     "sourcesTitle": "Paketquellen – in den Einstellungen verwalten",
     "addSource": "Quelle hinzufügen",
-    "addSourceText": "Unibox ist offen und darauf ausgelegt, um weitere Paketmanager erweitert zu werden.",
+    "addSourceText": "HubGet ist offen und darauf ausgelegt, um weitere Paketmanager erweitert zu werden.",
     "ideas": "Ideen für weitere Quellen",
     "devHint": "Für Entwickler: Fügen Sie eine Quelle hinzu, indem Sie die Schnittstelle PackageManager implementieren.",
     "suggest": "Quelle auf GitHub vorschlagen",
@@ -1259,7 +1259,7 @@
     "updating_other": "{{count}} Apps werden aktualisiert…",
     "showUpdates": "Anzeigen",
     "management": "Verwaltung",
-    "managed": "Unibox verwaltet {{managed}} von {{total}} Apps",
+    "managed": "HubGet verwaltet {{managed}} von {{total}} Apps",
     "showInstalled": "Installierte Apps",
     "quickActions": "Schnellaktionen"
   },
@@ -1275,7 +1275,7 @@
     "importHint": "Die Ausstattung eines anderen PCs installieren",
     "imported_one": "Profil geladen – {{count}} App in den Paketsammlungen",
     "imported_other": "Profil geladen – {{count}} Apps in den Paketsammlungen",
-    "importFailed": "Die Datei konnte nicht geladen werden – sie ist weder ein Unibox-Profil noch ein WinGet-Export."
+    "importFailed": "Die Datei konnte nicht geladen werden – sie ist weder ein HubGet-Profil noch ein WinGet-Export."
   },
   "profileImport": {
     "title": "Profil importieren",
@@ -1404,7 +1404,7 @@
     "download": "Download",
     "onDisk": "Auf dem Datenträger nach der Installation",
     "uninstall": "Deinstallation",
-    "uninstallApps": "Die App ist in den Windows-Apps registriert – deinstallieren Sie sie mit einem Klick in Unibox oder in den Windows-Einstellungen.",
+    "uninstallApps": "Die App ist in den Windows-Apps registriert – deinstallieren Sie sie mit einem Klick in HubGet oder in den Windows-Einstellungen.",
     "uninstallScoop": "Portable Installation im Scoop-Ordner – die Deinstallation löscht den ganzen Ordner und hinterlässt nichts.",
     "uninstallDev": "Deinstallation mit dem Befehl von {{source}}:",
     "frees": "Gibt etwa {{size}} frei.",
@@ -1519,9 +1519,9 @@
     "catalogSource_cache": "Gespeicherte Kopie",
     "catalogSource_packaged": "In der App enthalten",
     "catalogSource_bundled": "Beispielkatalog (offline)",
-    "support": "Unibox unterstützen",
-    "supportRow": "Gefällt Ihnen Unibox?",
-    "supportHint": "Unibox ist kostenlos, ohne Werbung und ohne Abo – und das bleibt so. Wenn es Ihnen Zeit spart, können Sie freiwillig einen beliebigen Betrag zur Weiterentwicklung beitragen.",
+    "support": "HubGet unterstützen",
+    "supportRow": "Gefällt Ihnen HubGet?",
+    "supportHint": "HubGet ist kostenlos, ohne Werbung und ohne Abo – und das bleibt so. Wenn es Ihnen Zeit spart, können Sie freiwillig einen beliebigen Betrag zur Weiterentwicklung beitragen.",
     "supportButton": "Über Revolut beitragen",
     "catalogPackages": "Apps",
     "catalogGenerated": "Aktualisiert",
@@ -1537,14 +1537,14 @@
     "desktopNotice": "Jeder Paketmanager läuft echt – Installationen sind real. Paketmanager für Entwickler (npm, pip, Cargo…) werden im Entwicklermodus verwendet.",
     "desktop": "Desktop-App",
     "closeToTray": "Nach dem Schließen weiterlaufen",
-    "closeToTrayHint": "Das Schließen des Fensters blendet Unibox in den Infobereich neben der Uhr aus, laufende Installationen werden abgeschlossen. Beenden Sie es über das Menü des Symbols.",
+    "closeToTrayHint": "Das Schließen des Fensters blendet HubGet in den Infobereich neben der Uhr aus, laufende Installationen werden abgeschlossen. Beenden Sie es über das Menü des Symbols.",
     "trayBadge": "Status am Symbol im Infobereich",
     "trayBadgeHint": "Ein farbiger Punkt am Symbol im Infobereich: Orange – Updates verfügbar, Blau – ein Vorgang oder eine Prüfung läuft, Rot – Fehler, Grün – fertig.",
     "uninstall": "Deinstallation und laufende Apps",
     "closeBackgroundProcesses": "Im Hintergrund laufende App ohne Nachfrage schließen",
-    "closeBackgroundProcessesHint": "Vor einer Installation, einem Update oder einer Deinstallation beendet Unibox die Prozesse der App, die kein Fenster haben (etwa ein Infobereichssymbol oder ein im Speicher hängender Prozess). Bei einer App mit offenem Fenster wird das Schließen mit einem Klick angeboten.",
+    "closeBackgroundProcessesHint": "Vor einer Installation, einem Update oder einer Deinstallation beendet HubGet die Prozesse der App, die kein Fenster haben (etwa ein Infobereichssymbol oder ein im Speicher hängender Prozess). Bei einer App mit offenem Fenster wird das Schließen mit einem Klick angeboten.",
     "forceCloseRunning": "Laufende App ohne Nachfrage zwangsweise schließen",
-    "forceCloseRunningHint": "Vor einer Installation, einem Update oder einer Deinstallation schließt Unibox die laufende App sofort zwangsweise – auch mit offenem Fenster, ohne Nachfrage. Ungespeicherte Arbeit geht verloren. Automatische Updates im Hintergrund schließen keine App mit offenem Fenster – sie warten.",
+    "forceCloseRunningHint": "Vor einer Installation, einem Update oder einer Deinstallation schließt HubGet die laufende App sofort zwangsweise – auch mit offenem Fenster, ohne Nachfrage. Ungespeicherte Arbeit geht verloren. Automatische Updates im Hintergrund schließen keine App mit offenem Fenster – sie warten.",
     "advancedUninstall": "Erweiterte Deinstallation mit Suche nach Resten (Registrierung und Dateien)",
     "advancedUninstallHint": "Nach einer Deinstallation durchsucht es neben AppData auch Program Files, ProgramData, Verknüpfungen im Startmenü und auf dem Desktop sowie die Windows-Registrierung (HKCU und HKLM\\Software) und bietet an, die Reste zu löschen. Dateien wandern in den Papierkorb; Registrierungsschlüssel werden vor dem Löschen gesichert.",
     "autoCleanup": "Reste von Dateien und Registrierung automatisch ohne Bestätigungsfenster entfernen",
@@ -1554,7 +1554,7 @@
     "newsOpen": "Neuigkeiten anzeigen",
     "newsHistory": "Alle Versionen",
     "trackInstalls": "Installationen überwachen (Systemschnappschuss)",
-    "trackInstallsHint": "Vor und nach einer Installation vergleicht Unibox Ordner (Program Files, ProgramData, AppData, Startmenü, Desktop) und die Registrierung. Was das Installationsprogramm angelegt hat, wird zur App gespeichert und nach einer Deinstallation zum Entfernen angeboten – auch ohne erweiterte Deinstallation. Installationen dauern ein paar Sekunden länger. Eine einzelne App können Sie auch ohne diese Einstellung überwachen: Rechtsklick → Mit Überwachung installieren.",
+    "trackInstallsHint": "Vor und nach einer Installation vergleicht HubGet Ordner (Program Files, ProgramData, AppData, Startmenü, Desktop) und die Registrierung. Was das Installationsprogramm angelegt hat, wird zur App gespeichert und nach einer Deinstallation zum Entfernen angeboten – auch ohne erweiterte Deinstallation. Installationen dauern ein paar Sekunden länger. Eine einzelne App können Sie auch ohne diese Einstellung überwachen: Rechtsklick → Mit Überwachung installieren.",
     "traces_one": "{{count}} App hat einen Installationsdatensatz",
     "traces_other": "{{count}} Apps haben einen Installationsdatensatz",
     "tracesHint": "Nach einer Deinstallation werden die erfassten Elemente zum Entfernen angeboten. Das Vergessen eines Datensatzes löscht nichts.",
@@ -1564,17 +1564,17 @@
     "devModeOnly": "Paketmanager für Entwickler werden nur im Entwicklermodus verwendet – ihre Pakete erscheinen dann in der Suche und bei den installierten Apps.",
     "switchToDeveloper": "Zum Entwicklermodus wechseln",
     "managerPlannedError": "Die Unterstützung für {{name}} in der Desktop-App ist noch nicht fertig.",
-    "autostart": "Unibox mit Windows starten",
-    "autostartHint": "Nach der Anmeldung startet Unibox ausgeblendet im Infobereich neben der Uhr und meldet verfügbare Updates.",
+    "autostart": "HubGet mit Windows starten",
+    "autostartHint": "Nach der Anmeldung startet HubGet ausgeblendet im Infobereich neben der Uhr und meldet verfügbare Updates.",
     "autostartFailed": "Der Start mit Windows konnte nicht geändert werden.",
     "backup": "Apps sichern und übertragen",
-    "exportUnibox": "App-Profil exportieren",
-    "exportUniboxHint": "Alle verwalteten Apps ({{count}}) mit ihren Einstellungen – ignorierte und automatische Updates sowie Installationsoptionen. JSON zum Import in Unibox, HTML als lesbare Seite (die sich ebenfalls importieren lässt).",
+    "exportHubGet": "App-Profil exportieren",
+    "exportHubGetHint": "Alle verwalteten Apps ({{count}}) mit ihren Einstellungen – ignorierte und automatische Updates sowie Installationsoptionen. JSON zum Import in HubGet, HTML als lesbare Seite (die sich ebenfalls importieren lässt).",
     "exportWinget": "Für WinGet exportieren",
     "exportWingetHint": "Eine JSON-Datei für den Befehl winget import ({{count}} Apps aus WinGet und dem Microsoft Store).",
     "exportButton": "Exportieren…",
     "importApps": "Importieren und installieren",
-    "importAppsHint": "Ein Profil (.json, .html), eine Sammlung (.ubundle) oder ein WinGet-Export – Unibox zeigt eine Übersicht und installiert fehlende Apps mit einem Klick. Installierte Apps werden übersprungen.",
+    "importAppsHint": "Ein Profil (.json, .html), eine Sammlung (.ubundle) oder ein WinGet-Export – HubGet zeigt eine Übersicht und installiert fehlende Apps mit einem Klick. Installierte Apps werden übersprungen.",
     "importButton": "Datei wählen…"
   },
   "files": {
@@ -1582,19 +1582,19 @@
     "saveFailed": "Die Datei konnte nicht gespeichert werden."
   },
   "appUpdate": {
-    "title": "Eine neue Version von Unibox ist verfügbar",
-    "question": "Unibox {{version}} ist bereit (Sie haben {{current}}). Möchten Sie aktualisieren?",
+    "title": "Eine neue Version von HubGet ist verfügbar",
+    "question": "HubGet {{version}} ist bereit (Sie haben {{current}}). Möchten Sie aktualisieren?",
     "released": "Veröffentlicht am {{date}}",
     "install": "Aktualisieren",
     "later": "Später",
     "skip": "Diese Version überspringen",
     "downloading": "Update wird heruntergeladen… {{percent}} %",
-    "installing": "Wird installiert – Unibox startet gleich neu…",
+    "installing": "Wird installiert – HubGet startet gleich neu…",
     "failed": "Das Update konnte nicht installiert werden. Bitte versuchen Sie es später erneut.",
-    "version": "Unibox {{version}}",
+    "version": "HubGet {{version}}",
     "versionHint": "Neue Versionen werden von GitHub Releases heruntergeladen, und ihre Signatur wird vor der Installation geprüft.",
     "auto": "Beim Start nach Updates suchen",
-    "autoHint": "Erscheint eine neue Version, bietet Unibox sie an. Eine übersprungene Version wird nicht erneut angeboten."
+    "autoHint": "Erscheint eine neue Version, bietet HubGet sie an. Eine übersprungene Version wird nicht erneut angeboten."
   },
   "leftovers": {
     "title": "{{name}} – Reste nach der Deinstallation",
@@ -1614,7 +1614,7 @@
     "tracedNote_one": "{{count}} Element stammt aus dem Installationsdatensatz – das Installationsprogramm dieser App hat es angelegt.",
     "tracedNote_other": "{{count}} Elemente stammen aus dem Installationsdatensatz – das Installationsprogramm dieser App hat sie angelegt.",
     "adminItem": "Erfordert Administratorrechte",
-    "adminNote": "Unibox löscht die Elemente mit Schild als Administrator – Windows fragt einmal für alle.",
+    "adminNote": "HubGet löscht die Elemente mit Schild als Administrator – Windows fragt einmal für alle.",
     "removedItems_one": "{{count}} Rest entfernt ({{size}})",
     "removedItems_other": "{{count}} Reste entfernt ({{size}})",
     "needsAdmin_one": "{{count}} Element lässt sich nur mit Administratorrechten löschen.",
@@ -1686,8 +1686,8 @@
     "fallback": "{{name}}: Das Installationsprogramm von {{from}} konnte nicht heruntergeladen werden – versuche {{to}}…",
     "fallbackNext": "{{name}}: Die Installation über {{from}} ist fehlgeschlagen – versuche {{to}}…",
     "fallbackFailed": "{{name}} konnte nicht installiert werden: Das Installationsprogramm von {{from}} ist nicht verfügbar und der Ersatz über {{sources}} ist fehlgeschlagen – {{error}}",
-    "endedProcesses": "{{name}} lief im Hintergrund – Unibox hat es geschlossen und macht weiter",
-    "forceClosed": "{{name}} lief – Unibox hat es zwangsweise geschlossen und macht weiter"
+    "endedProcesses": "{{name}} lief im Hintergrund – HubGet hat es geschlossen und macht weiter",
+    "forceClosed": "{{name}} lief – HubGet hat es zwangsweise geschlossen und macht weiter"
   },
   "notifications": {
     "title": "Benachrichtigungen",
@@ -1720,15 +1720,15 @@
     "updates": "Verfügbare Updates",
     "updatesCount": "Verfügbare Updates ({{count}})",
     "installed": "Installiert",
-    "show": "Unibox anzeigen",
+    "show": "HubGet anzeigen",
     "quit": "Beenden",
-    "tooltipUpdates_one": "Unibox – {{count}} Update",
-    "tooltipUpdates_other": "Unibox – {{count}} Updates",
-    "tooltipBusy_one": "Unibox – {{count}} Vorgang läuft",
-    "tooltipBusy_other": "Unibox – {{count}} Vorgänge laufen",
-    "tooltipError": "Unibox – ein Vorgang ist fehlgeschlagen",
-    "tooltipDone": "Unibox – fertig",
-    "tooltipChecking": "Unibox – Suche nach Updates…"
+    "tooltipUpdates_one": "HubGet – {{count}} Update",
+    "tooltipUpdates_other": "HubGet – {{count}} Updates",
+    "tooltipBusy_one": "HubGet – {{count}} Vorgang läuft",
+    "tooltipBusy_other": "HubGet – {{count}} Vorgänge laufen",
+    "tooltipError": "HubGet – ein Vorgang ist fehlgeschlagen",
+    "tooltipDone": "HubGet – fertig",
+    "tooltipChecking": "HubGet – Suche nach Updates…"
   },
   "launch": {
     "starting": "{{name}} wird gestartet…",
@@ -1774,7 +1774,7 @@
     "installerCrashed": "Das Installationsprogramm der App ist abgestürzt ({{code}}) – das ist ein Fehler im Installationsprogramm, keine laufende App. Versuchen Sie es später erneut oder aktualisieren Sie die App aus ihr selbst heraus oder mit dem Installationsprogramm von der Website des Herstellers.",
     "restartFirst": "{{name}}: Starten Sie zuerst den Computer neu, um eine vorherige Installation abzuschließen.",
     "preCommandFailed": "{{name}}: Der Befehl vor der Installation ist fehlgeschlagen ({{code}}) – die Installation wurde nicht gestartet.",
-    "listFailed": "{{name}} hat seine Liste installierter Apps nicht geliefert – seine Apps fehlen vorerst in Unibox. Beim nächsten Aktualisieren versuchen wir es erneut. ({{error}})",
+    "listFailed": "{{name}} hat seine Liste installierter Apps nicht geliefert – seine Apps fehlen vorerst in HubGet. Beim nächsten Aktualisieren versuchen wir es erneut. ({{error}})",
     "searchFailed": "Suche nicht möglich: {{names}}. Ergebnisse der anderen Paketmanager stehen unten.",
     "requiresAdmin": "{{name}}: Der Vorgang benötigt Administratorrechte (Modul für alle Benutzer), aber die Rechteerhöhung ist unter Einstellungen → Administratorrechte deaktiviert ({{code}}).",
     "needsAdmin": "{{name}}: Der Vorgang benötigt Administratorrechte – er wird nicht im Hintergrund ausgeführt, starten Sie ihn manuell."
@@ -1791,7 +1791,7 @@
   "accent": {
     "label": "Akzentfarbe",
     "hint": "Schaltflächen, Abzeichen, aktive Registerkarten und andere hervorgehobene Elemente in der ganzen App.",
-    "default": "Unibox (Standard)",
+    "default": "HubGet (Standard)",
     "purple": "Lila",
     "blue": "Blau",
     "teal": "Petrol",
@@ -1814,8 +1814,8 @@
   },
   "notifPrefs": {
     "main": "Benachrichtigungen",
-    "enabled": "Benachrichtigungen von Unibox aktivieren",
-    "enabledHint": "Hauptschalter für Pop-up-Benachrichtigungen – in Windows (wenn Unibox im Hintergrund oder im Infobereich ist) und im App-Fenster.",
+    "enabled": "Benachrichtigungen von HubGet aktivieren",
+    "enabledHint": "Hauptschalter für Pop-up-Benachrichtigungen – in Windows (wenn HubGet im Hintergrund oder im Infobereich ist) und im App-Fenster.",
     "batchSummary": "Nach einer Reihe von Vorgängen eine Zusammenfassung anzeigen",
     "batchSummaryHint": "Beim Installieren oder Aktualisieren mehrerer Apps eine Zusammenfassung am Ende statt einer pro App (Fehler werden sofort gemeldet).",
     "types": "Benachrichtigungstypen",
@@ -1833,7 +1833,7 @@
     "test": "Testbenachrichtigung",
     "testHint": "Sendet eine Windows-Benachrichtigung, damit Sie prüfen können, ob sie erscheinen (Windows-Einstellungen → Benachrichtigungen).",
     "testButton": "Senden",
-    "testMessage": "Benachrichtigungen von Unibox funktionieren."
+    "testMessage": "Benachrichtigungen von HubGet funktionieren."
   },
   "autoUpdates": {
     "found_one": "{{count}} Update verfügbar: {{names}}",
@@ -1849,15 +1849,15 @@
     "skipped_metered_other": "{{count}} Updates gefunden – bei getakteter Verbindung nicht automatisch installiert",
     "skipped_saver_one": "{{count}} Update gefunden – bei aktivem Energiesparmodus nicht automatisch installiert",
     "skipped_saver_other": "{{count}} Updates gefunden – bei aktivem Energiesparmodus nicht automatisch installiert",
-    "waiting_battery_one": "{{count}} Update wartet – der PC läuft im Akkubetrieb. Unibox installiert es, sobald er am Strom hängt.",
-    "waiting_battery_other": "{{count}} Updates warten – der PC läuft im Akkubetrieb. Unibox installiert sie, sobald er am Strom hängt.",
-    "waiting_saver_one": "{{count}} Update wartet – der Energiesparmodus ist an. Unibox versucht es später erneut.",
-    "waiting_saver_other": "{{count}} Updates warten – der Energiesparmodus ist an. Unibox versucht es später erneut.",
-    "waiting_metered_one": "{{count}} Update wartet – die Verbindung ist getaktet. Unibox versucht es später erneut.",
-    "waiting_metered_other": "{{count}} Updates warten – die Verbindung ist getaktet. Unibox versucht es später erneut.",
+    "waiting_battery_one": "{{count}} Update wartet – der PC läuft im Akkubetrieb. HubGet installiert es, sobald er am Strom hängt.",
+    "waiting_battery_other": "{{count}} Updates warten – der PC läuft im Akkubetrieb. HubGet installiert sie, sobald er am Strom hängt.",
+    "waiting_saver_one": "{{count}} Update wartet – der Energiesparmodus ist an. HubGet versucht es später erneut.",
+    "waiting_saver_other": "{{count}} Updates warten – der Energiesparmodus ist an. HubGet versucht es später erneut.",
+    "waiting_metered_one": "{{count}} Update wartet – die Verbindung ist getaktet. HubGet versucht es später erneut.",
+    "waiting_metered_other": "{{count}} Updates warten – die Verbindung ist getaktet. HubGet versucht es später erneut.",
     "checkTitle": "Update-Prüfung",
     "autoCheck": "Automatisch nach Paket-Updates suchen",
-    "autoCheckHint": "Im Hintergrund, solange Unibox läuft (auch ausgeblendet im Infobereich). Während der Prüfung ist das Symbol im Infobereich blau.",
+    "autoCheckHint": "Im Hintergrund, solange HubGet läuft (auch ausgeblendet im Infobereich). Während der Prüfung ist das Symbol im Infobereich blau.",
     "repeat": "Wiederholen",
     "repeat_interval": "Im Intervall",
     "repeat_daily": "Jeden Tag",
@@ -1898,16 +1898,16 @@
     "skipOnSaver": "Nicht bei aktivem Energiesparmodus installieren",
     "skipOnSaverHint": "Wenn der Energiesparmodus in Windows an ist (auch am Netzteil).",
     "skipOnMetered": "Nicht bei getakteter Verbindung installieren",
-    "skipOnMeteredHint": "Mobile Daten, ein Hotspot oder eine in Windows als getaktet festgelegte Verbindung. Unibox meldet verschobene Updates und versucht in 15 Minuten erneut, sie zu installieren.",
+    "skipOnMeteredHint": "Mobile Daten, ein Hotspot oder eine in Windows als getaktet festgelegte Verbindung. HubGet meldet verschobene Updates und versucht in 15 Minuten erneut, sie zu installieren.",
     "missedTitle": "Verpasste Termine",
     "missed": "Wenn der geplante Zeitpunkt verpasst wird",
-    "missedHint": "Unibox lief zu der Zeit nicht oder der PC war im Ruhezustand.",
+    "missedHint": "HubGet lief zu der Zeit nicht oder der PC war im Ruhezustand.",
     "missed_delay": "Mit Verzögerung nachholen",
     "missed_startup": "Direkt nach dem Start",
     "missed_skip": "Auf den nächsten warten",
     "securityTitle": "Update-Sicherheit",
     "minAge": "Mindestalter für Updates",
-    "minAgeHint": "Eine neue Version wird erst nach der eingestellten Zahl von Tagen seit ihrer Veröffentlichung angeboten – Zeit, damit Fehler in frischen Versionen behoben werden. Das Veröffentlichungsdatum stammt aus dem Unibox-Katalog; bei Versionen, die der Katalog nicht kennt, vom Zeitpunkt, an dem Unibox sie zuerst gesehen hat.",
+    "minAgeHint": "Eine neue Version wird erst nach der eingestellten Zahl von Tagen seit ihrer Veröffentlichung angeboten – Zeit, damit Fehler in frischen Versionen behoben werden. Das Veröffentlichungsdatum stammt aus dem HubGet-Katalog; bei Versionen, die der Katalog nicht kennt, vom Zeitpunkt, an dem HubGet sie zuerst gesehen hat.",
     "minAgeNone": "Kein Mindestalter",
     "minAgeDays_one": "{{count}} Tag",
     "minAgeDays_other": "{{count}} Tage",
@@ -1926,7 +1926,7 @@
     "preselect": "Standardmäßig alle Updates auswählen",
     "preselectHint": "Beim Öffnen der Updates sind alle markiert – aktualisieren Sie sie mit einem Klick in der Leiste unten.",
     "optionsNote": "Die gespeicherten Installationsoptionen einer App (als Administrator, Argumente, Ordner…) gelten auch für ihre Updates – stellen Sie sie in den Installationsoptionen ein.",
-    "trayNote": "Ein fehlgeschlagenes automatisches Update wird in den Benachrichtigungsverlauf (Glocke) geschrieben, und Unibox versucht es beim nächsten Mal erneut – nach drei Fehlschlägen überlässt es das Ihnen. Laufende Apps warten, bis Sie sie schließen.",
+    "trayNote": "Ein fehlgeschlagenes automatisches Update wird in den Benachrichtigungsverlauf (Glocke) geschrieben, und HubGet versucht es beim nächsten Mal erneut – nach drei Fehlschlägen überlässt es das Ihnen. Laufende Apps warten, bis Sie sie schließen.",
     "allApps": "Wird automatisch aktualisiert (Einstellungen → Paket-Updates)",
     "thisApp": "Automatisch aktualisieren",
     "gaveUp": "Das automatische Update auf Version {{version}} ist dreimal fehlgeschlagen – aktualisieren Sie die App manuell unter Verfügbare Updates.",
@@ -1942,26 +1942,26 @@
     "elevateAlways": "Bei jedem Vorgang Administratorrechte anfordern",
     "elevateAlwaysHint": "Jede Installation, jedes Update und jede Deinstallation über WinGet und Chocolatey läuft mit Administratorrechten (UAC-Abfrage). Scoop läuft immer ohne sie.",
     "elevateOnce": "Administratorrechte nur einmal anfordern",
-    "elevateOnceHint": "Nach der ersten UAC-Bestätigung läuft der erhöhte Unibox-Helfer bis zum Beenden der App weiter, und weitere Vorgänge werden ohne Nachfrage erhöht. Er nimmt nur Installationen per ID aus offiziellen Quellen an – alles andere erfordert weiterhin UAC.",
-    "elevationProhibited": "Jede Rechteerhöhung über Unibox Elevator oder Gsudo verbieten",
+    "elevateOnceHint": "Nach der ersten UAC-Bestätigung läuft der erhöhte HubGet-Helfer bis zum Beenden der App weiter, und weitere Vorgänge werden ohne Nachfrage erhöht. Er nimmt nur Installationen per ID aus offiziellen Quellen an – alles andere erfordert weiterhin UAC.",
+    "elevationProhibited": "Jede Rechteerhöhung über HubGet Elevator oder Gsudo verbieten",
     "elevationProhibitedHint": "Diese Option wird Probleme verursachen. Jeder Vorgang, der sich nicht selbst erhöhen kann, schlägt fehl.",
     "broker": "Paketvorgänge an den Broker Devolutions Agent delegieren",
-    "brokerHint": "In Unternehmen mit Rechteverwaltung (Devolutions PEDM) würde der Agent Vorgänge anstelle von Unibox ausführen. Unibox unterstützt die Delegierung noch nicht – daher ist der Schalter aus; die Prüfung unten zeigt den Zustand des Agents.",
+    "brokerHint": "In Unternehmen mit Rechteverwaltung (Devolutions PEDM) würde der Agent Vorgänge anstelle von HubGet ausführen. HubGet unterstützt die Delegierung noch nicht – daher ist der Schalter aus; die Prüfung unten zeigt den Zustand des Agents.",
     "brokerWeb": "Nur in der Desktop-App verfügbar.",
     "brokerAgent": "Devolutions Agent",
     "brokerRunning": "läuft",
     "brokerStopped": "gestoppt",
     "brokerMissing": "nicht installiert",
     "brokerPolicy": "Aktive Richtlinie",
-    "brokerDirect": "Vorgänge laufen direkt in Unibox (ohne Broker)",
+    "brokerDirect": "Vorgänge laufen direkt in HubGet (ohne Broker)",
     "operationsTitle": "Einschränkungen für Paketvorgänge",
     "allowCustomArgs": "Eigene Kommandozeilenargumente erlauben",
-    "allowCustomArgsHint": "Die Installationsoptionen akzeptieren eigene Argumente für das Installationsprogramm. Ohne diese Einstellung ignoriert das Backend sie (Argumente aus den Unibox-Optionen – PATH, ohne Neustart – funktionieren weiter).",
+    "allowCustomArgsHint": "Die Installationsoptionen akzeptieren eigene Argumente für das Installationsprogramm. Ohne diese Einstellung ignoriert das Backend sie (Argumente aus den HubGet-Optionen – PATH, ohne Neustart – funktionieren weiter).",
     "allowPrePost": "Ausführen eigener Befehle vor und nach der Installation erlauben",
     "allowPrePostHint": "Die Installationsoptionen akzeptieren Befehle (cmd), die vor und nach der Installation laufen – mit Ihren Rechten.",
     "managersTitle": "Einschränkungen für Paketmanager",
     "allowPaths": "Ändern der Pfade zu den Programmdateien der Paketmanager erlauben",
-    "allowPathsHint": "Unibox verwendet die angegebene winget.exe, choco.exe oder scoop.ps1 statt der im System gefundenen.",
+    "allowPathsHint": "HubGet verwendet die angegebene winget.exe, choco.exe oder scoop.ps1 statt der im System gefundenen.",
     "pathHint": "Leer = Standardort.",
     "importTitle": "Einschränkungen für den Paketimport",
     "importCustomArgs": "Import eigener Kommandozeilenargumente beim Import von Paketen aus einer Sammlung erlauben",
@@ -1981,7 +1981,7 @@
   "managerSetup": {
     "title": "{{name}} ist nicht installiert",
     "install": "{{name}} installieren",
-    "text": "Um aus {{name}} zu installieren, muss zuerst der Paketmanager selbst installiert werden. Unibox erledigt das mit einem Klick und macht dann weiter.",
+    "text": "Um aus {{name}} zu installieren, muss zuerst der Paketmanager selbst installiert werden. HubGet erledigt das mit einem Klick und macht dann weiter.",
     "how": "Es wird das offizielle Installationsskript verwendet.",
     "how_chocolatey": "Verwendet das offizielle Skript von chocolatey.org (community.chocolatey.org/install.ps1) – erfordert Administratorrechte (UAC-Abfrage).",
     "how_scoop": "Verwendet das offizielle Installationsprogramm von get.scoop.sh – für den aktuellen Benutzer, ohne Administratorrechte.",

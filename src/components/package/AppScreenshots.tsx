@@ -1,6 +1,6 @@
 /**
  * Snímky obrazovky v detailu aplikace: z katalogu (komunitní databáze) a od
- * uživatelů Uniboxu (services/appScreenshots.ts). Přihlášený uživatel přidá
+ * uživatelů HubGetu (services/appScreenshots.ts). Přihlášený uživatel přidá
  * aktuální snímky – vybere, přetáhne nebo vloží ze schránky; aplikace je zmenší
  * do WebP bez metadat a nahraje. Ostatní je uvidí po schválení správcem, autor
  * hned (se štítkem „Čeká na schválení“). Cizí snímek jde nahlásit, vlastní smazat.

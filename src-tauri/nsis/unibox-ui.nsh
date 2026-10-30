@@ -1,4 +1,4 @@
-﻿; Vzhled instalátoru Uniboxu (NSIS, Modern UI 2) – nastavení, která musí
+﻿; Vzhled instalátoru HubGetu (NSIS, Modern UI 2) – nastavení, která musí
 ; platit ještě před stránkami. Šablona installer.nsi ho vkládá jako
 ; installerHooks (tauri.conf.json); funkce stránek a texty jsou v
 ; unibox-pages.nsh, který se vkládá až po jazycích.
@@ -8,7 +8,7 @@
 ; Písmo Windows 10 / 11 místo zastaralého „MS Shell Dlg“
 SetFont "Segoe UI" 9
 
-; Barvy designového systému Uniboxu: text, tlumený text a pozadí
+; Barvy designového systému HubGetu: text, tlumený text a pozadí
 !define UNIBOX_TEXT_COLOR "0F172A"
 !define UNIBOX_MUTED_COLOR "5B6475"
 !define MUI_BGCOLOR "FFFFFF"
@@ -24,16 +24,19 @@ SetFont "Segoe UI" 9
 !define MUI_FINISHPAGE_TEXT "$(uniboxFinishText)"
 
 ; Úprava záhlaví po spuštění instalátoru i odinstalátoru
-!define MUI_CUSTOMFUNCTION_GUIINIT Unibox.GUIInit
-!define MUI_CUSTOMFUNCTION_UNGUIINIT un.Unibox.GUIInit
+!define MUI_CUSTOMFUNCTION_GUIINIT HubGet.GUIInit
+!define MUI_CUSTOMFUNCTION_UNGUIINIT un.HubGet.GUIInit
 
 ; Průběh bez dlouhého výpisu – ukáže ho tlačítko Podrobnosti
 ShowInstDetails hide
 ShowUninstDetails hide
 
 ; Ostré obrázky (unibox-pages.nsh): vstup, výstup a bitmapy k uvolnění
-Var Unibox.ImgHwnd
-Var Unibox.ImgPath
-Var Unibox.ImgAlign
-Var Unibox.ImgResult
-Var Unibox.SidebarBitmap
+Var HubGet.ImgHwnd
+Var HubGet.ImgPath
+Var HubGet.ImgAlign
+Var HubGet.ImgResult
+Var HubGet.SidebarBitmap
+
+; Přechod z Uniboxu (dřívější název) – odinstalace staré verze, zástupci, automatické spuštění
+!include "${UNIBOX_NSIS_DIR}\hubget-migrate.nsh"

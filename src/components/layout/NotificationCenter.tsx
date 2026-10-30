@@ -139,7 +139,7 @@ function NotificationRow({ notification: n, fresh, onNavigate }: { notification:
   const toast = useToasts((s) => s.push);
   const [copied, setCopied] = useState(false);
   const Icon = ICONS[n.tone];
-  const title = n.title ?? "Unibox";
+  const title = n.title ?? "HubGet";
   const time = new Date(n.createdAt);
   const exactTime = time.toLocaleString(language, { dateStyle: "medium", timeStyle: "medium" });
   const isError = n.tone === "error";

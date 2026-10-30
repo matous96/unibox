@@ -1,4 +1,4 @@
-// Zvýší verzi Uniboxu o jedna (0.1.0 → 0.1.1 → 0.1.2 …) ve všech třech
+// Zvýší verzi HubGetu o jedna (0.1.0 → 0.1.1 → 0.1.2 …) ve všech třech
 // místech najednou: src-tauri/tauri.conf.json (verze instalátoru a aplikace),
 // src-tauri/Cargo.toml a package.json. Každé sestavení instalátoru tak má
 // vlastní číslo (Unibox_0.1.1_x64-setup.exe).
@@ -34,4 +34,4 @@ replaceFirst(files.tauri, /"version":\s*"\d+\.\d+\.\d+"/, `"version": "${next}"`
 replaceFirst(files.cargo, /^version = "\d+\.\d+\.\d+"/m, `version = "${next}"`);
 replaceFirst(files.npm, /"version":\s*"\d+\.\d+\.\d+"/, `"version": "${next}"`);
 
-console.log(`Unibox ${current[1]}.${current[2]}.${current[3]} → ${next}`);
+console.log(`HubGet ${current[1]}.${current[2]}.${current[3]} → ${next}`);

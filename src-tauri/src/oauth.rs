@@ -1,7 +1,7 @@
 //! Přihlášení přes OAuth v systémovém prohlížeči (doporučení RFC 8252 pro
 //! nativní aplikace).
 //!
-//! 1. `oauth_listen` – Unibox začne naslouchat na `http://127.0.0.1:<port>`
+//! 1. `oauth_listen` – HubGet začne naslouchat na `http://127.0.0.1:<port>`
 //!    (jen místní smyčka, z jiného počítače nedostupné) a vrátí port.
 //! 2. Frontend otevře v prohlížeči přihlášení u poskytovatele (Supabase →
 //!    GitHub / Google) s návratovou adresou `http://127.0.0.1:<port>/auth/callback`.
@@ -55,7 +55,7 @@ pub fn oauth_listen() -> Result<u16, String> {
     Err(format!("porty {PORTS:?} jsou obsazené jiným programem"))
 }
 
-/// Počká na návrat z prohlížeče; potom vrátí okno Uniboxu do popředí.
+/// Počká na návrat z prohlížeče; potom vrátí okno HubGetu do popředí.
 #[tauri::command]
 pub async fn oauth_wait<R: Runtime>(app: AppHandle<R>) -> Result<Callback, String> {
     let listener = LISTENER.lock().unwrap_or_else(|e| e.into_inner()).take().ok_or("přihlášení nezačalo")?;
@@ -134,12 +134,12 @@ fn parse_request_line(line: &str) -> Option<Callback> {
 /// Stránka v prohlížeči po návratu (česky i anglicky – jazyk aplikace backend nezná).
 fn page(success: bool) -> String {
     let (title, text) = if success {
-        ("Přihlášení dokončeno · Signed in", "Můžete se vrátit do Uniboxu.<br>You can return to Unibox.")
+        ("Přihlášení dokončeno · Signed in", "Můžete se vrátit do HubGetu.<br>You can return to HubGet.")
     } else {
-        ("Přihlášení se nepovedlo · Sign-in failed", "Vraťte se do Uniboxu a zkuste to znovu.<br>Return to Unibox and try again.")
+        ("Přihlášení se nepovedlo · Sign-in failed", "Vraťte se do HubGetu a zkuste to znovu.<br>Return to HubGet and try again.")
     };
     format!(
-        "<!doctype html><html><head><meta charset=\"utf-8\"><title>Unibox</title><style>\
+        "<!doctype html><html><head><meta charset=\"utf-8\"><title>HubGet</title><style>\
          body{{font-family:'Segoe UI',system-ui,sans-serif;display:grid;place-items:center;height:100vh;margin:0;background:#0f1115;color:#e7e9ee}}\
          main{{text-align:center}}h1{{font-size:22px;margin:0 0 8px}}p{{color:#9aa1ad;line-height:1.6}}\
          </style></head><body><main><h1>{title}</h1><p>{text}</p></main></body></html>"

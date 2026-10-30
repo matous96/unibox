@@ -2,7 +2,7 @@ import { FlaskConical, Heart, Lock, RefreshCw, Star } from "lucide-react";
 import type { ComponentType } from "react";
 import { useTranslation } from "react-i18next";
 import { GitHubIcon, GoogleIcon, MicrosoftIcon } from "@/components/ui/BrandIcons";
-import { UniboxLogo } from "@/components/ui/Logo";
+import { HubGetLogo } from "@/components/ui/Logo";
 import { Modal } from "@/components/ui/Modal";
 import { Spinner } from "@/components/ui/States";
 import { cn } from "@/lib/utils";
@@ -39,7 +39,7 @@ export function LoginDialog() {
       className="max-w-md"
     >
       <div className="flex flex-col items-center text-center">
-        <UniboxLogo size={56} className="rounded-[13px] shadow-lg shadow-accent/30" />
+        <HubGetLogo size={56} className="rounded-[13px] shadow-lg shadow-accent/30" />
         <h2 className="mt-4 font-display text-2xl font-bold tracking-tight">{t("auth.title")}</h2>
         <p className="mt-1.5 text-sm text-muted">{t(reasonKey)}</p>
       </div>

@@ -1,4 +1,4 @@
-// Vydání nové verze Uniboxu:
+// Vydání nové verze HubGetu:
 //  1. zvýší verzi (0.1.2 → 0.1.3; nebo zadaná: `pnpm release 0.2.0`),
 //  2. sestaví instalátory s podpisem pro automatické aktualizace
 //     (klíč %USERPROFILE%\.tauri\unibox-updater.key, nebo UNIBOX_UPDATER_KEY)
@@ -6,9 +6,9 @@
 //     (Authenticode, scripts/sign.mjs: unibox.exe, instalátor NSIS i MSI),
 //  3. aktualizuje domovskou stránku webu – verzi, velikost instalátorů a sekci
 //     „To nejlepší z verze“ z src/data/changelog.ts (scripts/website-release.mjs),
-//  4. vytvoří latest.json – soubor, podle kterého nainstalované Unibox
+//  4. vytvoří latest.json – soubor, podle kterého nainstalované HubGet
 //     poznají novou verzi. Nahrajte ho spolu s instalátorem do GitHub Release
-//     se značkou v<verze> (viz README.cs.md → Aktualizace Uniboxu).
+//     se značkou v<verze> (viz README.cs.md → Aktualizace HubGetu).
 //
 //   pnpm release                     → další číslo verze
 //   pnpm release 0.2.0               → konkrétní verze
@@ -77,7 +77,7 @@ if (!updater) process.exit(0);
 // 4. latest.json pro GitHub Releases
 const { bundle, installer, endpoint } = writeUpdaterManifest(flag("notes"));
 
-console.log(`\nUnibox ${current} je připravený k vydání (${bundle}):`);
+console.log(`\nHubGet ${current} je připravený k vydání (${bundle}):`);
 console.log(`  ${installer}   – instalátor`);
 console.log(`  latest.json${" ".repeat(Math.max(1, installer.length - 11))}   – informace o verzi pro automatické aktualizace`);
 console.log(identity ? `  Podpis kódu: ${describeIdentity(identity)}` : "  Bez podpisu kódu – Windows SmartScreen bude varovat.");

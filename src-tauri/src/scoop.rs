@@ -3,7 +3,7 @@
 //! - Nainstalované aplikace se čtou přímo ze složek Scoopu
 //!   (`apps\<aplikace>\current`) – bez spouštění PowerShellu. Novější verzi
 //!   prozradí manifest v bucketu – buckety obnoví `scoop update` (kontrola aktualizací
-//!   Uniboxu ho spustí nejvýš jednou za 3 hodiny, `scoop_refresh_buckets`).
+//!   HubGetu ho spustí nejvýš jednou za 3 hodiny, `scoop_refresh_buckets`).
 //!   Přenosné aplikace ze Scoopu v registru Windows nejsou, winget je nevidí.
 //! - Operace: skript scoop.ps1 ve Windows PowerShellu, vždy bez práv správce
 //!   (Scoop instaluje pro aktuálního uživatele). Instalace z bucketu, který

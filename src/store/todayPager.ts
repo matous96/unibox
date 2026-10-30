@@ -1,6 +1,6 @@
 /**
  * Listování v kartách sekce „Dnes“ (šipky ‹ › na kartách) – posun každé karty
- * o „dny“ v pořadí výběru (lib/today.ts). Pamatuje si ho do zavření Uniboxu,
+ * o „dny“ v pořadí výběru (lib/today.ts). Pamatuje si ho do zavření HubGetu,
  * aby návrat z detailu aplikace ukázal stejné karty; s novým dnem začíná od nuly.
  */
 import { create } from "zustand";

@@ -25,7 +25,7 @@ export const LANGUAGES = [
 
 /**
  * Jazyk pro nového uživatele podle jazyka Windows (navigator.language: „de-DE“ → „de“,
- * „zh-Hans-CN“ → „zh“); jazyk, který Unibox nemá, → angličtina.
+ * „zh-Hans-CN“ → „zh“); jazyk, který HubGet nemá, → angličtina.
  */
 export function detectLanguage(): string {
   const system = (typeof navigator !== "undefined" ? navigator.language : "").toLowerCase();

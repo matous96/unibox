@@ -1,6 +1,6 @@
 //! Spuštění příkazu s právy správce (UAC).
 //!
-//! Unibox spustí sám sebe s parametrem [`ELEVATED_FLAG`] přes ShellExecuteEx
+//! HubGet spustí sám sebe s parametrem [`ELEVATED_FLAG`] přes ShellExecuteEx
 //! („runas“) – Windows zobrazí dialog UAC. Povýšený pomocný proces spustí
 //! správce balíčků, jeho výstup zapisuje do dočasného souboru a skončí s jeho
 //! návratovým kódem. Hlavní aplikace soubor průběžně čte, takže průběh
@@ -9,11 +9,11 @@
 //!
 //! „Požádat o práva správce jen jednou“ (nebezpečné nastavení, výchozí vypnuto):
 //! první povýšená operace spustí pomocníka s [`ELEVATED_SESSION_FLAG`], který
-//! běží do konce Uniboxu a další operace bere ze souborů `<n>.job` ve složce
+//! běží do konce HubGetu a další operace bere ze souborů `<n>.job` ve složce
 //! relace – bez dalšího dialogu UAC. Přijme jen povolené programy, operaci
 //! s tajným klíčem relace a bezpečný tvar příkazu (instalace podle id, žádné
 //! vlastní manifesty ani zdroje; moduly PowerShellu jen ve tvaru, jaký sestaví
-//! Unibox); jiný příkaz jde přes běžné povýšení s UAC. Stejného pomocníka používá
+//! HubGet); jiný příkaz jde přes běžné povýšení s UAC. Stejného pomocníka používá
 //! i dávka „Čeká na potvrzení“ (jeden dialog UAC) – po jejím konci skončí.
 
 use base64::engine::general_purpose::URL_SAFE_NO_PAD;
@@ -25,9 +25,9 @@ use std::sync::Mutex;
 
 use crate::process::{CancelToken, Exit, Output};
 
-/// Parametr, se kterým se Unibox spouští jako povýšený pomocný proces.
+/// Parametr, se kterým se HubGet spouští jako povýšený pomocný proces.
 pub const ELEVATED_FLAG: &str = "--unibox-elevated";
-/// Parametr povýšeného pomocníka pro celé spuštění Uniboxu.
+/// Parametr povýšeného pomocníka pro celé spuštění HubGetu.
 pub const ELEVATED_SESSION_FLAG: &str = "--unibox-elevated-session";
 
 /// Programy, které smí pomocný proces spustit s právy správce.
@@ -61,7 +61,7 @@ struct Job {
 }
 
 /// Smí příkaz běžet s právy správce? Povolené programy, oficiální instalace Chocolatey
-/// a operace s moduly PowerShellu v podobě, jakou sestaví Unibox (dev.rs).
+/// a operace s moduly PowerShellu v podobě, jakou sestaví HubGet (dev.rs).
 fn may_elevate(program: &str, args: &[String]) -> bool {
     is_allowed(program) || is_setup_command(program, args) || crate::dev::is_module_command(program, args)
 }
@@ -95,7 +95,7 @@ pub fn run_elevated(
     }
 
     // Soubor s výstupem založí běžný proces; povýšený do něj jen připisuje
-    let dir = std::env::temp_dir().join("Unibox");
+    let dir = std::env::temp_dir().join("HubGet");
     fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
     let stamp = SystemTime::now().duration_since(UNIX_EPOCH).unwrap_or_default().as_nanos();
     let log = dir.join(format!("elevated-{stamp}.log"));
@@ -181,7 +181,7 @@ pub fn run_elevated(
     Err("Spuštění jako správce je dostupné jen ve Windows".into())
 }
 
-/// Spustí Unibox s právy správce v pomocném režimu `flag` (např. úklid zbytků
+/// Spustí HubGet s právy správce v pomocném režimu `flag` (např. úklid zbytků
 /// po odinstalaci) a počká na něj. Vrátí jeho návratový kód, None = dialog UAC
 /// odmítnut. Zadání `payload` si pomocník sám znovu ověří.
 #[cfg(windows)]
@@ -352,7 +352,7 @@ fn run_to_log(program: &str, args: &[String], log_path: &Path, cancel: &Path) ->
 struct SessionStart {
     dir: PathBuf,
     token: String,
-    /// Proces Uniboxu – pomocník skončí spolu s ním.
+    /// Proces HubGetu – pomocník skončí spolu s ním.
     parent: u32,
 }
 
@@ -394,7 +394,7 @@ pub fn begin_batch() {
     BATCH.store(true, Ordering::SeqCst);
 }
 
-/// Konec dávky: pomocník relace skončí, ledaže má běžet do konce Uniboxu („pouze jednou“).
+/// Konec dávky: pomocník relace skončí, ledaže má běžet do konce HubGetu („pouze jednou“).
 /// Volá se mezi operacemi – žádná ho zrovna nepoužívá.
 pub fn end_batch() {
     BATCH.store(false, Ordering::SeqCst);
@@ -444,7 +444,7 @@ fn safe_session_args(program: &str, args: &[String]) -> bool {
 }
 
 /// Příkaz, který smí obsloužit pomocník relace bez dalšího dialogu UAC: bezpečný tvar příkazu
-/// wingetu či Chocolatey, nebo operace s modulem PowerShellu v podobě, jakou sestaví Unibox.
+/// wingetu či Chocolatey, nebo operace s modulem PowerShellu v podobě, jakou sestaví HubGet.
 fn session_safe(program: &str, args: &[String]) -> bool {
     (is_allowed(program) && safe_session_args(program, args)) || crate::dev::is_module_command(program, args)
 }
@@ -532,7 +532,7 @@ pub fn run_elevated_cached(
         }
         // SAFETY: platný handle pomocníka (drží ho SESSION po celou dobu běhu)
         if unsafe { WaitForSingleObject(process as _, 0) } == WAIT_OBJECT_0 {
-            return Err("Povýšený pomocník Uniboxu skončil".into());
+            return Err("Povýšený pomocník HubGetu skončil".into());
         }
         std::thread::sleep(Duration::from_millis(150));
     };
@@ -576,7 +576,7 @@ fn ensure_session() -> Result<Option<(PathBuf, String, isize)>, String> {
     }
     let token: String = random.iter().map(|b| format!("{b:02x}")).collect();
     let stamp = SystemTime::now().duration_since(UNIX_EPOCH).unwrap_or_default().as_nanos();
-    let dir = std::env::temp_dir().join("Unibox").join(format!("session-{}-{stamp}", std::process::id()));
+    let dir = std::env::temp_dir().join("HubGet").join(format!("session-{}-{stamp}", std::process::id()));
     std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
 
     let start = SessionStart { dir: dir.clone(), token: token.clone(), parent: std::process::id() };
@@ -612,7 +612,7 @@ fn ensure_session() -> Result<Option<(PathBuf, String, isize)>, String> {
 }
 
 /// Vstupní bod povýšeného pomocníka relace: obsluhuje operace ze souborů
-/// `<n>.job`, dokud běží Unibox, který ho spustil (u dávky s jediným dialogem UAC
+/// `<n>.job`, dokud běží HubGet, který ho spustil (u dávky s jediným dialogem UAC
 /// do jejího konce).
 pub fn session_main(payload: &str) -> i32 {
     use std::time::Duration;
@@ -625,7 +625,7 @@ pub fn session_main(payload: &str) -> i32 {
         return ERROR_INVALID_PARAMETER;
     };
     loop {
-        // Unibox skončil, nebo skončila dávka s jediným dialogem UAC (soubor „stop“)
+        // HubGet skončil, nebo skončila dávka s jediným dialogem UAC (soubor „stop“)
         if !process_alive(start.parent) || start.dir.join("stop").exists() {
             let _ = std::fs::remove_dir_all(&start.dir);
             return 0;

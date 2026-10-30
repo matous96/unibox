@@ -111,7 +111,7 @@ async function run(get: () => SyncState, set: (s: Partial<SyncState>) => void) {
       set({ status: "idle", lastSyncedAt: base.lastSyncedAt });
     }
   } catch (error) {
-    console.error("[Unibox] Synchronizace se nepovedla:", error);
+    console.error("[HubGet] Synchronizace se nepovedla:", error);
     set({ status: "error" });
   }
 }

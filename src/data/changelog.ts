@@ -40,8 +40,8 @@ export const CHANGELOG: Release[] = [
         en: "Terminal commands: an overview of commands for WinGet, Chocolatey, Scoop and developer package managers – search, install, update, backup and maintenance, each with an explanation and a Copy button. Find them in Help, in Settings and on every app's page.",
       },
       {
-        cs: "Hry ze Steamu mají svou skutečnou ikonu a Unibox pozná i hry z EA app – mají vlastní filtr mezi nainstalovanými.",
-        en: "Steam games show their real icon and Unibox now recognizes EA app games too – with their own filter among installed apps.",
+        cs: "Hry ze Steamu mají svou skutečnou ikonu a HubGet pozná i hry z EA app – mají vlastní filtr mezi nainstalovanými.",
+        en: "Steam games show their real icon and HubGet now recognizes EA app games too – with their own filter among installed apps.",
       },
       {
         cs: "Na kartách a v seznamech je vidět kategorie aplikace (prohlížeč, grafika…), takže hned víte, k čemu neznámá aplikace slouží.",
@@ -52,8 +52,8 @@ export const CHANGELOG: Release[] = [
         en: "Back returns you to where you were: the scroll position and filters on Installed, Top charts and categories stay put.",
       },
       {
-        cs: "Nové logo s tenkým nápisem „unibox“ v krabici a v Nastavení → Obecné nenápadná možnost podpořit vývoj.",
-        en: "A new logo with a thin “unibox” lettering on the box, and an unobtrusive way to support development in Settings → General.",
+        cs: "Nové logo s tenkým nápisem „hubget“ v krabici a v Nastavení → Obecné nenápadná možnost podpořit vývoj.",
+        en: "A new logo with a thin “hubget” lettering on the box, and an unobtrusive way to support development in Settings → General.",
       },
     ],
     featured: [
@@ -79,8 +79,8 @@ export const CHANGELOG: Release[] = [
     date: "2026-10-28",
     highlights: [
       {
-        cs: "Rychlejší start: Unibox ukáže katalog hned z uložené kopie a čerstvý stáhne na pozadí – už nečeká na stažení celého katalogu (na pomalém připojení až 15 sekund).",
-        en: "Faster startup: Unibox shows the catalog right away from its saved copy and downloads the fresh one in the background – no more waiting for the whole catalog (up to 15 seconds on a slow connection).",
+        cs: "Rychlejší start: HubGet ukáže katalog hned z uložené kopie a čerstvý stáhne na pozadí – už nečeká na stažení celého katalogu (na pomalém připojení až 15 sekund).",
+        en: "Faster startup: HubGet shows the catalog right away from its saved copy and downloads the fresh one in the background – no more waiting for the whole catalog (up to 15 seconds on a slow connection).",
       },
       {
         cs: "Úvodní průvodce představí i hodnocení a recenze – kde je najdete a jak přidat vlastní.",
@@ -126,20 +126,20 @@ export const CHANGELOG: Release[] = [
         en: "Top charts your way: sort by popularity, user ratings or This week's movers – the apps whose downloads are growing fastest.",
       },
       {
-        cs: "Aplikace, které se aktualizují samy (Discord): když se po aktualizaci vrátí na verzi ze svého serveru, Unibox ji označí „aktualizuje se sama“ a přestane aktualizaci nabízet dokola.",
-        en: "Apps that update themselves (Discord): when an app reverts to its own server's version after an update, Unibox marks it as “updates itself” and stops offering the update over and over.",
+        cs: "Aplikace, které se aktualizují samy (Discord): když se po aktualizaci vrátí na verzi ze svého serveru, HubGet ji označí „aktualizuje se sama“ a přestane aktualizaci nabízet dokola.",
+        en: "Apps that update themselves (Discord): when an app reverts to its own server's version after an update, HubGet marks it as “updates itself” and stops offering the update over and over.",
       },
       {
-        cs: "Když instalátor spadne (GeForce NOW), Unibox to řekne srozumitelně a nabídne jiný zdroj – instalaci zbytečně neopakuje jako správce.",
-        en: "When an installer crashes (GeForce NOW), Unibox says so clearly and offers another source – no pointless retry as administrator.",
+        cs: "Když instalátor spadne (GeForce NOW), HubGet to řekne srozumitelně a nabídne jiný zdroj – instalaci zbytečně neopakuje jako správce.",
+        en: "When an installer crashes (GeForce NOW), HubGet says so clearly and offers another source – no pointless retry as administrator.",
       },
       {
         cs: "Detail aplikace na širokém okně využívá i místo vpravo, takže informace nejsou tak nahuštěné.",
         en: "On a wide window, the app detail uses the space on the right too, so the information isn't so cramped.",
       },
       {
-        cs: "Opravy: aplikace nainstalovaná dvěma správci má dvě vlastní karty, ikony programů se po přechodné chybě načtou znovu, Trendy / Populární na Domů přepíná bez skoku nahoru, Esc v dialogu zavře jen horní okno a dialog aktualizace Uniboxu ukáže, proč se aktualizace nepodařila.",
-        en: "Fixes: an app installed by two package managers gets its own card for each, program icons load again after a temporary error, Trending / Popular on Home switches without jumping to the top, Esc in a dialog closes only the topmost window and the Unibox update dialog shows why an update failed.",
+        cs: "Opravy: aplikace nainstalovaná dvěma správci má dvě vlastní karty, ikony programů se po přechodné chybě načtou znovu, Trendy / Populární na Domů přepíná bez skoku nahoru, Esc v dialogu zavře jen horní okno a dialog aktualizace HubGetu ukáže, proč se aktualizace nepodařila.",
+        en: "Fixes: an app installed by two package managers gets its own card for each, program icons load again after a temporary error, Trending / Popular on Home switches without jumping to the top, Esc in a dialog closes only the topmost window and the HubGet update dialog shows why an update failed.",
       },
     ],
     featured: [
@@ -192,8 +192,8 @@ export const CHANGELOG: Release[] = [
       {
         title: { cs: "Bez připojení nic nezamrzne", en: "No connection, no freeze" },
         text: {
-          cs: "Nainstalované aplikace a nastavení fungují i offline. Unibox řekne, co počká na připojení, a po jeho návratu data načte znovu.",
-          en: "Installed apps and settings work offline too. Unibox tells you what waits for the connection and reloads the data once it's back.",
+          cs: "Nainstalované aplikace a nastavení fungují i offline. HubGet řekne, co počká na připojení, a po jeho návratu data načte znovu.",
+          en: "Installed apps and settings work offline too. HubGet tells you what waits for the connection and reloads the data once it's back.",
         },
       },
     ],
@@ -207,16 +207,16 @@ export const CHANGELOG: Release[] = [
         en: "Sign in with GitHub: star ratings and reviews under your account name – edit or delete your own review, report inappropriate ones.",
       },
       {
-        cs: "Snímky obrazovky od uživatelů: přihlášení mohou k aplikaci přidat aktuální snímky (výběrem, přetažením nebo Ctrl+V) – Unibox je zmenší do WebP bez metadat a po schválení je uvidí všichni.",
-        en: "Screenshots from users: signed-in users can add current screenshots to an app (pick, drag or Ctrl+V) – Unibox downscales them to WebP without metadata and everyone sees them once approved.",
+        cs: "Snímky obrazovky od uživatelů: přihlášení mohou k aplikaci přidat aktuální snímky (výběrem, přetažením nebo Ctrl+V) – HubGet je zmenší do WebP bez metadat a po schválení je uvidí všichni.",
+        en: "Screenshots from users: signed-in users can add current screenshots to an app (pick, drag or Ctrl+V) – HubGet downscales them to WebP without metadata and everyone sees them once approved.",
       },
       {
         cs: "Synchronizace mezi počítači: oblíbené, sada balíčků, předvolby vzhledu a jazyka i oznámení – každou oblast jde vypnout a data z účtu smazat.",
         en: "Sync between computers: favorites, the package bundle, appearance and language preferences and notifications – turn off any area and delete the data from your account.",
       },
       {
-        cs: "Katalog aplikací je každý den čerstvý – nainstalovaný Unibox si ho stahuje z GitHubu, kde se denně generuje.",
-        en: "The app catalog is fresh every day – the installed Unibox downloads it from GitHub, where it's generated daily.",
+        cs: "Katalog aplikací je každý den čerstvý – nainstalovaný HubGet si ho stahuje z GitHubu, kde se denně generuje.",
+        en: "The app catalog is fresh every day – the installed HubGet downloads it from GitHub, where it's generated daily.",
       },
       {
         cs: "Jen ostré ikony aplikací: katalog u každé aplikace vybírá nejostřejší ikonu ze všech zdrojů (i z webu aplikace) a malé favicony, které by se rozmazaly, nahradí avatar s iniciálami. Ikony se po načtení už nemění; Audacity, WinRAR a Windows Terminal mají aktuální ikony.",
@@ -239,8 +239,8 @@ export const CHANGELOG: Release[] = [
         en: "The installer shows the privacy policy and license before installing. App website favicons are no longer looked up through Google and DuckDuckGo services.",
       },
       {
-        cs: "Zdrojový kód je veřejně na GitHubu (github.com/matous96/unibox, licence MIT) a aktualizace Uniboxu se stahují z GitHub Releases.",
-        en: "The source code is public on GitHub (github.com/matous96/unibox, MIT license) and Unibox updates are downloaded from GitHub Releases.",
+        cs: "Zdrojový kód je veřejně na GitHubu (github.com/matous96/unibox, licence MIT) a aktualizace HubGetu se stahují z GitHub Releases.",
+        en: "The source code is public on GitHub (github.com/matous96/unibox, MIT license) and HubGet updates are downloaded from GitHub Releases.",
       },
     ],
     featured: [
@@ -269,7 +269,7 @@ export const CHANGELOG: Release[] = [
         en: "Developer package managers for real: npm, Bun, pip, Cargo, vcpkg, .NET Tool, PowerShell 7 and 5.1 – search, install, update and uninstall in Developer mode.",
       },
       {
-        cs: "Chybějící nástroj (Node.js, Python, Rust, .NET SDK, PowerShell 7) nainstaluje Unibox jedním kliknutím přes WinGet.",
+        cs: "Chybějící nástroj (Node.js, Python, Rust, .NET SDK, PowerShell 7) nainstaluje HubGet jedním kliknutím přes WinGet.",
         en: "A missing tool (Node.js, Python, Rust, .NET SDK, PowerShell 7) is installed in one click via WinGet.",
       },
       {
@@ -297,8 +297,8 @@ export const CHANGELOG: Release[] = [
         en: "The Today section picks from hundreds of well-known apps across the catalog – daily tips, category picks and the app of the day no longer repeat after a few days. Browse more picks with the arrows on the cards.",
       },
       {
-        cs: "Stabilnější a plynulejší: chyba na jedné stránce už neshodí celé okno, selhání správce balíčků Unibox oznámí a scrollování seznamů běží bez zasekávání.",
-        en: "More stable and smoother: an error on one page no longer takes down the whole window, Unibox reports when a package manager fails, and lists scroll without stutter.",
+        cs: "Stabilnější a plynulejší: chyba na jedné stránce už neshodí celé okno, selhání správce balíčků HubGet oznámí a scrollování seznamů běží bez zasekávání.",
+        en: "More stable and smoother: an error on one page no longer takes down the whole window, HubGet reports when a package manager fails, and lists scroll without stutter.",
       },
       {
         cs: "Uložené volby instalace (jako správce, parametry, složka…) platí i pro aktualizace; nově i odinstalace předchozí verze a vlastní parametry jen pro aktualizace.",
@@ -309,8 +309,8 @@ export const CHANGELOG: Release[] = [
       {
         title: { cs: "Správci pro vývojáře naostro", en: "Developer package managers for real" },
         text: {
-          cs: "npm, Bun, pip, Cargo, vcpkg, .NET Tool a PowerShell – hledání, instalace, aktualizace i odinstalace knihoven a nástrojů přímo v Uniboxu.",
-          en: "npm, Bun, pip, Cargo, vcpkg, .NET Tool and PowerShell – search, install, update and uninstall libraries and tools right in Unibox.",
+          cs: "npm, Bun, pip, Cargo, vcpkg, .NET Tool a PowerShell – hledání, instalace, aktualizace i odinstalace knihoven a nástrojů přímo v HubGetu.",
+          en: "npm, Bun, pip, Cargo, vcpkg, .NET Tool and PowerShell – search, install, update and uninstall libraries and tools right in HubGet.",
         },
         href: { cs: "spravci.html#vyvojari", en: "package-managers.html#vyvojari" },
       },
@@ -328,8 +328,8 @@ export const CHANGELOG: Release[] = [
     date: "2026-10-27",
     highlights: [
       {
-        cs: "Nový instalátor ve stylu Uniboxu – logo ve vysokém rozlišení, písmo Segoe UI, ostrá grafika i na displejích s vysokým rozlišením a jazyk podle Windows.",
-        en: "A new installer in Unibox style – a high-resolution logo, the Segoe UI font, sharp graphics on high-DPI displays and the language of your Windows.",
+        cs: "Nový instalátor ve stylu HubGetu – logo ve vysokém rozlišení, písmo Segoe UI, ostrá grafika i na displejích s vysokým rozlišením a jazyk podle Windows.",
+        en: "A new installer in HubGet style – a high-resolution logo, the Segoe UI font, sharp graphics on high-DPI displays and the language of your Windows.",
       },
       {
         cs: "Novinky v Nastavení: okno Co je nového jde kdykoli znovu otevřít a je tam i historie všech verzí.",
@@ -340,8 +340,8 @@ export const CHANGELOG: Release[] = [
       {
         title: { cs: "Nový instalátor", en: "A new installer" },
         text: {
-          cs: "Úvodní a závěrečná obrazovka s logem Uniboxu ve vysokém rozlišení, písmo Segoe UI a ostrá grafika i na displejích s vysokým rozlišením.",
-          en: "Welcome and finish screens with a high-resolution Unibox logo, the Segoe UI font and sharp graphics even on high-DPI displays.",
+          cs: "Úvodní a závěrečná obrazovka s logem HubGetu ve vysokém rozlišení, písmo Segoe UI a ostrá grafika i na displejích s vysokým rozlišením.",
+          en: "Welcome and finish screens with a high-resolution HubGet logo, the Segoe UI font and sharp graphics even on high-DPI displays.",
         },
         href: "#stahnout",
       },
@@ -371,20 +371,20 @@ export const CHANGELOG: Release[] = [
         en: "Automatic background update checks and installs, a notification center with a bell and notification preferences.",
       },
       {
-        cs: "Když instalace selže (nefunkční odkaz, běžící jiná instalace…), Unibox nabídne jiný zdroj – Chocolatey nebo Scoop.",
-        en: "When an install fails (broken link, another install running…), Unibox offers another source – Chocolatey or Scoop.",
+        cs: "Když instalace selže (nefunkční odkaz, běžící jiná instalace…), HubGet nabídne jiný zdroj – Chocolatey nebo Scoop.",
+        en: "When an install fails (broken link, another install running…), HubGet offers another source – Chocolatey or Scoop.",
       },
       {
-        cs: "Odkazy unibox:// – kolekce a aplikace z webu se otevřou rovnou v Uniboxu.",
-        en: "unibox:// links – collections and apps from the web open right in Unibox.",
+        cs: "Odkazy unibox:// – kolekce a aplikace z webu se otevřou rovnou v HubGetu.",
+        en: "unibox:// links – collections and apps from the web open right in HubGet.",
       },
       {
         cs: "Spolehlivější rozpoznání nainstalovaných aplikací na každém počítači – ověří spustitelný soubor (zbytky v registru už nesvítí jako „Nainstalováno“), najde aplikace v profilu uživatele a funguje i bez modulu WinGetu.",
         en: "More reliable detection of installed apps on any PC – it checks the executable (registry leftovers no longer show as installed), finds apps in the user profile and works even without the WinGet module.",
       },
       {
-        cs: "Běžící aplikace už instalaci nezablokuje: proces na pozadí (třeba OBS u hodin) Unibox před instalací, aktualizací či odinstalací sám ukončí, otevřenou aplikaci nabídne zavřít jedním kliknutím.",
-        en: "A running app no longer blocks an install: Unibox ends a background process (such as OBS in the tray) before an install, update or uninstall, and offers to close an open app in one click.",
+        cs: "Běžící aplikace už instalaci nezablokuje: proces na pozadí (třeba OBS u hodin) HubGet před instalací, aktualizací či odinstalací sám ukončí, otevřenou aplikaci nabídne zavřít jedním kliknutím.",
+        en: "A running app no longer blocks an install: HubGet ends a background process (such as OBS in the tray) before an install, update or uninstall, and offers to close an open app in one click.",
       },
       {
         cs: "Pokročilá odinstalace (v Nastavení): po odinstalaci najde zbytky v Program Files, ProgramData, zástupcích i registru a nabídne je smazat – nebo je smaže automaticky. Registr se před smazáním zálohuje.",
@@ -395,8 +395,8 @@ export const CHANGELOG: Release[] = [
         en: "New Startup apps section: programs that start at sign-in (registry, Startup folder, Task Scheduler) – enable, disable or remove them in one click, with their startup impact.",
       },
       {
-        cs: "Sledování instalace: snímek disku a registru před instalací a po ní – po odinstalaci Unibox nabídne smazat vše, co instalátor vytvořil.",
-        en: "Install monitoring: a disk and registry snapshot before and after an install – after an uninstall, Unibox offers to remove everything the installer created.",
+        cs: "Sledování instalace: snímek disku a registru před instalací a po ní – po odinstalaci HubGet nabídne smazat vše, co instalátor vytvořil.",
+        en: "Install monitoring: a disk and registry snapshot before and after an install – after an uninstall, HubGet offers to remove everything the installer created.",
       },
       {
         cs: "Ignorovat aktualizace u kterékoli aplikace nebo je odložit o den, týden či měsíc; přehled a zrušení v Nastavení.",
@@ -407,8 +407,8 @@ export const CHANGELOG: Release[] = [
         en: "Export your profile as JSON or as a readable HTML page, update settings included; after an import, install the missing apps in one click.",
       },
       {
-        cs: "Po aktualizaci Unibox jednou ukáže okno „Co je nového“ s novinkami všech vydání, která jste přeskočili.",
-        en: "After an update, Unibox shows a “What’s new” window once, covering every release you skipped.",
+        cs: "Po aktualizaci HubGet jednou ukáže okno „Co je nového“ s novinkami všech vydání, která jste přeskočili.",
+        en: "After an update, HubGet shows a “What’s new” window once, covering every release you skipped.",
       },
       {
         cs: "Celý katalog WinGetu (15 776 balíčků), hvězdičky z GitHubu na kartách, ověřené aplikace a vlastní barva zvýraznění.",
@@ -425,8 +425,8 @@ export const CHANGELOG: Release[] = [
     date: "2026-10-23",
     highlights: [
       {
-        cs: "Nefunkční odkaz na stažení ve WinGetu (chyba 404)? Unibox zkusí Chocolatey nebo Scoop.",
-        en: "A broken download link in WinGet (error 404)? Unibox tries Chocolatey or Scoop.",
+        cs: "Nefunkční odkaz na stažení ve WinGetu (chyba 404)? HubGet zkusí Chocolatey nebo Scoop.",
+        en: "A broken download link in WinGet (error 404)? HubGet tries Chocolatey or Scoop.",
       },
       { cs: "Velké karty na domovské stránce jsou klikatelné celé.", en: "The large home page cards are clickable everywhere." },
     ],

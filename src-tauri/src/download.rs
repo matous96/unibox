@@ -2,7 +2,7 @@
 //!
 //! Používá se pro předstažení instalátoru: winget sám stahuje přes Delivery
 //! Optimization, která soubor zapisuje až na konci (průběh nejde sledovat)
-//! a umí se na desítky sekund zastavit. Unibox proto instalátor stáhne sám
+//! a umí se na desítky sekund zastavit. HubGet proto instalátor stáhne sám
 //! tam, kde ho winget hledá, a winget po ověření kontrolního součtu rovnou
 //! instaluje.
 

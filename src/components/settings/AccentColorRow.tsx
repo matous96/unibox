@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { useSettings } from "@/store/settings";
 import { Row } from "./SettingsUi";
 
-/** Přednastavené barvy; null = výchozí modrá Uniboxu. */
+/** Přednastavené barvy; null = výchozí modrá HubGetu. */
 const PRESETS: { id: string; color: string | null }[] = [
   { id: "default", color: null },
   { id: "purple", color: "#7c3aed" },

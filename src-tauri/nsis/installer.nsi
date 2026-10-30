@@ -1,4 +1,4 @@
-; Šablona instalátoru Uniboxu – kopie výchozí šablony Tauri (tauri-cli v2.12.4,
+; Šablona instalátoru HubGetu – kopie výchozí šablony Tauri (tauri-cli v2.12.4,
 ; crates/tauri-bundler/src/bundle/windows/nsis/installer.nsi). Logika instalace je
 ; beze změny; úpravy vzhledu jsou označené „UNIBOX:“ (vzhled v unibox-ui.nsh
 ; a unibox-pages.nsh). Při aktualizaci tauri-cli porovnejte s novou výchozí šablonou.
@@ -174,7 +174,7 @@ VIAddVersionKey "ProductVersion" "${VERSION}"
 ; 1. Welcome Page
 !define MUI_PAGE_CUSTOMFUNCTION_PRE SkipIfPassive
 ; UNIBOX: ostrý boční panel, větší titulek
-!define MUI_PAGE_CUSTOMFUNCTION_SHOW Unibox.WelcomeShow
+!define MUI_PAGE_CUSTOMFUNCTION_SHOW HubGet.WelcomeShow
 !insertmacro MUI_PAGE_WELCOME
 
 ; 2. License Page (if defined)
@@ -447,7 +447,7 @@ Var AppStartMenuFolder
 !define MUI_FINISHPAGE_RUN_FUNCTION RunMainBinary
 !define MUI_PAGE_CUSTOMFUNCTION_PRE SkipIfPassive
 ; UNIBOX: ostrý boční panel, větší titulek
-!define MUI_PAGE_CUSTOMFUNCTION_SHOW Unibox.FinishShow
+!define MUI_PAGE_CUSTOMFUNCTION_SHOW HubGet.FinishShow
 !insertmacro MUI_PAGE_FINISH
 
 Function RunMainBinary

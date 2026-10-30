@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Unibox – web. Barvy a písmo vychází z desktopové aplikace.
+   HubGet – web. Barvy a písmo vychází z desktopové aplikace.
    ========================================================================== */
 
 :root {
@@ -231,7 +231,7 @@ kbd {
 .hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
 .hero__meta { font-size: 0.9rem; color: var(--muted); }
 
-/* Na telefonu: Unibox je pro počítač – nabídka poslat si odkaz (sdílení / kopírování, main.js) */
+/* Na telefonu: HubGet je pro počítač – nabídka poslat si odkaz (sdílení / kopírování, main.js) */
 .phone-note { display: none; }
 @media (max-width: 760px) and (pointer: coarse) {
   .phone-note {
@@ -796,7 +796,7 @@ a.is-placeholder { cursor: not-allowed; }
 }
 .compare-card__link { font-weight: 650; justify-self: start; }
 
-/* Ilustrace „Unibox vs Winstall“: vlevo karta aplikace, vpravo příkaz pro terminál */
+/* Ilustrace „HubGet vs Winstall“: vlevo karta aplikace, vpravo příkaz pro terminál */
 .vs-visual {
   position: relative;
   display: grid; gap: 12px;

@@ -302,7 +302,7 @@ fn operation_args(request: &OperationRequest) -> Result<Vec<String>, String> {
         if options.skip_hash {
             args.push("--ignore-checksums".into());
         }
-        // Vlastní parametry (jen s povolením v Nastavení) a parametry z voleb Uniboxu
+        // Vlastní parametry (jen s povolením v Nastavení) a parametry z voleb HubGetu
         if let Some(custom) = options.combined_args() {
             args.push(format!("--install-arguments={custom}"));
         }

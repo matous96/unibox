@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Novinky – Unibox</title>
-  <meta name="description" content="Historie změn Uniboxu od první veřejné verze 0.1.0: co je nového v každé verzi, co jsme vylepšili a opravili a co chystáme dál.">
+  <title>Novinky – HubGet</title>
+  <meta name="description" content="Historie změn HubGetu od první veřejné verze 0.1.0: co je nového v každé verzi, co jsme vylepšili a opravili a co chystáme dál.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0d0f14" media="(prefers-color-scheme: dark)">
-  <meta property="og:title" content="Novinky – Unibox">
-  <meta property="og:description" content="Co je nového v Uniboxu – historie změn od verze 0.1.0.">
+  <meta property="og:title" content="Novinky – HubGet">
+  <meta property="og:description" content="Co je nového v HubGetu – historie změn od verze 0.1.0.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="cs_CZ">
   <!-- Jazykové verze stránky; po spuštění webu nahradit relativní adresy absolutními (s doménou) -->
@@ -43,9 +43,9 @@
 
   <header class="nav" id="nav">
     <div class="wrap nav__inner">
-      <a class="brand" href="index.html" aria-label="Unibox – úvod">
+      <a class="brand" href="index.html" aria-label="HubGet – úvod">
         <img src="assets/unibox-logo.svg" alt="" width="32" height="32">
-        <span>Unibox</span>
+        <span>HubGet</span>
       </a>
       <nav class="nav__links" aria-label="Hlavní navigace">
         <a href="funkce.html">Funkce</a>
@@ -57,7 +57,7 @@
       </nav>
       <div class="nav__actions">
         <a class="lang-switch" href="en/changelog.html" hreflang="en" lang="en" data-lang-switch title="English" aria-label="Switch to English">EN</a>
-        <a class="icon-btn" data-link="github" href="#" aria-label="Unibox na GitHubu" title="GitHub">
+        <a class="icon-btn" data-link="github" href="#" aria-label="HubGet na GitHubu" title="GitHub">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
         </a>
         <button class="icon-btn" id="theme-toggle" type="button" aria-label="Přepnout světlý / tmavý motiv" title="Motiv">
@@ -75,7 +75,7 @@
       <div class="wrap">
         <div class="page-head__inner reveal">
           <p class="eyebrow">Novinky</p>
-          <h1>Co je nového v&nbsp;Uniboxu</h1>
+          <h1>Co je nového v&nbsp;HubGetu</h1>
           <p class="lead">Všechny změny od první veřejné verze 0.1.0, nejnovější nahoře. Za týden od jejího vydání vyšlo patnáct aktualizací.</p>
           <nav class="versions-nav" aria-label="Přejít na verzi">
             <a class="chip" href="#v0-1-18">0.1.18</a>
@@ -139,12 +139,12 @@
           <article class="card highlight reveal">
             <span class="highlight__ver">Verze 0.1.10</span>
             <h3>Záložní zdroj instalace</h3>
-            <p>Když má WinGet nefunkční odkaz na stažení, Unibox sám zkusí Chocolatey nebo Scoop.</p>
+            <p>Když má WinGet nefunkční odkaz na stažení, HubGet sám zkusí Chocolatey nebo Scoop.</p>
           </article>
           <article class="card highlight reveal">
             <span class="highlight__ver">Verze 0.1.11</span>
             <h3>Chocolatey a Scoop naostro</h3>
-            <p>Instalace, aktualizace i odinstalace přímo v Uniboxu, režim jednoho zdroje a odkazy unibox:// z webu.</p>
+            <p>Instalace, aktualizace i odinstalace přímo v HubGetu, režim jednoho zdroje a odkazy unibox:// z webu.</p>
           </article>
           <article class="card highlight reveal">
             <span class="highlight__ver">Verze 0.1.11</span>
@@ -231,7 +231,7 @@
                 <ul>
                   <li><strong>Sedm jazyků</strong> – k&nbsp;češtině a&nbsp;angličtině přibyla němčina, španělština, francouzština, portugalština a&nbsp;čínština (zjednodušená). Nový uživatel dostane jazyk podle Windows, jinak angličtinu. Přepnete ho v&nbsp;horní liště nebo v&nbsp;Nastavení → Vzhled.</li>
                   <li><strong>Příkazy pro terminál</strong> – přehled příkazů pro WinGet, Chocolatey, Scoop, npm, Bun, pip, Cargo, vcpkg, .NET Tool a&nbsp;PowerShell: hledání a&nbsp;informace, instalace i&nbsp;konkrétní verze, aktualizace a&nbsp;zamknutí verze, záloha a&nbsp;údržba. Každý příkaz má vysvětlení a&nbsp;tlačítko Kopírovat. Najdete je v&nbsp;Nápovědě, v&nbsp;Nastavení a&nbsp;u&nbsp;každé aplikace.</li>
-                  <li><strong>Hry z&nbsp;EA app</strong> – Unibox pozná hry z&nbsp;EA app v&nbsp;jakékoli knihovně; mají vlastní filtr mezi nainstalovanými, kategorii Hry a&nbsp;svou ikonu.</li>
+                  <li><strong>Hry z&nbsp;EA app</strong> – HubGet pozná hry z&nbsp;EA app v&nbsp;jakékoli knihovně; mají vlastní filtr mezi nainstalovanými, kategorii Hry a&nbsp;svou ikonu.</li>
                   <li><strong>Kategorie na kartách</strong> – u&nbsp;každé aplikace je vidět, k&nbsp;čemu slouží (prohlížeč, grafika…), i&nbsp;když ji neznáte.</li>
                 </ul>
               </div>
@@ -240,8 +240,8 @@
                 <ul>
                   <li><strong>Zpět tam, kde jste byli</strong> – po návratu z&nbsp;detailu aplikace zůstane posun stránky i&nbsp;filtry na Nainstalovaných, v&nbsp;Nejstahovanějších a&nbsp;v&nbsp;kategoriích.</li>
                   <li>Hry ze Steamu mají svou skutečnou ikonu (až 256&nbsp;px) a&nbsp;banner jako ostatní aplikace.</li>
-                  <li>Nové logo s&nbsp;tenkým nápisem „unibox“ v&nbsp;krabici.</li>
-                  <li>V&nbsp;Nastavení → Obecné je nenápadná možnost podpořit vývoj Uniboxu.</li>
+                  <li>Nové logo s&nbsp;tenkým nápisem „hubget“ v&nbsp;krabici.</li>
+                  <li>V&nbsp;Nastavení → Obecné je nenápadná možnost podpořit vývoj HubGetu.</li>
                 </ul>
               </div>
               <div class="changes changes--fix">
@@ -266,7 +266,7 @@
               <div class="changes changes--better">
                 <h3>Vylepšeno</h3>
                 <ul>
-                  <li><strong>Rychlejší start</strong> – Unibox ukáže katalog hned z&nbsp;uložené kopie a&nbsp;čerstvý stáhne na pozadí. Dřív při každém spuštění čekal na stažení celého katalogu – na pomalém připojení až 15 sekund.</li>
+                  <li><strong>Rychlejší start</strong> – HubGet ukáže katalog hned z&nbsp;uložené kopie a&nbsp;čerstvý stáhne na pozadí. Dřív při každém spuštění čekal na stažení celého katalogu – na pomalém připojení až 15 sekund.</li>
                   <li><strong>Jen křestní jméno u&nbsp;recenzí</strong> – u&nbsp;recenzí a&nbsp;snímků od uživatelů se ukazuje jen křestní jméno, a&nbsp;když ho účet nemá, přezdívka z&nbsp;GitHubu. Celé jméno se veřejně neukazuje ani neukládá.</li>
                   <li>Úvodní průvodce představí i&nbsp;hodnocení a&nbsp;recenze – kde je najdete a&nbsp;jak přidat vlastní.</li>
                 </ul>
@@ -295,15 +295,15 @@
                 <ul>
                   <li><strong>Aplikace ze Storu v&nbsp;sekci Po spuštění</strong> – Teams, WhatsApp, Terminál, iCloud a&nbsp;další aplikace ze Storu s&nbsp;názvem, vydavatelem a&nbsp;ikonou. Vypnete je jedním kliknutím jako ve Správci úloh, bez práv správce, a&nbsp;aplikace si spouštění sama znovu nezapne. Odstranit ho jde jen odinstalací aplikace – je součástí jejího balíčku.</li>
                   <li><strong>Nejstahovanější po svém</strong> – řazení podle popularity, podle hodnocení od uživatelů nebo Skokani týdne: aplikace, kterým nejrychleji roste počet stažení. U&nbsp;každé aplikace je vidět údaj, podle kterého se řadí.</li>
-                  <li><strong>Aplikace, které se aktualizují samy</strong> – když se aplikace (třeba Discord) po aktualizaci vrátí na verzi ze svého serveru, Unibox ji označí „aktualizuje se sama“ a&nbsp;přestane aktualizaci nabízet dokola. V&nbsp;detailu ji jde nabídnout znovu.</li>
+                  <li><strong>Aplikace, které se aktualizují samy</strong> – když se aplikace (třeba Discord) po aktualizaci vrátí na verzi ze svého serveru, HubGet ji označí „aktualizuje se sama“ a&nbsp;přestane aktualizaci nabízet dokola. V&nbsp;detailu ji jde nabídnout znovu.</li>
                 </ul>
               </div>
               <div class="changes changes--better">
                 <h3>Vylepšeno</h3>
                 <ul>
                   <li>Detail aplikace na širokém okně využívá i&nbsp;místo vpravo – informace nejsou tak nahuštěné a&nbsp;na celou obrazovku nezůstává zbytečně prázdné místo.</li>
-                  <li>Když instalátor spadne (třeba GeForce NOW), Unibox to řekne srozumitelně a&nbsp;nabídne jiný zdroj – instalaci zbytečně neopakuje jako správce.</li>
-                  <li>Dialog aktualizace Uniboxu ukáže, proč se aktualizace nepodařila, a&nbsp;stahování má delší časový limit.</li>
+                  <li>Když instalátor spadne (třeba GeForce NOW), HubGet to řekne srozumitelně a&nbsp;nabídne jiný zdroj – instalaci zbytečně neopakuje jako správce.</li>
+                  <li>Dialog aktualizace HubGetu ukáže, proč se aktualizace nepodařila, a&nbsp;stahování má delší časový limit.</li>
                 </ul>
               </div>
               <div class="changes changes--fix">
@@ -359,9 +359,9 @@
               <div class="changes changes--new">
                 <h3>Nové</h3>
                 <ul>
-                  <li><strong>Přihlášení přes GitHub</strong> – dobrovolný účet Uniboxu. Přihlášení proběhne v&nbsp;prohlížeči, Unibox nikdy nevidí vaše heslo a relaci ukládá v&nbsp;počítači šifrovaně.</li>
+                  <li><strong>Přihlášení přes GitHub</strong> – dobrovolný účet HubGetu. Přihlášení proběhne v&nbsp;prohlížeči, HubGet nikdy nevidí vaše heslo a relaci ukládá v&nbsp;počítači šifrovaně.</li>
                   <li><strong>Hodnocení a recenze</strong> – hvězdičky, nadpis a text pod jménem z&nbsp;vašeho účtu. Vlastní recenzi jde upravit i smazat, nevhodnou nahlásit – po třech nahlášeních se skryje.</li>
-                  <li><strong>Snímky obrazovky od uživatelů</strong> – přihlášení mohou k&nbsp;aplikaci přidat aktuální snímky výběrem, přetažením nebo vložením ze schránky (Ctrl+V). Unibox je zmenší do WebP bez metadat a po schválení je uvidí všichni; nevhodný snímek jde nahlásit.</li>
+                  <li><strong>Snímky obrazovky od uživatelů</strong> – přihlášení mohou k&nbsp;aplikaci přidat aktuální snímky výběrem, přetažením nebo vložením ze schránky (Ctrl+V). HubGet je zmenší do WebP bez metadat a po schválení je uvidí všichni; nevhodný snímek jde nahlásit.</li>
                   <li><strong>Synchronizace mezi počítači</strong> – oblíbené, sada balíčků, předvolby vzhledu a jazyka i předvolby oznámení. Každou oblast jde vypnout a data z&nbsp;účtu smazat; vlastní příkazy instalace do účtu nejdou.</li>
                   <li><strong>Pro vývojáře: publikování ve WinGetu</strong> – průvodce v&nbsp;sekci Publikovat z&nbsp;adresy instalátoru zjistí SHA-256, typ a údaje, připraví manifest a ověří ho příkazem winget validate.</li>
                 </ul>
@@ -369,12 +369,12 @@
               <div class="changes changes--better">
                 <h3>Vylepšeno</h3>
                 <ul>
-                  <li><strong>Katalog každý den čerstvý</strong> – nainstalovaný Unibox si katalog aplikací stahuje z&nbsp;GitHubu, kde se denně generuje. Bez připojení použije poslední staženou kopii.</li>
+                  <li><strong>Katalog každý den čerstvý</strong> – nainstalovaný HubGet si katalog aplikací stahuje z&nbsp;GitHubu, kde se denně generuje. Bez připojení použije poslední staženou kopii.</li>
                   <li><strong>Jen ostré ikony</strong> – katalog u každé aplikace vybírá nejostřejší ikonu ze všech zdrojů, nově i z webu aplikace. Malé favicony, které by se v kartě a v detailu rozmazaly, nahradí avatar s iniciálami. Ikony se po načtení už nemění (přednost má ikona z katalogu ve vysokém rozlišení, třeba u OneDrivu) a Audacity, WinRAR a Windows Terminal mají aktuální ikony.</li>
                   <li>Ve výsledcích hledání jsou ověřené aplikace (s fajkou) nahoře – „terminal“ ukáže nejdřív Windows Terminal, ne méně známé nástroje se slovem na začátku názvu.</li>
                   <li>Karty kolekcí v&nbsp;sekci Dnes mají barvu, která u jejich ikon převládá – výběr modrých aplikací je modrý.</li>
                   <li>Instalátor před instalací ukáže <a href="soukromi.html">zásady ochrany soukromí</a> a licenci. Favicony webů aplikací se už nehledají přes služby Googlu a DuckDuckGo.</li>
-                  <li><strong>Zdrojový kód na GitHubu</strong> – Unibox je veřejně na <a data-link="github" href="#">github.com/matous96/unibox</a> pod licencí MIT a aktualizace se stahují z&nbsp;GitHub Releases.</li>
+                  <li><strong>Zdrojový kód na GitHubu</strong> – HubGet je veřejně na <a data-link="github" href="#">github.com/matous96/unibox</a> pod licencí MIT a aktualizace se stahují z&nbsp;GitHub Releases.</li>
                 </ul>
               </div>
             </div>
@@ -394,7 +394,7 @@
                 <h3>Nové</h3>
                 <ul>
                   <li><strong>npm, Bun, pip, Cargo, vcpkg, .NET Tool, PowerShell 7 i&nbsp;5.1</strong> – hledání přímo v jejich registrech, instalace, aktualizace i odinstalace knihoven a nástrojů v režimu Vývojář. Dostupné aktualizace globálních balíčků najdete mezi ostatními aktualizacemi.</li>
-                  <li><strong>Nástroje jedním kliknutím</strong> – chybí Node.js, Python, Rust, .NET SDK nebo PowerShell 7? Unibox je nainstaluje přes WinGet. U vcpkg ukáže stručný návod.</li>
+                  <li><strong>Nástroje jedním kliknutím</strong> – chybí Node.js, Python, Rust, .NET SDK nebo PowerShell 7? HubGet je nainstaluje přes WinGet. U vcpkg ukáže stručný návod.</li>
                   <li><strong>Filtr i pro vývojáře</strong> – klik na npm, pip, Cargo… v levém panelu ukáže přehled správce: nainstalované balíčky, hledání jen v jeho registru a oblíbené nástroje.</li>
                   <li><strong>Plánované aktualizace</strong> – kontrola v intervalu od 30 minut po týden, nebo každý den či ve vybrané dny v zadaný čas. Automatická instalace může mít vlastní plán a zmeškaný termín se dožene se zpožděním, hned po spuštění, nebo se přeskočí.</li>
                   <li><strong>Minimální stáří aktualizací</strong> – nová verze se nabídne až po zadaném počtu dní od vydání, celkově i zvlášť pro jednotlivé správce.</li>
@@ -404,15 +404,15 @@
               <div class="changes changes--better">
                 <h3>Vylepšeno</h3>
                 <ul>
-                  <li>Automatická instalace aktualizací počká i při zapnuté úspoře baterie. Odložené aktualizace Unibox oznámí a zkusí je nainstalovat znovu za čtvrt hodiny.</li>
+                  <li>Automatická instalace aktualizací počká i při zapnuté úspoře baterie. Odložené aktualizace HubGet oznámí a zkusí je nainstalovat znovu za čtvrt hodiny.</li>
                   <li>Aktualizace, která se po několika pokusech neprojeví (správce ji nabízí dál), se přestane nabízet. V detailu aplikace ji jde nabídnout znovu.</li>
-                  <li><strong>Úvodní průvodce</strong> – při prvním spuštění vás Unibox v pěti krocích provede katalogem, filtrem zdrojů, pokročilou odinstalací, správou Po spuštění a zálohami. Přeskočit jde kdykoli, znovu ho spustíte v Nastavení → Obecné.</li>
+                  <li><strong>Úvodní průvodce</strong> – při prvním spuštění vás HubGet v pěti krocích provede katalogem, filtrem zdrojů, pokročilou odinstalací, správou Po spuštění a zálohami. Přeskočit jde kdykoli, znovu ho spustíte v Nastavení → Obecné.</li>
                   <li><strong>Dostupné aktualizace i u Chocolatey</strong> – v přehledu aktualizací, v počtech i v hromadné a automatické aktualizaci. Dotaz na repozitář běží na pozadí a seznam aplikací nezdržuje.</li>
                   <li><strong>Varování při změně serveru instalátoru</strong> – když se instalátor nové verze z WinGetu stahuje odjinud než u nainstalované verze, aktualizace se označí oranžově, detail ukáže obě adresy a automatická aktualizace ji vynechá.</li>
                   <li>V Nastavení → Předvolby oznámení vypnete oznámení o aktualizacích od vybraných správců.</li>
                   <li>Seznam aktualizací může mít všechny aktualizace předem zaškrtnuté.</li>
                   <li>Sekce Dnes vybírá ze stovek známých aplikací celého katalogu – tipy dne, výběry z kategorií a aplikace dne se už neopakují po pár dnech. Aplikace dne je vždy ověřená a zůstává celý den stejná, ukazují se jen aplikace s ostrou ikonou. Šipkami na ostatních kartách listujete dalšími výběry.</li>
-                  <li>Stabilnější a plynulejší: chyba na jedné stránce už neshodí celé okno (stačí „Zkusit znovu“), selhání správce balíčků Unibox oznámí místo tichého vynechání a scrollování seznamů běží bez zasekávání.</li>
+                  <li>Stabilnější a plynulejší: chyba na jedné stránce už neshodí celé okno (stačí „Zkusit znovu“), selhání správce balíčků HubGet oznámí místo tichého vynechání a scrollování seznamů běží bez zasekávání.</li>
                   <li>Balíčky správců pro vývojáře se zjišťují jen v režimu Vývojář – v režimu Běžný uživatel zůstává přehled rychlý a bez knihoven.</li>
                   <li>V Nastavení → Správci balíčků přepnete na režim Vývojář jedním tlačítkem.</li>
                   <li>Hledání z odkazu (třeba štítek v detailu aplikace) vyplní i pole vyhledávání nahoře.</li>
@@ -429,12 +429,12 @@
             </div>
             <div class="card release__body">
               <div class="release__head">
-                <h2>Nový instalátor ve stylu Uniboxu</h2>
+                <h2>Nový instalátor ve stylu HubGetu</h2>
               </div>
               <div class="changes changes--new">
                 <h3>Nové</h3>
                 <ul>
-                  <li><strong>Moderní instalátor</strong> – úvodní a závěrečná obrazovka s logem Uniboxu ve vysokém rozlišení a barvami aplikace, logo i v záhlaví ostatních obrazovek a písmo Segoe UI místo zastaralého systémového.</li>
+                  <li><strong>Moderní instalátor</strong> – úvodní a závěrečná obrazovka s logem HubGetu ve vysokém rozlišení a barvami aplikace, logo i v záhlaví ostatních obrazovek a písmo Segoe UI místo zastaralého systémového.</li>
                   <li><strong>Novinky v Nastavení</strong> – okno Co je nového jde kdykoli znovu otevřít, třeba když ho po aktualizaci omylem zavřete. Najdete tam i historii všech verzí.</li>
                 </ul>
               </div>
@@ -444,7 +444,7 @@
                   <li>Grafika instalátoru je ostrá při jakémkoli zvětšení obrazovky – 100 %, 150 % i 200 %.</li>
                   <li>Jazyk instalátoru se volí podle Windows, bez úvodního okna s výběrem jazyka.</li>
                   <li>Po instalaci se rovnou ukáže závěrečná obrazovka; podrobný průběh zobrazí tlačítko Podrobnosti.</li>
-                  <li>Odinstalátor má ikonu Uniboxu místo výchozí ikony NSIS a v Nastavení Windows → Aplikace je jako vydavatel uvedený Unibox.</li>
+                  <li>Odinstalátor má ikonu HubGetu místo výchozí ikony NSIS a v Nastavení Windows → Aplikace je jako vydavatel uvedený HubGet.</li>
                 </ul>
               </div>
             </div>
@@ -463,24 +463,24 @@
               <div class="changes changes--new">
                 <h3>Nové</h3>
                 <ul>
-                  <li><strong>Chocolatey a Scoop naostro</strong> – hledání, instalace, aktualizace i odinstalace přímo v Uniboxu. Chybějící správce balíčků nainstaluje jedním kliknutím jeho oficiální instalační skript.</li>
+                  <li><strong>Chocolatey a Scoop naostro</strong> – hledání, instalace, aktualizace i odinstalace přímo v HubGetu. Chybějící správce balíčků nainstaluje jedním kliknutím jeho oficiální instalační skript.</li>
                   <li><strong>Režim jednoho zdroje</strong> – klik na WinGet, Chocolatey nebo Scoop v levém panelu ukáže v celém katalogu jen aplikace z tohoto zdroje a instaluje jen odtud. Lišta nahoře režim ukazuje a jedním klikem ho zruší.</li>
-                  <li><strong>Chytrý záložní zdroj</strong> – když instalace selže (nefunkční odkaz, běžící jiná instalace, balíček ve zdroji chybí…), Unibox nabídne stejnou aplikaci z Chocolatey nebo Scoopu. Chybějícího správce nejdřív nabídne nainstalovat.</li>
-                  <li><strong>Odkazy unibox://</strong> – kolekce a aplikace z webu se otevřou rovnou v Uniboxu s předvyplněným seznamem k instalaci. Instalaci vždy potvrzujete vy.</li>
+                  <li><strong>Chytrý záložní zdroj</strong> – když instalace selže (nefunkční odkaz, běžící jiná instalace, balíček ve zdroji chybí…), HubGet nabídne stejnou aplikaci z Chocolatey nebo Scoopu. Chybějícího správce nejdřív nabídne nainstalovat.</li>
+                  <li><strong>Odkazy unibox://</strong> – kolekce a aplikace z webu se otevřou rovnou v HubGetu s předvyplněným seznamem k instalaci. Instalaci vždy potvrzujete vy.</li>
                   <li>U nainstalované aplikace je místo výběru zdroje štítek <strong>Nainstalováno přes</strong> s barvou správce (WinGet, Chocolatey, Scoop). Platí i po restartu.</li>
                   <li><strong>Automatická kontrola aktualizací na pozadí</strong> – každou hodinu, denně nebo týdně, s tlačítkem „Spustit tuto úlohu nyní“. Volitelně i automatická instalace všech nebo jen vybraných aplikací, s ohledem na baterii a měřené připojení.</li>
                   <li><strong>Centrum oznámení</strong> – zvoneček v horní liště s historií událostí a chyb, počtem nových chyb, kopírováním chybových hlášek a vymazáním historie.</li>
-                  <li><strong>Předvolby oznámení</strong> – hlavní vypínač, souhrn po dokončení dávky operací, dostupné aktualizace, průběh operací, selhání a úspěch. Když je Unibox na pozadí, dorazí oznámení Windows.</li>
+                  <li><strong>Předvolby oznámení</strong> – hlavní vypínač, souhrn po dokončení dávky operací, dostupné aktualizace, průběh operací, selhání a úspěch. Když je HubGet na pozadí, dorazí oznámení Windows.</li>
                   <li>Sekce <strong>Oprávnění správce a další nebezpečná nastavení</strong> – práva správce pro každou operaci nebo jen jednou, zákaz povýšení, vlastní argumenty příkazového řádku, příkazy před a po instalaci, vlastní cesty ke správcům balíčků a jejich import ze sad. Vše je ve výchozím stavu vypnuté.</li>
-                  <li>Aktualizace běžící aplikace: Unibox najde její otevřená okna a procesy, nabídne je zavřít a aktualizaci zopakuje.</li>
+                  <li>Aktualizace běžící aplikace: HubGet najde její otevřená okna a procesy, nabídne je zavřít a aktualizaci zopakuje.</li>
                   <li>Výběr varianty balíčku z WinGetu – jazyka nebo typu instalátoru (například Firefox ve více než 100 jazycích).</li>
                   <li>Modrá <strong>fajfka u ověřených aplikací</strong> od známých vydavatelů – v detailu i na kartách.</li>
                   <li><strong>Vlastní barva zvýraznění</strong> – hotové palety nebo libovolný HEX kód.</li>
-                  <li><strong>Běžící aplikace už instalaci nezablokuje</strong> – proces na pozadí (třeba OBS u hodin nebo proces visící v paměti) Unibox před instalací, aktualizací či odinstalací sám ukončí. Otevřenou aplikaci nabídne zavřít jedním kliknutím, po odinstalaci ukončí procesy, které z její složky dál běží.</li>
+                  <li><strong>Běžící aplikace už instalaci nezablokuje</strong> – proces na pozadí (třeba OBS u hodin nebo proces visící v paměti) HubGet před instalací, aktualizací či odinstalací sám ukončí. Otevřenou aplikaci nabídne zavřít jedním kliknutím, po odinstalaci ukončí procesy, které z její složky dál běží.</li>
                   <li><strong>Pokročilá odinstalace</strong> (Nastavení, výchozí vypnuto) – po odinstalaci najde zbytky v Program Files, ProgramData, zástupcích v nabídce Start a na ploše i v registru Windows a nabídne je smazat, nebo je smaže automaticky. Soubory jdou do Koše, klíče registru se před smazáním zálohují.</li>
-                  <li>Okno <strong>Co je nového v Uniboxu</strong> – po aktualizaci se jednou ukáže s novinkami všech vydání, která jste přeskočili. Celou historii najdete v nabídce ⋯ → Poznámky k vydání.</li>
-                  <li>Nová sekce <strong>Po spuštění</strong> – programy, které se spouštějí po přihlášení do Windows, z registru, složky Po spuštění i plánovače úloh na jednom místě. Zapnete je, vypnete (stejně jako ve Správci úloh – položka zůstane v seznamu) nebo trvale odstraníte se zálohou. Vliv na rychlost startu (vysoký, střední, nízký) Unibox přečte z měření Windows, programy, které na disku chybí, označí.</li>
-                  <li><strong>Sledování instalace</strong> (Nastavení, nebo pravé tlačítko → Nainstalovat se sledováním) – před instalací a po ní Unibox pořídí snímek disku a registru a zapamatuje si, co instalátor vytvořil. Po odinstalaci to nabídne smazat celé, i bez pokročilé odinstalace.</li>
+                  <li>Okno <strong>Co je nového v HubGetu</strong> – po aktualizaci se jednou ukáže s novinkami všech vydání, která jste přeskočili. Celou historii najdete v nabídce ⋯ → Poznámky k vydání.</li>
+                  <li>Nová sekce <strong>Po spuštění</strong> – programy, které se spouštějí po přihlášení do Windows, z registru, složky Po spuštění i plánovače úloh na jednom místě. Zapnete je, vypnete (stejně jako ve Správci úloh – položka zůstane v seznamu) nebo trvale odstraníte se zálohou. Vliv na rychlost startu (vysoký, střední, nízký) HubGet přečte z měření Windows, programy, které na disku chybí, označí.</li>
+                  <li><strong>Sledování instalace</strong> (Nastavení, nebo pravé tlačítko → Nainstalovat se sledováním) – před instalací a po ní HubGet pořídí snímek disku a registru a zapamatuje si, co instalátor vytvořil. Po odinstalaci to nabídne smazat celé, i bez pokročilé odinstalace.</li>
                   <li><strong>Ignorovat aktualizace</strong> u kterékoli aplikace, nebo je <strong>odložit</strong> o den, týden či měsíc – pak se samy znovu nabídnou. Ignorované a odložené aplikace vynechá i hromadná a automatická aktualizace, přehled se zrušením najdete v Nastavení.</li>
                   <li><strong>Export profilu do HTML</strong> – kromě JSON i přehledná stránka se seznamem aplikací a příkazy pro ruční instalaci, kterou jde zároveň importovat. Profil nese i nastavení aktualizací a po importu chybějící aplikace nainstalujete jedním kliknutím.</li>
                 </ul>
@@ -501,7 +501,7 @@
               <div class="changes changes--fix">
                 <h3>Opraveno</h3>
                 <ul>
-                  <li><strong>Spolehlivější rozpoznání nainstalovaných aplikací</strong> i na jiných počítačích. Unibox ověří, že spouštěcí soubor aplikace na disku opravdu je – zbytky v registru po odinstalaci (například Ollama) už nesvítí jako „Nainstalováno“. Najde i aplikace v profilu uživatele (Discord v %LocalAppData%) a bez modulu WinGetu čte přímo registr Windows. Tlačítko Otevřít se ukáže jen u aplikace, jejíž spouštěcí soubor existuje.</li>
+                  <li><strong>Spolehlivější rozpoznání nainstalovaných aplikací</strong> i na jiných počítačích. HubGet ověří, že spouštěcí soubor aplikace na disku opravdu je – zbytky v registru po odinstalaci (například Ollama) už nesvítí jako „Nainstalováno“. Najde i aplikace v profilu uživatele (Discord v %LocalAppData%) a bez modulu WinGetu čte přímo registr Windows. Tlačítko Otevřít se ukáže jen u aplikace, jejíž spouštěcí soubor existuje.</li>
                   <li>Dlouhá licence ani verze v detailu aplikace už nepřetékají do vedlejšího sloupce a fajfka ověření sedí u jména vydavatele.</li>
                   <li>Scoop si před přidáním bucketu (například extras) sám doplní Git a jeho chyby jsou čitelné.</li>
                   <li>Dlouhá chybová hláška v upozornění už nepřeroste okno.</li>
@@ -523,7 +523,7 @@
               <div class="changes changes--new">
                 <h3>Nové</h3>
                 <ul>
-                  <li>Když WinGet ohlásí nefunkční odkaz na stažení (chyba 404), Unibox sám zkusí nainstalovat aplikaci přes Chocolatey a potom přes Scoop. Pokud selžou všechny zdroje, srozumitelně vysvětlí, co dělat dál.</li>
+                  <li>Když WinGet ohlásí nefunkční odkaz na stažení (chyba 404), HubGet sám zkusí nainstalovat aplikaci přes Chocolatey a potom přes Scoop. Pokud selžou všechny zdroje, srozumitelně vysvětlí, co dělat dál.</li>
                 </ul>
               </div>
               <div class="changes changes--fix">
@@ -564,13 +564,13 @@
               <div class="changes changes--new">
                 <h3>Nové</h3>
                 <ul>
-                  <li>Spouštění při startu Windows – přepínač v Nastavení. Unibox se spustí skrytý v oznamovací oblasti.</li>
+                  <li>Spouštění při startu Windows – přepínač v Nastavení. HubGet se spustí skrytý v oznamovací oblasti.</li>
                 </ul>
               </div>
               <div class="changes changes--better">
                 <h3>Vylepšeno</h3>
                 <ul>
-                  <li>Po instalaci a odinstalaci se stav aplikace změní okamžitě, včetně tlačítka Otevřít – bez otevírání detailu nebo restartu Uniboxu.</li>
+                  <li>Po instalaci a odinstalaci se stav aplikace změní okamžitě, včetně tlačítka Otevřít – bez otevírání detailu nebo restartu HubGetu.</li>
                   <li>Rychlejší odezva celé aplikace, vyhledávání při psaní a načtení seznamu nainstalovaných aplikací.</li>
                 </ul>
               </div>
@@ -667,10 +667,10 @@
                 <ul>
                   <li><strong>Hromadná instalace</strong> – zaškrtněte více aplikací a nainstalujte je najednou.</li>
                   <li><strong>Export a import</strong> seznamu aplikací – snadný přenos na nový počítač.</li>
-                  <li>Přeskočení nabízené verze a zamknutí verze aplikace – Unibox pak danou aktualizaci nenabízí.</li>
-                  <li><strong>Úklid po odinstalaci</strong> – Unibox najde složky, které po aplikaci zůstaly, a nabídne jejich přesun do Koše.</li>
+                  <li>Přeskočení nabízené verze a zamknutí verze aplikace – HubGet pak danou aktualizaci nenabízí.</li>
+                  <li><strong>Úklid po odinstalaci</strong> – HubGet najde složky, které po aplikaci zůstaly, a nabídne jejich přesun do Koše.</li>
                   <li>Počet hvězdiček z GitHubu v detailu open-source aplikací.</li>
-                  <li>Připravili jsme hodnocení aplikací (1–5 hvězdiček) s přihlášením přes GitHub a Google a automatické aktualizace samotného Uniboxu. Zapneme je, jakmile spustíme server pro hodnocení a kanál aktualizací.</li>
+                  <li>Připravili jsme hodnocení aplikací (1–5 hvězdiček) s přihlášením přes GitHub a Google a automatické aktualizace samotného HubGetu. Zapneme je, jakmile spustíme server pro hodnocení a kanál aktualizací.</li>
                 </ul>
               </div>
             </div>
@@ -687,7 +687,7 @@
               <div class="changes changes--fix">
                 <h3>Opraveno</h3>
                 <ul>
-                  <li>Unibox pozná nainstalovaný Google Chrome a další aplikace instalované jako jiná varianta balíčku.</li>
+                  <li>HubGet pozná nainstalovaný Google Chrome a další aplikace instalované jako jiná varianta balíčku.</li>
                   <li>Ikony aplikací už nemizí kvůli přetíženým serverům.</li>
                 </ul>
               </div>
@@ -706,13 +706,13 @@
                 <h3>Nové</h3>
                 <ul>
                   <li><strong>Okno bez systémového rámu</strong> s vlastní titulkovou lištou ve stylu Windows 11.</li>
-                  <li><strong>Běh na pozadí u hodin</strong> – po zavření okna rozběhnuté instalace doběhnou. Nabídka ikony: Procházet balíčky, Dostupné aktualizace, Nainstalované, Zobrazit Unibox a Ukončit.</li>
+                  <li><strong>Běh na pozadí u hodin</strong> – po zavření okna rozběhnuté instalace doběhnou. Nabídka ikony: Procházet balíčky, Dostupné aktualizace, Nainstalované, Zobrazit HubGet a Ukončit.</li>
                   <li><strong>Tlačítko Otevřít</strong> spustí nainstalovanou aplikaci přímo z karty nebo detailu.</li>
                   <li><strong>Snímky obrazovky</strong> v detailu aplikace – galerie s prohlížečem na celou obrazovku z komunitních databází UniGetUI a Chocolatey.</li>
                   <li>Průběh stahování v procentech.</li>
                   <li>Barva banneru v detailu se přizpůsobí barvám ikony aplikace.</li>
                   <li>Přepínač světlého a tmavého motivu v horní liště.</li>
-                  <li>Instalátor Uniboxu v češtině a každá verze s vlastním číslem.</li>
+                  <li>Instalátor HubGetu v češtině a každá verze s vlastním číslem.</li>
                 </ul>
               </div>
               <div class="changes changes--better">
@@ -765,9 +765,9 @@
 
         <div class="changelog-cta reveal">
           <h2>Vyzkoušejte nejnovější verzi</h2>
-          <p>Unibox je zdarma a open source. Starší instalátory najdete mezi všemi verzemi.</p>
+          <p>HubGet je zdarma a open source. Starší instalátory najdete mezi všemi verzemi.</p>
           <div class="changelog-cta__actions">
-            <a class="btn btn--primary btn--lg" href="index.html#stahnout">Stáhnout Unibox</a>
+            <a class="btn btn--primary btn--lg" href="index.html#stahnout">Stáhnout HubGet</a>
             <a class="btn btn--ghost btn--lg" data-link="releases" href="#">Všechny verze</a>
           </div>
         </div>
@@ -778,7 +778,7 @@
   <footer class="footer">
     <div class="wrap footer__inner">
       <div class="footer__brand">
-        <a class="brand" href="index.html"><img src="assets/unibox-logo.svg" alt="" width="28" height="28"><span>Unibox</span></a>
+        <a class="brand" href="index.html"><img src="assets/unibox-logo.svg" alt="" width="28" height="28"><span>HubGet</span></a>
         <p>Obchod s aplikacemi pro Windows. Open source, licence MIT.</p>
       </div>
       <nav class="footer__links" aria-label="Odkazy">
@@ -792,7 +792,7 @@
       </nav>
     </div>
     <div class="wrap footer__note">
-      <p>Unibox není spojen se společností Microsoft ani s projekty WinGet, Chocolatey a Scoop. Windows je ochranná známka společnosti Microsoft.</p>
+      <p>HubGet není spojen se společností Microsoft ani s projekty WinGet, Chocolatey a Scoop. Windows je ochranná známka společnosti Microsoft.</p>
     </div>
   </footer>
 

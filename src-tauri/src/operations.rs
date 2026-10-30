@@ -40,7 +40,7 @@ pub struct InstallOptions {
     pub location: Option<String>,
     /// Vlastní parametry instalátoru od uživatele – jen s povolením (security.rs).
     pub custom_args: Option<String>,
-    /// Parametry instalátoru z voleb Uniboxu (části instalátoru, bez restartu).
+    /// Parametry instalátoru z voleb HubGetu (části instalátoru, bez restartu).
     pub installer_args: Option<String>,
     /// Příkaz před instalací / po ní (cmd) – jen s povolením (security.rs).
     pub pre_command: Option<String>,
@@ -50,7 +50,7 @@ pub struct InstallOptions {
 }
 
 impl InstallOptions {
-    /// Parametry instalátoru pro správce: vlastní (jen s povolením) a z voleb Uniboxu.
+    /// Parametry instalátoru pro správce: vlastní (jen s povolením) a z voleb HubGetu.
     pub fn combined_args(&self) -> Option<String> {
         let allow_custom = security::policy().allow_custom_args;
         let parts: Vec<&str> = [self.custom_args.as_deref().filter(|_| allow_custom), self.installer_args.as_deref()]
@@ -97,7 +97,7 @@ pub enum OpEvent {
     Progress { phase: Phase, percent: Option<f64> },
     /// Řádek výstupu správce balíčků.
     Line { text: String },
-    /// Hláška Uniboxu pro protokol; text podle klíče přeloží frontend (logs.notice.*).
+    /// Hláška HubGetu pro protokol; text podle klíče přeloží frontend (logs.notice.*).
     Notice { key: &'static str, detail: Option<String> },
 }
 
@@ -273,7 +273,7 @@ pub async fn execute(id: String, spec: Spec, channel: Channel<OpEvent>) -> Resul
             }
         }
 
-        // 1) Instalátor stáhne Unibox sám (přesný průběh); když to nejde, stáhne ho správce
+        // 1) Instalátor stáhne HubGet sám (přesný průběh); když to nejde, stáhne ho správce
         if let Some(resolve) = prefetch {
             tracker.prefetching();
             if let Some(job) = resolve() {

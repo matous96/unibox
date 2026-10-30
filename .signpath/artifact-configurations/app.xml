@@ -10,7 +10,7 @@
     <parameter name="version" required="true" />
   </parameters>
   <zip-file>
-    <pe-file path="unibox.exe" product-name="Unibox" product-version="${version}">
+    <pe-file path="unibox.exe" product-name="HubGet" product-version="${version}">
       <authenticode-sign />
     </pe-file>
   </zip-file>

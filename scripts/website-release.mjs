@@ -22,8 +22,8 @@ const PAGES = {
     title: (version) => `To nejlepší z&nbsp;verze ${version}.`,
     lead: (count) =>
       count > 1
-        ? "Dvě největší novinky aktuální verze Uniboxu. Všechny ostatní změny najdete v&nbsp;Novinkách."
-        : "Největší novinka aktuální verze Uniboxu. Všechny ostatní změny najdete v&nbsp;Novinkách.",
+        ? "Dvě největší novinky aktuální verze HubGetu. Všechny ostatní změny najdete v&nbsp;Novinkách."
+        : "Největší novinka aktuální verze HubGetu. Všechny ostatní změny najdete v&nbsp;Novinkách.",
     more: "Všechny novinky",
     versionLabel: (version) => `Verze ${version}`,
     latest: "Nejnovější",
@@ -36,8 +36,8 @@ const PAGES = {
     title: (version) => `The best of version ${version}.`,
     lead: (count) =>
       count > 1
-        ? "The two biggest new features in the current version of Unibox. Every other change is in What’s new."
-        : "The biggest new feature in the current version of Unibox. Every other change is in What’s new.",
+        ? "The two biggest new features in the current version of HubGet. Every other change is in What’s new."
+        : "The biggest new feature in the current version of HubGet. Every other change is in What’s new.",
     more: "See all changes",
     versionLabel: (version) => `Version ${version}`,
     latest: "Latest",
@@ -107,8 +107,8 @@ export async function updateWebsite(root, version) {
   const release = CHANGELOG.find((r) => r.version === version);
   if (!release) warnings.push(`V src/data/changelog.ts chybí vydání ${version} – sekce „To nejlepší z verze“ zůstala beze změny.`);
 
-  const exe = `Unibox_${version}_x64-setup.exe`;
-  const msi = `Unibox_${version}_x64_en-US.msi`;
+  const exe = `HubGet_${version}_x64-setup.exe`;
+  const msi = `HubGet_${version}_x64_en-US.msi`;
   const bundle = join(root, "src-tauri", "target", "release", "bundle");
   const exeSize = mebibytes(join(bundle, "nsis", exe));
   const msiSize = mebibytes(join(bundle, "msi", msi));

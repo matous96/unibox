@@ -3,7 +3,7 @@
  * nastavení (přenos na nový počítač, záloha). Sdílí ho karta Rychlé akce na
  * domovské stránce, Nastavení a otevírání souborů v Sadách balíčků.
  *
- *  - Export: profil Uniboxu (.json – všichni správci, volby instalace,
+ *  - Export: profil HubGetu (.json – všichni správci, volby instalace,
  *    ignorované / odložené / automatické aktualizace), přehledná stránka
  *    (.html – lze i importovat), nebo `winget export` (.json – umí ho i samotný
  *    winget: `winget import -i soubor.json`).

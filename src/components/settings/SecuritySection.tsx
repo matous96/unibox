@@ -98,7 +98,7 @@ export function SecuritySection() {
 }
 
 /**
- * Delegování na broker Devolutions Agent: Unibox umí zjistit, jestli agent
+ * Delegování na broker Devolutions Agent: HubGet umí zjistit, jestli agent
  * v počítači je, ale operace mu zatím předat neumí – přepínač je proto vypnutý
  * a „Inspect active package broker policy“ ukáže skutečný stav.
  */

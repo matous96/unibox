@@ -38,7 +38,7 @@ export function SafeInstallNote({ pkg, skipHash }: { pkg: PackageSource; skipHas
 /**
  * Indikátor ověření kontrolního součtu instalátoru:
  *  - známý SHA-256 z manifestu → „SHA-256 ověřen · 3f2a…9c1d“ (kliknutím se
- *    zkopíruje celý součet). Unibox stažený instalátor před spuštěním porovná
+ *    zkopíruje celý součet). HubGet stažený instalátor před spuštěním porovná
  *    se součtem z manifestu (src-tauri/src/operations.rs), winget ještě jednou,
  *  - součet v katalogu není (méně známé aplikace) → ověří ho správce sám,
  *  - kontrola vypnutá v Možnostech instalace → varování.

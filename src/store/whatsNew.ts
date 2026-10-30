@@ -1,12 +1,12 @@
 /**
- * „Co je nového“ po aktualizaci Uniboxu. Pamatuje si poslední spuštěnou verzi
+ * „Co je nového“ po aktualizaci HubGetu. Pamatuje si poslední spuštěnou verzi
  * (localStorage); je-li aktuální verze novější, WhatsNewDialog ukáže novinky
  * všech vydání od té doby (data/changelog.ts). Zavřením dialogu se aktuální
  * verze uloží jako zobrazená, takže se příště neukáže.
  *
  * Čistá instalace (první spuštění vůbec) dialog neukazuje – verze se jen uloží.
  * Kdo aktualizoval z verze, která si verzi ještě neukládala (nic uloženého, ale
- * Unibox už dřív běžel), uvidí novinky aktuální verze.
+ * HubGet už dřív běžel), uvidí novinky aktuální verze.
  */
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -19,9 +19,9 @@ const STORAGE_KEY = "unibox-whats-new";
 const MAX_RELEASES = 5;
 
 /**
- * Běžel už Unibox dřív? Zjišťuje se při načtení modulu – dřív, než ostatní
+ * Běžel už HubGet dřív? Zjišťuje se při načtení modulu – dřív, než ostatní
  * úložiště při tomto spuštění cokoli zapíšou. Sdílí ho úvodní průvodce
- * (store/onboarding.ts) – kdo Unibox už používal, ten ho sám neuvidí.
+ * (store/onboarding.ts) – kdo HubGet už používal, ten ho sám neuvidí.
  */
 export const HAD_PREVIOUS_RUN = (() => {
   try {

@@ -14,7 +14,7 @@ import {
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router";
-import { UniboxLogo } from "@/components/ui/Logo";
+import { HubGetLogo } from "@/components/ui/Logo";
 import { AppMenu } from "./AppMenu";
 import { SourcesPanel } from "./SourcesPanel";
 import { CATEGORIES } from "@/data/categories";
@@ -53,7 +53,7 @@ export function Sidebar() {
             isTestBuild() ? "shadow-orange-500/30" : "shadow-accent/30",
           )}
         >
-          <UniboxLogo size={38} />
+          <HubGetLogo size={38} />
         </Link>
         <div className="leading-tight">
           <span className="block font-display text-lg font-bold tracking-tight">{t("app.name")}</span>

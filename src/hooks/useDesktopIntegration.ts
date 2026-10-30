@@ -2,12 +2,12 @@
  * Propojení s desktopem (jen v Tauri):
  *  - chování zavření okna (do oznamovací oblasti / ukončit),
  *  - texty nabídky ikony v oznamovací oblasti v jazyce aplikace – položka
- *    aktualizací i popisek ukazují jejich počet („Unibox – 4 aktualizace“),
+ *    aktualizací i popisek ukazují jejich počet („HubGet – 4 aktualizace“),
  *  - stav na ikoně: barevná tečka (operace z useTrayStatus, oranžová = čekají
  *    aktualizace; v Nastavení jde vypnout) a popisek,
  *  - rychlé odkazy z nabídky ikony (Procházet balíčky, Dostupné aktualizace,
  *    Nainstalované) – backend pošle stránku, aplikace na ni přejde,
- *  - kontrola nové verze Uniboxu chvíli po spuštění (jen sestavená aplikace,
+ *  - kontrola nové verze HubGetu chvíli po spuštění (jen sestavená aplikace,
  *    lze vypnout v Nastavení).
  */
 import { invoke } from "@tauri-apps/api/core";
@@ -51,7 +51,7 @@ export function useDesktopIntegration() {
           ? t(tray.status === "error" ? "tray.tooltipError" : "tray.tooltipDone")
           : updates
             ? t("tray.tooltipUpdates", { count: updates })
-            : "Unibox";
+            : "HubGet";
     const labels = {
       browse: t("tray.browse"),
       updates: updates ? t("tray.updatesCount", { count: updates }) : t("tray.updates"),
@@ -69,7 +69,7 @@ export function useDesktopIntegration() {
     return () => void unlisten.then((stop) => stop());
   }, [navigate]);
 
-  // Nová verze Uniboxu: kontrola 8 s po spuštění (ať nezdržuje načtení katalogu)
+  // Nová verze HubGetu: kontrola 8 s po spuštění (ať nezdržuje načtení katalogu)
   useEffect(() => {
     if (!isTauri() || !import.meta.env.PROD || !useAppUpdate.getState().autoCheck) return;
     const timer = setTimeout(() => void useAppUpdate.getState().check(false), 8000);

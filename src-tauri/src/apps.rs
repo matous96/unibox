@@ -202,7 +202,7 @@ mod tests {
     #[test]
     fn verifies_executable_on_disk() {
         // Pozůstatek po odinstalaci – zástupce na neexistující EXE
-        assert!(!target_exists(r"C:\Neexistujici slozka Uniboxu\aplikace.exe"));
+        assert!(!target_exists(r"C:\Neexistujici slozka HubGetu\aplikace.exe"));
         let windows = std::env::var("SystemRoot").unwrap_or_else(|_| r"C:\Windows".into());
         assert!(target_exists(&format!(r"{windows}\explorer.exe")));
         assert!(target_exists(r"{F38BF404-1D43-42F2-9305-67DE0B28FC23}\explorer.exe"));

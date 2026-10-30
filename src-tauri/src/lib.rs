@@ -1,4 +1,4 @@
-//! Backend Uniboxu (Tauri 2).
+//! Backend HubGetu (Tauri 2).
 //!
 //! - `system` – architektura a verze Windows,
 //! - `apps` – spouštění nainstalovaných aplikací (položky nabídky Start),
@@ -63,7 +63,7 @@ const AUTOSTART_FLAG: &str = "--autostart";
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
-        // Musí být první: druhé spuštění Uniboxu jen ukáže už běžící okno
+        // Musí být první: druhé spuštění HubGetu jen ukáže už běžící okno
         // (odkaz unibox://, kterým bylo spuštěné, předá běžícímu přes deep-link)
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| tray::show_main_window(app)))
         // Odkazy unibox:// z webu a sdílených sad – zpracuje je frontend (lib/deepLink.ts)
@@ -72,13 +72,13 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         // Systémové dialogy (Uložit jako) – volá je jen backend (files.rs)
         .plugin(tauri_plugin_dialog::init())
-        // Aktualizace Uniboxu: latest.json z GitHub Releases, ověření podpisu, instalace
+        // Aktualizace HubGetu: latest.json z GitHub Releases, ověření podpisu, instalace
         .plugin(tauri_plugin_updater::Builder::new().build())
         // Restart po instalaci aktualizace
         .plugin(tauri_plugin_process::init())
         // Oznámení Windows (výsledky operací, nalezené aktualizace) – podle Nastavení → Oznámení
         .plugin(tauri_plugin_notification::init())
-        // Spouštění při startu Windows – s příznakem, aby se Unibox spustil schovaný u hodin
+        // Spouštění při startu Windows – s příznakem, aby se HubGet spustil schovaný u hodin
         .plugin(tauri_plugin_autostart::init(
             tauri_plugin_autostart::MacosLauncher::LaunchAgent,
             Some(vec![AUTOSTART_FLAG]),
@@ -87,24 +87,24 @@ pub fn run() {
         .register_asynchronous_uri_scheme_protocol(icons::SCHEME, icons::handle)
         .setup(|app| {
             tray::setup(app.handle())?;
-            // Testovací verze: „Unibox (test)“ a oranžová ikona s nápisem „test“ na hlavním panelu
+            // Testovací verze: „HubGet (test)“ a oranžová ikona s nápisem „test“ na hlavním panelu
             // (popisek a ikonu u hodin nastaví tray)
             if tray::is_test_build(app.handle()) {
                 use tauri::Manager;
                 if let Some(window) = app.get_webview_window("main") {
-                    let _ = window.set_title(&tray::display_name(app.handle(), "Unibox"));
+                    let _ = window.set_title(&tray::display_name(app.handle(), "HubGet"));
                     if let Some(icon) = tray::test_window_icon() {
                         let _ = window.set_icon(icon);
                     }
                 }
             }
-            // Obsluha odkazů unibox:// pro tento Unibox (HKCU, bez práv správce). Instalátor ji
+            // Obsluha odkazů hubget:// a unibox:// (dřívější název) pro tento HubGet (HKCU, bez práv správce). Instalátor ji
             // zapíše sám; tady kvůli vývojové verzi a přenosnému spuštění. Selhání start nezastaví.
             #[cfg(windows)]
             {
                 use tauri_plugin_deep_link::DeepLinkExt;
                 if let Err(error) = app.deep_link().register_all() {
-                    eprintln!("Odkazy unibox:// se nepodařilo zaregistrovat: {error}");
+                    eprintln!("Odkazy hubget:// a unibox:// se nepodařilo zaregistrovat: {error}");
                 }
             }
             // Okno se vytváří skryté: po spuštění s Windows zůstane jen ikona u hodin
@@ -186,5 +186,5 @@ pub fn run() {
             publish::github_device_poll,
         ])
         .run(tauri::generate_context!())
-        .expect("Unibox se nepodařilo spustit");
+        .expect("HubGet se nepodařilo spustit");
 }

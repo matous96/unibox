@@ -1,7 +1,7 @@
 //! Běžící procesy aplikace.
 //!
 //! Před instalací, aktualizací a odinstalací (a po neúspěchu s chybou „inUse“ –
-//! winget 0x8A150101 / 0x8A150111) Unibox najde procesy aplikace a zavře je –
+//! winget 0x8A150101 / 0x8A150111) HubGet najde procesy aplikace a zavře je –
 //! jinak instalátor běžící soubory nepřepíše (OBS v oznamovací oblasti u hodin,
 //! proces, který v paměti zůstal po zavření okna nebo po odinstalaci).
 //!
@@ -323,6 +323,6 @@ mod tests {
         let windows = std::env::var("SystemRoot").unwrap_or_else(|_| r"C:\Windows".into());
         assert!(is_gui_program(&format!(r"{windows}\explorer.exe")));
         assert!(!is_gui_program(&format!(r"{windows}\System32\cmd.exe")));
-        assert!(!is_gui_program(r"C:\Neexistujici Unibox\app.exe"));
+        assert!(!is_gui_program(r"C:\Neexistujici HubGet\app.exe"));
     }
 }

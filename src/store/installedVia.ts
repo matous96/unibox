@@ -1,9 +1,9 @@
 /**
- * Přes kterého správce Unibox aplikaci nainstaloval („chocolatey:aimp“).
+ * Přes kterého správce HubGet aplikaci nainstaloval („chocolatey:aimp“).
  * Program s instalátorem z Chocolatey vidí i winget v registru Windows –
  * podle tohoto záznamu se v seznamu nainstalovaných ukáže pod správcem,
  * přes kterého byl nainstalován (štítek „Nainstalováno přes Chocolatey“,
- * aktualizace a odinstalace přes něj), i po restartu Uniboxu.
+ * aktualizace a odinstalace přes něj), i po restartu HubGetu.
  */
 import { create } from "zustand";
 import { persist } from "zustand/middleware";

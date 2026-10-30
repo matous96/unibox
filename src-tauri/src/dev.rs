@@ -2,7 +2,7 @@
 //! PowerShell 7 (PSResourceGet) a Windows PowerShell 5.1 (PowerShellGet).
 //!
 //! - Nástroje se hledají v PATH z registru (nově nainstalovaný Node.js nebo
-//!   Python je vidět bez restartu Uniboxu – PATH procesu se doplní) a v obvyklých
+//!   Python je vidět bez restartu HubGetu – PATH procesu se doplní) a v obvyklých
 //!   složkách (`%USERPROFILE%\.cargo\bin`, `Program Files\nodejs`…).
 //! - Nainstalované balíčky vypíše nástroj sám (npm ls, pip list, cargo install
 //!   --list, vcpkg list, dotnet tool list, Get-InstalledPSResource /
@@ -60,13 +60,13 @@ impl Dev {
     }
 }
 
-const USER_AGENT: &str = "Unibox (https://github.com/unibox-app/unibox)";
+const USER_AGENT: &str = "HubGet (https://github.com/unibox-app/unibox)";
 const LIST_TIMEOUT: Duration = Duration::from_secs(60);
 
 // ── Nalezení nástrojů ────────────────────────────────────────────────────
 
 /// Složky z PATH: procesu a z registru (uživatel, systém). Nové složky z registru
-/// se doplní i do PATH Uniboxu – nástroje spuštěné z něj (npm skripty, rustc,
+/// se doplní i do PATH HubGetu – nástroje spuštěné z něj (npm skripty, rustc,
 /// link.exe…) pak najdou své závislosti bez restartu.
 fn refresh_path() -> Vec<PathBuf> {
     let current = std::env::var_os("PATH").unwrap_or_default();
@@ -108,7 +108,7 @@ fn registry_path() -> Vec<PathBuf> {
     Vec::new()
 }
 
-/// Proměnná prostředí – z procesu, jinak z registru uživatele (nastavená po spuštění Uniboxu).
+/// Proměnná prostředí – z procesu, jinak z registru uživatele (nastavená po spuštění HubGetu).
 fn env_var(name: &str) -> Option<String> {
     std::env::var(name).ok().or_else(|| user_env(name))
 }
@@ -152,7 +152,7 @@ impl Tool {
     fn command(&self, args: &[String]) -> std::process::Command {
         let mut command = hidden_command(&self.program.to_string_lossy());
         command.args(&self.prefix).args(args);
-        // Výpisy .NET v angličtině (čte je Unibox), bez uvítání při prvním spuštění
+        // Výpisy .NET v angličtině (čte je HubGet), bez uvítání při prvním spuštění
         command.env("DOTNET_CLI_UI_LANGUAGE", "en").env("DOTNET_NOLOGO", "1").env("DOTNET_SKIP_FIRST_TIME_EXPERIENCE", "1");
         command
     }
@@ -860,7 +860,7 @@ fn ps_module_script(dev: Dev, kind: Kind, id: &str, version: Option<&str>, all_u
         ),
     };
     // Instalace pro všechny uživatele a změna modulu v Program Files (nainstalovaného pro všechny)
-    // potřebují práva správce – bez nich skript skončí kódem 740 a Unibox operaci zopakuje s UAC
+    // potřebují práva správce – bez nich skript skončí kódem 740 a HubGet operaci zopakuje s UAC
     let needs_admin = match kind {
         Kind::Install if all_users => Some("$true".to_string()),
         Kind::Update | Kind::Uninstall => {
@@ -919,7 +919,7 @@ fn quoted_after<'a>(script: &'a str, prefix: &str) -> Option<&'a str> {
 }
 
 /// Smí běžet s právy správce? Jen operace s modulem PowerShellu přesně v podobě, jakou sestaví
-/// Unibox (instalace, aktualizace, odinstalace z PowerShell Gallery podle ověřeného id a verze),
+/// HubGet (instalace, aktualizace, odinstalace z PowerShell Gallery podle ověřeného id a verze),
 /// a jen systémovým Windows PowerShellem nebo PowerShellem 7 v Program Files – spustitelný
 /// soubor ve složce, kam smí zapisovat běžný uživatel, by se dal podvrhnout.
 pub fn is_module_command(program: &str, args: &[String]) -> bool {
@@ -1073,7 +1073,7 @@ pub async fn dev_operation(
     };
     let tool = background(move || Ok(tool(source))).await?.ok_or_else(|| format!("{} není nainstalovaný", source.label()))?;
     if source == Dev::Dotnet {
-        // Bez uvítání .NET při prvním spuštění (operace dědí prostředí Uniboxu)
+        // Bez uvítání .NET při prvním spuštění (operace dědí prostředí HubGetu)
         std::env::set_var("DOTNET_NOLOGO", "1");
         std::env::set_var("DOTNET_SKIP_FIRST_TIME_EXPERIENCE", "1");
     }
@@ -1244,7 +1244,7 @@ mod tests {
         // Rovnou jako správce: instalace pro všechny uživatele; neexistující modul ani stažení ne
         assert!(ps_needs_admin(Dev::Powershell, Kind::Install, "Pester", true));
         assert!(!ps_needs_admin(Dev::Powershell, Kind::Install, "Pester", false));
-        assert!(!ps_needs_admin(Dev::Powershell, Kind::Update, "Unibox.Nonexistent.Module", false));
+        assert!(!ps_needs_admin(Dev::Powershell, Kind::Update, "HubGet.Nonexistent.Module", false));
         assert!(!ps_needs_admin(Dev::Pwsh, Kind::Download, "Pester", true));
         assert!(!crate::elevation::elevates_silently(&powershell_exe().to_string_lossy(), &ps_args(&update)));
     }

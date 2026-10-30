@@ -11,7 +11,7 @@
  *
  * Záložní zdroj instalace: když instalace ze zvoleného zdroje selže tak, že by
  * jiný správce mohl pomoct (nefunkční odkaz v manifestu wingetu – chyba 404,
- * jiný soubor na stejné adrese, běžící jiná instalace…), Unibox nabídne
+ * jiný soubor na stejné adrese, běžící jiná instalace…), HubGet nabídne
  * instalaci od dalších zapnutých správců, kteří aplikaci mají (FallbackOfferDialog).
  * Úlohy na pozadí (bez uživatele) zkusí ostatní nainstalované správce samy.
  *
@@ -449,7 +449,7 @@ export const useJobs = create<JobsState>()((set, get) => {
             : fallbacks.length > 0
               ? ["failure", "error", "toast.fallbackFailed", "notifications.fallbackFailed"]
               : ["failure", "error", "toast.failed", "notifications.failed"];
-    // Selhání automatické aktualizace jen do historie (zvoneček) – Unibox to zkusí příště;
+    // Selhání automatické aktualizace jen do historie (zvoneček) – HubGet to zkusí příště;
     // po AUTO_FAILURE_LIMIT pokusech o stejnou verzi ji nechá na uživateli a jednou to klidně oznámí
     const quietFailure = !!job.background && outcome === "error";
     if (quietFailure && job.kind === "update" && job.targetVersion) {

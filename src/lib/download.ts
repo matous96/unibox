@@ -7,7 +7,7 @@ import { isTauri } from "./tauri";
 
 /** Názvy typů souborů pro filtr v dialogu (podle přípony). */
 const FILE_TYPES: Record<string, string> = {
-  ubundle: "Unibox",
+  ubundle: "HubGet",
   json: "JSON",
   ps1: "PowerShell",
   log: "Log",

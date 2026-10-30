@@ -17,7 +17,7 @@ export type PathManager = "winget" | "chocolatey" | "scoop";
 export interface SecurityPolicy {
   /** Každou operaci spustit s právy správce (UAC). */
   elevateAlways: boolean;
-  /** O práva správce požádat jen jednou za spuštění Uniboxu (povýšený pomocník zůstane běžet). */
+  /** O práva správce požádat jen jednou za spuštění HubGetu (povýšený pomocník zůstane běžet). */
   elevateOnce: boolean;
   /** Zakázat jakékoli povýšení – operace, která se nepovýší sama, selže. */
   elevationProhibited: boolean;

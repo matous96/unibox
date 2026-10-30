@@ -1,7 +1,7 @@
 /**
  * Sdílené datové typy aplikace.
  *
- * Unibox spojuje více správců balíčků (winget, Chocolatey, Scoop, npm, pip…).
+ * HubGet spojuje více správců balíčků (winget, Chocolatey, Scoop, npm, pip…).
  * Rozlišujeme dva druhy dat:
  *  - CatalogEntry – „profil aplikace“ z catalog.json (kategorie, ikona, popularita…)
  *                   se seznamem zdrojů, ze kterých ji lze nainstalovat;
@@ -59,7 +59,7 @@ export type PrivacyCategory =
   | "diagnostics";
 
 /**
- * Údaje o soukromí, které uvádí vývojář (Unibox je neověřuje).
+ * Údaje o soukromí, které uvádí vývojář (HubGet je neověřuje).
  * Všechna pole prázdná = vývojář uvádí, že aplikace nesbírá žádné údaje.
  */
 export interface PrivacyInfo {
@@ -143,7 +143,7 @@ export interface InstallerFeature {
 /** Profil aplikace v katalogu (formát souboru catalog.json). */
 export interface CatalogEntry {
   /**
-   * Kanonické id aplikace v Uniboxu (např. "mozilla-firefox").
+   * Kanonické id aplikace v HubGetu (např. "mozilla-firefox").
    * U balíčků mimo katalog má tvar "<zdroj>:<id balíčku>".
    */
   id: string;
@@ -278,7 +278,7 @@ export interface InstalledPackage {
   /**
    * Program nalezený jen podle složky na disku (bez záznamu v registru, id
    * „DISK\<složka>“) – složka programu. Ukáže se, jen když se spáruje
-   * s katalogem; odinstalovat ani aktualizovat ho Unibox neumí.
+   * s katalogem; odinstalovat ani aktualizovat ho HubGet neumí.
    */
   diskLocation?: string;
 }
@@ -321,7 +321,7 @@ export interface InstallOptions {
    */
   customArgs?: string;
   /**
-   * Parametry instalátoru, které skládá Unibox sám z voleb (části instalátoru,
+   * Parametry instalátoru, které skládá HubGet sám z voleb (části instalátoru,
    * bez restartu) – na povolení vlastních argumentů nezávisí.
    */
   installerArgs?: string;

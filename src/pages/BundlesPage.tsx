@@ -80,7 +80,7 @@ export function BundlesPage() {
     }
   };
 
-  /** Zkopíruje odkaz, ve kterém je celá sada – přátelé ji otevřou v Uniboxu. */
+  /** Zkopíruje odkaz, ve kterém je celá sada – přátelé ji otevřou v HubGetu. */
   const shareLink = async () => {
     try {
       await navigator.clipboard.writeText(bundleShareLink(encodeBundle(name, items)));

@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "Unibox",
-    "title": "Unibox – Windows 应用商店",
+    "name": "HubGet",
+    "title": "HubGet – Windows 应用商店",
     "testBuild": "测试版"
   },
   "hero": {
@@ -18,7 +18,7 @@
     "dev": "直接从官方 {{source}} 注册表安装，未经修改",
     "how": "这是如何工作的？",
     "hashVerified": "SHA-256 已验证",
-    "hashHint": "{{source}} 清单中版本 {{version}} 的安装程序校验和：\n{{hash}}\n\nUnibox 会在运行前将下载的安装程序与此校验和进行比对，{{source}} 还会再次检查——如果不匹配，安装不会开始。点击即可复制校验和。",
+    "hashHint": "{{source}} 清单中版本 {{version}} 的安装程序校验和：\n{{hash}}\n\nHubGet 会在运行前将下载的安装程序与此校验和进行比对，{{source}} 还会再次检查——如果不匹配，安装不会开始。点击即可复制校验和。",
     "hashByManager": "SHA-256 由 {{source}} 检查",
     "hashByManagerHint": "安装前，{{source}} 会将下载的安装程序的校验和与清单中的进行比对——如果不匹配，安装不会开始。",
     "hashOff": "SHA-256 检查已关闭",
@@ -40,7 +40,7 @@
     "startup": "启动应用",
     "publish": "发布",
     "forum": "论坛",
-    "about": "关于 Unibox"
+    "about": "关于 HubGet"
   },
   "startup": {
     "title": "启动应用",
@@ -48,7 +48,7 @@
     "desktopOnly": "只能在桌面应用中管理启动应用。",
     "refresh": "重新加载",
     "measure": "测量影响",
-    "measureHint": "Windows 在每次登录时测量影响。只有管理员才能读取——Unibox 会询问一次（UAC）。",
+    "measureHint": "Windows 在每次登录时测量影响。只有管理员才能读取——HubGet 会询问一次（UAC）。",
     "measured": "已从 Windows 最近一次测量中加载启动影响",
     "statEnabled": "已启用的程序",
     "statHigh": "影响较高",
@@ -108,7 +108,7 @@
   "about": {
     "version": "版本 {{version}}",
     "tagline": "一个商店，涵盖所有 Windows 应用。",
-    "intro": "Unibox 将 WinGet、Chocolatey 和 Scoop 整合为一个清晰的商店，拥有 {{count}} 个应用——此外还为开发者提供 npm、Bun、pip、Cargo、vcpkg、.NET Tool 和 PowerShell。一键安装，批量更新，无需再操心应用来自哪里。",
+    "intro": "HubGet 将 WinGet、Chocolatey 和 Scoop 整合为一个清晰的商店，拥有 {{count}} 个应用——此外还为开发者提供 npm、Bun、pip、Cargo、vcpkg、.NET Tool 和 PowerShell。一键安装，批量更新，无需再操心应用来自哪里。",
     "hlSources": "{{count}} 个来源合而为一",
     "hlSourcesText": "一个应用 = 一个页面。您可以选择用哪个管理器安装。",
     "hlOpen": "开源",
@@ -122,7 +122,7 @@
     "techText": "感谢优秀的开源项目以及维护软件包仓库的社区。",
     "communityTitle": "社区",
     "communityText": "欢迎提出想法、反馈错误和提问。",
-    "disclaimer": "Unibox 是一个独立的开源项目，与 Microsoft 及其支持的软件包管理器项目均无关联。Windows、WinGet、.NET、PowerShell 和 vcpkg 是 Microsoft 的商标；Chocolatey 是 Chocolatey Software, Inc. 的商标；npm 是 npm, Inc. 的商标；Python 和 PyPI 是 Python Software Foundation 的商标；Rust 和 Cargo 是 Rust Foundation 的商标。应用和软件包归其作者所有。"
+    "disclaimer": "HubGet 是一个独立的开源项目，与 Microsoft 及其支持的软件包管理器项目均无关联。Windows、WinGet、.NET、PowerShell 和 vcpkg 是 Microsoft 的商标；Chocolatey 是 Chocolatey Software, Inc. 的商标；npm 是 npm, Inc. 的商标；Python 和 PyPI 是 Python Software Foundation 的商标；Rust 和 Cargo 是 Rust Foundation 的商标。应用和软件包归其作者所有。"
   },
   "privacy": {
     "title": "应用隐私",
@@ -138,7 +138,7 @@
     "notLinkedText": "以下数据可能会被收集，但不会与您的身份关联：",
     "noDataTitle": "未收集数据",
     "noDataText": "开发者声明此应用不收集任何数据。",
-    "disclaimer": "信息由开发者提供，未经 Unibox 验证。",
+    "disclaimer": "信息由开发者提供，未经 HubGet 验证。",
     "forDevelopers": "如何添加",
     "categories": {
       "purchases": "购买项目",
@@ -170,19 +170,19 @@
   "publish": {
     "eyebrow": "面向开发者",
     "title": "发布您的应用",
-    "subtitle": "与其他 {{count}} 个应用一起触达 Unibox 用户——无需费用，也无需自建商店。",
+    "subtitle": "与其他 {{count}} 个应用一起触达 HubGet 用户——无需费用，也无需自建商店。",
     "howTitle": "工作原理",
     "step1Title": "发布到软件包管理器",
-    "step1Text": "一个就够了——应用发布到 WinGet、Chocolatey 或 Scoop，工具和库发布到 npm、PyPI、crates.io、NuGet 或 PowerShell Gallery。Unibox 没有自己的仓库，它展示的是这些仓库中的软件包。",
-    "step2Title": "Unibox 自动收录",
+    "step1Text": "一个就够了——应用发布到 WinGet、Chocolatey 或 Scoop，工具和库发布到 npm、PyPI、crates.io、NuGet 或 PowerShell Gallery。HubGet 没有自己的仓库，它展示的是这些仓库中的软件包。",
+    "step2Title": "HubGet 自动收录",
     "step2Text": "目录每天更新。您的应用会显示其所在所有来源的版本。",
     "step3Title": "完善页面并获得验证",
     "step3Text": "添加截图、横幅和分类，并确认应用归您所有——您将获得蓝色认证标记。",
     "whereTitle": "在哪里发布",
     "whereSubtitle": "每个管理器都有自己的流程。WinGet 随 Windows 提供，覆盖用户最多。",
     "recommended": "推荐",
-    "channel_winget": "直接在 Unibox 中（或使用 wingetcreate）创建清单，并向 microsoft/winget-pkgs 提交拉取请求。",
-    "wingetWizard": "在 Unibox 中创建清单",
+    "channel_winget": "直接在 HubGet 中（或使用 wingetcreate）创建清单，并向 microsoft/winget-pkgs 提交拉取请求。",
+    "wingetWizard": "在 HubGet 中创建清单",
     "channel_chocolatey": "构建 .nupkg 包并推送到 Chocolatey Community Repository 进行审核。",
     "channel_scoop": "向 Extras 存储桶添加清单（拉取请求），或创建您自己的存储桶。",
     "channel_npm": "将包发布到 npm 注册表——Bun 也从中安装。在 package.json 中用“bin”字段标记命令行工具。",
@@ -193,7 +193,7 @@
     "channel_pwsh": "将模块或脚本发布到 PowerShell Gallery——PowerShell 7 和 5.1 都能安装。",
     "docs": "指南",
     "improveTitle": "完善应用页面",
-    "improveText": "软件包仓库只包含基本信息。其余内容可通过向 Unibox 目录（data-pipeline/rules）提交拉取请求来添加。",
+    "improveText": "软件包仓库只包含基本信息。其余内容可通过向 HubGet 目录（data-pipeline/rules）提交拉取请求来添加。",
     "improveScreenshots": "预览图库的截图",
     "improveBanner": "自定义横幅和品牌颜色",
     "improveCategories": "分类、标签和更长的描述",
@@ -210,10 +210,10 @@
   "publishWinget": {
     "back": "发布",
     "title": "发布到 WinGet",
-    "intro": "WinGet 是 Windows 的软件包管理器，其社区仓库 microsoft/winget-pkgs 开放且免费。Unibox 基于它构建目录——一旦获批，您的应用就会自动出现在这里。向导会准备清单、进行验证并以拉取请求的形式提交。",
-    "desktopOnly": "清单向导只能在 Unibox 桌面应用中运行（它会下载并检查安装程序，并运行 winget validate）。",
+    "intro": "WinGet 是 Windows 的软件包管理器，其社区仓库 microsoft/winget-pkgs 开放且免费。HubGet 基于它构建目录——一旦获批，您的应用就会自动出现在这里。向导会准备清单、进行验证并以拉取请求的形式提交。",
+    "desktopOnly": "清单向导只能在 HubGet 桌面应用中运行（它会下载并检查安装程序，并运行 winget validate）。",
     "step1": "安装程序",
-    "step1Hint": "特定版本的下载 URL（https）。Unibox 会下载安装程序、计算其 SHA-256 并检测类型和架构——但绝不会运行它。",
+    "step1Hint": "特定版本的下载 URL（https）。HubGet 会下载安装程序、计算其 SHA-256 并检测类型和架构——但绝不会运行它。",
     "analyze": "获取详细信息",
     "analyzing": "正在下载并检查安装程序…",
     "file": "文件",
@@ -236,7 +236,7 @@
       "zip": "ZIP（便携应用）"
     },
     "step2": "应用详细信息",
-    "step2Hint": "WinGet 和 Unibox 将显示的内容。部分信息已从安装程序预先填写。",
+    "step2Hint": "WinGet 和 HubGet 将显示的内容。部分信息已从安装程序预先填写。",
     "suggest": "使用 {{id}}",
     "installerTitle": "安装程序",
     "field": {
@@ -306,7 +306,7 @@
       "relative": "压缩包内的相对路径"
     },
     "step3": "检查",
-    "step3Hint": "Unibox 会检查各项信息并使用 winget validate 验证清单——与 WinGet 审核员的做法相同。",
+    "step3Hint": "HubGet 会检查各项信息并使用 winget validate 验证清单——与 WinGet 审核员的做法相同。",
     "validate": "验证清单",
     "save": "保存到文件夹",
     "saved": "清单已保存：{{path}}",
@@ -322,12 +322,12 @@
     "step4Hint": "从您的 GitHub 帐户向 microsoft/winget-pkgs 提交拉取请求——免费。",
     "submit": "创建拉取请求",
     "submitNeedsValid": "请先验证清单——只有有效的清单才能提交。",
-    "afterSubmit": "自动测试和 WinGet 审核员会审查拉取请求（通常在几天内）。合并后，应用将随下一次目录更新出现在 Unibox 中。",
+    "afterSubmit": "自动测试和 WinGet 审核员会审查拉取请求（通常在几天内）。合并后，应用将随下一次目录更新出现在 HubGet 中。",
     "manualIntro": "将清单保存到文件夹（第 3 步），然后通过以下方式之一提交：",
     "manualWingetcreate": "使用 Microsoft 的 wingetcreate 工具（开源）——提交时会登录 GitHub：",
     "manualGitHub": "在 GitHub 上手动操作：复刻 microsoft/winget-pkgs 并将文件添加到以下文件夹",
     "manualDocs": "winget-pkgs 指南",
-    "submitExplain": "Unibox 会登录您的 GitHub 帐户（public_repo 权限），创建 winget-pkgs 的复刻，将清单添加到 {{path}} 并创建拉取请求。令牌只保存在内存中。",
+    "submitExplain": "HubGet 会登录您的 GitHub 帐户（public_repo 权限），创建 winget-pkgs 的复刻，将清单添加到 {{path}} 并创建拉取请求。令牌只保存在内存中。",
     "signInAndSubmit": "登录 GitHub 并提交",
     "enterCode": "在浏览器中输入此代码并批准访问：",
     "submitStep": {
@@ -351,7 +351,7 @@
     "title": "排行榜",
     "subtitles": {
       "popularity": "按目录热度得分排列的最受欢迎应用",
-      "rating": "按 Unibox 用户星级排列的最高评分应用",
+      "rating": "按 HubGet 用户星级排列的最高评分应用",
       "movers": "过去 7 天下载量增长最多的应用",
       "trending": "有最新更新的热门应用"
     },
@@ -364,7 +364,7 @@
     },
     "sortHint": {
       "popularity": "目录热度得分（默认）",
-      "rating": "Unibox 用户的平均星级",
+      "rating": "HubGet 用户的平均星级",
       "movers": "过去 7 天下载量增长最大"
     },
     "moversPending": "目录收集满一周的下载数据后，将显示本周飙升的应用。在此之前，显示有最新更新的热门应用。",
@@ -436,7 +436,7 @@
     "nothingToInstall": "所选应用已安装或正在队列中等待。",
     "opened_one": "已加载合集（{{count}} 个应用）",
     "opened_other": "已加载合集（{{count}} 个应用）",
-    "openFailed": "无法打开该文件——它不是 Unibox 合集。",
+    "openFailed": "无法打开该文件——它不是 HubGet 合集。",
     "commandsCopied_one": "已复制 {{count}} 条命令",
     "commandsCopied_other": "已复制 {{count}} 条命令"
   },
@@ -444,30 +444,30 @@
     "more": "更多选项",
     "logs": "软件包管理器日志",
     "history": "操作历史",
-    "version": "Unibox 版本 {{version}}",
+    "version": "HubGet 版本 {{version}}",
     "versionShort": "版本 {{version}}",
     "releaseNotes": "发行说明",
-    "checkUpdates": "检查 Unibox 更新",
+    "checkUpdates": "检查 HubGet 更新",
     "checking": "正在检查更新…",
-    "upToDate": "您使用的是最新版 Unibox（{{version}}）。",
-    "updateAvailable": "Unibox {{version}} 已推出。",
+    "upToDate": "您使用的是最新版 HubGet（{{version}}）。",
+    "updateAvailable": "HubGet {{version}} 已推出。",
     "updateFailed": "无法检查更新。",
     "help": "帮助",
     "about": "关于",
     "latest": "最新"
   },
   "whatsNewDialog": {
-    "title": "Unibox 新功能",
-    "lead": "Unibox 已更新到版本 {{version}}。新功能如下：",
-    "leadMany_one": "Unibox 已更新到版本 {{version}}。最新版本的新功能：",
-    "leadMany_other": "Unibox 已更新到版本 {{version}}。最近 {{count}} 个版本的新功能：",
+    "title": "HubGet 新功能",
+    "lead": "HubGet 已更新到版本 {{version}}。新功能如下：",
+    "leadMany_one": "HubGet 已更新到版本 {{version}}。最新版本的新功能：",
+    "leadMany_other": "HubGet 已更新到版本 {{version}}。最近 {{count}} 个版本的新功能：",
     "allVersions": "所有版本",
     "onlyNew": "仅看新功能",
     "gotIt": "知道了"
   },
   "history": {
     "title": "操作历史",
-    "subtitle": "通过 Unibox 进行的安装、更新和卸载",
+    "subtitle": "通过 HubGet 进行的安装、更新和卸载",
     "openLogs": "日志",
     "clear": "清除历史记录",
     "confirmClear": "要清除全部操作历史吗？",
@@ -493,7 +493,7 @@
   },
   "logs": {
     "title": "包管理器日志",
-    "subtitle": "Unibox 运行的命令及其结果——排查问题时很有用",
+    "subtitle": "HubGet 运行的命令及其结果——排查问题时很有用",
     "openHistory": "操作历史",
     "mockNote": "网页版：包管理器为模拟。日志显示桌面应用将要运行的命令。",
     "errorsOnly": "仅显示错误和警告",
@@ -555,8 +555,8 @@
     "faqTitle": "常见问题",
     "faq": {
       "how": {
-        "q": "Unibox 如何安装应用？",
-        "a": "Unibox 自己不下载也不修改任何内容。它把安装交给包管理器——WinGet、Chocolatey、Scoop，或者开发者工具所用的 npm、pip 等——并显示进度。软件包直接来自官方仓库。"
+        "q": "HubGet 如何安装应用？",
+        "a": "HubGet 自己不下载也不修改任何内容。它把安装交给包管理器——WinGet、Chocolatey、Scoop，或者开发者工具所用的 npm、pip 等——并显示进度。软件包直接来自官方仓库。"
       },
       "source": {
         "q": "一个应用同时存在于多个来源时，从哪里安装？",
@@ -564,7 +564,7 @@
       },
       "uac": {
         "q": "为什么会弹出用户账户控制（UAC）窗口？",
-        "a": "有些安装程序需要写入系统文件夹，因此需要管理员权限；Chocolatey 则始终需要。Unibox 只为该次操作请求权限——它从不整体以管理员身份运行。"
+        "a": "有些安装程序需要写入系统文件夹，因此需要管理员权限；Chocolatey 则始终需要。HubGet 只为该次操作请求权限——它从不整体以管理员身份运行。"
       },
       "bundles": {
         "q": "如何一次安装多个应用？",
@@ -575,12 +575,12 @@
         "a": "<history>操作历史</history>会显示失败的内容并允许重试。详细信息在<logs>包管理器日志</logs>中。换一个来源，或关闭阻止安装程序的应用，通常会有帮助。"
       },
       "safe": {
-        "q": "通过 Unibox 安装安全吗？会中病毒吗？",
-        "a": "安全——这是最安全的应用安装方式。Unibox 不会从带有虚假“下载”按钮的随便哪个网站下载程序，只从包管理器的官方仓库下载。Microsoft 会检查 WinGet 软件包（SmartScreen、静态分析），WinGet 在安装前会核对安装程序的 SHA-256 校验和，被篡改的安装程序无法通过。Chocolatey 软件包要经过审核和 VirusTotal 病毒扫描，Scoop 会核对其清单中的校验和。安装程序中不会捆绑任何东西，Unibox 也不会修改它。对于开发者库和工具（npm、PyPI、crates.io…），内容由作者负责——请从你信任的发布者处安装。Unibox 是开源的，未登录时不会发送任何个人数据。"
+        "q": "通过 HubGet 安装安全吗？会中病毒吗？",
+        "a": "安全——这是最安全的应用安装方式。HubGet 不会从带有虚假“下载”按钮的随便哪个网站下载程序，只从包管理器的官方仓库下载。Microsoft 会检查 WinGet 软件包（SmartScreen、静态分析），WinGet 在安装前会核对安装程序的 SHA-256 校验和，被篡改的安装程序无法通过。Chocolatey 软件包要经过审核和 VirusTotal 病毒扫描，Scoop 会核对其清单中的校验和。安装程序中不会捆绑任何东西，HubGet 也不会修改它。对于开发者库和工具（npm、PyPI、crates.io…），内容由作者负责——请从你信任的发布者处安装。HubGet 是开源的，未登录时不会发送任何个人数据。"
       },
       "add": {
         "q": "缺少某个应用或来源，怎么添加？",
-        "a": "应用通过包管理器的仓库进入 Unibox——具体方法见<publish>发布</publish>页面。你可以用侧边栏中的“添加来源”按钮推荐新的软件包来源。"
+        "a": "应用通过包管理器的仓库进入 HubGet——具体方法见<publish>发布</publish>页面。你可以用侧边栏中的“添加来源”按钮推荐新的软件包来源。"
       }
     },
     "contactTitle": "仍然没解决？",
@@ -594,7 +594,7 @@
   },
   "commands": {
     "title": "终端命令",
-    "subtitle": "Unibox 一键完成的所有操作，也都可以在命令行中完成。选择一个包管理器并复制命令。",
+    "subtitle": "HubGet 一键完成的所有操作，也都可以在命令行中完成。选择一个包管理器并复制命令。",
     "managers": "包管理器",
     "howTo": "在 Windows 终端或 PowerShell 中运行这些命令。示例使用一个示例应用，可以直接复制——任何其他应用的确切命令都在其页面的“…命令行”部分。",
     "howToPlaceholders": "在 Windows 终端或 PowerShell 中运行这些命令。把 <软件包>（WinGet 为 <ID>）替换为软件包，把 <名称> 替换为要搜索的内容——特定应用的确切命令在其页面的“…命令行”部分。",
@@ -778,7 +778,7 @@
       "eyebrow": "来自分类",
       "title": "{{category}}精选",
       "subtitle": "{{names}} 等热门应用。",
-      "description": "Unibox 目录中{{category}}分类的热门应用——按人气和用户反馈挑选。可以逐个安装，也可以一次全部安装。下次我们会挑选别的应用。"
+      "description": "HubGet 目录中{{category}}分类的热门应用——按人气和用户反馈挑选。可以逐个安装，也可以一次全部安装。下次我们会挑选别的应用。"
     }
   },
   "collection": {
@@ -846,8 +846,8 @@
     "managedBySteam": "此游戏由 Steam 管理——更新和文件验证在 Steam 中进行。",
     "openInSteam": "在 Steam 中打开",
     "managedByEa": "此游戏由 EA app 管理——更新和文件验证在 EA app 中进行。",
-    "localInstall": "在包管理器之外安装——Unibox 可以卸载它，但无法更新。",
-    "diskInstall": "在磁盘上的 {{folder}} 中找到——未列在“已安装的应用”中。Unibox 无法卸载或更新它。",
+    "localInstall": "在包管理器之外安装——HubGet 可以卸载它，但无法更新。",
+    "diskInstall": "在磁盘上的 {{folder}} 中找到——未列在“已安装的应用”中。HubGet 无法卸载或更新它。",
     "availableIn": "可通过以下方式获取",
     "statRank": "排行",
     "statRating": "评分",
@@ -890,7 +890,7 @@
   "report": {
     "button": "报告问题",
     "title": "报告问题——{{name}}",
-    "intro": "这个应用有什么问题？你的报告有助于改进目录和 Unibox。",
+    "intro": "这个应用有什么问题？你的报告有助于改进目录和 HubGet。",
     "types": {
       "install": "安装或更新失败",
       "info": "信息有误（描述、图标、分类）",
@@ -913,7 +913,7 @@
   "share": {
     "button": "分享",
     "copyLink": "复制链接",
-    "copyLinkHint": "直接在 Unibox 中打开该应用",
+    "copyLinkHint": "直接在 HubGet 中打开该应用",
     "copyCommand": "复制安装命令",
     "native": "通过 Windows 分享…",
     "nativeHint": "系统分享（附近共享、应用…）",
@@ -921,14 +921,14 @@
     "via": "分享到",
     "email": "电子邮件",
     "short": "{{name}}——来看看这个应用",
-    "message": "推荐你试试 {{name}}：{{description}}\n\n在 Unibox 中打开：{{link}}\n或用此命令安装：{{command}}"
+    "message": "推荐你试试 {{name}}：{{description}}\n\n在 HubGet 中打开：{{link}}\n或用此命令安装：{{command}}"
   },
   "auth": {
     "signIn": "登录",
     "signOut": "退出登录",
     "account": "账户",
     "notSignedIn": "你尚未登录",
-    "title": "登录 Unibox",
+    "title": "登录 HubGet",
     "reasonGeneral": "撰写评价，并在多台电脑之间同步设置。",
     "reasonReview": "只有登录用户才能评分和评价——这样评价才可信。",
     "reasonScreenshot": "只有登录用户才能添加截图——这样不当内容可以被追溯。",
@@ -937,7 +937,7 @@
     "benefitFavorites": "收藏的应用和软件包合集出现在你的所有电脑上",
     "continueWith": "使用 {{provider}} 继续",
     "waiting": "请在浏览器中完成登录（{{provider}}）…",
-    "privacy": "登录在你的浏览器中进行——Unibox 永远看不到你的密码。",
+    "privacy": "登录在你的浏览器中进行——HubGet 永远看不到你的密码。",
     "sample": "演示模式——登录仅为模拟。",
     "sampleShort": "演示",
     "via": "通过 {{provider}}",
@@ -959,7 +959,7 @@
       "settings": "偏好设置",
       "settingsHint": "主题、强调色、语言、模式、视图和已启用的包管理器。",
       "notifications": "通知偏好",
-      "notificationsHint": "Unibox 会就哪些事件通知你。"
+      "notificationsHint": "HubGet 会就哪些事件通知你。"
     },
     "status": "状态",
     "syncing": "正在同步…",
@@ -997,28 +997,28 @@
   },
   "crash": {
     "pageTitle": "无法显示此页面",
-    "pageText": "此页面发生了意外错误。Unibox 的其他部分仍在正常运行——请重试或返回首页。",
+    "pageText": "此页面发生了意外错误。HubGet 的其他部分仍在正常运行——请重试或返回首页。",
     "retry": "重试",
     "home": "首页",
     "copy": "复制详细信息",
-    "appTitle": "Unibox 遇到了意外错误",
-    "appText": "无法绘制窗口。请重新加载 Unibox——如果错误反复出现，请把详细信息发送给我们。",
+    "appTitle": "HubGet 遇到了意外错误",
+    "appText": "无法绘制窗口。请重新加载 HubGet——如果错误反复出现，请把详细信息发送给我们。",
     "reload": "重新加载",
     "toast": "出了点问题：{{message}}"
   },
   "onboarding": {
-    "title": "Unibox 欢迎导览",
+    "title": "HubGet 欢迎导览",
     "stepOf": "第 {{current}} 步，共 {{total}} 步",
     "skip": "跳过介绍",
     "prev": "上一步",
     "next": "下一步",
-    "finish": "开始使用 Unibox",
+    "finish": "开始使用 HubGet",
     "settingsTitle": "欢迎导览",
     "settingsRow": "重新观看欢迎导览",
-    "settingsHint": "Unibox 主要功能的简短导览——与首次启动时相同。",
+    "settingsHint": "HubGet 主要功能的简短导览——与首次启动时相同。",
     "settingsButton": "开始",
     "welcome": {
-      "title": "欢迎使用 Unibox",
+      "title": "欢迎使用 HubGet",
       "text": "一个 Windows 应用商店。用一分钟带你了解它能做什么。",
       "point1": "超过 {{count}} 个应用尽在一处",
       "point2": "安全，来自官方来源——没有病毒、广告或捆绑软件",
@@ -1029,7 +1029,7 @@
     },
     "catalog": {
       "title": "一个统一的目录",
-      "text": "WinGet、Chocolatey 和 Scoop 的应用汇集一处。每个应用只有一张卡片，包含所有来源——Unibox 会选出最佳来源，你也可以自己选。",
+      "text": "WinGet、Chocolatey 和 Scoop 的应用汇集一处。每个应用只有一张卡片，包含所有来源——HubGet 会选出最佳来源，你也可以自己选。",
       "point1": "同时搜索所有包管理器",
       "point2": "从某个来源安装失败时，会提供另一个来源",
       "point3": "开发者模式下还包括 npm、pip、Cargo 等"
@@ -1051,7 +1051,7 @@
     },
     "notifications": {
       "title": "通知和更新",
-      "text": "每次安装、更新和卸载的结果都在右上角的铃铛中——包括 Unibox 在后台完成的操作。",
+      "text": "每次安装、更新和卸载的结果都在右上角的铃铛中——包括 HubGet 在后台完成的操作。",
       "point1": "出错时显示完整信息——点击即可复制",
       "point2": "时钟旁图标上的橙色圆点表示有可用更新",
       "point3": "完整的操作历史只需一次点击",
@@ -1059,7 +1059,7 @@
     },
     "uninstall": {
       "title": "高级卸载",
-      "text": "卸载后，Unibox 会找出应用留下的内容——文件夹、快捷方式和注册表项——并提供清理，类似 Revo Uninstaller。",
+      "text": "卸载后，HubGet 会找出应用留下的内容——文件夹、快捷方式和注册表项——并提供清理，类似 Revo Uninstaller。",
       "point1": "文件移到回收站，注册表项会先备份",
       "point2": "开启安装监视后，会精确删除安装程序创建的内容",
       "point3": "卸载前会结束应用正在运行的进程",
@@ -1099,7 +1099,7 @@
   },
   "devSource": {
     "missing": "未安装 {{source}}",
-    "missingText": "没有它就无法搜索或安装软件包。Unibox 会用 WinGet 安装它。",
+    "missingText": "没有它就无法搜索或安装软件包。HubGet 会用 WinGet 安装它。",
     "registry_one": "· 注册表中有 {{formatted}} 个软件包",
     "registry_other": "· 注册表中有 {{formatted}} 个软件包",
     "settings": "包管理器设置",
@@ -1110,7 +1110,7 @@
   },
   "community": {
     "openSource": "开源",
-    "openSourceTitle": "Unibox 是开源的——代码在 GitHub 上",
+    "openSourceTitle": "HubGet 是开源的——代码在 GitHub 上",
     "email": "给我们写信：{{email}}",
     "emailLabel": "联系邮箱",
     "language": "语言：{{language}}",
@@ -1119,7 +1119,7 @@
     "off": "关闭",
     "sourcesTitle": "软件包来源——在设置中管理",
     "addSource": "添加来源",
-    "addSourceText": "Unibox 是开放的，设计上就支持扩展更多包管理器。",
+    "addSourceText": "HubGet 是开放的，设计上就支持扩展更多包管理器。",
     "ideas": "更多来源的想法",
     "devHint": "面向开发者：实现 PackageManager 接口即可添加来源。",
     "suggest": "在 GitHub 上推荐来源",
@@ -1259,7 +1259,7 @@
     "updating_other": "正在更新 {{count}} 个应用…",
     "showUpdates": "显示",
     "management": "管理",
-    "managed": "Unibox 管理着 {{total}} 个应用中的 {{managed}} 个",
+    "managed": "HubGet 管理着 {{total}} 个应用中的 {{managed}} 个",
     "showInstalled": "已安装的应用",
     "quickActions": "快捷操作"
   },
@@ -1275,7 +1275,7 @@
     "importHint": "安装另一台电脑上的应用配置",
     "imported_one": "配置已载入——{{count}} 个应用已放入软件包合集",
     "imported_other": "配置已载入——{{count}} 个应用已放入软件包合集",
-    "importFailed": "无法载入文件——它既不是 Unibox 配置，也不是 WinGet 导出文件。"
+    "importFailed": "无法载入文件——它既不是 HubGet 配置，也不是 WinGet 导出文件。"
   },
   "profileImport": {
     "title": "导入配置",
@@ -1404,7 +1404,7 @@
     "download": "下载",
     "onDisk": "安装后占用磁盘",
     "uninstall": "卸载",
-    "uninstallApps": "该应用已在 Windows 应用中注册——可在 Unibox 或 Windows 设置中一键卸载。",
+    "uninstallApps": "该应用已在 Windows 应用中注册——可在 HubGet 或 Windows 设置中一键卸载。",
     "uninstallScoop": "便携安装于 Scoop 文件夹——卸载会删除整个文件夹，不留任何残留。",
     "uninstallDev": "使用 {{source}} 命令卸载：",
     "frees": "可释放约 {{size}}。",
@@ -1519,9 +1519,9 @@
     "catalogSource_cache": "已保存的副本",
     "catalogSource_packaged": "随应用附带",
     "catalogSource_bundled": "示例目录（离线）",
-    "support": "支持 Unibox",
-    "supportRow": "喜欢 Unibox 吗？",
-    "supportHint": "Unibox 免费、无广告、无订阅——并将一直如此。如果它为你节省了时间，你可以自愿捐助任意金额，支持后续开发。",
+    "support": "支持 HubGet",
+    "supportRow": "喜欢 HubGet 吗？",
+    "supportHint": "HubGet 免费、无广告、无订阅——并将一直如此。如果它为你节省了时间，你可以自愿捐助任意金额，支持后续开发。",
     "supportButton": "通过 Revolut 捐助",
     "catalogPackages": "应用",
     "catalogGenerated": "更新时间",
@@ -1537,14 +1537,14 @@
     "desktopNotice": "每个包管理器都会真实运行——安装是真实的。开发者包管理器（npm、pip、Cargo…）在开发者模式下使用。",
     "desktop": "桌面应用",
     "closeToTray": "关闭后继续运行",
-    "closeToTrayHint": "关闭窗口会把 Unibox 隐藏到时钟旁的通知区域，正在进行的安装会继续完成。可从图标菜单中退出。",
+    "closeToTrayHint": "关闭窗口会把 HubGet 隐藏到时钟旁的通知区域，正在进行的安装会继续完成。可从图标菜单中退出。",
     "trayBadge": "通知区域图标上的状态",
     "trayBadgeHint": "通知区域图标上的彩色圆点：橙色——有可用更新，蓝色——正在进行操作或检查，红色——出错，绿色——已完成。",
     "uninstall": "卸载和正在运行的应用",
     "closeBackgroundProcesses": "不经询问关闭在后台运行的应用",
-    "closeBackgroundProcessesHint": "在安装、更新或卸载之前，Unibox 会结束该应用没有窗口的进程（例如通知区域图标或卡在内存中的进程）。如果应用有打开的窗口，会提供一键关闭。",
+    "closeBackgroundProcessesHint": "在安装、更新或卸载之前，HubGet 会结束该应用没有窗口的进程（例如通知区域图标或卡在内存中的进程）。如果应用有打开的窗口，会提供一键关闭。",
     "forceCloseRunning": "不经询问强制关闭正在运行的应用",
-    "forceCloseRunningHint": "在安装、更新或卸载之前，Unibox 会立即强制关闭正在运行的应用——即使它有打开的窗口，也不会询问。未保存的工作将会丢失。后台自动更新不会关闭有打开窗口的应用——会等待。",
+    "forceCloseRunningHint": "在安装、更新或卸载之前，HubGet 会立即强制关闭正在运行的应用——即使它有打开的窗口，也不会询问。未保存的工作将会丢失。后台自动更新不会关闭有打开窗口的应用——会等待。",
     "advancedUninstall": "高级卸载，扫描残留（注册表和文件）",
     "advancedUninstallHint": "卸载后，除 AppData 外还会搜索 Program Files、ProgramData、开始菜单和桌面快捷方式以及 Windows 注册表（HKCU 和 HKLM\\Software），并提供删除残留。文件会移到回收站；注册表项在删除前会先备份。",
     "autoCleanup": "自动删除残留文件和注册表项，不显示确认窗口",
@@ -1554,7 +1554,7 @@
     "newsOpen": "查看新功能",
     "newsHistory": "所有版本",
     "trackInstalls": "监视安装（系统快照）",
-    "trackInstallsHint": "在安装前后，Unibox 会比较文件夹（Program Files、ProgramData、AppData、开始菜单、桌面）和注册表。安装程序创建的内容会与应用一起保存，卸载后会提示删除——即使没有开启高级卸载。安装会多花几秒钟。不开启此设置也可以监视单个应用：右键 → 带监视安装。",
+    "trackInstallsHint": "在安装前后，HubGet 会比较文件夹（Program Files、ProgramData、AppData、开始菜单、桌面）和注册表。安装程序创建的内容会与应用一起保存，卸载后会提示删除——即使没有开启高级卸载。安装会多花几秒钟。不开启此设置也可以监视单个应用：右键 → 带监视安装。",
     "traces_one": "{{count}} 个应用有安装记录",
     "traces_other": "{{count}} 个应用有安装记录",
     "tracesHint": "卸载后会提示删除记录的项目。忘记记录不会删除任何内容。",
@@ -1564,17 +1564,17 @@
     "devModeOnly": "开发者包管理器只在开发者模式下使用——届时它们的软件包会出现在搜索和已安装应用中。",
     "switchToDeveloper": "切换到开发者模式",
     "managerPlannedError": "桌面应用对 {{name}} 的支持尚未完成。",
-    "autostart": "随 Windows 启动 Unibox",
-    "autostartHint": "登录后，Unibox 会隐藏在时钟旁的通知区域中启动，并提示可用更新。",
+    "autostart": "随 Windows 启动 HubGet",
+    "autostartHint": "登录后，HubGet 会隐藏在时钟旁的通知区域中启动，并提示可用更新。",
     "autostartFailed": "无法更改随 Windows 启动的设置。",
     "backup": "备份和迁移应用",
-    "exportUnibox": "导出应用配置",
-    "exportUniboxHint": "所有受管理的应用（{{count}} 个）及其设置——忽略和自动更新以及安装选项。JSON 用于导入 Unibox，HTML 是易读的网页（也可以导入）。",
+    "exportHubGet": "导出应用配置",
+    "exportHubGetHint": "所有受管理的应用（{{count}} 个）及其设置——忽略和自动更新以及安装选项。JSON 用于导入 HubGet，HTML 是易读的网页（也可以导入）。",
     "exportWinget": "导出为 WinGet 格式",
     "exportWingetHint": "用于 winget import 命令的 JSON 文件（来自 WinGet 和 Microsoft Store 的 {{count}} 个应用）。",
     "exportButton": "导出…",
     "importApps": "导入并安装",
-    "importAppsHint": "配置（.json、.html）、合集（.ubundle）或 WinGet 导出文件——Unibox 会显示摘要，并一键安装缺少的应用。已安装的应用会被跳过。",
+    "importAppsHint": "配置（.json、.html）、合集（.ubundle）或 WinGet 导出文件——HubGet 会显示摘要，并一键安装缺少的应用。已安装的应用会被跳过。",
     "importButton": "选择文件…"
   },
   "files": {
@@ -1582,19 +1582,19 @@
     "saveFailed": "无法保存文件。"
   },
   "appUpdate": {
-    "title": "Unibox 有新版本可用",
-    "question": "Unibox {{version}} 已准备就绪（你的版本是 {{current}}）。要更新吗？",
+    "title": "HubGet 有新版本可用",
+    "question": "HubGet {{version}} 已准备就绪（你的版本是 {{current}}）。要更新吗？",
     "released": "发布于 {{date}}",
     "install": "更新",
     "later": "稍后",
     "skip": "跳过此版本",
     "downloading": "正在下载更新… {{percent}} %",
-    "installing": "正在安装——Unibox 即将重启…",
+    "installing": "正在安装——HubGet 即将重启…",
     "failed": "无法安装更新，请稍后重试。",
-    "version": "Unibox {{version}}",
+    "version": "HubGet {{version}}",
     "versionHint": "新版本从 GitHub Releases 下载，安装前会验证其签名。",
     "auto": "启动时检查更新",
-    "autoHint": "有新版本发布时，Unibox 会提示你。跳过的版本不会再次提示。"
+    "autoHint": "有新版本发布时，HubGet 会提示你。跳过的版本不会再次提示。"
   },
   "leftovers": {
     "title": "{{name}}——卸载后的残留",
@@ -1614,7 +1614,7 @@
     "tracedNote_one": "{{count}} 个项目来自安装记录——由此应用的安装程序创建。",
     "tracedNote_other": "{{count}} 个项目来自安装记录——由此应用的安装程序创建。",
     "adminItem": "需要管理员权限",
-    "adminNote": "Unibox 会以管理员身份删除带盾牌标记的项目——Windows 只会为全部项目询问一次。",
+    "adminNote": "HubGet 会以管理员身份删除带盾牌标记的项目——Windows 只会为全部项目询问一次。",
     "removedItems_one": "已删除 {{count}} 个残留（{{size}}）",
     "removedItems_other": "已删除 {{count}} 个残留（{{size}}）",
     "needsAdmin_one": "{{count}} 个项目只能以管理员权限删除。",
@@ -1686,8 +1686,8 @@
     "fallback": "{{name}}：无法从 {{from}} 下载安装程序——正在尝试 {{to}}…",
     "fallbackNext": "{{name}}：通过 {{from}} 安装失败——正在尝试 {{to}}…",
     "fallbackFailed": "无法安装 {{name}}：{{from}} 的安装程序不可用，通过 {{sources}} 的备用安装也失败了——{{error}}",
-    "endedProcesses": "{{name}} 正在后台运行——Unibox 已将其关闭并继续",
-    "forceClosed": "{{name}} 正在运行——Unibox 已将其强制关闭并继续"
+    "endedProcesses": "{{name}} 正在后台运行——HubGet 已将其关闭并继续",
+    "forceClosed": "{{name}} 正在运行——HubGet 已将其强制关闭并继续"
   },
   "notifications": {
     "title": "通知",
@@ -1720,15 +1720,15 @@
     "updates": "可用更新",
     "updatesCount": "可用更新（{{count}}）",
     "installed": "已安装",
-    "show": "显示 Unibox",
+    "show": "显示 HubGet",
     "quit": "退出",
-    "tooltipUpdates_one": "Unibox——{{count}} 个更新",
-    "tooltipUpdates_other": "Unibox——{{count}} 个更新",
-    "tooltipBusy_one": "Unibox——{{count}} 个操作进行中",
-    "tooltipBusy_other": "Unibox——{{count}} 个操作进行中",
-    "tooltipError": "Unibox——有操作失败",
-    "tooltipDone": "Unibox——已完成",
-    "tooltipChecking": "Unibox——正在检查更新…"
+    "tooltipUpdates_one": "HubGet——{{count}} 个更新",
+    "tooltipUpdates_other": "HubGet——{{count}} 个更新",
+    "tooltipBusy_one": "HubGet——{{count}} 个操作进行中",
+    "tooltipBusy_other": "HubGet——{{count}} 个操作进行中",
+    "tooltipError": "HubGet——有操作失败",
+    "tooltipDone": "HubGet——已完成",
+    "tooltipChecking": "HubGet——正在检查更新…"
   },
   "launch": {
     "starting": "正在启动 {{name}}…",
@@ -1774,7 +1774,7 @@
     "installerCrashed": "应用的安装程序崩溃了（{{code}}）——这是安装程序的故障，并非有应用正在运行。请稍后重试，或在应用内更新，或使用厂商网站上的安装程序。",
     "restartFirst": "{{name}}：请先重启电脑，以完成之前的安装。",
     "preCommandFailed": "{{name}}：安装前命令失败（{{code}}）——安装未开始。",
-    "listFailed": "{{name}} 没有返回已安装应用列表——它的应用暂时不会显示在 Unibox 中。下次刷新时会重试。（{{error}}）",
+    "listFailed": "{{name}} 没有返回已安装应用列表——它的应用暂时不会显示在 HubGet 中。下次刷新时会重试。（{{error}}）",
     "searchFailed": "无法搜索：{{names}}。下方是其他包管理器的结果。",
     "requiresAdmin": "{{name}}：此操作需要管理员权限（为所有用户安装的模块），但已在“设置 → 管理员权限”中禁止提升（{{code}}）。",
     "needsAdmin": "{{name}}：此操作需要管理员权限——不会在后台运行，请手动启动。"
@@ -1791,7 +1791,7 @@
   "accent": {
     "label": "强调色",
     "hint": "整个应用中的按钮、徽章、活动选项卡和其他突出显示的元素。",
-    "default": "Unibox（默认）",
+    "default": "HubGet（默认）",
     "purple": "紫色",
     "blue": "蓝色",
     "teal": "青色",
@@ -1814,8 +1814,8 @@
   },
   "notifPrefs": {
     "main": "通知",
-    "enabled": "启用 Unibox 通知",
-    "enabledHint": "弹出通知的总开关——包括 Windows 中的通知（Unibox 在后台或通知区域时）和应用窗口内的通知。",
+    "enabled": "启用 HubGet 通知",
+    "enabledHint": "弹出通知的总开关——包括 Windows 中的通知（HubGet 在后台或通知区域时）和应用窗口内的通知。",
     "batchSummary": "一批操作完成后显示汇总通知",
     "batchSummaryHint": "安装或更新多个应用时，最后只显示一条汇总，而不是每个应用一条（错误会立即报告）。",
     "types": "通知类型",
@@ -1833,7 +1833,7 @@
     "test": "测试通知",
     "testHint": "发送一条 Windows 通知，以确认通知能正常显示（Windows 设置 → 通知）。",
     "testButton": "发送",
-    "testMessage": "Unibox 通知工作正常。"
+    "testMessage": "HubGet 通知工作正常。"
   },
   "autoUpdates": {
     "found_one": "有 {{count}} 个可用更新：{{names}}",
@@ -1849,15 +1849,15 @@
     "skipped_metered_other": "找到 {{count}} 个更新——按流量计费的连接下不会自动安装",
     "skipped_saver_one": "找到 {{count}} 个更新——节电模式开启时不会自动安装",
     "skipped_saver_other": "找到 {{count}} 个更新——节电模式开启时不会自动安装",
-    "waiting_battery_one": "{{count}} 个更新正在等待——电脑正在使用电池。接通电源后 Unibox 会安装它。",
-    "waiting_battery_other": "{{count}} 个更新正在等待——电脑正在使用电池。接通电源后 Unibox 会安装它们。",
-    "waiting_saver_one": "{{count}} 个更新正在等待——节电模式已开启。Unibox 稍后会重试。",
-    "waiting_saver_other": "{{count}} 个更新正在等待——节电模式已开启。Unibox 稍后会重试。",
-    "waiting_metered_one": "{{count}} 个更新正在等待——当前连接按流量计费。Unibox 稍后会重试。",
-    "waiting_metered_other": "{{count}} 个更新正在等待——当前连接按流量计费。Unibox 稍后会重试。",
+    "waiting_battery_one": "{{count}} 个更新正在等待——电脑正在使用电池。接通电源后 HubGet 会安装它。",
+    "waiting_battery_other": "{{count}} 个更新正在等待——电脑正在使用电池。接通电源后 HubGet 会安装它们。",
+    "waiting_saver_one": "{{count}} 个更新正在等待——节电模式已开启。HubGet 稍后会重试。",
+    "waiting_saver_other": "{{count}} 个更新正在等待——节电模式已开启。HubGet 稍后会重试。",
+    "waiting_metered_one": "{{count}} 个更新正在等待——当前连接按流量计费。HubGet 稍后会重试。",
+    "waiting_metered_other": "{{count}} 个更新正在等待——当前连接按流量计费。HubGet 稍后会重试。",
     "checkTitle": "更新检查",
     "autoCheck": "自动检查软件包更新",
-    "autoCheckHint": "在 Unibox 运行期间于后台进行（即使隐藏在通知区域中）。检查期间通知区域图标为蓝色。",
+    "autoCheckHint": "在 HubGet 运行期间于后台进行（即使隐藏在通知区域中）。检查期间通知区域图标为蓝色。",
     "repeat": "重复",
     "repeat_interval": "按间隔",
     "repeat_daily": "每天",
@@ -1898,16 +1898,16 @@
     "skipOnSaver": "节电模式开启时不安装",
     "skipOnSaverHint": "当 Windows 中开启了节电模式时（即使接通电源）。",
     "skipOnMetered": "按流量计费的连接下不安装",
-    "skipOnMeteredHint": "移动数据、热点，或在 Windows 中设为按流量计费的连接。Unibox 会提示推迟的更新，并在 15 分钟后重试安装。",
+    "skipOnMeteredHint": "移动数据、热点，或在 Windows 中设为按流量计费的连接。HubGet 会提示推迟的更新，并在 15 分钟后重试安装。",
     "missedTitle": "错过的计划",
     "missed": "如果错过了计划时间",
-    "missedHint": "当时 Unibox 未运行，或电脑处于睡眠状态。",
+    "missedHint": "当时 HubGet 未运行，或电脑处于睡眠状态。",
     "missed_delay": "延迟补做",
     "missed_startup": "启动后立即进行",
     "missed_skip": "等待下一次",
     "securityTitle": "更新安全",
     "minAge": "更新的最短发布时间",
-    "minAgeHint": "新版本在发布满设定天数后才会提供——给新版本留出修复错误的时间。发布日期来自 Unibox 目录；对于目录中没有的版本，则从 Unibox 首次发现它的时间算起。",
+    "minAgeHint": "新版本在发布满设定天数后才会提供——给新版本留出修复错误的时间。发布日期来自 HubGet 目录；对于目录中没有的版本，则从 HubGet 首次发现它的时间算起。",
     "minAgeNone": "无最短时间",
     "minAgeDays_one": "{{count}} 天",
     "minAgeDays_other": "{{count}} 天",
@@ -1926,7 +1926,7 @@
     "preselect": "默认选中所有更新",
     "preselectHint": "打开“更新”时全部勾选——在底部栏一键更新。",
     "optionsNote": "应用已保存的安装选项（管理员身份、参数、文件夹…）同样适用于其更新——可在“安装选项”中设置。",
-    "trayNote": "自动更新失败时会记录到通知历史（铃铛）中，Unibox 下次会重试——失败三次后交由你处理。正在运行的应用会等你关闭后再更新。",
+    "trayNote": "自动更新失败时会记录到通知历史（铃铛）中，HubGet 下次会重试——失败三次后交由你处理。正在运行的应用会等你关闭后再更新。",
     "allApps": "自动更新（设置 → 软件包更新）",
     "thisApp": "自动更新",
     "gaveUp": "自动更新到版本 {{version}} 已失败三次——请在“可用更新”中手动更新。",
@@ -1942,26 +1942,26 @@
     "elevateAlways": "每次操作都请求管理员权限",
     "elevateAlwaysHint": "通过 WinGet 和 Chocolatey 进行的每次安装、更新和卸载都会以管理员权限运行（UAC 提示）。Scoop 始终不使用管理员权限。",
     "elevateOnce": "只请求一次管理员权限",
-    "elevateOnceHint": "首次确认 UAC 后，提权的 Unibox 助手会一直运行到应用退出，后续操作无需再询问即可提权。它只接受按 ID 从官方来源进行的安装——其他操作仍需 UAC 确认。",
-    "elevationProhibited": "禁止通过 Unibox Elevator 或 Gsudo 进行任何提权",
+    "elevateOnceHint": "首次确认 UAC 后，提权的 HubGet 助手会一直运行到应用退出，后续操作无需再询问即可提权。它只接受按 ID 从官方来源进行的安装——其他操作仍需 UAC 确认。",
+    "elevationProhibited": "禁止通过 HubGet Elevator 或 Gsudo 进行任何提权",
     "elevationProhibitedHint": "此选项会导致问题。任何无法自行提权的操作都会失败。",
     "broker": "将软件包操作委托给 Devolutions Agent 代理",
-    "brokerHint": "在使用权限管理（Devolutions PEDM）的公司中，代理会代替 Unibox 执行操作。Unibox 尚不支持委托——因此开关处于关闭状态；下方的检查显示代理的状态。",
+    "brokerHint": "在使用权限管理（Devolutions PEDM）的公司中，代理会代替 HubGet 执行操作。HubGet 尚不支持委托——因此开关处于关闭状态；下方的检查显示代理的状态。",
     "brokerWeb": "仅在桌面应用中可用。",
     "brokerAgent": "Devolutions Agent",
     "brokerRunning": "正在运行",
     "brokerStopped": "已停止",
     "brokerMissing": "未安装",
     "brokerPolicy": "生效的策略",
-    "brokerDirect": "操作直接在 Unibox 中运行（无代理）",
+    "brokerDirect": "操作直接在 HubGet 中运行（无代理）",
     "operationsTitle": "软件包操作限制",
     "allowCustomArgs": "允许自定义命令行参数",
-    "allowCustomArgsHint": "安装选项将接受自定义安装程序参数。否则后端会忽略它们（来自 Unibox 选项的参数——PATH、不重启——仍然有效）。",
+    "allowCustomArgsHint": "安装选项将接受自定义安装程序参数。否则后端会忽略它们（来自 HubGet 选项的参数——PATH、不重启——仍然有效）。",
     "allowPrePost": "允许运行自定义的安装前和安装后命令",
     "allowPrePostHint": "安装选项将接受在安装前后运行的命令（cmd）——以你的权限运行。",
     "managersTitle": "包管理器限制",
     "allowPaths": "允许更改包管理器可执行文件的路径",
-    "allowPathsHint": "Unibox 将使用指定的 winget.exe、choco.exe 或 scoop.ps1，而不是在系统中找到的那个。",
+    "allowPathsHint": "HubGet 将使用指定的 winget.exe、choco.exe 或 scoop.ps1，而不是在系统中找到的那个。",
     "pathHint": "留空 = 默认位置。",
     "importTitle": "软件包导入限制",
     "importCustomArgs": "从合集导入软件包时，允许导入自定义命令行参数",
@@ -1981,7 +1981,7 @@
   "managerSetup": {
     "title": "未安装 {{name}}",
     "install": "安装 {{name}}",
-    "text": "要从 {{name}} 安装，需要先安装这个包管理器本身。Unibox 一键即可完成，然后继续。",
+    "text": "要从 {{name}} 安装，需要先安装这个包管理器本身。HubGet 一键即可完成，然后继续。",
     "how": "将使用官方安装脚本。",
     "how_chocolatey": "使用 chocolatey.org 的官方脚本（community.chocolatey.org/install.ps1）——需要管理员权限（UAC 提示）。",
     "how_scoop": "使用 get.scoop.sh 的官方安装程序——为当前用户安装，无需管理员权限。",

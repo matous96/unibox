@@ -4,7 +4,7 @@
  *
  * Instalace, aktualizace, odinstalace, stažení a mezipaměť se skládají stejně jako
  * v sources.ts (sourceCommand, downloadCommand, cacheCleanCommand) – výuka tak ukazuje
- * přesně to, co spouští Unibox. null = správce danou věc neumí.
+ * přesně to, co spouští HubGet. null = správce danou věc neumí.
  */
 import type { SourceId } from "@/types";
 import { cacheCleanCommand, downloadCommand, sourceCommand } from "./sources";
@@ -134,7 +134,7 @@ function managerCommand(source: SourceId, kind: ManagerCommandKind, query: strin
     bun: {
       version: "bun --version",
       selfUpdate: "bun upgrade",
-      // Globální balíčky Bun zapisuje do package.json ve své složce (čte ho i Unibox)
+      // Globální balíčky Bun zapisuje do package.json ve své složce (čte ho i HubGet)
       list: 'Get-Content "$env:USERPROFILE\\.bun\\install\\global\\package.json"',
     },
     pip: {

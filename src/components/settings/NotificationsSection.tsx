@@ -105,7 +105,7 @@ export function NotificationsSection() {
               variant="secondary"
               size="sm"
               disabled={!prefs.enabled}
-              onClick={() => notifyEvent({ type: "test", tone: "info", title: "Unibox", message: t("notifPrefs.testMessage") })}
+              onClick={() => notifyEvent({ type: "test", tone: "info", title: "HubGet", message: t("notifPrefs.testMessage") })}
             >
               <BellRing className="size-3.5" />
               {t("notifPrefs.testButton")}

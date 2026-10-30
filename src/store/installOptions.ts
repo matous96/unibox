@@ -54,7 +54,7 @@ export const useInstallOptions = create<InstallOptionsState>()(
     }),
     {
       name: "unibox-install-options",
-      // Uložený zdroj, který Unibox už nepodporuje, zahodit
+      // Uložený zdroj, který HubGet už nepodporuje, zahodit
       merge: (persisted, current) => {
         const saved = (persisted as Partial<InstallOptionsState> | undefined)?.byApp ?? {};
         const byApp = Object.fromEntries(

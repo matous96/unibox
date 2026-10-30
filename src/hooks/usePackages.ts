@@ -75,7 +75,7 @@ export function useSourceIndex() {
 }
 
 /**
- * Kolik aplikací jde přes Unibox nainstalovat ze zapnutých správců:
+ * Kolik aplikací jde přes HubGet nainstalovat ze zapnutých správců:
  *  - total: unikátní aplikace ze správců aplikací (aplikace z více zdrojů se počítá jednou;
  *    knihovny z npm, pip… se nepočítají, aby nepřebily počet aplikací),
  *  - bySource: počty v jednotlivých repozitářích (všichni zapnutí správci).

@@ -1,13 +1,13 @@
 /**
  * Publikování aplikace do WinGetu (komunitní repozitář microsoft/winget-pkgs –
- * zdarma, open source; Unibox z něj bere katalog):
+ * zdarma, open source; HubGet z něj bere katalog):
  *  - analýza instalátoru a `winget validate` (Rust, src-tauri/src/publish.rs),
  *  - odeslání pull requestu z GitHub účtu vývojáře: přihlášení OAuth device
  *    flow (bez hesla v aplikaci, oprávnění public_repo), fork winget-pkgs,
  *    větev s jedním commitem (3 soubory manifestu) a pull request. Token je jen
  *    v paměti po dobu průvodce.
  *
- * Přímé odeslání potřebuje client_id bezplatné aplikace GitHub OAuth Uniboxu
+ * Přímé odeslání potřebuje client_id bezplatné aplikace GitHub OAuth HubGetu
  * (VITE_GITHUB_CLIENT_ID, s povoleným Device Flow). Bez něj průvodce manifest
  * uloží a ukáže, jak ho odeslat ručně nebo nástrojem wingetcreate.
  */

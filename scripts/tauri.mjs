@@ -1,7 +1,7 @@
 // Obal příkazu `tauri` (pnpm tauri …, npm run tauri …). `tauri dev` spustí jedinou testovací
-// verzi Uniboxu:
+// verzi HubGetu:
 //  - bez vlastního --config dostane identifikátor org.unibox.dev (src-tauri/tauri.dev.conf.json)
-//    a vlastní data – běží vedle nainstalovaného Uniboxu (se stejným identifikátorem by ji
+//    a vlastní data – běží vedle nainstalovaného HubGetu (se stejným identifikátorem by ji
 //    ochrana proti druhé instanci hned ukončila a jen přepnula na nainstalovanou aplikaci),
 //  - WebView2 má ladění na 127.0.0.1:9222 (CDP) – změny jde ověřovat přímo v ní, bez druhé
 //    instance. Jen ve vývoji; sestavená aplikace ho nemá.

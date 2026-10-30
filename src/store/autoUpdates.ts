@@ -1,7 +1,7 @@
 /**
  * Automatická kontrola a instalace aktualizací balíčků na pozadí
  * (Nastavení → Aktualizace balíčků, po vzoru UniGetUI). Samotné plánování
- * a spouštění je v hooks/useAutoUpdates.ts – běží, dokud je Unibox spuštěný
+ * a spouštění je v hooks/useAutoUpdates.ts – běží, dokud je HubGet spuštěný
  * (i schovaný u hodin). Pravidla, které aktualizace se nabízejí (minimální
  * stáří, neprojevené aktualizace), uplatňuje store/updateRules.ts.
  */
@@ -28,7 +28,7 @@ export const INTERVALS = Object.keys(INTERVAL_MS) as UpdateInterval[];
 export type CheckRepeat = "interval" | "daily" | "days";
 /** Kdy instalovat: po každé kontrole, každý den v daný čas, nebo ve vybrané dny v daný čas. */
 export type InstallRepeat = "afterCheck" | "daily" | "days";
-/** Zmeškaný termín (počítač spal, Unibox neběžel): dohnat se zpožděním, hned po spuštění, nebo počkat na další. */
+/** Zmeškaný termín (počítač spal, HubGet neběžel): dohnat se zpožděním, hned po spuštění, nebo počkat na další. */
 export type MissedPolicy = "delay" | "startup" | "skip";
 /** Co instalovat automaticky: nic, všechny aktualizace, nebo jen vybrané aplikace. */
 export type AutoInstallMode = "off" | "all" | "selected";

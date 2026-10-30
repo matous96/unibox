@@ -3,7 +3,7 @@
  * předvolby z Nastavení → Oznámení (store/notificationPrefs.ts):
  *  - historie oznámení (zvoneček): podle typu události – i s vypnutým hlavním
  *    vypínačem, ať o chybě nepřijdete,
- *  - vyskakovací oznámení: hlavní vypínač + typ události. V okně Uniboxu
+ *  - vyskakovací oznámení: hlavní vypínač + typ události. V okně HubGetu
  *    v rohu vpravo dole; když okno nemá fokus (je v pozadí nebo schované
  *    u hodin), i jako oznámení Windows.
  */
@@ -19,7 +19,7 @@ export type NotifyEventType = "success" | "failure" | "progress" | "updates" | "
 export interface NotifyEvent {
   type: NotifyEventType;
   tone: ToastTone;
-  /** Název aplikace (nadpis), null = Unibox. */
+  /** Název aplikace (nadpis), null = HubGet. */
   title: string | null;
   /** Text do historie a do oznámení Windows. */
   message: string;
@@ -55,7 +55,7 @@ export function notifyEvent(event: NotifyEvent) {
   if (event.toast !== false) useToasts.getState().push(event.tone, event.toast ?? event.message, { record: false });
   // Okno je v pozadí nebo schované u hodin → oznámení Windows (průběh tiše)
   if (isTauri() && (!document.hasFocus() || event.type === "test")) {
-    void systemNotification(event.title ?? "Unibox", event.message, event.type === "progress");
+    void systemNotification(event.title ?? "HubGet", event.message, event.type === "progress");
   }
 }
 

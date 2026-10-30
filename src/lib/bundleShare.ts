@@ -1,7 +1,7 @@
 /**
  * Sdílení sady balíčků odkazem: sada se zakóduje přímo do odkazu (base64url
  * z kompaktního JSONu), takže není potřeba žádný server. Příjemce odkaz
- * otevře v Uniboxu, uvidí seznam aplikací a může je nainstalovat.
+ * otevře v HubGetu, uvidí seznam aplikací a může je nainstalovat.
  */
 import { isSourceId } from "@/services/managers/sources";
 import type { BundleFile, BundleItem } from "@/store/bundle";

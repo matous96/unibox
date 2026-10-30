@@ -470,7 +470,7 @@ function AccountCard() {
 
 /**
  * Spouštění při startu Windows (tauri-plugin-autostart – záznam v registru
- * HKCU\…\Run). Po přihlášení se Unibox spustí schovaný v oznamovací oblasti
+ * HKCU\…\Run). Po přihlášení se HubGet spustí schovaný v oznamovací oblasti
  * a hlídá aktualizace; stav se čte přímo z registru.
  */
 function AutostartRow() {
@@ -495,7 +495,7 @@ function AutostartRow() {
   );
 }
 
-/** Aktualizace Uniboxu: verze, ruční kontrola a automatická kontrola při spuštění. */
+/** Aktualizace HubGetu: verze, ruční kontrola a automatická kontrola při spuštění. */
 function AppUpdateRows() {
   const { t } = useTranslation();
   const toast = useToasts((s) => s.push);
@@ -534,7 +534,7 @@ function BackupCard() {
 
   return (
     <Card title={t("settings.backup")}>
-      <Row label={t("settings.exportUnibox")} hint={t("settings.exportUniboxHint", { count: portableCount })}>
+      <Row label={t("settings.exportHubGet")} hint={t("settings.exportHubGetHint", { count: portableCount })}>
         <div className="flex shrink-0 gap-2">
           <Button variant="secondary" size="sm" disabled={!portableCount} onClick={() => void exportProfile("json")}>
             <Download className="size-3.5" />

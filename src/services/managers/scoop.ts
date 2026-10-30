@@ -4,7 +4,7 @@
  * Nainstalované aplikace čte backend přímo ze složek Scoopu (i s novější
  * verzí z bucketu), hledání prochází manifesty v přidaných bucketech.
  * Chybějící Scoop jde nainstalovat oficiálním instalátorem (get.scoop.sh,
- * bez práv správce). Unibox přes Scoop instaluje, aktualizuje, odinstaluje
+ * bez práv správce). HubGet přes Scoop instaluje, aktualizuje, odinstaluje
  * a stahuje – i jako záložní zdroj, když odkaz ve WinGetu nefunguje.
  */
 import { invoke } from "@tauri-apps/api/core";

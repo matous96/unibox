@@ -1,5 +1,5 @@
 /**
- * Protokol správců balíčků – co Unibox spouští a jak to dopadlo.
+ * Protokol správců balíčků – co HubGet spouští a jak to dopadlo.
  * Uchovává se jen do zavření aplikace (jako v UniGetUI); slouží
  * k dohledání, proč instalace selhala.
  */

@@ -801,7 +801,7 @@ fn toggle(location: &Location, enabled: bool) -> Result<(), Failure> {
             let key = location.package_state_key().ok_or(Failure::Other("neplatná položka".into()))?;
             match registry::dword_value(false, &key, "State") {
                 None => Err(Failure::Other("položka už neexistuje".into())),
-                Some(3 | 4) => Err(Failure::Other("Spouštění této aplikace určuje zásada organizace – v Uniboxu ho změnit nejde.".into())),
+                Some(3 | 4) => Err(Failure::Other("Spouštění této aplikace určuje zásada organizace – v HubGetu ho změnit nejde.".into())),
                 Some(_) => registry::set_dword(false, &key, "State", if enabled { 2 } else { 1 }).map_err(|e| Failure::Other(e.to_string())),
             }
         }
@@ -1006,12 +1006,12 @@ pub async fn startup_measure_impact(app: AppHandle, elevate: bool) -> Result<boo
     let cache = impact_cache(&app).ok_or("úložiště aplikace není dostupné")?;
     background(move || {
         let sid = current_user_sid().ok_or("účet uživatele nejde zjistit")?;
-        // Běží-li Unibox jako správce, přečte měření sám
+        // Běží-li HubGet jako správce, přečte měření sám
         let measurement = match read_measurement(&sid) {
             Ok(measurement) => measurement,
             Err(_) if !elevate => return Ok(false),
             Err(_) => {
-                let dir = std::env::temp_dir().join("Unibox");
+                let dir = std::env::temp_dir().join("HubGet");
                 std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
                 let stamp = SystemTime::now().duration_since(UNIX_EPOCH).unwrap_or_default().as_nanos();
                 let out = dir.join(format!("startup-impact-{stamp}.json"));
@@ -1060,11 +1060,11 @@ fn read_measurement(sid: &str) -> Result<Measurement, String> {
     })
 }
 
-/// Pomocník: měření do připraveného souboru (jen existující soubor v dočasné složce Uniboxu).
+/// Pomocník: měření do připraveného souboru (jen existující soubor v dočasné složce HubGetu).
 fn measure_to_file(sid: &str, out: &Path) -> Result<(), String> {
     use std::io::Write;
     let valid_sid = sid.starts_with("S-1-") && sid.chars().all(|c| c.is_ascii_digit() || c == '-' || c == 'S');
-    let inside = out.parent() == Some(std::env::temp_dir().join("Unibox").as_path())
+    let inside = out.parent() == Some(std::env::temp_dir().join("HubGet").as_path())
         && out.file_name().is_some_and(|n| n.to_string_lossy().starts_with("startup-impact-"));
     if !valid_sid || !inside {
         return Err("neplatné zadání".into());

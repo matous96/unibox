@@ -19,11 +19,11 @@ interface SettingsState {
   enabledSources: SourceId[];
   /** Preferovaný zdroj, pokud je aplikace dostupná ve více zdrojích. */
   preferredSource: SourceId;
-  /** Desktop: zavření okna ho schová do oznamovací oblasti (Unibox běží dál). */
+  /** Desktop: zavření okna ho schová do oznamovací oblasti (HubGet běží dál). */
   closeToTray: boolean;
   /** Desktop: barevná tečka na ikoně u hodin (aktualizace, probíhající operace, chyba, hotovo). */
   trayBadge: boolean;
-  /** Barva zvýraznění (tlačítka, odznaky, aktivní stavy) jako HEX; null = výchozí modrá Uniboxu. */
+  /** Barva zvýraznění (tlačítka, odznaky, aktivní stavy) jako HEX; null = výchozí modrá HubGetu. */
   accentColor: string | null;
   /** Před operací ukončit procesy aplikace běžící na pozadí (bez okna) bez dotazu. */
   closeBackgroundProcesses: boolean;
@@ -58,7 +58,7 @@ export const useSettings = create<SettingsState>()(
     (set, get) => ({
       // Výchozí „Systém“; když systém předvolbu neposkytne, použije se tmavý (viz useTheme).
       theme: "system",
-      // Nový uživatel: jazyk Windows, pokud ho Unibox má, jinak angličtina
+      // Nový uživatel: jazyk Windows, pokud ho HubGet má, jinak angličtina
       language: detectLanguage(),
       userMode: "regular",
       viewMode: "grid",
@@ -103,7 +103,7 @@ export const useSettings = create<SettingsState>()(
       name: "unibox-settings",
       // Uložené zapnuté správce srovnat do aktuálního pořadí SOURCE_IDS.
       // Zdroj, který v uložených nastaveních ještě nebyl (nově přidaný správce),
-      // je ve výchozím stavu zapnutý. Zdroje, které už Unibox nepodporuje
+      // je ve výchozím stavu zapnutý. Zdroje, které už HubGet nepodporuje
       // (dřívější Microsoft Store), se zahodí.
       partialize: (state) => ({ ...state, knownSources: [...SOURCE_IDS] }),
       merge: (persisted, current) => {

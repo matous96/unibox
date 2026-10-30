@@ -1,5 +1,5 @@
 /**
- * Odkazy unibox:// (web Uniboxu, sdílené sady): odkaz, kterým byl Unibox
+ * Odkazy unibox:// (web HubGetu, sdílené sady): odkaz, kterým byl HubGet
  * spuštěn, i odkazy otevřené za běhu (předá je druhé spuštění) → přechod
  * na příslušnou stránku. Okno ukáže backend (single-instance).
  */

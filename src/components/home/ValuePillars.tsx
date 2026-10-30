@@ -1,6 +1,6 @@
 import { MousePointerClick, RefreshCw, ShieldCheck, type LucideIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { UniboxLogo } from "@/components/ui/Logo";
+import { HubGetLogo } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
 
 interface Pillar {
@@ -30,7 +30,7 @@ export function ValuePillars({ className }: { className?: string }) {
     <div className={cn("flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm", className)}>
       {/* Nadpis „Obchod s aplikacemi pro Windows“ jen tam, kde je místo (jinak se řádek nevejde vedle „Dnes“) */}
       <span className="hidden items-center gap-2 text-xs font-semibold tracking-[0.14em] text-muted uppercase 2xl:flex">
-        <UniboxLogo size={16} className="rounded-[4px]" />
+        <HubGetLogo size={16} className="rounded-[4px]" />
         {t("hero.eyebrow")}
       </span>
       <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">

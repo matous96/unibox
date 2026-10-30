@@ -30,7 +30,7 @@ export function useUpdatePin(installed: InstalledPackage | undefined, appName: s
   const { skip, lock, snooze, unpin } = useUpdatePins();
   const allow = useUpdateHolds((s) => s.allow);
   const releaseSelfUpdating = useUpdateHolds((s) => s.releaseSelfUpdating);
-  // Hry ze Steamu a programy mimo správce Unibox neaktualizuje – ignorovat není co
+  // Hry ze Steamu a programy mimo správce HubGet neaktualizuje – ignorovat není co
   const canPin = !!installed && !isUnmanagedOrigin(installed.origin);
   const offered = installed?.availableVersion ?? null;
 

@@ -1,7 +1,7 @@
 <!--
-  Hlavní soubor loga Unibox (1024 × 1024) – zdroj pro ikony desktopové aplikace a logo webu.
+  Hlavní soubor loga HubGet (1024 × 1024) – zdroj pro ikony desktopové aplikace a logo webu.
   Ikony aplikace se z něj (a z unibox-logo-small.svg a unibox-mark.svg) skládají příkazem:  node scripts/build-icons.mjs
-  Na krabici je tenký nápis „unibox“ (písmo Segoe UI Variable jako v aplikaci); nejmenší ikona
+  Na krabici je tenký nápis „hubget“ (písmo Segoe UI Variable jako v aplikaci); nejmenší ikona
   (16 px) a favicona webu ho nemají – viz assets/unibox-mark.svg; ikony 24–48 px mají výraznější nápis (unibox-logo-small.svg).
 -->
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 64 64">
@@ -18,5 +18,5 @@
   <path d="M15 31 H32 L27 24 H9 Z" fill="#fff" fill-opacity="0.7"/>
   <path d="M32 31 H49 L55 24 H37 Z" fill="#fff" fill-opacity="0.7"/>
   <rect x="15" y="31" width="34" height="21" rx="3" fill="#fff"/>
-  <text x="32" y="44.2" text-anchor="middle" font-family="'Segoe UI Variable Text', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="8" font-weight="300" letter-spacing="0.2" fill="#4560f5">unibox</text>
+  <text x="32" y="44.2" text-anchor="middle" font-family="'Segoe UI Variable Text', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="8" font-weight="300" letter-spacing="0.2" fill="#4560f5">hubget</text>
 </svg>

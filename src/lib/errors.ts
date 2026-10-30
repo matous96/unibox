@@ -38,7 +38,7 @@ const asError = (value: unknown): Error =>
 export function reportError(value: unknown, context = "") {
   const error = asError(value);
   if (ignorable(error)) return;
-  console.error(`[Unibox] ${context}`, error);
+  console.error(`[HubGet] ${context}`, error);
   if (import.meta.env.DEV && Date.now() - lastHotUpdate < 5000) return;
   const key = `${error.name}: ${error.message}`;
   const now = Date.now();

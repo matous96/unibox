@@ -15,7 +15,7 @@ pub struct SystemInfo {
     pub os_display_version: Option<String>,
     /// Číslo sestavení, např. 26100.
     pub os_build: u32,
-    /// Verze Uniboxu.
+    /// Verze HubGetu.
     pub app_version: String,
 }
 

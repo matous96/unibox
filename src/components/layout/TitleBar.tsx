@@ -12,10 +12,10 @@ import { TestBuildBadge } from "./TestBuildBadge";
  *   dvojklik okno maximalizuje / obnoví.
  * - Vpravo tlačítka minimalizace, maximalizace / obnovení a zavření ve stylu
  *   Windows 11 (glyfy systémového písma Segoe Fluent Icons).
- * - Zavření okna podle nastavení Unibox jen schová do oznamovací oblasti
+ * - Zavření okna podle nastavení HubGet jen schová do oznamovací oblasti
  *   (řeší backend, tray.rs).
  * - Testovací verze (tauri dev) má nad logem v postranním panelu oranžový štítek,
- *   ať nejde zaměnit s nainstalovaným Uniboxem, který běží vedle.
+ *   ať nejde zaměnit s nainstalovaným HubGetem, který běží vedle.
  */
 export function TitleBar() {
   const { t } = useTranslation();

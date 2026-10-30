@@ -50,7 +50,7 @@ interface ReportButtonProps {
 
 /**
  * Nahlášení problému s aplikací. Hlášení se odešle jako předvyplněné issue
- * na GitHubu projektu (nebo e-mailem) včetně údajů o balíčku a verzi Uniboxu.
+ * na GitHubu projektu (nebo e-mailem) včetně údajů o balíčku a verzi HubGetu.
  */
 export function ReportButton({ entry, pkg, installedVersion }: ReportButtonProps) {
   const { t } = useTranslation();
@@ -67,7 +67,7 @@ export function ReportButton({ entry, pkg, installedVersion }: ReportButtonProps
     `${t("report.diagApp")}: ${entry.name} (${entry.id})`,
     `${t("report.diagSource")}: ${sourceLabel} – ${pkg.packageId} ${pkg.version}`,
     installedVersion ? `${t("report.diagInstalled")}: ${installedVersion}` : null,
-    `Unibox ${pkgJson.version}`,
+    `HubGet ${pkgJson.version}`,
   ].filter(Boolean) as string[];
 
   const title = `[${typeLabel}] ${entry.name}`;

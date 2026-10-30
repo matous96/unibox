@@ -6,7 +6,7 @@
  *  1. zámky uživatele – přeskočená verze, ignorované, odložené (store/updatePins.ts),
  *  2. minimální stáří aktualizací – nová verze se nabídne až po zadaném počtu
  *     dní od vydání. Datum vydání podle katalogu, u verzí, které katalog nezná,
- *     od chvíle, kdy ji Unibox poprvé uviděl (store/updateHolds.ts),
+ *     od chvíle, kdy ji HubGet poprvé uviděl (store/updateHolds.ts),
  *  3. neprojevené aktualizace – po N „úspěšných“ aktualizacích, po kterých
  *     správce verzi nabízí dál, se přestane nabízet,
  *  4. aplikace, které se aktualizují samy – po aktualizaci se samy vrátily na

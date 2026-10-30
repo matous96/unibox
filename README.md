@@ -2,9 +2,9 @@
 
 **English** · [Čeština](README.cs.md)
 
-<img src="assets/unibox-logo.svg" width="128" height="128" alt="Unibox logo">
+<img src="assets/unibox-logo.svg" width="128" height="128" alt="HubGet logo">
 
-# Unibox
+# HubGet
 
 ### One store for every app on Windows
 
@@ -20,14 +20,14 @@ for installers on the web, with no ads and no bundled extras.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/readme/okno-tmave.webp">
-  <img src="assets/readme/okno-svetle.webp" alt="The Unibox window – the Today page with tips, collections and the App of the Day">
+  <img src="assets/readme/okno-svetle.webp" alt="The HubGet window – the Today page with tips, collections and the App of the Day">
 </picture>
 
 The Today page – tips, collections and the App of the Day. In English and Czech, light and dark theme to match Windows.
 
 </div>
 
-## Why Unibox
+## Why HubGet
 
 | 🛡️ Safe – no viruses | ⚡ Simple | 🔄 Everything under control |
 |:---|:---|:---|
@@ -62,7 +62,7 @@ Install in one click from the source you choose, with download progress right on
 <p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/readme/stahovani-tmave.webp">
-  <img src="assets/readme/stahovani-svetle.webp" alt="The Unibox window with the Discord app page while downloading (47%), the source picker and SHA-256 verification">
+  <img src="assets/readme/stahovani-svetle.webp" alt="The HubGet window with the Discord app page while downloading (47%), the source picker and SHA-256 verification">
 </picture>
 </p>
 
@@ -70,7 +70,7 @@ Install in one click from the source you choose, with download progress right on
 
 An overview of every app on your computer – including programs installed outside WinGet,
 Microsoft Store apps and Steam games. Install updates with one **Update all** button or
-automatically on a schedule. When an operation fails because of permissions, Unibox
+automatically on a schedule. When an operation fails because of permissions, HubGet
 retries it with administrator rights by itself.
 
 <picture>
@@ -110,7 +110,7 @@ retries it with administrator rights by itself.
 **[Download the latest version](https://github.com/matous96/unibox/releases/latest)** –
 the **EXE** installer installs for the current user without administrator rights, the
 **MSI** suits company deployments. Requirements: Windows 10 or 11 (64-bit) and WebView2,
-which comes preinstalled with Windows. Unibox then keeps itself up to date. More on the
+which comes preinstalled with Windows. HubGet then keeps itself up to date. More on the
 website: [matous96.github.io/unibox](https://matous96.github.io/unibox/en/index.html).
 
 > [!NOTE]
@@ -121,7 +121,7 @@ website: [matous96.github.io/unibox](https://matous96.github.io/unibox/en/index.
 
 ## Free and open source
 
-Unibox is free, with no ads and no telemetry, under the [MIT](LICENSE) license. The
+HubGet is free, with no ads and no telemetry, under the [MIT](LICENSE) license. The
 catalog is generated every day on GitHub Actions; sign-in, ratings and sync run on the
 free tier of Supabase. Signing in is optional – everything except ratings, reviews and
 sync works without an account.
@@ -135,7 +135,7 @@ Build Tools with C++.
 ```bash
 pnpm install
 pnpm dev                # web version with sample data at http://localhost:1420
-pnpm desktop            # desktop app (Tauri) with hot reload – one test version (org.unibox.dev, DevTools on port 9222), runs next to an installed Unibox
+pnpm desktop            # desktop app (Tauri) with hot reload – one test version (org.unibox.dev, DevTools on port 9222), runs next to an installed HubGet
 pnpm pipeline --local   # build the real catalog into public/catalog.json
 pnpm typecheck          # type checks
 ```
@@ -176,18 +176,18 @@ Get-AuthenticodeSignature .\src-tauri\target\release\bundle\nsis\*.exe | Format-
 ```
 
 Status `UnknownError` (untrusted root) is expected – Windows doesn't trust the certificate.
-On a **test machine only** you can trust it, so UAC shows the publisher "Unibox (dev)":
+On a **test machine only** you can trust it, so UAC shows the publisher "HubGet (dev)":
 
 ```powershell
 Import-Certificate -FilePath "$env:USERPROFILE\.tauri\unibox-dev-signing.cer" -CertStoreLocation Cert:\CurrentUser\Root
 # after testing:
-Get-ChildItem Cert:\CurrentUser\Root | Where-Object Subject -like 'CN=Unibox (dev)*' | Remove-Item
+Get-ChildItem Cert:\CurrentUser\Root | Where-Object Subject -like 'CN=HubGet (dev)*' | Remove-Item
 ```
 
 **SmartScreen while testing locally:** SmartScreen only checks files marked as downloaded
 from the internet (Mark of the Web). An installer you built yourself has no mark, so
 SmartScreen doesn't show up for it at all. For a copy you downloaded (from GitHub, through a
-browser) and test on your own machine, `Unblock-File .\Unibox_<version>_x64-setup.exe`
+browser) and test on your own machine, `Unblock-File .\HubGet_<version>_x64-setup.exe`
 removes the mark. Smart App Control in Windows 11 is a separate check – when it's on, it
 may still block unsigned or self-signed builds. For other people, only a certificate from
 a trusted authority plus reputation removes the warning (free for open source: SignPath
@@ -202,4 +202,4 @@ Issues and pull requests are welcome, including new translations
 
 ## License
 
-[MIT](LICENSE) © Unibox contributors
+[MIT](LICENSE) © HubGet contributors

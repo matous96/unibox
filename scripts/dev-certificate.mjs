@@ -27,7 +27,7 @@ const script = `
 $ErrorActionPreference = 'Stop'
 $rsa = [System.Security.Cryptography.RSA]::Create(3072)
 $request = [System.Security.Cryptography.X509Certificates.CertificateRequest]::new(
-  'CN=Unibox (dev), O=Unibox', $rsa,
+  'CN=HubGet (dev), O=HubGet', $rsa,
   [System.Security.Cryptography.HashAlgorithmName]::SHA256,
   [System.Security.Cryptography.RSASignaturePadding]::Pkcs1)
 # Jen digitální podpis, rozšířené použití „podepisování kódu“, není certifikační autorita

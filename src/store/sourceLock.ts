@@ -9,7 +9,7 @@
  * přehledů katalogu se ukáže přehled správce (DevSourceOverview) a hledá se
  * jen v jeho registru.
  * Nainstalované aplikace se dál zjišťují u všech správců (useInstalled) – zámek
- * je jen pohled na katalog. Platí do zrušení nebo do zavření Uniboxu.
+ * je jen pohled na katalog. Platí do zrušení nebo do zavření HubGetu.
  */
 import { useMemo } from "react";
 import { create } from "zustand";

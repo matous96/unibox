@@ -50,7 +50,7 @@ export function SyncCard() {
       await clearAccount();
       toast("success", t("sync.cleared"));
     } catch (error) {
-      console.error("[Unibox] Smazání dat z účtu se nepovedlo:", error);
+      console.error("[HubGet] Smazání dat z účtu se nepovedlo:", error);
       toast("error", t("sync.clearFailed"));
     } finally {
       setClearing(false);

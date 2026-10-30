@@ -5,7 +5,7 @@ interface ImportMetaEnv {
   readonly VITE_CATALOG_URL?: string;
   /** Odkaz na repozitář projektu na GitHubu. */
   readonly VITE_GITHUB_URL?: string;
-  /** Odkaz na dobrovolný příspěvek (revolut.me) – karta Podpořit Unibox v Nastavení. */
+  /** Odkaz na dobrovolný příspěvek (revolut.me) – karta Podpořit HubGet v Nastavení. */
   readonly VITE_SUPPORT_URL?: string;
   /** Kontaktní e-mail projektu. */
   readonly VITE_CONTACT_EMAIL?: string;

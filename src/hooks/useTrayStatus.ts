@@ -40,7 +40,7 @@ export function useTrayStatus(): { status: TrayStatus; running: number; checking
     const outcomes = new Map<string, OperationOutcome>();
     for (const item of useHistory.getState().items) {
       if (item.finishedAt < since) break;
-      // Selhání automatické aktualizace se na ikoně nehlásí – Unibox to zkusí příště
+      // Selhání automatické aktualizace se na ikoně nehlásí – HubGet to zkusí příště
       if (item.background && item.outcome === "error") continue;
       if (!outcomes.has(item.appId)) outcomes.set(item.appId, item.outcome);
     }

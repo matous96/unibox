@@ -2,13 +2,13 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    // Pomocný režim: Unibox spuštěný s právy správce kvůli jedné operaci
+    // Pomocný režim: HubGet spuštěný s právy správce kvůli jedné operaci
     // (viz elevation.rs) – provede ji a skončí, okno aplikace neotevírá.
     let args: Vec<String> = std::env::args().collect();
     if args.len() == 3 && args[1] == unibox_lib::ELEVATED_FLAG {
         std::process::exit(unibox_lib::elevated_main(&args[2]));
     }
-    // Povýšený pomocník pro celé spuštění Uniboxu („požádat o práva správce jen jednou“)
+    // Povýšený pomocník pro celé spuštění HubGetu („požádat o práva správce jen jednou“)
     if args.len() == 3 && args[1] == unibox_lib::ELEVATED_SESSION_FLAG {
         std::process::exit(unibox_lib::elevated_session_main(&args[2]));
     }

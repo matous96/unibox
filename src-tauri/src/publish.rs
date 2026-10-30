@@ -1,5 +1,5 @@
 //! Publikování aplikace do WinGetu – komunitní open-source repozitář
-//! microsoft/winget-pkgs, ze kterého Unibox bere katalog. Podklady pro
+//! microsoft/winget-pkgs, ze kterého HubGet bere katalog. Podklady pro
 //! průvodce (pages/PublishWingetPage.tsx):
 //!
 //! - `publish_analyze_installer` – stáhne instalátor (curl, dočasná složka),

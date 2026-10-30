@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Funkce – Unibox</title>
+  <title>Funkce – HubGet</title>
   <meta name="description" content="Jedna aplikace = jedna karta. Když je aplikace ve více správcích balíčků, karta ukáže všechny zdroje a vy si vyberete, odkud instalovat.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f4f5f8" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0d0f14" media="(prefers-color-scheme: dark)">
-  <meta property="og:title" content="Funkce – Unibox">
+  <meta property="og:title" content="Funkce – HubGet">
   <meta property="og:description" content="Jedna aplikace = jedna karta. Když je aplikace ve více správcích balíčků, karta ukáže všechny zdroje a vy si vyberete, odkud instalovat.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="cs_CZ">
@@ -43,9 +43,9 @@
 
   <header class="nav" id="nav">
     <div class="wrap nav__inner">
-      <a class="brand" href="index.html" aria-label="Unibox – úvod">
+      <a class="brand" href="index.html" aria-label="HubGet – úvod">
         <img src="assets/unibox-logo.svg" alt="" width="32" height="32">
-        <span>Unibox</span>
+        <span>HubGet</span>
       </a>
       <nav class="nav__links" aria-label="Hlavní navigace">
         <a href="funkce.html" aria-current="page">Funkce</a>
@@ -57,7 +57,7 @@
       </nav>
       <div class="nav__actions">
         <a class="lang-switch" href="en/features.html" hreflang="en" lang="en" data-lang-switch title="English" aria-label="Switch to English">EN</a>
-        <a class="icon-btn" data-link="github" href="#" aria-label="Unibox na GitHubu" title="GitHub">
+        <a class="icon-btn" data-link="github" href="#" aria-label="HubGet na GitHubu" title="GitHub">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
         </a>
         <button class="icon-btn" id="theme-toggle" type="button" aria-label="Přepnout světlý / tmavý motiv" title="Motiv">
@@ -129,7 +129,7 @@
               <li>Odinstalace a tlačítko Otevřít pro spuštění aplikace</li>
               <li>Fronta operací a průběh stahování v procentech</li>
               <li>Aktualizace jde ignorovat nebo odložit o den, týden či měsíc</li>
-              <li>Selže-li operace kvůli oprávněním, Unibox ji sám zopakuje s právy správce</li>
+              <li>Selže-li operace kvůli oprávněním, HubGet ji sám zopakuje s právy správce</li>
             </ul>
           </div>
           <figure class="shot">
@@ -143,8 +143,8 @@
         <div class="feature feature--flip reveal" id="pokrocila-odinstalace">
           <div class="feature__copy">
             <h3>Pokročilá odinstalace</h3>
-            <p>Odinstalátory po sobě často nechají nastavení, mezipaměti, zástupce i klíče v registru. Unibox je po odinstalaci najde – v AppData, Program Files a ProgramData, v nabídce Start, na ploše i v registru Windows – a nabídne je smazat. Nebo je uklidí rovnou a dá vám jen vědět.</p>
-            <p>Se <strong>sledováním instalace</strong> si Unibox před instalací a po ní pořídí snímek disku a registru. Zapamatuje si, co instalátor vytvořil, a po odinstalaci to nabídne smazat celé – i položky, které by podle názvu nenašel.</p>
+            <p>Odinstalátory po sobě často nechají nastavení, mezipaměti, zástupce i klíče v registru. HubGet je po odinstalaci najde – v AppData, Program Files a ProgramData, v nabídce Start, na ploše i v registru Windows – a nabídne je smazat. Nebo je uklidí rovnou a dá vám jen vědět.</p>
+            <p>Se <strong>sledováním instalace</strong> si HubGet před instalací a po ní pořídí snímek disku a registru. Zapamatuje si, co instalátor vytvořil, a po odinstalaci to nabídne smazat celé – i položky, které by podle názvu nenašel.</p>
             <ul class="ticks">
               <li>Soubory jdou do Koše, klíče registru se před smazáním zálohují</li>
               <li>Nikdy nesmaže nic, co patří jiné nainstalované aplikaci</li>
@@ -177,7 +177,7 @@
         <div class="feature reveal" id="po-spusteni">
           <div class="feature__copy">
             <h3>Po spuštění</h3>
-            <p>Co všechno se spouští hned po přihlášení do Windows? Unibox ukáže programy z registru, ze složky Po spuštění, z plánovače úloh i aplikace ze Storu na jednom místě – s názvem, vydavatelem a ikonou.</p>
+            <p>Co všechno se spouští hned po přihlášení do Windows? HubGet ukáže programy z registru, ze složky Po spuštění, z plánovače úloh i aplikace ze Storu na jednom místě – s názvem, vydavatelem a ikonou.</p>
             <ul class="ticks">
               <li>Zapnout a vypnout jedním kliknutím, stejně jako ve Správci úloh</li>
               <li>Vliv na rychlost startu: vysoký, střední, nízký – podle měření Windows</li>
@@ -257,7 +257,7 @@
           </article>
           <article class="card mini reveal">
             <h3>Snímky od komunity</h3>
-            <p>Přihlášení uživatelé přidávají k&nbsp;aplikacím aktuální snímky obrazovky. Unibox je zmenší do WebP bez metadat a&nbsp;po schválení je uvidí všichni. Nevhodné jde nahlásit.</p>
+            <p>Přihlášení uživatelé přidávají k&nbsp;aplikacím aktuální snímky obrazovky. HubGet je zmenší do WebP bez metadat a&nbsp;po schválení je uvidí všichni. Nevhodné jde nahlásit.</p>
           </article>
           <article class="card mini reveal">
             <h3>Synchronizace mezi počítači</h3>
@@ -273,7 +273,7 @@
         <div class="feature__copy">
           <p class="eyebrow">Běh na pozadí</p>
           <h2>Zavřete okno. Instalace doběhnou.</h2>
-          <p>Zavřením okna se Unibox schová do oznamovací oblasti u hodin a rozběhnuté instalace v klidu dokončí. Průhledná jednobarevná ikona se přizpůsobí světlému i tmavému hlavnímu panelu a její popisek ukazuje počet dostupných aktualizací.</p>
+          <p>Zavřením okna se HubGet schová do oznamovací oblasti u hodin a rozběhnuté instalace v klidu dokončí. Průhledná jednobarevná ikona se přizpůsobí světlému i tmavému hlavnímu panelu a její popisek ukazuje počet dostupných aktualizací.</p>
         </div>
         <div class="tray" aria-label="Ukázka nabídky v oznamovací oblasti">
           <ul class="tray__menu">
@@ -281,7 +281,7 @@
             <li>Dostupné aktualizace</li>
             <li>Nainstalované</li>
             <li class="sep" aria-hidden="true"></li>
-            <li>Zobrazit Unibox</li>
+            <li>Zobrazit HubGet</li>
             <li>Ukončit</li>
           </ul>
           <div class="tray__bar">
@@ -299,7 +299,7 @@
   <footer class="footer">
     <div class="wrap footer__inner">
       <div class="footer__brand">
-        <a class="brand" href="index.html"><img src="assets/unibox-logo.svg" alt="" width="28" height="28"><span>Unibox</span></a>
+        <a class="brand" href="index.html"><img src="assets/unibox-logo.svg" alt="" width="28" height="28"><span>HubGet</span></a>
         <p>Obchod s aplikacemi pro Windows. Open source, licence MIT.</p>
       </div>
       <nav class="footer__links" aria-label="Odkazy">
@@ -314,7 +314,7 @@
       </nav>
     </div>
     <div class="wrap footer__note">
-      <p>Unibox není spojen se společností Microsoft ani s projekty WinGet, Chocolatey a Scoop. Windows je ochranná známka společnosti Microsoft.</p>
+      <p>HubGet není spojen se společností Microsoft ani s projekty WinGet, Chocolatey a Scoop. Windows je ochranná známka společnosti Microsoft.</p>
     </div>
   </footer>
 

@@ -1,6 +1,6 @@
 //! Průběh operace pro kartu aplikace: fáze a procenta.
 //!
-//! - Nejpřesnější průběh: instalátor předem stáhne Unibox (download.rs)
+//! - Nejpřesnější průběh: instalátor předem stáhne HubGet (download.rs)
 //!   a hlásí procenta z curl – viz `Tracker::prefetching`.
 //! - Když předstažení nejde, stahuje správce sám. S přesměrovaným výstupem
 //!   průběh většinou nevypisuje (winget kreslí pruh jen do konzole), fáze se
@@ -65,7 +65,7 @@ pub struct Tracker<'a> {
     /// Poslední řádek byl adresa stahování.
     after_url: bool,
     watch: Option<DownloadWatch>,
-    /// Instalátor předem stáhl Unibox (download.rs) – správce už jen instaluje.
+    /// Instalátor předem stáhl HubGet (download.rs) – správce už jen instaluje.
     prefetched: bool,
     last_line: Option<String>,
     /// Instalátor spadl – kód výjimky Windows z výstupu správce (0xC0000005…).
@@ -107,7 +107,7 @@ impl<'a> Tracker<'a> {
         self.sender.set(Phase::Elevating, None);
     }
 
-    /// Unibox stahuje instalátor sám (průběh hlásí `download_percent`).
+    /// HubGet stahuje instalátor sám (průběh hlásí `download_percent`).
     pub fn prefetching(&self) {
         self.sender.set(Phase::Downloading, None);
     }

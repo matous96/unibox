@@ -1,11 +1,11 @@
 /**
- * Aktualizace samotného Uniboxu (tauri-plugin-updater).
+ * Aktualizace samotného HubGetu (tauri-plugin-updater).
  *
- * Nainstalovaný Unibox si stáhne latest.json z GitHub Releases (adresa
+ * Nainstalovaný HubGet si stáhne latest.json z GitHub Releases (adresa
  * v tauri.conf.json → plugins.updater.endpoints). Je-li tam novější verze,
  * nabídne ji; instalátor se po stažení ověří podpisem (veřejný klíč je
  * v aplikaci, soukromý jen u vydavatele – scripts/release.mjs) a spustí se
- * v pasivním režimu, po instalaci se Unibox znovu spustí.
+ * v pasivním režimu, po instalaci se HubGet znovu spustí.
  * Ve webové verzi se aktualizace nehledají.
  */
 import { relaunch } from "@tauri-apps/plugin-process";
@@ -17,7 +17,7 @@ export type { Update };
 
 export const APP_VERSION: string = pkgJson.version;
 
-/** Novější verze Uniboxu, nebo null (aktuální verze / webová verze). */
+/** Novější verze HubGetu, nebo null (aktuální verze / webová verze). */
 export async function findUpdate(): Promise<Update | null> {
   if (!isTauri()) return null;
   return check({ timeout: 20_000 });
@@ -27,7 +27,7 @@ export async function findUpdate(): Promise<Update | null> {
 const DOWNLOAD_TIMEOUT_MS = 10 * 60_000;
 
 /**
- * Stáhne aktualizaci, ověří podpis, nainstaluje a restartuje Unibox.
+ * Stáhne aktualizaci, ověří podpis, nainstaluje a restartuje HubGet.
  * `onProgress` dostává procenta stažení (null = velikost neznámá).
  */
 export async function installUpdate(update: Update, onProgress: (percent: number | null) => void): Promise<void> {
@@ -44,6 +44,6 @@ export async function installUpdate(update: Update, onProgress: (percent: number
     // Vlastní limit pro stažení – jinak platí 20 s z kontroly (findUpdate) na celý instalátor
     { timeout: DOWNLOAD_TIMEOUT_MS },
   );
-  // Instalátor Windows Unibox obvykle ukončí sám; jinak restart tady
+  // Instalátor Windows HubGet obvykle ukončí sám; jinak restart tady
   await relaunch();
 }

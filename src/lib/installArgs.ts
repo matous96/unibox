@@ -76,7 +76,7 @@ export function resolveInstallOptions(
   return Object.values(result).some((v) => v !== undefined) ? result : undefined;
 }
 
-/** Parametry instalátoru pro příkaz: vlastní (je-li povoleno) a z voleb Uniboxu dohromady. */
+/** Parametry instalátoru pro příkaz: vlastní (je-li povoleno) a z voleb HubGetu dohromady. */
 export function combinedInstallerArgs(options: InstallOptions | undefined): string | undefined {
   return mergeArgs([options?.customArgs ?? "", options?.installerArgs ?? ""]) || undefined;
 }

@@ -62,7 +62,7 @@ export function PackageIcon({ id, name, iconUrl, size = 48, className }: Package
           alt=""
           draggable={false}
           loading="lazy"
-          // Ikony z mezipaměti Uniboxu jde zkontrolovat v canvasu (posílají hlavičku CORS)
+          // Ikony z mezipaměti HubGetu jde zkontrolovat v canvasu (posílají hlavičku CORS)
           crossOrigin={inspectable ? "anonymous" : undefined}
           onLoad={(e) => {
             const img = e.currentTarget;

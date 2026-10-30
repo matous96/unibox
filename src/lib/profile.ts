@@ -1,7 +1,7 @@
 /**
  * Export a import profilu počítače – seznamu nainstalovaných aplikací a jejich
  * nastavení pro přenos na nový počítač:
- *  - formát Uniboxu (.json / .ubundle) = sada balíčků se všemi spravovanými
+ *  - formát HubGetu (.json / .ubundle) = sada balíčků se všemi spravovanými
  *    aplikacemi, volbami instalace a nastavením aktualizací (ignorované,
  *    odložené, automatické), po importu se nainstaluje jedním kliknutím,
  *  - přehledná stránka (.html) se seznamem aplikací a příkazy pro ruční
@@ -22,7 +22,7 @@ export function portableItems(items: InstalledItem[]): BundleItem[] {
     .map((i) => ({ appId: i.entry.id, name: i.entry.name, source: i.pkg.source, packageId: i.pkg.packageId }));
 }
 
-/** Profil ve formátu sady balíčků Uniboxu. */
+/** Profil ve formátu sady balíčků HubGetu. */
 export function buildProfile(items: InstalledItem[], name: string): BundleFile {
   return { format: "unibox-bundle", version: 1, name, createdAt: new Date().toISOString(), packages: portableItems(items) };
 }
@@ -85,7 +85,7 @@ export function extractEmbeddedProfile(html: string): string | null {
 }
 
 /**
- * Načte profil ze souboru: sadu či profil Uniboxu (.ubundle / .json),
+ * Načte profil ze souboru: sadu či profil HubGetu (.ubundle / .json),
  * stránku profilu (.html), nebo export wingetu (`winget export`, i s verzemi
  * z `--include-versions`). Aplikace z Microsoft Storu (id bez tečky) instaluje
  * backend ze zdroje msstore. `resolve` dohledá kanonické id a název aplikace v katalogu.
@@ -122,8 +122,8 @@ const HTML_TEXTS = {
     apps: (n: number) => `${n} ${n >= 1 && n <= 4 ? "aplikace" : "aplikací"}`,
     created: "Vytvořeno",
     howTo:
-      "Na novém počítači otevřete Unibox → Nastavení → Záloha a katalog → Importovat a nainstalovat a vyberte tento soubor. Unibox ukáže seznam a všechny aplikace nainstaluje jedním kliknutím – i s nastavením.",
-    openInUnibox: "Otevřít seznam v Uniboxu",
+      "Na novém počítači otevřete HubGet → Nastavení → Záloha a katalog → Importovat a nainstalovat a vyberte tento soubor. HubGet ukáže seznam a všechny aplikace nainstaluje jedním kliknutím – i s nastavením.",
+    openInHubGet: "Otevřít seznam v HubGetu",
     search: "Hledat aplikaci…",
     name: "Aplikace",
     publisher: "Vydavatel",
@@ -138,8 +138,8 @@ const HTML_TEXTS = {
     snooze: (d: string) => `odloženo do ${d}`,
     autoUpdate: "automatické aktualizace",
     commands: "Příkazy pro ruční instalaci",
-    commandsHint: "Bez Uniboxu: spusťte je v PowerShellu (Chocolatey jako správce).",
-    footer: (v: string) => `Vytvořeno v Uniboxu ${v}. Soubor obsahuje jen seznam aplikací a jejich nastavení – žádná osobní data.`,
+    commandsHint: "Bez HubGetu: spusťte je v PowerShellu (Chocolatey jako správce).",
+    footer: (v: string) => `Vytvořeno v HubGetu ${v}. Soubor obsahuje jen seznam aplikací a jejich nastavení – žádná osobní data.`,
     noMatch: "Nic nenalezeno.",
   },
   en: {
@@ -147,8 +147,8 @@ const HTML_TEXTS = {
     apps: (n: number) => `${n} ${n === 1 ? "app" : "apps"}`,
     created: "Created",
     howTo:
-      "On the new PC, open Unibox → Settings → Backup and catalog → Import and install and pick this file. Unibox shows the list and installs every app in one click – settings included.",
-    openInUnibox: "Open the list in Unibox",
+      "On the new PC, open HubGet → Settings → Backup and catalog → Import and install and pick this file. HubGet shows the list and installs every app in one click – settings included.",
+    openInHubGet: "Open the list in HubGet",
     search: "Search apps…",
     name: "App",
     publisher: "Publisher",
@@ -163,8 +163,8 @@ const HTML_TEXTS = {
     snooze: (d: string) => `postponed until ${d}`,
     autoUpdate: "automatic updates",
     commands: "Commands for a manual install",
-    commandsHint: "Without Unibox: run them in PowerShell (Chocolatey as administrator).",
-    footer: (v: string) => `Created in Unibox ${v}. The file holds only the list of apps and their settings – no personal data.`,
+    commandsHint: "Without HubGet: run them in PowerShell (Chocolatey as administrator).",
+    footer: (v: string) => `Created in HubGet ${v}. The file holds only the list of apps and their settings – no personal data.`,
     noMatch: "Nothing found.",
   },
 };
@@ -178,7 +178,7 @@ const MAX_DEEP_LINK = 30_000;
 /**
  * Přehledná stránka profilu: seznam aplikací podle správců, jejich nastavení
  * a příkazy pro ruční instalaci. Data pro import nese ve značce
- * <script type="application/json"> – Unibox ji načte jako běžný profil.
+ * <script type="application/json"> – HubGet ji načte jako běžný profil.
  */
 export function buildProfileHtml(profile: BundleFile, items: InstalledItem[], locale: string, appVersion: string): string {
   const text = locale.startsWith("cs") ? HTML_TEXTS.cs : HTML_TEXTS.en;
@@ -230,14 +230,14 @@ ${rows}
   const deepLink = `unibox://bundle?d=${encodeBundle(profile.name, profile.packages)}`;
   // JSON uvnitř <script>: „<“ jako <, ať data nemohou značku ukončit
   const embedded = JSON.stringify(profile).replace(/</g, "\\u003c");
-  const title = `Unibox – ${text.title}${profile.name ? ` · ${profile.name}` : ""}`;
+  const title = `HubGet – ${text.title}${profile.name ? ` · ${profile.name}` : ""}`;
 
   return `<!doctype html>
 <html lang="${locale.startsWith("cs") ? "cs" : "en"}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="Unibox ${escapeHtml(appVersion)}">
+<meta name="generator" content="HubGet ${escapeHtml(appVersion)}">
 <title>${escapeHtml(title)}</title>
 <style>
 :root{--bg:#f6f7fb;--surface:#fff;--line:#e3e6ee;--fg:#141824;--muted:#646b7d;--accent:#3b6cf6;--tag:#eef2ff;color-scheme:light dark}
@@ -279,13 +279,13 @@ footer{margin-top:32px;color:var(--muted);font-size:13px}
 <main>
 <header>
 <div>
-<div class="brand">Unibox</div>
+<div class="brand">HubGet</div>
 <h1>${escapeHtml(profile.name || text.title)}</h1>
 <div class="meta">${text.apps(profile.packages.length)} · ${text.created} ${escapeHtml(date(profile.createdAt || new Date().toISOString()))}</div>
 </div>
 <input type="search" id="filter" placeholder="${text.search}" aria-label="${text.search}">
 </header>
-<div class="how">${escapeHtml(text.howTo)}${deepLink.length <= MAX_DEEP_LINK ? `<br><a href="${escapeHtml(deepLink)}">${text.openInUnibox}</a>` : ""}</div>
+<div class="how">${escapeHtml(text.howTo)}${deepLink.length <= MAX_DEEP_LINK ? `<br><a href="${escapeHtml(deepLink)}">${text.openInHubGet}</a>` : ""}</div>
 ${groups}
 <p class="empty" id="empty">${text.noMatch}</p>
 <details>

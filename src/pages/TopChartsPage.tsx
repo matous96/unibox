@@ -34,7 +34,7 @@ const RATING_PRIOR = 5;
  * Žebříček nejstahovanějších aplikací. Winget počty stažení nezveřejňuje,
  * výchozí pořadí proto vychází ze skóre popularity, které počítá data pipeline.
  * Rozbalovací nabídka vedle filtru správců přepne řazení na hodnocení uživatelů
- * Uniboxu nebo na Skokany týdne (růst stažení z Chocolatey za 7 dní, katalog;
+ * HubGetu nebo na Skokany týdne (růst stažení z Chocolatey za 7 dní, katalog;
  * dokud ho katalog nemá, řadí se podle trendů jako záložka Trendy na Domů).
  */
 export function TopChartsPage() {

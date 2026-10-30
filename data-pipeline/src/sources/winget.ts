@@ -100,7 +100,7 @@ export async function loadWingetIndex(): Promise<WingetIndexEntry[]> {
   }
 }
 
-/** Údaje z manifestu, které Unibox používá (sloučený manifest – výchozí jazyk). */
+/** Údaje z manifestu, které HubGet používá (sloučený manifest – výchozí jazyk). */
 export interface WingetManifest {
   PackageName?: string;
   Publisher?: string;
