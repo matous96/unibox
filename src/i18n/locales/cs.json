@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "Unibox",
-    "title": "Unibox – obchod s aplikacemi pro Windows"
+    "title": "Unibox – obchod s aplikacemi pro Windows",
+    "testBuild": "Testovací verze"
   },
   "hero": {
     "eyebrow": "Obchod s aplikacemi pro Windows",
@@ -551,14 +552,17 @@
       "endedLeftoverProcesses": "Po odinstalaci aplikace {{name}} ukončeny procesy, které z její složky dál běžely: {{processes}}.",
       "selfUpdating": "{{name}} se po aktualizaci na {{target}} sama vrátila na verzi {{version}} – aktualizuje se vlastním aktualizátorem. Aktualizace přes správce se jí už nenabízejí.",
       "traced": "Sledování instalace {{name}}: zaznamenáno nových položek – {{count}} (složky, zástupci, registr). Po odinstalaci se nabídnou ke smazání.",
-      "skippedRunning": "{{name}} běží – automatická aktualizace počká, až aplikaci zavřete."
+      "skippedRunning": "{{name}} běží – automatická aktualizace počká, až aplikaci zavřete.",
+      "forceClosed": "{{name}} běžela – natvrdo ukončeny procesy {{processes}}, aby ji instalátor mohl přepsat.",
+      "needsAdmin": "{{name}} potřebuje k aktualizaci práva správce – počká na ruční aktualizaci."
     },
     "notice": {
       "prefetchFailed": "Instalátor se nepodařilo stáhnout předem ({{detail}}) – stáhne ho WinGet.",
       "retryElevated": "Bez oprávnění správce se to nepodařilo – zkouším znovu jako správce…",
       "preCommand": "Spouštím příkaz před instalací: {{detail}}",
       "postCommand": "Spouštím příkaz po instalaci: {{detail}}",
-      "postCommandFailed": "Příkaz po instalaci skončil s chybou ({{detail}}) – instalace sama proběhla v pořádku."
+      "postCommandFailed": "Příkaz po instalaci skončil s chybou ({{detail}}) – instalace sama proběhla v pořádku.",
+      "needsAdmin": "Potřebuje práva správce – automatická aktualizace na pozadí dialog UAC neotevírá."
     },
     "phase": {
       "queued": "Čeká ve frontě…",
@@ -839,7 +843,14 @@
     "allSources": "Všichni správci",
     "originLabel": "Filtrovat podle zdroje instalace",
     "allOrigins": "Všechny zdroje",
-    "emptyForSource": "V této kategorii nejsou žádné aplikace dostupné přes {{source}}."
+    "emptyForSource": "V této kategorii nejsou žádné aplikace dostupné přes {{source}}.",
+    "archLabel": "Filtrovat podle platformy (procesoru)",
+    "allArches": "Všechny platformy",
+    "allArchesHint": "Aplikace pro všechny typy procesorů",
+    "thisDevice": "Tento počítač",
+    "hiddenByArch": "Skryté výsledky pro jiné platformy než {{arch}}: {{hidden}}",
+    "showAllArches": "Zobrazit všechny platformy",
+    "emptyForArch": "Pro platformu {{arch}} tu nic není."
   },
   "package": {
     "install": "Instalovat",
@@ -1069,6 +1080,14 @@
       "point1": "Lišta nahoře ukáže, že je filtr zapnutý",
       "point2": "Dalším kliknutím nebo „Zobrazit všechny zdroje“ ho zrušíte",
       "point3": "Funguje i pro správce pro vývojáře"
+    },
+    "notifications": {
+      "title": "Oznámení a aktualizace",
+      "text": "Výsledek každé instalace, aktualizace i odinstalace najdete ve zvonečku vpravo nahoře – i to, co Unibox udělal na pozadí.",
+      "point1": "U chyby celé hlášení – kliknutím ho zkopírujete",
+      "point2": "Oranžová tečka na ikoně u hodin hlásí dostupné aktualizace",
+      "point3": "Celá historie operací je o klik dál",
+      "where": "Co se oznamuje, nastavíte v Nastavení → Předvolby oznámení."
     },
     "uninstall": {
       "title": "Pokročilá odinstalace",
@@ -1584,6 +1603,8 @@
     "uninstall": "Odinstalace a běžící aplikace",
     "closeBackgroundProcesses": "Ukončit aplikaci běžící na pozadí bez dotazu",
     "closeBackgroundProcessesHint": "Před instalací, aktualizací nebo odinstalací Unibox sám ukončí procesy aplikace, které nemají okno (např. ikona u hodin, proces visící v paměti). Aplikaci s otevřeným oknem vám nabídne zavřít jedním kliknutím.",
+    "forceCloseRunning": "Ukončit běžící aplikaci natvrdo bez dotazu",
+    "forceCloseRunningHint": "Před instalací, aktualizací nebo odinstalací Unibox aplikaci, která běží, hned natvrdo ukončí – i s otevřeným oknem, bez dotazu. Neuložená práce se ztratí. Automatické aktualizace na pozadí aplikaci s oknem nezavírají, počkají.",
     "advancedUninstall": "Pokročilá odinstalace se skenem zbytků (registry a soubory)",
     "advancedUninstallHint": "Po odinstalaci prohledá kromě AppData i Program Files, ProgramData, zástupce v nabídce Start a na ploše a registr Windows (HKCU a HKLM\\Software) a nabídne nalezené zbytky ke smazání. Soubory jdou do Koše, klíče registru se před smazáním zálohují.",
     "autoCleanup": "Automaticky odstraňovat zbytkové soubory a položky registru bez zobrazení potvrzovacího okna",
@@ -1751,7 +1772,8 @@
     "fallback": "{{name}}: instalátor ze zdroje {{from}} se nepodařilo stáhnout – zkouším {{to}}…",
     "fallbackNext": "{{name}}: instalace přes {{from}} selhala – zkouším {{to}}…",
     "fallbackFailed": "{{name}} se nepodařilo nainstalovat: instalátor ze zdroje {{from}} není dostupný a záložní instalace přes {{sources}} selhala – {{error}}",
-    "endedProcesses": "{{name}} běžela na pozadí – Unibox ji ukončil a pokračuje"
+    "endedProcesses": "{{name}} běžela na pozadí – Unibox ji ukončil a pokračuje",
+    "forceClosed": "{{name}} běžela – Unibox ji natvrdo ukončil a pokračuje"
   },
   "notifications": {
     "title": "Oznámení",
@@ -1778,7 +1800,8 @@
     "progress": "{{kind}} přes {{source}}…",
     "endedProcesses": "Aplikace běžela na pozadí – ukončeny procesy {{processes}}.",
     "selfUpdating": "Po aktualizaci na {{target}} se aplikace sama vrátila na verzi {{version}} – aktualizuje se vlastním aktualizátorem. Další aktualizace přes správce už nenabízíme (změníte v detailu aplikace).",
-    "summary": "Fronta operací dokončena – úspěšně {{success}}, selhalo {{failed}}, zrušeno {{cancelled}}."
+    "summary": "Fronta operací dokončena – úspěšně {{success}}, selhalo {{failed}}, zrušeno {{cancelled}}.",
+    "forceClosed": "Aplikace běžela – natvrdo ukončeny procesy {{processes}}."
   },
   "tray": {
     "browse": "Procházet balíčky",
@@ -1835,7 +1858,8 @@
     "multiple": "Id odpovídá více balíčkům ({{code}}).",
     "linkBroken": "Odkaz na stažení instalátoru je dočasně nefunkční (Chyba {{status}}). Zkuste vybrat jiný zdroj instalace (např. Chocolatey/Scoop).",
     "unknown": "WinGet skončil s chybou {{code}}",
-    "preCommandFailed": "Příkaz před instalací skončil s chybou ({{code}}) – instalace se nespustila."
+    "preCommandFailed": "Příkaz před instalací skončil s chybou ({{code}}) – instalace se nespustila.",
+    "needsAdmin": "Operace potřebuje práva správce – na pozadí se nespouští, spusťte ji ručně ({{code}})."
   },
   "managerError": {
     "failed": "{{name}} skončil s chybou {{code}}",
@@ -1843,7 +1867,9 @@
     "restartFirst": "{{name}}: nejdřív je potřeba restartovat počítač kvůli dřívější instalaci.",
     "preCommandFailed": "{{name}}: příkaz před instalací skončil s chybou ({{code}}) – instalace se nespustila.",
     "listFailed": "{{name}} nevrátil seznam nainstalovaných aplikací – jeho aplikace teď v Uniboxu chybí. Zkusíme to znovu při dalším načtení. ({{error}})",
-    "searchFailed": "Nepodařilo se prohledat: {{names}}. Výsledky od ostatních správců jsou níže."
+    "searchFailed": "Nepodařilo se prohledat: {{names}}. Výsledky od ostatních správců jsou níže.",
+    "requiresAdmin": "{{name}}: operace potřebuje práva správce (modul pro všechny uživatele), ale povýšení je v Nastavení → Oprávnění správce zakázané ({{code}}).",
+    "needsAdmin": "{{name}}: operace potřebuje práva správce – na pozadí se nespouští, spusťte ji ručně."
   },
   "common": {
     "loading": "Načítám…",
@@ -2017,7 +2043,11 @@
     "trayNote": "Nepovedená automatická aktualizace se zapíše do historie oznámení (zvoneček) a Unibox ji zkusí příště – po třech neúspěších ji nechá na vás. Běžící aplikace počkají, až je zavřete.",
     "allApps": "Aktualizuje se automaticky (Nastavení → Aktualizace balíčků)",
     "thisApp": "Automaticky aktualizovat",
-    "gaveUp": "Automatická aktualizace na verzi {{version}} se třikrát nepovedla – aktualizujte ji ručně v Dostupných aktualizacích."
+    "gaveUp": "Automatická aktualizace na verzi {{version}} se třikrát nepovedla – aktualizujte ji ručně v Dostupných aktualizacích.",
+    "needsAdmin": "Aktualizace na verzi {{version}} potřebuje práva správce, a tak se na pozadí nespustí – čeká na vaše potvrzení v Dostupných aktualizacích.",
+    "pendingTitle": "Čeká na vaše potvrzení ({{n}})",
+    "pendingText": "Tyto aktualizace potřebují práva správce, a tak je automatické aktualizace na pozadí nespustily. Potvrdíte je všechny jedním dialogem Windows.",
+    "pendingAction": "Aktualizovat jako správce"
   },
   "security": {
     "warningTitle": "Upozornění!",

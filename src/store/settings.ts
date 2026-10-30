@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import i18n, { detectLanguage } from "@/i18n";
 import { getSource, isSourceId, SOURCE_IDS } from "@/services/managers/sources";
+import type { ArchFilterValue } from "@/lib/arch";
 import type { SortMode, SourceId, ThemeSetting, UserMode, ViewMode } from "@/types";
 
 /** Uživatelská nastavení – ukládají se mezi spuštěními (localStorage). */
@@ -12,6 +13,8 @@ interface SettingsState {
   userMode: UserMode;
   viewMode: ViewMode;
   sortMode: SortMode;
+  /** Filtr platformy v hledání, kategoriích a žebříčku (x64, ARM64, x86 nebo všechny). */
+  archFilter: ArchFilterValue;
   /** Zapnutí správci balíčků (vypnutý se nepoužívá pro instalaci ani hledání). */
   enabledSources: SourceId[];
   /** Preferovaný zdroj, pokud je aplikace dostupná ve více zdrojích. */
@@ -24,6 +27,8 @@ interface SettingsState {
   accentColor: string | null;
   /** Před operací ukončit procesy aplikace běžící na pozadí (bez okna) bez dotazu. */
   closeBackgroundProcesses: boolean;
+  /** Před ruční operací ukončit běžící aplikaci natvrdo i s oknem – bez dialogu (zapíná si uživatel sám). */
+  forceCloseRunning: boolean;
   /** Pokročilá odinstalace: po odinstalaci hledat zbytky i v Program Files, ProgramData, zástupcích a registru. */
   advancedUninstall: boolean;
   /** Zbytky z pokročilé odinstalace smazat rovnou, bez potvrzovacího okna (jen oznámení). */
@@ -35,12 +40,14 @@ interface SettingsState {
   setUserMode: (mode: UserMode) => void;
   setViewMode: (mode: ViewMode) => void;
   setSortMode: (mode: SortMode) => void;
+  setArchFilter: (arch: ArchFilterValue) => void;
   toggleSource: (source: SourceId, enabled: boolean) => void;
   setPreferredSource: (source: SourceId) => void;
   setCloseToTray: (enabled: boolean) => void;
   setTrayBadge: (enabled: boolean) => void;
   setAccentColor: (color: string | null) => void;
   setCloseBackgroundProcesses: (enabled: boolean) => void;
+  setForceCloseRunning: (enabled: boolean) => void;
   setAdvancedUninstall: (enabled: boolean) => void;
   setAutoCleanup: (enabled: boolean) => void;
   setTrackInstalls: (enabled: boolean) => void;
@@ -56,12 +63,14 @@ export const useSettings = create<SettingsState>()(
       userMode: "regular",
       viewMode: "grid",
       sortMode: "popularity",
+      archFilter: "all",
       enabledSources: [...SOURCE_IDS],
       preferredSource: "winget",
       closeToTray: true,
       trayBadge: true,
       accentColor: null,
       closeBackgroundProcesses: true,
+      forceCloseRunning: false,
       advancedUninstall: false,
       autoCleanup: false,
       trackInstalls: false,
@@ -73,6 +82,7 @@ export const useSettings = create<SettingsState>()(
       setUserMode: (userMode) => set({ userMode }),
       setViewMode: (viewMode) => set({ viewMode }),
       setSortMode: (sortMode) => set({ sortMode }),
+      setArchFilter: (archFilter) => set({ archFilter }),
       toggleSource: (source, enabled) => {
         const current = get().enabledSources;
         // Pořadí držíme podle SOURCE_IDS, alespoň jeden správce musí zůstat zapnutý.
@@ -84,6 +94,7 @@ export const useSettings = create<SettingsState>()(
       setTrayBadge: (trayBadge) => set({ trayBadge }),
       setAccentColor: (accentColor) => set({ accentColor: accentColor && /^#[0-9a-f]{6}$/i.test(accentColor) ? accentColor : null }),
       setCloseBackgroundProcesses: (closeBackgroundProcesses) => set({ closeBackgroundProcesses }),
+      setForceCloseRunning: (forceCloseRunning) => set({ forceCloseRunning }),
       setAdvancedUninstall: (advancedUninstall) => set({ advancedUninstall }),
       setAutoCleanup: (autoCleanup) => set({ autoCleanup }),
       setTrackInstalls: (trackInstalls) => set({ trackInstalls }),

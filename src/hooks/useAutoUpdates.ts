@@ -136,11 +136,13 @@ async function runScheduledInstall() {
 /** Zařadí aktualizace k instalaci podle nastavení (vše / vybrané, baterie, úspora, měřené připojení). */
 async function installUpdates(updatable: InstalledPackage[]): Promise<Omit<CheckResult, "available">> {
   const { autoInstall, selected, skipOnBattery, skipOnSaver, skipOnMetered } = useAutoUpdates.getState();
-  // Verze, jejichž automatická aktualizace už AUTO_FAILURE_LIMIT× selhala, zůstanou na uživateli
-  const failed = useUpdateHolds.getState().failed;
-  const chosen = (autoInstall === "all" ? updatable : updatable.filter((p) => selected.includes(pinKey(p)))).filter(
-    (p) => (failed[versionKey(p, p.availableVersion!)] ?? 0) < AUTO_FAILURE_LIMIT,
-  );
+  // Verze, jejichž automatická aktualizace už AUTO_FAILURE_LIMIT× selhala nebo potřebuje práva
+  // správce (Čeká na potvrzení), zůstanou na uživateli
+  const { failed, needsAdmin } = useUpdateHolds.getState();
+  const chosen = (autoInstall === "all" ? updatable : updatable.filter((p) => selected.includes(pinKey(p)))).filter((p) => {
+    const key = versionKey(p, p.availableVersion!);
+    return (failed[key] ?? 0) < AUTO_FAILURE_LIMIT && !needsAdmin[key];
+  });
   if (autoInstall === "off" || !chosen.length || !isTauri()) {
     retryAt = null;
     return { queued: 0 };

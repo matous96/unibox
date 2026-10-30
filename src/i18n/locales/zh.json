@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "Unibox",
-    "title": "Unibox – Windows 应用商店"
+    "title": "Unibox – Windows 应用商店",
+    "testBuild": "测试版"
   },
   "hero": {
     "eyebrow": "Windows 应用商店",
@@ -527,14 +528,17 @@
       "endedLeftoverProcesses": "卸载 {{name}} 后，已结束仍从其文件夹运行的进程：{{processes}}。",
       "selfUpdating": "{{name}} 在更新到 {{target}} 后自行回到了版本 {{version}}——它使用自己的更新程序。将不再通过包管理器提供更新。",
       "traced": "{{name}} 的安装监视：记录了 {{count}} 个新项目（文件夹、快捷方式、注册表）。卸载后会提示删除它们。",
-      "skippedRunning": "{{name}} 正在运行——自动更新将等你关闭它后再进行。"
+      "skippedRunning": "{{name}} 正在运行——自动更新将等你关闭它后再进行。",
+      "forceClosed": "{{name}} 正在运行——已强制结束进程 {{processes}}，以便安装程序覆盖它。",
+      "needsAdmin": "{{name}} 需要管理员权限才能更新——将等待手动更新。"
     },
     "notice": {
       "prefetchFailed": "无法提前下载安装程序（{{detail}}）——将由 WinGet 下载。",
       "retryElevated": "无管理员权限时失败——正在以管理员身份重试…",
       "preCommand": "正在运行安装前命令：{{detail}}",
       "postCommand": "正在运行安装后命令：{{detail}}",
-      "postCommandFailed": "安装后命令失败（{{detail}}）——安装本身已成功。"
+      "postCommandFailed": "安装后命令失败（{{detail}}）——安装本身已成功。",
+      "needsAdmin": "需要管理员权限——后台自动更新不会打开 UAC 对话框。"
     },
     "phase": {
       "queued": "正在排队…",
@@ -809,7 +813,14 @@
     "allSources": "所有包管理器",
     "originLabel": "按安装来源筛选",
     "allOrigins": "所有来源",
-    "emptyForSource": "此分类中没有可通过 {{source}} 获取的应用。"
+    "emptyForSource": "此分类中没有可通过 {{source}} 获取的应用。",
+    "archLabel": "按平台（处理器）筛选",
+    "allArches": "所有平台",
+    "allArchesHint": "适用于所有处理器类型的应用",
+    "thisDevice": "此电脑",
+    "hiddenByArch": "已隐藏非 {{arch}} 平台的结果：{{hidden}}",
+    "showAllArches": "显示所有平台",
+    "emptyForArch": "这里没有适用于 {{arch}} 的内容。"
   },
   "package": {
     "install": "安装",
@@ -1037,6 +1048,14 @@
       "point1": "顶部的提示条表示筛选已开启",
       "point2": "再次点击或点击“显示所有来源”即可清除",
       "point3": "同样适用于开发者包管理器"
+    },
+    "notifications": {
+      "title": "通知和更新",
+      "text": "每次安装、更新和卸载的结果都在右上角的铃铛中——包括 Unibox 在后台完成的操作。",
+      "point1": "出错时显示完整信息——点击即可复制",
+      "point2": "时钟旁图标上的橙色圆点表示有可用更新",
+      "point3": "完整的操作历史只需一次点击",
+      "where": "可在“设置 → 通知偏好”中选择要通知的内容。"
     },
     "uninstall": {
       "title": "高级卸载",
@@ -1524,6 +1543,8 @@
     "uninstall": "卸载和正在运行的应用",
     "closeBackgroundProcesses": "不经询问关闭在后台运行的应用",
     "closeBackgroundProcessesHint": "在安装、更新或卸载之前，Unibox 会结束该应用没有窗口的进程（例如通知区域图标或卡在内存中的进程）。如果应用有打开的窗口，会提供一键关闭。",
+    "forceCloseRunning": "不经询问强制关闭正在运行的应用",
+    "forceCloseRunningHint": "在安装、更新或卸载之前，Unibox 会立即强制关闭正在运行的应用——即使它有打开的窗口，也不会询问。未保存的工作将会丢失。后台自动更新不会关闭有打开窗口的应用——会等待。",
     "advancedUninstall": "高级卸载，扫描残留（注册表和文件）",
     "advancedUninstallHint": "卸载后，除 AppData 外还会搜索 Program Files、ProgramData、开始菜单和桌面快捷方式以及 Windows 注册表（HKCU 和 HKLM\\Software），并提供删除残留。文件会移到回收站；注册表项在删除前会先备份。",
     "autoCleanup": "自动删除残留文件和注册表项，不显示确认窗口",
@@ -1665,7 +1686,8 @@
     "fallback": "{{name}}：无法从 {{from}} 下载安装程序——正在尝试 {{to}}…",
     "fallbackNext": "{{name}}：通过 {{from}} 安装失败——正在尝试 {{to}}…",
     "fallbackFailed": "无法安装 {{name}}：{{from}} 的安装程序不可用，通过 {{sources}} 的备用安装也失败了——{{error}}",
-    "endedProcesses": "{{name}} 正在后台运行——Unibox 已将其关闭并继续"
+    "endedProcesses": "{{name}} 正在后台运行——Unibox 已将其关闭并继续",
+    "forceClosed": "{{name}} 正在运行——Unibox 已将其强制关闭并继续"
   },
   "notifications": {
     "title": "通知",
@@ -1690,7 +1712,8 @@
     "progress": "正在通过 {{source}} {{kind}}…",
     "endedProcesses": "该应用正在后台运行——已结束进程 {{processes}}。",
     "selfUpdating": "更新到 {{target}} 后，该应用自行回到了版本 {{version}}——它使用自己的更新程序。将不再提供包管理器更新（可在应用页面更改）。",
-    "summary": "操作队列已完成——{{success}} 个成功，{{failed}} 个失败，{{cancelled}} 个已取消。"
+    "summary": "操作队列已完成——{{success}} 个成功，{{failed}} 个失败，{{cancelled}} 个已取消。",
+    "forceClosed": "该应用正在运行——已强制结束进程 {{processes}}。"
   },
   "tray": {
     "browse": "浏览软件包",
@@ -1743,7 +1766,8 @@
     "multiple": "该 ID 匹配多个软件包（{{code}}）。",
     "linkBroken": "安装程序下载链接暂时失效（错误 {{status}}）。请尝试选择其他安装来源（例如 Chocolatey/Scoop）。",
     "unknown": "WinGet 以错误 {{code}} 结束",
-    "preCommandFailed": "安装前命令失败（{{code}}）——安装未开始。"
+    "preCommandFailed": "安装前命令失败（{{code}}）——安装未开始。",
+    "needsAdmin": "此操作需要管理员权限——不会在后台运行，请手动启动（{{code}}）。"
   },
   "managerError": {
     "failed": "{{name}} 以错误 {{code}} 结束",
@@ -1751,7 +1775,9 @@
     "restartFirst": "{{name}}：请先重启电脑，以完成之前的安装。",
     "preCommandFailed": "{{name}}：安装前命令失败（{{code}}）——安装未开始。",
     "listFailed": "{{name}} 没有返回已安装应用列表——它的应用暂时不会显示在 Unibox 中。下次刷新时会重试。（{{error}}）",
-    "searchFailed": "无法搜索：{{names}}。下方是其他包管理器的结果。"
+    "searchFailed": "无法搜索：{{names}}。下方是其他包管理器的结果。",
+    "requiresAdmin": "{{name}}：此操作需要管理员权限（为所有用户安装的模块），但已在“设置 → 管理员权限”中禁止提升（{{code}}）。",
+    "needsAdmin": "{{name}}：此操作需要管理员权限——不会在后台运行，请手动启动。"
   },
   "common": {
     "loading": "正在加载…",
@@ -1903,7 +1929,11 @@
     "trayNote": "自动更新失败时会记录到通知历史（铃铛）中，Unibox 下次会重试——失败三次后交由你处理。正在运行的应用会等你关闭后再更新。",
     "allApps": "自动更新（设置 → 软件包更新）",
     "thisApp": "自动更新",
-    "gaveUp": "自动更新到版本 {{version}} 已失败三次——请在“可用更新”中手动更新。"
+    "gaveUp": "自动更新到版本 {{version}} 已失败三次——请在“可用更新”中手动更新。",
+    "needsAdmin": "更新到版本 {{version}} 需要管理员权限，因此不会在后台运行——正在“可用更新”中等待你的确认。",
+    "pendingTitle": "等待你的确认（{{n}}）",
+    "pendingText": "这些更新需要管理员权限，因此自动更新没有在后台运行它们。只需一个 Windows 对话框即可全部确认。",
+    "pendingAction": "以管理员身份更新"
   },
   "security": {
     "warningTitle": "警告！",

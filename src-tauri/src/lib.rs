@@ -123,6 +123,8 @@ pub fn run() {
             tray::set_tray_labels,
             tray::set_tray_status,
             operations::cancel_operation,
+            operations::elevated_batch_begin,
+            operations::elevated_batch_end,
             oauth::oauth_listen,
             oauth::oauth_wait,
             oauth::oauth_cancel,

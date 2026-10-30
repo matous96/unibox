@@ -251,6 +251,8 @@ function UninstallCard() {
   const {
     closeBackgroundProcesses,
     setCloseBackgroundProcesses,
+    forceCloseRunning,
+    setForceCloseRunning,
     advancedUninstall,
     setAdvancedUninstall,
     autoCleanup,
@@ -266,6 +268,12 @@ function UninstallCard() {
         hint={t("settings.closeBackgroundProcessesHint")}
         checked={closeBackgroundProcesses}
         onChange={setCloseBackgroundProcesses}
+      />
+      <SwitchRow
+        label={t("settings.forceCloseRunning")}
+        hint={t("settings.forceCloseRunningHint")}
+        checked={forceCloseRunning}
+        onChange={setForceCloseRunning}
       />
       <SwitchRow
         label={t("settings.advancedUninstall")}

@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "Unibox",
-    "title": "Unibox – der App Store für Windows"
+    "title": "Unibox – der App Store für Windows",
+    "testBuild": "Testversion"
   },
   "hero": {
     "eyebrow": "Der App Store für Windows",
@@ -527,14 +528,17 @@
       "endedLeftoverProcesses": "Nach der Deinstallation von {{name}} wurden die noch aus seinem Ordner laufenden Prozesse beendet: {{processes}}.",
       "selfUpdating": "{{name}} ist nach dem Update auf {{target}} von selbst zu Version {{version}} zurückgekehrt – es nutzt einen eigenen Updater. Updates über den Paketmanager werden nicht mehr angeboten.",
       "traced": "Installationsüberwachung für {{name}}: {{count}} neue Elemente erfasst (Ordner, Verknüpfungen, Registrierung). Sie werden nach einer Deinstallation zum Entfernen angeboten.",
-      "skippedRunning": "{{name}} läuft – das automatische Update wartet, bis Sie die App schließen."
+      "skippedRunning": "{{name}} läuft – das automatische Update wartet, bis Sie die App schließen.",
+      "forceClosed": "{{name}} lief – die Prozesse {{processes}} wurden zwangsweise beendet, damit das Installationsprogramm die Dateien überschreiben kann.",
+      "needsAdmin": "{{name}} benötigt für das Update Administratorrechte – es wartet auf ein manuelles Update."
     },
     "notice": {
       "prefetchFailed": "Das Installationsprogramm konnte nicht vorab heruntergeladen werden ({{detail}}) – WinGet lädt es herunter.",
       "retryElevated": "Ohne Administratorrechte fehlgeschlagen – neuer Versuch als Administrator…",
       "preCommand": "Befehl vor der Installation wird ausgeführt: {{detail}}",
       "postCommand": "Befehl nach der Installation wird ausgeführt: {{detail}}",
-      "postCommandFailed": "Der Befehl nach der Installation ist fehlgeschlagen ({{detail}}) – die Installation selbst war erfolgreich."
+      "postCommandFailed": "Der Befehl nach der Installation ist fehlgeschlagen ({{detail}}) – die Installation selbst war erfolgreich.",
+      "needsAdmin": "Benötigt Administratorrechte – automatische Updates im Hintergrund öffnen keinen UAC-Dialog."
     },
     "phase": {
       "queued": "Wartet in der Warteschlange…",
@@ -809,7 +813,14 @@
     "allSources": "Alle Paketmanager",
     "originLabel": "Nach Installationsquelle filtern",
     "allOrigins": "Alle Quellen",
-    "emptyForSource": "Keine App dieser Kategorie ist über {{source}} verfügbar."
+    "emptyForSource": "Keine App dieser Kategorie ist über {{source}} verfügbar.",
+    "archLabel": "Nach Plattform (Prozessor) filtern",
+    "allArches": "Alle Plattformen",
+    "allArchesHint": "Apps für alle Prozessortypen",
+    "thisDevice": "Dieser PC",
+    "hiddenByArch": "Ausgeblendete Ergebnisse für andere Plattformen als {{arch}}: {{hidden}}",
+    "showAllArches": "Alle Plattformen anzeigen",
+    "emptyForArch": "Für {{arch}} gibt es hier nichts."
   },
   "package": {
     "install": "Installieren",
@@ -1037,6 +1048,14 @@
       "point1": "Eine Leiste oben zeigt, dass der Filter aktiv ist",
       "point2": "Erneut klicken oder „Alle Quellen anzeigen“ hebt ihn auf",
       "point3": "Funktioniert auch für Paketmanager für Entwickler"
+    },
+    "notifications": {
+      "title": "Benachrichtigungen und Updates",
+      "text": "Das Ergebnis jeder Installation, jedes Updates und jeder Deinstallation finden Sie unter der Glocke oben rechts – auch das, was Unibox im Hintergrund erledigt hat.",
+      "point1": "Bei Fehlern die vollständige Meldung – per Klick kopieren",
+      "point2": "Ein orangefarbener Punkt am Symbol neben der Uhr zeigt verfügbare Updates an",
+      "point3": "Der gesamte Vorgangsverlauf ist nur einen Klick entfernt",
+      "where": "Was gemeldet wird, legen Sie unter Einstellungen → Benachrichtigungseinstellungen fest."
     },
     "uninstall": {
       "title": "Erweiterte Deinstallation",
@@ -1524,6 +1543,8 @@
     "uninstall": "Deinstallation und laufende Apps",
     "closeBackgroundProcesses": "Im Hintergrund laufende App ohne Nachfrage schließen",
     "closeBackgroundProcessesHint": "Vor einer Installation, einem Update oder einer Deinstallation beendet Unibox die Prozesse der App, die kein Fenster haben (etwa ein Infobereichssymbol oder ein im Speicher hängender Prozess). Bei einer App mit offenem Fenster wird das Schließen mit einem Klick angeboten.",
+    "forceCloseRunning": "Laufende App ohne Nachfrage zwangsweise schließen",
+    "forceCloseRunningHint": "Vor einer Installation, einem Update oder einer Deinstallation schließt Unibox die laufende App sofort zwangsweise – auch mit offenem Fenster, ohne Nachfrage. Ungespeicherte Arbeit geht verloren. Automatische Updates im Hintergrund schließen keine App mit offenem Fenster – sie warten.",
     "advancedUninstall": "Erweiterte Deinstallation mit Suche nach Resten (Registrierung und Dateien)",
     "advancedUninstallHint": "Nach einer Deinstallation durchsucht es neben AppData auch Program Files, ProgramData, Verknüpfungen im Startmenü und auf dem Desktop sowie die Windows-Registrierung (HKCU und HKLM\\Software) und bietet an, die Reste zu löschen. Dateien wandern in den Papierkorb; Registrierungsschlüssel werden vor dem Löschen gesichert.",
     "autoCleanup": "Reste von Dateien und Registrierung automatisch ohne Bestätigungsfenster entfernen",
@@ -1665,7 +1686,8 @@
     "fallback": "{{name}}: Das Installationsprogramm von {{from}} konnte nicht heruntergeladen werden – versuche {{to}}…",
     "fallbackNext": "{{name}}: Die Installation über {{from}} ist fehlgeschlagen – versuche {{to}}…",
     "fallbackFailed": "{{name}} konnte nicht installiert werden: Das Installationsprogramm von {{from}} ist nicht verfügbar und der Ersatz über {{sources}} ist fehlgeschlagen – {{error}}",
-    "endedProcesses": "{{name}} lief im Hintergrund – Unibox hat es geschlossen und macht weiter"
+    "endedProcesses": "{{name}} lief im Hintergrund – Unibox hat es geschlossen und macht weiter",
+    "forceClosed": "{{name}} lief – Unibox hat es zwangsweise geschlossen und macht weiter"
   },
   "notifications": {
     "title": "Benachrichtigungen",
@@ -1690,7 +1712,8 @@
     "progress": "{{kind}} über {{source}}…",
     "endedProcesses": "Die App lief im Hintergrund – die Prozesse {{processes}} wurden beendet.",
     "selfUpdating": "Nach dem Update auf {{target}} ist die App von selbst zu Version {{version}} zurückgekehrt – sie nutzt einen eigenen Updater. Updates über den Paketmanager werden nicht mehr angeboten (änderbar auf der Seite der App).",
-    "summary": "Warteschlange abgearbeitet – {{success}} erfolgreich, {{failed}} fehlgeschlagen, {{cancelled}} abgebrochen."
+    "summary": "Warteschlange abgearbeitet – {{success}} erfolgreich, {{failed}} fehlgeschlagen, {{cancelled}} abgebrochen.",
+    "forceClosed": "Die App lief – die Prozesse {{processes}} wurden zwangsweise beendet."
   },
   "tray": {
     "browse": "Pakete durchsuchen",
@@ -1743,7 +1766,8 @@
     "multiple": "Die ID passt zu mehr als einem Paket ({{code}}).",
     "linkBroken": "Der Download-Link des Installationsprogramms ist vorübergehend defekt (Fehler {{status}}). Wählen Sie eine andere Installationsquelle (z. B. Chocolatey/Scoop).",
     "unknown": "WinGet wurde mit Fehler {{code}} beendet",
-    "preCommandFailed": "Der Befehl vor der Installation ist fehlgeschlagen ({{code}}) – die Installation wurde nicht gestartet."
+    "preCommandFailed": "Der Befehl vor der Installation ist fehlgeschlagen ({{code}}) – die Installation wurde nicht gestartet.",
+    "needsAdmin": "Der Vorgang benötigt Administratorrechte – er wird nicht im Hintergrund ausgeführt, starten Sie ihn manuell ({{code}})."
   },
   "managerError": {
     "failed": "{{name}} wurde mit Fehler {{code}} beendet",
@@ -1751,7 +1775,9 @@
     "restartFirst": "{{name}}: Starten Sie zuerst den Computer neu, um eine vorherige Installation abzuschließen.",
     "preCommandFailed": "{{name}}: Der Befehl vor der Installation ist fehlgeschlagen ({{code}}) – die Installation wurde nicht gestartet.",
     "listFailed": "{{name}} hat seine Liste installierter Apps nicht geliefert – seine Apps fehlen vorerst in Unibox. Beim nächsten Aktualisieren versuchen wir es erneut. ({{error}})",
-    "searchFailed": "Suche nicht möglich: {{names}}. Ergebnisse der anderen Paketmanager stehen unten."
+    "searchFailed": "Suche nicht möglich: {{names}}. Ergebnisse der anderen Paketmanager stehen unten.",
+    "requiresAdmin": "{{name}}: Der Vorgang benötigt Administratorrechte (Modul für alle Benutzer), aber die Rechteerhöhung ist unter Einstellungen → Administratorrechte deaktiviert ({{code}}).",
+    "needsAdmin": "{{name}}: Der Vorgang benötigt Administratorrechte – er wird nicht im Hintergrund ausgeführt, starten Sie ihn manuell."
   },
   "common": {
     "loading": "Wird geladen…",
@@ -1903,7 +1929,11 @@
     "trayNote": "Ein fehlgeschlagenes automatisches Update wird in den Benachrichtigungsverlauf (Glocke) geschrieben, und Unibox versucht es beim nächsten Mal erneut – nach drei Fehlschlägen überlässt es das Ihnen. Laufende Apps warten, bis Sie sie schließen.",
     "allApps": "Wird automatisch aktualisiert (Einstellungen → Paket-Updates)",
     "thisApp": "Automatisch aktualisieren",
-    "gaveUp": "Das automatische Update auf Version {{version}} ist dreimal fehlgeschlagen – aktualisieren Sie die App manuell unter Verfügbare Updates."
+    "gaveUp": "Das automatische Update auf Version {{version}} ist dreimal fehlgeschlagen – aktualisieren Sie die App manuell unter Verfügbare Updates.",
+    "needsAdmin": "Das Update auf Version {{version}} benötigt Administratorrechte und wird daher nicht im Hintergrund ausgeführt – es wartet unter Verfügbare Updates auf Ihre Bestätigung.",
+    "pendingTitle": "Wartet auf Ihre Bestätigung ({{n}})",
+    "pendingText": "Diese Updates benötigen Administratorrechte, daher wurden sie von den automatischen Updates nicht im Hintergrund ausgeführt. Bestätigen Sie alle mit einem einzigen Windows-Dialog.",
+    "pendingAction": "Als Administrator aktualisieren"
   },
   "security": {
     "warningTitle": "Achtung!",

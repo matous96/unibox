@@ -1,14 +1,16 @@
 /**
  * Úvodní průvodce pro nové uživatele (store/onboarding.ts): při prvním spuštění
- * po instalaci se sám ukáže a v šesti krocích představí Unibox – univerzální
- * katalog, hodnocení a recenze, filtrování podle zdroje, pokročilou odinstalaci
- * a správu po spuštění se zálohami. Každý krok má vlevo ukázku (zjednodušený výřez aplikace),
+ * po instalaci se sám ukáže a v sedmi krocích představí Unibox – univerzální
+ * katalog, hodnocení a recenze, filtrování podle zdroje, oznámení a aktualizace,
+ * pokročilou odinstalaci a správu po spuštění se zálohami. Každý krok má vlevo ukázku (zjednodušený výřez aplikace),
  * vpravo popis. Další / Předchozí (i šipkami), tečky pro skok na krok,
  * „Přeskočit úvod“ (i Esc). Znovu ho spustí Nastavení → Obecné.
  */
 import {
   ArrowRight,
+  Bell,
   Check,
+  CheckCircle2,
   FileJson,
   FileCode2,
   FolderOpen,
@@ -21,6 +23,7 @@ import {
   Trash2,
   Upload,
   X,
+  XCircle,
   type LucideIcon,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -37,11 +40,12 @@ import { useInstallableStats } from "@/hooks/usePackages";
 import { isTauri } from "@/lib/tauri";
 import { cn, formatAppCount } from "@/lib/utils";
 import { getSource } from "@/services/managers";
+import { TestBuildBadge } from "./TestBuildBadge";
 import { useOnboarding } from "@/store/onboarding";
 import { useSettings } from "@/store/settings";
 import type { SourceId } from "@/types";
 
-const STEPS = ["welcome", "catalog", "reviews", "filter", "uninstall", "startup"] as const;
+const STEPS = ["welcome", "catalog", "reviews", "filter", "notifications", "uninstall", "startup"] as const;
 type Step = (typeof STEPS)[number];
 
 /** Průvodce počká, až se okno po spuštění vykreslí a usadí. */
@@ -113,6 +117,8 @@ export function OnboardingDialog() {
             >
               <X className="size-4" />
             </button>
+            {/* Průvodce překryje levý panel se štítkem testovací verze – proto i tady */}
+            <TestBuildBadge className="absolute top-4 left-4 z-10" />
 
             <div className="relative min-h-0 flex-1 overflow-y-auto">
               <AnimatePresence mode="wait" initial={false} custom={direction}>
@@ -223,7 +229,7 @@ function StepText({ step, index }: { step: Step; index: number }) {
           <Switch checked={advancedUninstall} onChange={setAdvancedUninstall} label={t("onboarding.uninstall.toggle")} />
         </label>
       )}
-      {(step === "reviews" || step === "startup") && <p className="text-xs text-muted">{t(`onboarding.${step}.where`)}</p>}
+      {(step === "reviews" || step === "notifications" || step === "startup") && <p className="text-xs text-muted">{t(`onboarding.${step}.where`)}</p>}
     </div>
   );
 }
@@ -238,6 +244,8 @@ function Visual({ step }: { step: Step }) {
       return <ReviewsVisual />;
     case "filter":
       return <FilterVisual />;
+    case "notifications":
+      return <NotificationsVisual />;
     case "uninstall":
       return <UninstallVisual />;
     case "startup":
@@ -393,6 +401,49 @@ function FilterVisual() {
           <path d="M5 3 L5 19 L9.5 14.5 L12.5 21 L15 20 L12 13.5 L18 13.5 Z" fill="white" stroke="black" strokeWidth="1.2" strokeLinejoin="round" />
         </svg>
       </Panel>
+    </div>
+  );
+}
+
+/** Zvoneček s výsledky operací (hotovo, chyba) a oranžová tečka aktualizací na ikoně u hodin. */
+function NotificationsVisual() {
+  const { t } = useTranslation();
+  const rows: [LucideIcon, string, string, string][] = [
+    [CheckCircle2, "text-success", "VLC media player", t("notifications.updateDone", { source: "WinGet" })],
+    [
+      XCircle,
+      "text-danger",
+      "Zoom Workplace",
+      t("notifications.failed", { kind: t("history.kind.update"), source: "WinGet", error: t("wingetError.installerFailed", { code: "0x80070643" }) }),
+    ],
+    [CheckCircle2, "text-success", "7-Zip", t("notifications.installDone", { source: "Scoop" })],
+  ];
+  return (
+    <div className="flex flex-col gap-3">
+      <Panel className="p-0">
+        <p className="flex items-center gap-2 border-b border-line px-4 py-2.5 text-sm font-semibold">
+          <Bell className="size-4 text-accent" />
+          {t("notifications.title")}
+        </p>
+        {rows.map(([Icon, tone, name, message]) => (
+          <div key={name} className="flex gap-2.5 border-b border-line px-4 py-2.5 last:border-b-0">
+            <Icon className={cn("mt-0.5 size-4 shrink-0", tone)} />
+            <div className="min-w-0">
+              <p className="text-xs font-semibold">{name}</p>
+              <p className={cn("text-[11px] leading-snug", tone === "text-danger" ? "text-fg/85" : "text-muted")}>{message}</p>
+            </div>
+          </div>
+        ))}
+      </Panel>
+      {/* Ikona u hodin s tečkou – jsou k dispozici aktualizace */}
+      <div className="flex items-center gap-3 self-end rounded-xl border border-line bg-surface px-3 py-2 shadow-sm">
+        <span className="text-[11px] text-muted">{t("tray.updatesCount", { count: 3 })}</span>
+        <span className="relative">
+          <UniboxLogo size={22} />
+          <span className="absolute -top-0.5 -right-0.5 size-2.5 rounded-full bg-orange-500 ring-2 ring-surface" />
+        </span>
+        <span className="text-[11px] font-medium tabular-nums">10:24</span>
+      </div>
     </div>
   );
 }

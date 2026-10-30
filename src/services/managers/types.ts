@@ -20,6 +20,8 @@ export interface OperationRequest {
   options?: InstallOptions;
   /** Název aplikace – backendu pomůže dohledat její záznam v registru. */
   name?: string;
+  /** Automatická operace na pozadí – backend neotevře dialog UAC (chyba „needsAdmin“). */
+  background?: boolean;
 }
 
 /** Mezipaměť správce balíčků. */

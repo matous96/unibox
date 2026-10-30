@@ -12,13 +12,15 @@
 //! běží do konce Uniboxu a další operace bere ze souborů `<n>.job` ve složce
 //! relace – bez dalšího dialogu UAC. Přijme jen povolené programy, operaci
 //! s tajným klíčem relace a bezpečný tvar příkazu (instalace podle id, žádné
-//! vlastní manifesty ani zdroje); jiný příkaz jde přes běžné povýšení s UAC.
+//! vlastní manifesty ani zdroje; moduly PowerShellu jen ve tvaru, jaký sestaví
+//! Unibox); jiný příkaz jde přes běžné povýšení s UAC. Stejného pomocníka používá
+//! i dávka „Čeká na potvrzení“ (jeden dialog UAC) – po jejím konci skončí.
 
 use base64::engine::general_purpose::URL_SAFE_NO_PAD;
 use base64::Engine;
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
-use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::Mutex;
 
 use crate::process::{CancelToken, Exit, Output};
@@ -58,6 +60,12 @@ struct Job {
     cancel: PathBuf,
 }
 
+/// Smí příkaz běžet s právy správce? Povolené programy, oficiální instalace Chocolatey
+/// a operace s moduly PowerShellu v podobě, jakou sestaví Unibox (dev.rs).
+fn may_elevate(program: &str, args: &[String]) -> bool {
+    is_allowed(program) || is_setup_command(program, args) || crate::dev::is_module_command(program, args)
+}
+
 /// Je program na seznamu povolených („C:\…\winget.exe“ → „winget“)?
 pub fn is_allowed(program: &str) -> bool {
     let stem = Path::new(program).file_stem().map(|s| s.to_string_lossy().to_lowercase()).unwrap_or_default();
@@ -82,7 +90,7 @@ pub fn run_elevated(
     };
     use windows_sys::Win32::UI::WindowsAndMessaging::SW_HIDE;
 
-    if !is_allowed(program) && !is_setup_command(program, args) {
+    if !may_elevate(program, args) {
         return Err(format!("{program} nelze spustit jako správce"));
     }
 
@@ -263,7 +271,7 @@ pub fn helper_main(payload: &str) -> i32 {
     else {
         return ERROR_INVALID_PARAMETER;
     };
-    if !is_allowed(&job.program) && !is_setup_command(&job.program, &job.args) {
+    if !may_elevate(&job.program, &job.args) {
         return ERROR_ACCESS_DENIED;
     }
     run_to_log(&job.program, &job.args, &job.log, &job.cancel)
@@ -370,6 +378,51 @@ struct Session {
 static SESSION: Mutex<Option<Session>> = Mutex::new(None);
 static JOB_SEQ: AtomicU64 = AtomicU64::new(1);
 
+/// Dávka s jediným dialogem UAC („Čeká na potvrzení“ → Aktualizovat jako správce): do jejího
+/// konce povýšené operace obsluhuje pomocník relace, i když volba „pouze jednou“ vypnutá.
+static BATCH: AtomicBool = AtomicBool::new(false);
+/// Dialog UAC dávky odmítnut – další operace dávky se už neptají (skončí jako zrušené).
+static BATCH_DECLINED: AtomicBool = AtomicBool::new(false);
+
+/// Běží dávka s jediným dialogem UAC?
+pub fn batch_active() -> bool {
+    BATCH.load(Ordering::SeqCst)
+}
+
+pub fn begin_batch() {
+    BATCH_DECLINED.store(false, Ordering::SeqCst);
+    BATCH.store(true, Ordering::SeqCst);
+}
+
+/// Konec dávky: pomocník relace skončí, ledaže má běžet do konce Uniboxu („pouze jednou“).
+/// Volá se mezi operacemi – žádná ho zrovna nepoužívá.
+pub fn end_batch() {
+    BATCH.store(false, Ordering::SeqCst);
+    BATCH_DECLINED.store(false, Ordering::SeqCst);
+    if !crate::security::policy().cache_elevation {
+        stop_session();
+    }
+}
+
+#[cfg(windows)]
+fn stop_session() {
+    use windows_sys::Win32::Foundation::CloseHandle;
+    use windows_sys::Win32::System::Threading::WaitForSingleObject;
+    let Some(session) = SESSION.lock().unwrap_or_else(|e| e.into_inner()).take() else {
+        return;
+    };
+    // Pomocník si soubor „stop“ přečte mezi operacemi, uklidí složku relace a skončí
+    let _ = std::fs::write(session.dir.join("stop"), b"");
+    // SAFETY: handle pomocníka z ShellExecuteEx; SESSION ho už nedrží, zavře se právě jednou
+    unsafe {
+        WaitForSingleObject(session.process as _, 3000);
+        CloseHandle(session.process as _);
+    }
+}
+
+#[cfg(not(windows))]
+fn stop_session() {}
+
 /// Bezpečný tvar příkazu pro pomocníka bez dialogu UAC: instalace, aktualizace
 /// nebo odinstalace balíčku podle id z oficiálních zdrojů – žádný vlastní
 /// manifest, zdroj ani adresa.
@@ -390,6 +443,32 @@ fn safe_session_args(program: &str, args: &[String]) -> bool {
     }
 }
 
+/// Příkaz, který smí obsloužit pomocník relace bez dalšího dialogu UAC: bezpečný tvar příkazu
+/// wingetu či Chocolatey, nebo operace s modulem PowerShellu v podobě, jakou sestaví Unibox.
+fn session_safe(program: &str, args: &[String]) -> bool {
+    (is_allowed(program) && safe_session_args(program, args)) || crate::dev::is_module_command(program, args)
+}
+
+/// Proběhne povýšení bez dialogu UAC? Jen s volbou „Požádat … pouze jednou“, už běžícím
+/// pomocníkem relace a příkazem, který pomocník přijme (automatické operace na pozadí).
+pub fn elevates_silently(program: &str, args: &[String]) -> bool {
+    crate::security::policy().cache_elevation && session_safe(program, args) && session_running()
+}
+
+#[cfg(windows)]
+fn session_running() -> bool {
+    use windows_sys::Win32::Foundation::WAIT_OBJECT_0;
+    use windows_sys::Win32::System::Threading::WaitForSingleObject;
+    let session = SESSION.lock().unwrap_or_else(|e| e.into_inner());
+    // SAFETY: handle procesu pomocníka z ShellExecuteEx (drží ho SESSION po celou dobu běhu)
+    session.as_ref().is_some_and(|s| unsafe { WaitForSingleObject(s.process as _, 0) } != WAIT_OBJECT_0)
+}
+
+#[cfg(not(windows))]
+fn session_running() -> bool {
+    false
+}
+
 /// Spustí program s právy správce přes povýšeného pomocníka relace (dialog UAC
 /// jen poprvé). Jiný než bezpečný příkaz jde přes běžné povýšení s UAC.
 #[cfg(windows)]
@@ -404,12 +483,25 @@ pub fn run_elevated_cached(
     use windows_sys::Win32::Foundation::{ERROR_CANCELLED, WAIT_OBJECT_0};
     use windows_sys::Win32::System::Threading::WaitForSingleObject;
 
-    if !is_allowed(program) || !safe_session_args(program, args) {
-        return run_elevated(program, args, cancel, on_output);
+    let declined = Exit { code: ERROR_CANCELLED as i32, cancelled: true };
+    // Dialog UAC dávky už jednou odmítnut – zbytek dávky bez dalšího dotazu zrušit
+    if batch_active() && BATCH_DECLINED.load(Ordering::SeqCst) {
+        return Ok(declined);
+    }
+    let remember_decline = |exit: &Exit| {
+        if batch_active() && exit.cancelled && exit.code == ERROR_CANCELLED as i32 {
+            BATCH_DECLINED.store(true, Ordering::SeqCst);
+        }
+    };
+    if !session_safe(program, args) {
+        let exit = run_elevated(program, args, cancel, on_output)?;
+        remember_decline(&exit);
+        return Ok(exit);
     }
     let Some((dir, token, process)) = ensure_session()? else {
         // Dialog UAC odmítnut
-        return Ok(Exit { code: ERROR_CANCELLED as i32, cancelled: true });
+        remember_decline(&declined);
+        return Ok(declined);
     };
 
     let n = JOB_SEQ.fetch_add(1, Ordering::SeqCst);
@@ -520,7 +612,8 @@ fn ensure_session() -> Result<Option<(PathBuf, String, isize)>, String> {
 }
 
 /// Vstupní bod povýšeného pomocníka relace: obsluhuje operace ze souborů
-/// `<n>.job`, dokud běží Unibox, který ho spustil.
+/// `<n>.job`, dokud běží Unibox, který ho spustil (u dávky s jediným dialogem UAC
+/// do jejího konce).
 pub fn session_main(payload: &str) -> i32 {
     use std::time::Duration;
 
@@ -532,7 +625,8 @@ pub fn session_main(payload: &str) -> i32 {
         return ERROR_INVALID_PARAMETER;
     };
     loop {
-        if !process_alive(start.parent) {
+        // Unibox skončil, nebo skončila dávka s jediným dialogem UAC (soubor „stop“)
+        if !process_alive(start.parent) || start.dir.join("stop").exists() {
             let _ = std::fs::remove_dir_all(&start.dir);
             return 0;
         }
@@ -549,8 +643,7 @@ pub fn session_main(payload: &str) -> i32 {
             // soubory jen uvnitř složky relace
             let inside = |p: &Path| p.parent() == Some(start.dir.as_path());
             let valid = job.token == start.token
-                && is_allowed(&job.program)
-                && safe_session_args(&job.program, &job.args)
+                && session_safe(&job.program, &job.args)
                 && inside(&job.log)
                 && inside(&job.cancel)
                 && inside(&job.done);

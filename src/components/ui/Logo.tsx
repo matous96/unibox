@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { isTestBuild } from "@/lib/tauri";
 
 interface UniboxLogoProps {
   /** Velikost v pixelech (logo je čtvercové). */
@@ -13,10 +14,13 @@ interface UniboxLogoProps {
  * v barvách zdrojů (Chocolatey, winget, Scoop), na krabici tenký nápis „unibox“
  * (od 28 px). Stejné logo je v assets/unibox-logo.svg (zdroj pro ikony aplikace a web),
  * bez nápisu pro malé velikosti v assets/unibox-mark.svg a public/favicon.svg.
+ * Testovací verze (tauri dev) má oranžový podklad a nápis „test“ – stejně jako ikona
+ * okna a ikona u hodin (assets/unibox-test.svg), aby nešla zaměnit s nainstalovaným Uniboxem.
  */
 export function UniboxLogo({ size = 36, className, title }: UniboxLogoProps) {
   // Unikátní id gradientu, aby se nehádalo více log na jedné stránce
   const gradientId = useId();
+  const test = isTestBuild();
 
   return (
     <svg
@@ -29,10 +33,10 @@ export function UniboxLogo({ size = 36, className, title }: UniboxLogoProps) {
     >
       {title && <title>{title}</title>}
       <defs>
-        {/* Jemné světlo shora – barva zůstává modrá akcentová */}
+        {/* Jemné světlo shora – barva zůstává modrá akcentová (testovací verze oranžová) */}
         <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#5b77ff" />
-          <stop offset="1" stopColor="#4560f5" />
+          <stop offset="0" stopColor={test ? "#fb923c" : "#5b77ff"} />
+          <stop offset="1" stopColor={test ? "#ea580c" : "#4560f5"} />
         </linearGradient>
       </defs>
       <rect width="64" height="64" rx="15" fill={`url(#${gradientId})`} />
@@ -48,7 +52,21 @@ export function UniboxLogo({ size = 36, className, title }: UniboxLogoProps) {
       <rect x="15" y="31" width="34" height="21" rx="3" fill="#fff" />
 
       {/* Tenký nápis na krabici – v malém logu (pilíře na Domů) by byl jen šmouha */}
-      {size >= 28 && (
+      {size >= 28 && test && (
+        <text
+          x="32"
+          y="45.6"
+          textAnchor="middle"
+          fontFamily="'Segoe UI', Arial, sans-serif"
+          fontSize="11"
+          fontWeight="700"
+          letterSpacing="-0.2"
+          fill="#c2410c"
+        >
+          test
+        </text>
+      )}
+      {size >= 28 && !test && (
         <text
           x="32"
           y="44.2"

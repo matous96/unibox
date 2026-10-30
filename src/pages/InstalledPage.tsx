@@ -10,6 +10,7 @@ import { useSortedPackages } from "@/hooks/usePackages";
 import { useUrlState } from "@/hooks/useUrlState";
 import { cn, normalize } from "@/lib/utils";
 import { ORIGINS } from "@/services/managers";
+import { AdminPendingPanel } from "@/components/package/AdminPendingPanel";
 import { OriginFilter, type OriginFilterValue } from "@/components/package/SourceFilter";
 import { useAutoUpdates } from "@/store/autoUpdates";
 import { useSelection } from "@/store/selection";
@@ -20,7 +21,7 @@ type Filter = "all" | "updates";
 /** Nainstalované balíčky s filtrem aktualizací a hromadnou aktualizací. */
 export function InstalledPage() {
   const { t } = useTranslation();
-  const { data: installed, items, isLoading, isError, refetch, isFetching } = useInstalledItems();
+  const { items, isLoading, isError, refetch, isFetching } = useInstalledItems();
   const { updatable, pending: pendingUpdates, updateAll } = useUpdates();
   // Filtry jsou v adrese (?filter=updates&origin=steam&q=…): na záložku aktualizací odkazuje
   // postranní panel a po otevření detailu a návratu zpět zůstanou
@@ -63,7 +64,8 @@ export function InstalledPage() {
   const sorted = useSortedPackages(entries);
 
   const tabs: { id: Filter; label: string; count: number }[] = [
-    { id: "all", label: t("installed.all"), count: installed?.length ?? 0 },
+    // Jen zobrazené položky (bez programů nalezených jen na disku) – stejně jako filtr zdrojů a postranní panel
+    { id: "all", label: t("installed.all"), count: items.length },
     { id: "updates", label: t("installed.updates"), count: updatable.length },
   ];
 
@@ -134,6 +136,9 @@ export function InstalledPage() {
       <div className="mb-5">
         <OriginFilter value={origin} onChange={setOriginFilter} counts={originCounts} />
       </div>
+
+      {/* Aktualizace odložené kvůli právům správce – jedním potvrzením UAC */}
+      {filter === "updates" && <AdminPendingPanel />}
 
       {isLoading ? (
         <CardSkeletons count={6} />

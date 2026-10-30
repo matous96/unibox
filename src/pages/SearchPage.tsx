@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
 import { queryKeys } from "@/app/queryClient";
 import { DevSourceOverview } from "@/components/home/DevSourceOverview";
+import { ArchFilter, ArchHiddenNote } from "@/components/package/ArchFilter";
 import { PackageCollection } from "@/components/package/PackageCollection";
 import { CollectionToolbar } from "@/components/ui/CollectionToolbar";
 import { EmptyState, PageHeader, Spinner } from "@/components/ui/States";
@@ -15,10 +16,12 @@ import {
   mergeRepoResults,
   nameKey,
   sourceKey,
+  useArchFilter,
   useCatalog,
   useSourceIndex,
   type SearchRecord,
 } from "@/hooks/usePackages";
+import { ARCH_LABEL } from "@/lib/arch";
 import { normalize } from "@/lib/utils";
 import { isVerified } from "@/lib/verified";
 import { getSource, managers, sortBySourceOrder } from "@/services/managers";
@@ -109,7 +112,8 @@ export function SearchPage() {
   // nezná, se k ní připojí jako další zdroj. Zbytek se sloučí do profilů podle
   // názvu: stejný název = jeden profil, jiný název = samostatný profil.
   const sourceIndex = useSourceIndex();
-  const { shownCatalog, repoResults } = useMemo(() => {
+  const { filter: archFilter, fits } = useArchFilter();
+  const { shownCatalog, repoResults, hiddenByArch } = useMemo(() => {
     const all = catalogData?.catalog.packages ?? [];
     const byName = catalogData ? catalogByNameKey(catalogData) : new Map<string, CatalogEntry>();
     const extra = new Map<string, PackageSource[]>();
@@ -125,8 +129,14 @@ export function SearchPage() {
       extra.has(e.id) ? { ...e, sources: sortBySourceOrder([...e.sources, ...extra.get(e.id)!]) } : e;
     // Aplikace z katalogu, ke které se připojil balíček, ale sama dotazu neodpovídala (shoda jen v id balíčku)
     const added = all.filter((p) => extra.has(p.id) && !catalogResults.some((e) => e.id === p.id));
-    return { shownCatalog: [...catalogResults, ...added].map(withExtra), repoResults: mergeRepoResults(rest) };
-  }, [repo, sourceIndex, catalogData, catalogResults]);
+    // Filtr platformy: verze pro jiné procesory (např. „Discord.Discord.arm64“) skrýt, ale spočítat
+    const catalogAll = [...catalogResults, ...added].map(withExtra);
+    const repoAll = mergeRepoResults(rest);
+    const shownCatalog = catalogAll.filter(fits);
+    const repoResults = repoAll.filter(fits);
+    const hiddenByArch = catalogAll.length + repoAll.length - shownCatalog.length - repoResults.length;
+    return { shownCatalog, repoResults, hiddenByArch };
+  }, [repo, sourceIndex, catalogData, catalogResults, fits]);
 
   if (!query) {
     // Zámek na správce pro vývojáře: místo prázdné stránky jeho přehled a oblíbené balíčky
@@ -152,10 +162,13 @@ export function SearchPage() {
 
   return (
     <>
-      <PageHeader title={t("search.resultsFor", { query })} />
+      <PageHeader title={t("search.resultsFor", { query })} actions={<ArchFilter />} />
       {failedNote}
+      {!nothing && <ArchHiddenNote hidden={hiddenByArch} />}
       {nothing ? (
-        <EmptyState message={t("search.empty")} />
+        <EmptyState
+          message={hiddenByArch > 0 && archFilter !== "all" ? t("filters.emptyForArch", { arch: ARCH_LABEL[archFilter] }) : t("search.empty")}
+        />
       ) : (
         <>
           {shownCatalog.length > 0 && (

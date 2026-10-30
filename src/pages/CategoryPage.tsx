@@ -1,12 +1,14 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
+import { ArchFilter, ArchHiddenNote } from "@/components/package/ArchFilter";
 import { PackageCollection } from "@/components/package/PackageCollection";
 import { matchesSource, SourceFilter, type SourceFilterValue } from "@/components/package/SourceFilter";
 import { CollectionToolbar } from "@/components/ui/CollectionToolbar";
 import { CardSkeletons, EmptyState, PageHeader } from "@/components/ui/States";
 import { getCategory } from "@/data/categories";
-import { useCatalog, useModeFilter, useSortedPackages } from "@/hooks/usePackages";
+import { useArchFilter, useCatalog, useModeFilter, useSortedPackages } from "@/hooks/usePackages";
+import { ARCH_LABEL } from "@/lib/arch";
 import { getSource } from "@/services/managers";
 import { useSourceScope } from "@/store/sourceLock";
 
@@ -30,14 +32,17 @@ export function CategoryPage() {
   const sourceFilter = lock ? "all" : pickedFilter;
 
   const modeFilter = useModeFilter();
-  const packages = useMemo(() => {
-    if (!category) return [];
+  const { filter: archFilter, fits } = useArchFilter();
+  const { packages, hiddenByArch } = useMemo(() => {
+    if (!category) return { packages: [], hiddenByArch: 0 };
     const list = (data?.catalog.packages ?? []).filter(
       (p) => p.categories.includes(category.id) && matchesSource(p.sources, sourceFilter),
     );
     // Běžný uživatel nevidí balíčky jen pro vývojáře – ledaže si vývojářského správce vybral ve filtru
-    return sourceFilter !== "all" && getSource(sourceFilter).group === "dev" ? list : modeFilter(list);
-  }, [data, category, sourceFilter, modeFilter]);
+    const visible = sourceFilter !== "all" && getSource(sourceFilter).group === "dev" ? list : modeFilter(list);
+    const fitting = visible.filter(fits);
+    return { packages: fitting, hiddenByArch: visible.length - fitting.length };
+  }, [data, category, sourceFilter, modeFilter, fits]);
   const sorted = useSortedPackages(packages);
 
   if (!category) return <EmptyState message={t("categories.notFound")} />;
@@ -55,7 +60,9 @@ export function CategoryPage() {
       />
       <div className="mb-5 flex flex-wrap items-center gap-3">
         {!lock && <SourceFilter value={sourceFilter} onChange={setSourceFilter} />}
-        <div className="min-w-0 flex-1">
+        <ArchFilter />
+        {/* Lišta má výchozí šířku podle obsahu – v úzkém okně se zalomí celá na další řádek, ne napůl */}
+        <div className="grow basis-auto">
           <CollectionToolbar count={sorted.length} />
         </div>
       </div>
@@ -64,13 +71,18 @@ export function CategoryPage() {
       ) : sorted.length === 0 ? (
         <EmptyState
           message={
-            sourceFilter === "all"
-              ? t("categories.empty")
-              : t("filters.emptyForSource", { source: getSource(sourceFilter).label })
+            hiddenByArch > 0 && archFilter !== "all"
+              ? t("filters.emptyForArch", { arch: ARCH_LABEL[archFilter] })
+              : sourceFilter === "all"
+                ? t("categories.empty")
+                : t("filters.emptyForSource", { source: getSource(sourceFilter).label })
           }
         />
       ) : (
-        <PackageCollection packages={sorted} />
+        <>
+          <ArchHiddenNote hidden={hiddenByArch} />
+          <PackageCollection packages={sorted} />
+        </>
       )}
     </>
   );

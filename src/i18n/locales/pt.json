@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "Unibox",
-    "title": "Unibox – a loja de aplicativos para Windows"
+    "title": "Unibox – a loja de aplicativos para Windows",
+    "testBuild": "Versão de teste"
   },
   "hero": {
     "eyebrow": "A loja de aplicativos para Windows",
@@ -539,14 +540,17 @@
       "endedLeftoverProcesses": "Depois de desinstalar {{name}}, foram encerrados os processos que ainda rodavam da pasta dele: {{processes}}.",
       "selfUpdating": "{{name}} voltou sozinho para a versão {{version}} depois de ser atualizado para {{target}} – ele usa o próprio atualizador. Atualizações pelo gerenciador de pacotes não serão mais oferecidas.",
       "traced": "Monitor de instalação de {{name}}: {{count}} novos itens registrados (pastas, atalhos, registro). A remoção deles será oferecida depois de uma desinstalação.",
-      "skippedRunning": "{{name}} está em execução – a atualização automática vai esperar até você fechá-lo."
+      "skippedRunning": "{{name}} está em execução – a atualização automática vai esperar até você fechá-lo.",
+      "forceClosed": "{{name}} estava em execução – os processos {{processes}} foram fechados à força para que o instalador possa substituí-lo.",
+      "needsAdmin": "{{name}} precisa de direitos de administrador para atualizar – vai aguardar uma atualização manual."
     },
     "notice": {
       "prefetchFailed": "Não foi possível baixar o instalador com antecedência ({{detail}}) – o WinGet vai baixá-lo.",
       "retryElevated": "Falhou sem permissões de administrador – tentando novamente como administrador…",
       "preCommand": "Executando o comando antes da instalação: {{detail}}",
       "postCommand": "Executando o comando depois da instalação: {{detail}}",
-      "postCommandFailed": "O comando depois da instalação falhou ({{detail}}) – a instalação em si foi concluída."
+      "postCommandFailed": "O comando depois da instalação falhou ({{detail}}) – a instalação em si foi concluída.",
+      "needsAdmin": "Precisa de direitos de administrador – as atualizações automáticas em segundo plano não abrem a caixa de diálogo do UAC."
     },
     "phase": {
       "queued": "Aguardando na fila…",
@@ -824,7 +828,14 @@
     "allSources": "Todos os gerenciadores",
     "originLabel": "Filtrar por origem da instalação",
     "allOrigins": "Todas as origens",
-    "emptyForSource": "Nenhum aplicativo desta categoria está disponível via {{source}}."
+    "emptyForSource": "Nenhum aplicativo desta categoria está disponível via {{source}}.",
+    "archLabel": "Filtrar por plataforma (processador)",
+    "allArches": "Todas as plataformas",
+    "allArchesHint": "Aplicativos para todos os tipos de processador",
+    "thisDevice": "Este PC",
+    "hiddenByArch": "Resultados ocultos de plataformas diferentes de {{arch}}: {{hidden}}",
+    "showAllArches": "Mostrar todas as plataformas",
+    "emptyForArch": "Nada aqui para {{arch}}."
   },
   "package": {
     "install": "Instalar",
@@ -1053,6 +1064,14 @@
       "point1": "Uma barra no topo mostra que o filtro está ativo",
       "point2": "Clique de novo ou em “Mostrar todas as fontes” para removê-lo",
       "point3": "Funciona também com gerenciadores de pacotes para desenvolvedores"
+    },
+    "notifications": {
+      "title": "Notificações e atualizações",
+      "text": "O resultado de cada instalação, atualização e desinstalação fica no sino no canto superior direito – inclusive o que o Unibox fez em segundo plano.",
+      "point1": "Os erros trazem a mensagem completa – clique para copiá-la",
+      "point2": "Um ponto laranja no ícone ao lado do relógio indica atualizações disponíveis",
+      "point3": "O histórico completo de operações está a um clique",
+      "where": "Escolha o que é notificado em Configurações → Preferências de notificação."
     },
     "uninstall": {
       "title": "Desinstalação avançada",
@@ -1554,6 +1573,8 @@
     "uninstall": "Desinstalação e aplicativos em execução",
     "closeBackgroundProcesses": "Fechar sem perguntar um aplicativo rodando em segundo plano",
     "closeBackgroundProcessesHint": "Antes de instalar, atualizar ou desinstalar, o Unibox encerra os processos do aplicativo que não têm janela (como um ícone na área de notificação ou um processo preso na memória). Se o aplicativo tem uma janela aberta, é oferecido fechá-lo com um clique.",
+    "forceCloseRunning": "Forçar o fechamento de um aplicativo em execução sem perguntar",
+    "forceCloseRunningHint": "Antes de instalar, atualizar ou desinstalar, o Unibox força na hora o fechamento do aplicativo em execução – mesmo com uma janela aberta, sem perguntar. O trabalho não salvo é perdido. As atualizações automáticas em segundo plano não fecham um aplicativo com janela aberta – elas esperam.",
     "advancedUninstall": "Desinstalação avançada com busca de resíduos (registro e arquivos)",
     "advancedUninstallHint": "Depois de desinstalar, além do AppData, verifica Program Files, ProgramData, atalhos do menu Iniciar e da área de trabalho e o registro do Windows (HKCU e HKLM\\Software), e oferece excluir os resíduos. Os arquivos vão para a Lixeira; as chaves do registro recebem backup antes de serem excluídas.",
     "autoCleanup": "Remover resíduos de arquivos e do registro automaticamente, sem janela de confirmação",
@@ -1708,7 +1729,8 @@
     "fallback": "{{name}}: não foi possível baixar o instalador de {{from}} – tentando {{to}}…",
     "fallbackNext": "{{name}}: a instalação via {{from}} falhou – tentando {{to}}…",
     "fallbackFailed": "Não foi possível instalar {{name}}: o instalador de {{from}} não está disponível e a alternativa via {{sources}} falhou – {{error}}",
-    "endedProcesses": "{{name}} estava rodando em segundo plano – o Unibox o fechou e está continuando"
+    "endedProcesses": "{{name}} estava rodando em segundo plano – o Unibox o fechou e está continuando",
+    "forceClosed": "{{name}} estava em execução – o Unibox forçou o fechamento e está continuando"
   },
   "notifications": {
     "title": "Notificações",
@@ -1734,7 +1756,8 @@
     "progress": "{{kind}} via {{source}}…",
     "endedProcesses": "O aplicativo estava rodando em segundo plano – os processos {{processes}} foram encerrados.",
     "selfUpdating": "Depois de ser atualizado para {{target}}, o aplicativo voltou sozinho para a versão {{version}} – ele usa o próprio atualizador. As atualizações pelo gerenciador de pacotes não serão mais oferecidas (altere isso na página do aplicativo).",
-    "summary": "Fila de operações concluída – {{success}} com sucesso, {{failed}} com falha, {{cancelled}} canceladas."
+    "summary": "Fila de operações concluída – {{success}} com sucesso, {{failed}} com falha, {{cancelled}} canceladas.",
+    "forceClosed": "O aplicativo estava em execução – os processos {{processes}} foram fechados à força."
   },
   "tray": {
     "browse": "Explorar pacotes",
@@ -1789,7 +1812,8 @@
     "multiple": "O ID corresponde a mais de um pacote ({{code}}).",
     "linkBroken": "O link de download do instalador está temporariamente quebrado (erro {{status}}). Tente escolher outra fonte de instalação (ex.: Chocolatey/Scoop).",
     "unknown": "O WinGet terminou com o erro {{code}}",
-    "preCommandFailed": "O comando antes da instalação falhou ({{code}}) – a instalação não começou."
+    "preCommandFailed": "O comando antes da instalação falhou ({{code}}) – a instalação não começou.",
+    "needsAdmin": "A operação precisa de direitos de administrador – não é executada em segundo plano, inicie-a manualmente ({{code}})."
   },
   "managerError": {
     "failed": "{{name}} terminou com o erro {{code}}",
@@ -1797,7 +1821,9 @@
     "restartFirst": "{{name}}: reinicie primeiro o computador para concluir uma instalação anterior.",
     "preCommandFailed": "{{name}}: o comando antes da instalação falhou ({{code}}) – a instalação não começou.",
     "listFailed": "O {{name}} não retornou a lista de aplicativos instalados – por enquanto os aplicativos dele não aparecem no Unibox. Tentaremos de novo na próxima atualização. ({{error}})",
-    "searchFailed": "Não foi possível buscar em: {{names}}. Os resultados dos outros gerenciadores de pacotes estão abaixo."
+    "searchFailed": "Não foi possível buscar em: {{names}}. Os resultados dos outros gerenciadores de pacotes estão abaixo.",
+    "requiresAdmin": "{{name}}: a operação precisa de direitos de administrador (módulo para todos os usuários), mas a elevação está desativada em Configurações → Permissões de administrador ({{code}}).",
+    "needsAdmin": "{{name}}: a operação precisa de direitos de administrador – não é executada em segundo plano, inicie-a manualmente."
   },
   "common": {
     "loading": "Carregando…",
@@ -1960,7 +1986,11 @@
     "trayNote": "Uma atualização automática que falha é registrada no histórico de notificações (sino) e o Unibox tenta de novo na próxima vez – após três falhas, deixa com você. Aplicativos em execução esperam até você fechá-los.",
     "allApps": "Atualizado automaticamente (Configurações → Atualizações de pacotes)",
     "thisApp": "Atualizar automaticamente",
-    "gaveUp": "A atualização automática para a versão {{version}} falhou três vezes – atualize manualmente em Atualizações disponíveis."
+    "gaveUp": "A atualização automática para a versão {{version}} falhou três vezes – atualize manualmente em Atualizações disponíveis.",
+    "needsAdmin": "A atualização para a versão {{version}} precisa de direitos de administrador, por isso não é executada em segundo plano – aguarda sua confirmação em Atualizações disponíveis.",
+    "pendingTitle": "Aguardando sua confirmação ({{n}})",
+    "pendingText": "Estas atualizações precisam de direitos de administrador, por isso as atualizações automáticas não as executaram em segundo plano. Confirme todas com uma única caixa de diálogo do Windows.",
+    "pendingAction": "Atualizar como administrador"
   },
   "security": {
     "warningTitle": "Atenção!",

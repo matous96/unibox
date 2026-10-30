@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "Unibox",
-    "title": "Unibox – la boutique d’applications pour Windows"
+    "title": "Unibox – la boutique d’applications pour Windows",
+    "testBuild": "Version de test"
   },
   "hero": {
     "eyebrow": "La boutique d’applications pour Windows",
@@ -539,14 +540,17 @@
       "endedLeftoverProcesses": "Après la désinstallation de {{name}}, les processus qui tournaient encore depuis son dossier ont été arrêtés : {{processes}}.",
       "selfUpdating": "{{name}} est revenu de lui-même à la version {{version}} après sa mise à jour vers {{target}} – il utilise son propre outil de mise à jour. Les mises à jour via le gestionnaire de paquets ne sont plus proposées.",
       "traced": "Suivi de l’installation de {{name}} : {{count}} nouveaux éléments enregistrés (dossiers, raccourcis, registre). Leur suppression sera proposée après une désinstallation.",
-      "skippedRunning": "{{name}} est en cours d’exécution – la mise à jour automatique attendra que vous la fermiez."
+      "skippedRunning": "{{name}} est en cours d’exécution – la mise à jour automatique attendra que vous la fermiez.",
+      "forceClosed": "{{name}} était en cours d’exécution – les processus {{processes}} ont été arrêtés de force pour que le programme d’installation puisse le remplacer.",
+      "needsAdmin": "{{name}} nécessite des droits d’administrateur pour la mise à jour – elle attendra une mise à jour manuelle."
     },
     "notice": {
       "prefetchFailed": "Impossible de télécharger le programme d’installation à l’avance ({{detail}}) – WinGet le téléchargera.",
       "retryElevated": "Échec sans les droits d’administrateur – nouvelle tentative en tant qu’administrateur…",
       "preCommand": "Exécution de la commande avant installation : {{detail}}",
       "postCommand": "Exécution de la commande après installation : {{detail}}",
-      "postCommandFailed": "La commande après installation a échoué ({{detail}}) – l’installation elle-même a réussi."
+      "postCommandFailed": "La commande après installation a échoué ({{detail}}) – l’installation elle-même a réussi.",
+      "needsAdmin": "Nécessite des droits d’administrateur – les mises à jour automatiques en arrière-plan n’ouvrent pas la boîte de dialogue UAC."
     },
     "phase": {
       "queued": "En attente dans la file…",
@@ -824,7 +828,14 @@
     "allSources": "Tous les gestionnaires",
     "originLabel": "Filtrer par source d’installation",
     "allOrigins": "Toutes les sources",
-    "emptyForSource": "Aucune application de cette catégorie n’est disponible via {{source}}."
+    "emptyForSource": "Aucune application de cette catégorie n’est disponible via {{source}}.",
+    "archLabel": "Filtrer par plateforme (processeur)",
+    "allArches": "Toutes les plateformes",
+    "allArchesHint": "Applications pour tous les types de processeurs",
+    "thisDevice": "Ce PC",
+    "hiddenByArch": "Résultats masqués pour d’autres plateformes que {{arch}} : {{hidden}}",
+    "showAllArches": "Afficher toutes les plateformes",
+    "emptyForArch": "Rien ici pour {{arch}}."
   },
   "package": {
     "install": "Installer",
@@ -1053,6 +1064,14 @@
       "point1": "Une barre en haut indique que le filtre est actif",
       "point2": "Cliquez de nouveau ou sur « Afficher toutes les sources » pour le retirer",
       "point3": "Fonctionne aussi pour les gestionnaires de paquets pour développeurs"
+    },
+    "notifications": {
+      "title": "Notifications et mises à jour",
+      "text": "Le résultat de chaque installation, mise à jour et désinstallation se trouve sous la cloche en haut à droite – y compris ce qu’Unibox a fait en arrière-plan.",
+      "point1": "Les erreurs affichent le message complet – un clic pour le copier",
+      "point2": "Un point orange sur l’icône près de l’horloge signale des mises à jour disponibles",
+      "point3": "L’historique complet des opérations est à un clic",
+      "where": "Choisissez ce qui est signalé dans Paramètres → Préférences de notification."
     },
     "uninstall": {
       "title": "Désinstallation avancée",
@@ -1554,6 +1573,8 @@
     "uninstall": "Désinstallation et applications en cours",
     "closeBackgroundProcesses": "Fermer sans demander une application qui tourne en arrière-plan",
     "closeBackgroundProcessesHint": "Avant une installation, une mise à jour ou une désinstallation, Unibox arrête les processus de l’application qui n’ont pas de fenêtre (une icône dans la zone de notification ou un processus resté en mémoire, par exemple). Pour une application dont la fenêtre est ouverte, la fermeture est proposée en un clic.",
+    "forceCloseRunning": "Forcer la fermeture d’une application en cours d’exécution sans demander",
+    "forceCloseRunningHint": "Avant une installation, une mise à jour ou une désinstallation, Unibox force immédiatement la fermeture de l’application en cours d’exécution – même avec une fenêtre ouverte, sans demander. Le travail non enregistré est perdu. Les mises à jour automatiques en arrière-plan ne ferment pas une application dont la fenêtre est ouverte – elles attendent.",
     "advancedUninstall": "Désinstallation avancée avec recherche des résidus (registre et fichiers)",
     "advancedUninstallHint": "Après une désinstallation, en plus d’AppData, il examine Program Files, ProgramData, les raccourcis du menu Démarrer et du Bureau et le registre Windows (HKCU et HKLM\\Software), puis propose de supprimer les résidus. Les fichiers vont dans la Corbeille ; les clés du registre sont sauvegardées avant d’être supprimées.",
     "autoCleanup": "Supprimer automatiquement les résidus de fichiers et du registre, sans fenêtre de confirmation",
@@ -1708,7 +1729,8 @@
     "fallback": "{{name}} : impossible de télécharger le programme d’installation depuis {{from}} – essai avec {{to}}…",
     "fallbackNext": "{{name}} : l’installation via {{from}} a échoué – essai avec {{to}}…",
     "fallbackFailed": "Impossible d’installer {{name}} : le programme d’installation de {{from}} n’est pas disponible et la solution de secours via {{sources}} a échoué – {{error}}",
-    "endedProcesses": "{{name}} tournait en arrière-plan – Unibox l’a fermé et continue"
+    "endedProcesses": "{{name}} tournait en arrière-plan – Unibox l’a fermé et continue",
+    "forceClosed": "{{name}} était en cours d’exécution – Unibox a forcé sa fermeture et continue"
   },
   "notifications": {
     "title": "Notifications",
@@ -1734,7 +1756,8 @@
     "progress": "{{kind}} via {{source}}…",
     "endedProcesses": "L’application tournait en arrière-plan – les processus {{processes}} ont été arrêtés.",
     "selfUpdating": "Après sa mise à jour vers {{target}}, l’application est revenue d’elle-même à la version {{version}} – elle utilise son propre outil de mise à jour. Les mises à jour via le gestionnaire de paquets ne seront plus proposées (modifiable sur la page de l’application).",
-    "summary": "File d’opérations terminée – {{success}} réussies, {{failed}} échouées, {{cancelled}} annulées."
+    "summary": "File d’opérations terminée – {{success}} réussies, {{failed}} échouées, {{cancelled}} annulées.",
+    "forceClosed": "L’application était en cours d’exécution – les processus {{processes}} ont été arrêtés de force."
   },
   "tray": {
     "browse": "Parcourir les paquets",
@@ -1789,7 +1812,8 @@
     "multiple": "L’ID correspond à plusieurs paquets ({{code}}).",
     "linkBroken": "Le lien de téléchargement du programme d’installation est temporairement cassé (erreur {{status}}). Essayez une autre source d’installation (par ex. Chocolatey/Scoop).",
     "unknown": "WinGet s’est terminé avec l’erreur {{code}}",
-    "preCommandFailed": "La commande avant installation a échoué ({{code}}) – l’installation n’a pas démarré."
+    "preCommandFailed": "La commande avant installation a échoué ({{code}}) – l’installation n’a pas démarré.",
+    "needsAdmin": "L’opération nécessite des droits d’administrateur – elle ne s’exécute pas en arrière-plan, lancez-la manuellement ({{code}})."
   },
   "managerError": {
     "failed": "{{name}} s’est terminé avec l’erreur {{code}}",
@@ -1797,7 +1821,9 @@
     "restartFirst": "{{name}} : redémarrez d’abord l’ordinateur pour terminer une installation précédente.",
     "preCommandFailed": "{{name}} : la commande avant installation a échoué ({{code}}) – l’installation n’a pas démarré.",
     "listFailed": "{{name}} n’a pas renvoyé sa liste d’applications installées – ses applications manquent pour l’instant dans Unibox. Nous réessaierons à la prochaine actualisation. ({{error}})",
-    "searchFailed": "Recherche impossible : {{names}}. Les résultats des autres gestionnaires de paquets sont ci-dessous."
+    "searchFailed": "Recherche impossible : {{names}}. Les résultats des autres gestionnaires de paquets sont ci-dessous.",
+    "requiresAdmin": "{{name}} : l’opération nécessite des droits d’administrateur (module pour tous les utilisateurs), mais l’élévation est désactivée dans Paramètres → Droits d’administrateur ({{code}}).",
+    "needsAdmin": "{{name}} : l’opération nécessite des droits d’administrateur – elle ne s’exécute pas en arrière-plan, lancez-la manuellement."
   },
   "common": {
     "loading": "Chargement…",
@@ -1960,7 +1986,11 @@
     "trayNote": "Une mise à jour automatique échouée est inscrite dans l’historique des notifications (cloche) et Unibox réessaie la fois suivante – après trois échecs, il vous la laisse. Les applications en cours d’exécution attendent que vous les fermiez.",
     "allApps": "Mise à jour automatiquement (Paramètres → Mises à jour des paquets)",
     "thisApp": "Mettre à jour automatiquement",
-    "gaveUp": "La mise à jour automatique vers la version {{version}} a échoué trois fois – mettez-la à jour manuellement dans Mises à jour disponibles."
+    "gaveUp": "La mise à jour automatique vers la version {{version}} a échoué trois fois – mettez-la à jour manuellement dans Mises à jour disponibles.",
+    "needsAdmin": "La mise à jour vers la version {{version}} nécessite des droits d’administrateur et ne s’exécute donc pas en arrière-plan – elle attend votre confirmation dans Mises à jour disponibles.",
+    "pendingTitle": "En attente de votre confirmation ({{n}})",
+    "pendingText": "Ces mises à jour nécessitent des droits d’administrateur, les mises à jour automatiques ne les ont donc pas lancées en arrière-plan. Confirmez-les toutes avec une seule boîte de dialogue Windows.",
+    "pendingAction": "Mettre à jour en tant qu’administrateur"
   },
   "security": {
     "warningTitle": "Attention !",

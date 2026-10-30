@@ -12,7 +12,9 @@
  *  - selfUpdating: aplikace, které se takhle vrátily – aktualizují se samy,
  *    aktualizace přes správce se jim nenabízejí (klíč pinKey, „Nabídnout znovu“ ho smaže),
  *  - failed: kolikrát automatická aktualizace na verzi selhala – po AUTO_FAILURE_LIMIT
- *    pokusech se už automaticky nezkouší (ručně ano), nová verze začíná od nuly.
+ *    pokusech se už automaticky nezkouší (ručně ano), nová verze začíná od nuly,
+ *  - needsAdmin: verze, které automatická aktualizace odložila, protože potřebují práva
+ *    správce (na pozadí bez dialogu UAC) – čekají na potvrzení v Dostupných aktualizacích.
  * Klíč ostatních: „zdroj:id@verze“ (versionKey).
  */
 import { create } from "zustand";
@@ -59,6 +61,8 @@ interface UpdateHoldsState {
   watched: Record<string, WatchedUpdate>;
   selfUpdating: Record<string, SelfUpdating>;
   failed: Record<string, number>;
+  /** Odložené kvůli právům správce: klíč verze → kdy. */
+  needsAdmin: Record<string, string>;
   /** Čas pro přepočet pravidel (mění se, když minimální stáří některé verze vyprší); neukládá se. */
   clock: number;
   /** Zapíše poprvé viděné nabízené verze a smaže staré záznamy. */
@@ -73,6 +77,8 @@ interface UpdateHoldsState {
   checkReverts: (packages: InstalledPackage[]) => Revert[];
   /** Automatická aktualizace na verzi selhala; vrátí počet neúspěchů. */
   recordAutoFailure: (key: string) => number;
+  /** Verzi nechat na potvrzení uživatelem (potřebuje práva správce); true = poprvé. */
+  holdForManual: (key: string) => boolean;
   /** Aktualizace aplikace, která se aktualizuje sama, znovu nabízet. */
   releaseSelfUpdating: (key: string) => void;
   tick: () => void;
@@ -87,6 +93,7 @@ export const useUpdateHolds = create<UpdateHoldsState>()(
       watched: {},
       selfUpdating: {},
       failed: {},
+      needsAdmin: {},
       clock: Date.now(),
       see: (packages) => {
         const now = Date.now();
@@ -103,7 +110,14 @@ export const useUpdateHolds = create<UpdateHoldsState>()(
         // Staré záznamy pryč, jen ne u verzí, které se pořád nabízejí (jinak by se jejich stáří vynulovalo)
         const limit = now - KEEP_DAYS * DAY_MS;
         const old = Object.keys(seen).filter((k) => Date.parse(seen[k]) < limit && !offered.has(k));
-        if (!Object.keys(added).length && !old.length) return;
+        // Odložená verze se už nenabízí, aplikace ale v seznamu je (aktualizovaná, novější verze) –
+        // nečeká; u aplikace, která v seznamu chybí (výpis správce selhal), počká do vypršení
+        const present = new Set(packages.map((p) => pinKey(p)));
+        const held = get().needsAdmin;
+        const settled = Object.keys(held).filter(
+          (k) => !offered.has(k) && (present.has(k.slice(0, k.lastIndexOf("@"))) || Date.parse(held[k]) < limit),
+        );
+        if (!Object.keys(added).length && !old.length && !settled.length) return;
         const firstSeen = { ...seen, ...added };
         const stuck = { ...get().stuck };
         const allowed = { ...get().allowed };
@@ -114,13 +128,20 @@ export const useUpdateHolds = create<UpdateHoldsState>()(
           delete allowed[key];
           delete failed[key];
         }
-        set({ firstSeen, stuck, allowed, failed });
+        const needsAdmin = { ...held };
+        for (const key of settled) delete needsAdmin[key];
+        set({ firstSeen, stuck, allowed, failed, needsAdmin });
       },
       recordStuck: (key) => set({ stuck: { ...get().stuck, [key]: (get().stuck[key] ?? 0) + 1 } }),
       recordAutoFailure: (key) => {
         const count = (get().failed[key] ?? 0) + 1;
         set({ failed: { ...get().failed, [key]: count } });
         return count;
+      },
+      holdForManual: (key) => {
+        if (get().needsAdmin[key]) return false;
+        set({ needsAdmin: { ...get().needsAdmin, [key]: new Date().toISOString() } });
+        return true;
       },
       allow: (key) => set({ allowed: { ...get().allowed, [key]: new Date().toISOString() } }),
       watchUpdate: (key) => set({ watched: { ...get().watched, [key]: { at: new Date().toISOString() } } }),
@@ -177,7 +198,15 @@ export const useUpdateHolds = create<UpdateHoldsState>()(
     }),
     {
       name: "unibox-update-holds",
-      partialize: ({ firstSeen, stuck, allowed, watched, selfUpdating, failed }) => ({ firstSeen, stuck, allowed, watched, selfUpdating, failed }),
+      partialize: ({ firstSeen, stuck, allowed, watched, selfUpdating, failed, needsAdmin }) => ({
+        firstSeen,
+        stuck,
+        allowed,
+        watched,
+        selfUpdating,
+        failed,
+        needsAdmin,
+      }),
     },
   ),
 );

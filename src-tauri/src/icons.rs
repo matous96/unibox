@@ -236,11 +236,40 @@ fn normalize(bytes: Vec<u8>) -> Option<Vec<u8>> {
 
 /// Největší obrázek z ICO jako PNG (image vybere nejlepší položku, PNG i BMP).
 fn ico_to_png(bytes: &[u8]) -> Option<Vec<u8>> {
-    let image = image::load_from_memory_with_format(bytes, image::ImageFormat::Ico).ok()?.to_rgba8();
+    let mut image = ico_image(bytes)?;
+    // Větší než 256 px (Zaklínač 3 má v ICO 512 px) – do mezipaměti stačí 256
+    if image.width() > ICO_MAX || image.height() > ICO_MAX {
+        image = image::imageops::resize(&image, ICO_MAX, ICO_MAX, image::imageops::FilterType::Lanczos3);
+    }
     if is_blank(image.as_raw()) {
         return None;
     }
     encode_png(image.width(), image.height(), image.as_raw())
+}
+
+/// Největší rozměr ikony uložené z ICO.
+const ICO_MAX: u32 = 256;
+
+/// Největší obrázek z ICO. Záznamy PNG se dekódují zvlášť – crate image je v ICO bere jen
+/// jako 8bitové RGBA se stejnou velikostí jako v adresáři a jinak odmítne celý soubor; Steam
+/// ale ukládá i RGB bez průhlednosti, 16bitové RGBA nebo 512 px v záznamu „256“ (Zaklínač 3,
+/// Cooking Simulator, Subnautica: Below Zero). Záznamy BMP dekóduje crate image jako dřív.
+fn ico_image(bytes: &[u8]) -> Option<image::RgbaImage> {
+    let count = bytes.get(4..6).map_or(0, |b| u16::from_le_bytes([b[0], b[1]]) as usize);
+    let png = (0..count)
+        .filter_map(|i| {
+            let entry = bytes.get(6 + i * 16..6 + i * 16 + 16)?;
+            let size = u32::from_le_bytes(entry[8..12].try_into().ok()?) as usize;
+            let offset = u32::from_le_bytes(entry[12..16].try_into().ok()?) as usize;
+            let data = bytes.get(offset..offset.checked_add(size)?)?;
+            if !data.starts_with(b"\x89PNG") {
+                return None;
+            }
+            Some(image::load_from_memory_with_format(data, image::ImageFormat::Png).ok()?.to_rgba8())
+        })
+        .max_by_key(|image| image.width() * image.height());
+    let whole = image::load_from_memory_with_format(bytes, image::ImageFormat::Ico).ok().map(|image| image.to_rgba8());
+    [png, whole].into_iter().flatten().max_by_key(|image| image.width() * image.height())
 }
 
 fn is_blank_png(bytes: &[u8]) -> bool {
@@ -540,6 +569,36 @@ fn trim_padding(width: u32, height: u32, rgba: Vec<u8>) -> (u32, u32, Vec<u8>) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// ICO s jedním záznamem PNG (velikost v adresáři 256 = 0) z dodaného PNG.
+    fn ico_with_png(png: &[u8]) -> Vec<u8> {
+        let mut ico = vec![0, 0, 1, 0, 1, 0];
+        ico.extend([0, 0, 0, 0, 1, 0, 32, 0]);
+        ico.extend((png.len() as u32).to_le_bytes());
+        ico.extend(22u32.to_le_bytes());
+        ico.extend(png);
+        ico
+    }
+
+    fn png_of(image: image::DynamicImage) -> Vec<u8> {
+        let mut out = std::io::Cursor::new(Vec::new());
+        image.write_to(&mut out, image::ImageFormat::Png).unwrap();
+        out.into_inner()
+    }
+
+    #[test]
+    fn ico_with_png_in_other_formats() {
+        // Steam: RGB bez průhlednosti (Subnautica: Below Zero), 16bitové RGBA (Cooking Simulator),
+        // 512 px v záznamu „256“ (Zaklínač 3) – crate image takové ICO odmítne celé
+        let rgb = image::DynamicImage::ImageRgb8(image::RgbImage::from_pixel(256, 256, image::Rgb([200, 40, 40])));
+        let rgba16 = image::DynamicImage::ImageRgba16(image::ImageBuffer::from_pixel(256, 256, image::Rgba([60000u16, 0, 0, 65535])));
+        let big = image::DynamicImage::ImageRgb8(image::RgbImage::from_pixel(512, 512, image::Rgb([10, 200, 10])));
+        for (name, source) in [("rgb", rgb), ("rgba16", rgba16), ("512", big)] {
+            let png = ico_to_png(&ico_with_png(&png_of(source))).unwrap_or_else(|| panic!("{name}: ikona se nepřevedla"));
+            let decoded = image::load_from_memory(&png).unwrap();
+            assert_eq!((decoded.width(), decoded.height()), (256, 256), "{name}");
+        }
+    }
 
     #[test]
     fn steam_icons_only_from_steam_games_folder() {

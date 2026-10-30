@@ -345,6 +345,7 @@ pub async fn choco_operation(id: String, request: OperationRequest, on_event: Ch
         retry_args: None,
         kind: request.kind,
         elevated: options.is_some_and(|o| o.as_admin) || !user_writable(&root),
+        background: request.background,
         interactive: options.is_some_and(|o| o.interactive) && request.kind == Kind::Install,
         parse_progress,
         // Chocolatey stahuje instalátory do %TEMP%\chocolatey\<balíček>\<verze>
@@ -362,7 +363,7 @@ mod tests {
     use super::*;
 
     fn request(kind: Kind, id: &str) -> OperationRequest {
-        OperationRequest { kind, package_id: id.into(), version: None, options: None, name: None }
+        OperationRequest { kind, package_id: id.into(), version: None, options: None, name: None, background: false }
     }
 
     #[test]

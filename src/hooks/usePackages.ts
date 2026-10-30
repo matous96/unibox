@@ -5,6 +5,7 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "@/app/queryClient";
+import { archFamilies, matchesArch } from "@/lib/arch";
 import { eaIconSrc, steamIconSrc } from "@/lib/iconSrc";
 import { installedNameKey } from "@/lib/nameKey";
 import { isTauri } from "@/lib/tauri";
@@ -481,6 +482,19 @@ export function useModeFilter() {
         entries.filter((e) => (developer || !isDevOnly(e)) && inLockedSource(e, lock)),
     [developer, lock],
   );
+}
+
+/**
+ * Filtr platformy z nastavení (x64 / ARM64 / x86 / všechny) a test, zda mu aplikace odpovídá.
+ * Rodiny verzí pro jiné procesory se berou z celého katalogu (`Discord.Discord` vedle `.arm64` a `.x86` = x64).
+ */
+export function useArchFilter() {
+  const filter = useSettings((s) => s.archFilter);
+  const { data } = useCatalog();
+  return useMemo(() => {
+    const families = data ? archFamilies(data.catalog.packages) : undefined;
+    return { filter, fits: (entry: Pick<CatalogEntry, "sources">) => matchesArch(entry.sources, filter, families) };
+  }, [filter, data]);
 }
 
 /** Seřadí balíčky podle aktuálního nastavení řazení. */

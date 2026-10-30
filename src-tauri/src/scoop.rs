@@ -410,6 +410,7 @@ pub async fn scoop_operation(
         retry_args: None,
         kind: request.kind,
         elevated: false,
+        background: request.background,
         interactive: false,
         parse_progress,
         download_dirs: vec![root.join("cache")],
@@ -426,7 +427,7 @@ mod tests {
     use super::*;
 
     fn request(kind: Kind, id: &str) -> OperationRequest {
-        OperationRequest { kind, package_id: id.into(), version: None, options: None, name: None }
+        OperationRequest { kind, package_id: id.into(), version: None, options: None, name: None, background: false }
     }
 
     #[test]

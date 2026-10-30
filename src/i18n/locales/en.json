@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "Unibox",
-    "title": "Unibox – the app store for Windows"
+    "title": "Unibox – the app store for Windows",
+    "testBuild": "Test version"
   },
   "hero": {
     "eyebrow": "The app store for Windows",
@@ -527,14 +528,17 @@
       "endedLeftoverProcesses": "After uninstalling {{name}}, ended the processes still running from its folder: {{processes}}.",
       "selfUpdating": "{{name}} went back to version {{version}} on its own after updating to {{target}} – it uses its own updater. Updates through the package manager are no longer offered.",
       "traced": "Install monitor for {{name}}: recorded {{count}} new items (folders, shortcuts, registry). They'll be offered for removal after an uninstall.",
-      "skippedRunning": "{{name}} is running – the automatic update will wait until you close it."
+      "skippedRunning": "{{name}} is running – the automatic update will wait until you close it.",
+      "forceClosed": "{{name}} was running – force closed the processes {{processes}} so the installer can overwrite it.",
+      "needsAdmin": "{{name}} needs administrator rights to update – it will wait for a manual update."
     },
     "notice": {
       "prefetchFailed": "Couldn't download the installer in advance ({{detail}}) – WinGet will download it.",
       "retryElevated": "Failed without administrator rights – retrying as administrator…",
       "preCommand": "Running the pre-install command: {{detail}}",
       "postCommand": "Running the post-install command: {{detail}}",
-      "postCommandFailed": "The post-install command failed ({{detail}}) – the install itself succeeded."
+      "postCommandFailed": "The post-install command failed ({{detail}}) – the install itself succeeded.",
+      "needsAdmin": "Needs administrator rights – automatic updates in the background don’t open the UAC dialog."
     },
     "phase": {
       "queued": "Waiting in queue…",
@@ -809,7 +813,14 @@
     "allSources": "All managers",
     "originLabel": "Filter by install source",
     "allOrigins": "All sources",
-    "emptyForSource": "No apps in this category are available via {{source}}."
+    "emptyForSource": "No apps in this category are available via {{source}}.",
+    "archLabel": "Filter by platform (processor)",
+    "allArches": "All platforms",
+    "allArchesHint": "Apps for every type of processor",
+    "thisDevice": "This PC",
+    "hiddenByArch": "Hidden results for platforms other than {{arch}}: {{hidden}}",
+    "showAllArches": "Show all platforms",
+    "emptyForArch": "Nothing here for {{arch}}."
   },
   "package": {
     "install": "Install",
@@ -1037,6 +1048,14 @@
       "point1": "A bar at the top shows the filter is on",
       "point2": "Click again or “Show all sources” to clear it",
       "point3": "Works for developer package managers too"
+    },
+    "notifications": {
+      "title": "Notifications and updates",
+      "text": "The result of every install, update and uninstall is under the bell at the top right – including what Unibox did in the background.",
+      "point1": "Errors come with the full message – click to copy it",
+      "point2": "An orange dot on the icon by the clock means updates are available",
+      "point3": "The full operation history is one click away",
+      "where": "Choose what gets announced in Settings → Notification preferences."
     },
     "uninstall": {
       "title": "Advanced uninstall",
@@ -1524,6 +1543,8 @@
     "uninstall": "Uninstall and running apps",
     "closeBackgroundProcesses": "Close an app running in the background without asking",
     "closeBackgroundProcessesHint": "Before an install, update or uninstall, Unibox ends the app's processes that have no window (such as a tray icon or a process stuck in memory). An app with an open window gets a one-click offer to close it.",
+    "forceCloseRunning": "Force close a running app without asking",
+    "forceCloseRunningHint": "Before an install, update or uninstall, Unibox force closes the running app right away – even with an open window, without asking. Unsaved work is lost. Automatic background updates don't close an app with an open window – they wait.",
     "advancedUninstall": "Advanced uninstall with a leftover scan (registry and files)",
     "advancedUninstallHint": "After an uninstall, it searches Program Files, ProgramData, Start menu and desktop shortcuts and the Windows registry (HKCU and HKLM\\Software) besides AppData, and offers to delete the leftovers. Files go to the Recycle Bin; registry keys are backed up before they're deleted.",
     "autoCleanup": "Remove leftover files and registry entries automatically, without a confirmation window",
@@ -1665,7 +1686,8 @@
     "fallback": "{{name}}: couldn't download the installer from {{from}} – trying {{to}}…",
     "fallbackNext": "{{name}}: installing via {{from}} failed – trying {{to}}…",
     "fallbackFailed": "{{name}} couldn't be installed: the installer from {{from}} is unavailable and the fallback via {{sources}} failed – {{error}}",
-    "endedProcesses": "{{name}} was running in the background – Unibox closed it and is continuing"
+    "endedProcesses": "{{name}} was running in the background – Unibox closed it and is continuing",
+    "forceClosed": "{{name}} was running – Unibox force closed it and is continuing"
   },
   "notifications": {
     "title": "Notifications",
@@ -1690,7 +1712,8 @@
     "progress": "{{kind}} via {{source}}…",
     "endedProcesses": "The app was running in the background – ended the processes {{processes}}.",
     "selfUpdating": "After updating to {{target}}, the app went back to version {{version}} on its own – it uses its own updater. Package manager updates won’t be offered anymore (change this on the app page).",
-    "summary": "Operation queue finished – {{success}} succeeded, {{failed}} failed, {{cancelled}} cancelled."
+    "summary": "Operation queue finished – {{success}} succeeded, {{failed}} failed, {{cancelled}} cancelled.",
+    "forceClosed": "The app was running – force closed the processes {{processes}}."
   },
   "tray": {
     "browse": "Browse packages",
@@ -1743,7 +1766,8 @@
     "multiple": "The id matches more than one package ({{code}}).",
     "linkBroken": "The installer download link is temporarily broken (Error {{status}}). Try choosing another install source (e.g. Chocolatey/Scoop).",
     "unknown": "WinGet finished with error {{code}}",
-    "preCommandFailed": "The pre-install command failed ({{code}}) – the install didn't start."
+    "preCommandFailed": "The pre-install command failed ({{code}}) – the install didn't start.",
+    "needsAdmin": "The operation needs administrator rights – it doesn’t run in the background, start it manually ({{code}})."
   },
   "managerError": {
     "failed": "{{name}} finished with error {{code}}",
@@ -1751,7 +1775,9 @@
     "restartFirst": "{{name}}: restart your computer first to finish a previous installation.",
     "preCommandFailed": "{{name}}: the pre-install command failed ({{code}}) – the install didn't start.",
     "listFailed": "{{name}} didn't return its list of installed apps – its apps are missing in Unibox for now. We'll try again on the next refresh. ({{error}})",
-    "searchFailed": "Couldn't search: {{names}}. Results from the other package managers are below."
+    "searchFailed": "Couldn't search: {{names}}. Results from the other package managers are below.",
+    "requiresAdmin": "{{name}}: the operation needs administrator rights (module for all users), but elevation is turned off in Settings → Administrator rights ({{code}}).",
+    "needsAdmin": "{{name}}: the operation needs administrator rights – it doesn’t run in the background, start it manually."
   },
   "common": {
     "loading": "Loading…",
@@ -1903,7 +1929,11 @@
     "trayNote": "A failed automatic update is written to the notification history (bell) and Unibox tries again next time – after three failures it leaves it to you. Running apps wait until you close them.",
     "allApps": "Updated automatically (Settings → Package updates)",
     "thisApp": "Update automatically",
-    "gaveUp": "The automatic update to version {{version}} failed three times – update it manually in Available updates."
+    "gaveUp": "The automatic update to version {{version}} failed three times – update it manually in Available updates.",
+    "needsAdmin": "The update to version {{version}} needs administrator rights, so it won’t run in the background – it’s waiting for your confirmation in Updates available.",
+    "pendingTitle": "Waiting for your confirmation ({{n}})",
+    "pendingText": "These updates need administrator rights, so automatic updates didn’t run them in the background. Confirm them all with a single Windows dialog.",
+    "pendingAction": "Update as administrator"
   },
   "security": {
     "warningTitle": "Warning!",

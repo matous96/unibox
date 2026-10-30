@@ -31,7 +31,7 @@ import i18n from "@/i18n";
 import { getSource, managers, type OperationHandle, type OperationResult } from "@/services/managers";
 import type { LoadedCatalog } from "@/services/catalog";
 import { notifyEvent, type NotifyEventType } from "@/services/notify";
-import { closableInBackground, endProcesses, findAppProcesses } from "@/services/processes";
+import { closableInBackground, closeProcesses, endProcesses, findAppProcesses } from "@/services/processes";
 import { traceBegin, traceDiscard, traceEnd, traceKey } from "@/services/tracker";
 import { recordPhaseDuration } from "@/lib/phaseEstimate";
 import { isTauri } from "@/lib/tauri";
@@ -174,10 +174,33 @@ async function backgroundReady(job: Job): Promise<boolean> {
   return true;
 }
 
+/** Operace na pozadí, kterou backend nespustil (nebo nezopakoval), protože by potřebovala dialog UAC. */
+const needsAdminLater = (job: Job, result: OperationResult) => !!job.background && result.errorKey === "needsAdmin";
+
 async function prepareProcesses(job: Job): Promise<boolean> {
   if (job.background || job.kind === "download") return true;
   const found = await findAppProcesses(job.packageId, job.appName).catch(() => []);
   if (!found.length) return true;
+  // Nastavení „Ukončit běžící aplikaci natvrdo bez dotazu“: hned natvrdo, i s oknem, bez dialogu –
+  // stejné procesy, jaké by dialog nabídl ukončit (i nalezené jen podle názvu: aplikace v Electronu
+  // jako Claude nebo Discord nemají v registru složku instalace)
+  if (useSettings.getState().forceCloseRunning) {
+    const alive = await closeProcesses(found.map((p) => p.pid), true).catch(() => found.map((p) => p.pid));
+    const ended = found.filter((p) => !alive.includes(p.pid));
+    if (ended.length) {
+      const params = { name: job.appName, processes: processNames(ended) };
+      writeLog(job.source, "warning", i18n.t("logs.msg.forceClosed", params));
+      notifyEvent({
+        type: "info",
+        tone: "info",
+        title: job.appName,
+        message: i18n.t("notifications.forceClosed", params),
+        toast: i18n.t("toast.forceClosed", params),
+        record: { kind: job.kind, source: job.source, appId: job.appId },
+      });
+    }
+    return true;
+  }
   let remaining = found;
   const quiet = useSettings.getState().closeBackgroundProcesses ? found.filter(closableInBackground) : [];
   if (quiet.length) {
@@ -271,7 +294,14 @@ export const useJobs = create<JobsState>()((set, get) => {
     let phaseSince = Date.now();
     const handle = managers[job.source].startOperation(
       // Vlastní argumenty, příkazy před / po instalaci a „jako správce“ jen podle Nastavení → Oprávnění správce
-      { kind: job.kind, packageId: job.packageId, version: job.version, options: applySecurityPolicy(job.options), name: job.appName },
+      {
+        kind: job.kind,
+        packageId: job.packageId,
+        version: job.version,
+        options: applySecurityPolicy(job.options),
+        name: job.appName,
+        background: job.background,
+      },
       (progress) => {
         if (progress.phase !== phase) {
           phase = progress.phase;
@@ -284,6 +314,8 @@ export const useJobs = create<JobsState>()((set, get) => {
     const result = await handle.done;
     handles.delete(job.appId);
     if (result.outcome === "success" && phase) recordPhaseDuration(job, phase, Date.now() - phaseSince);
+    // Na pozadí přeskočeno kvůli právům správce – nic neproběhlo, do historie operací nepatří
+    if (needsAdminLater(job, result)) return result;
 
     useHistory.getState().add({
       id: job.id,
@@ -375,6 +407,23 @@ export const useJobs = create<JobsState>()((set, get) => {
 
     remove(appId);
     running = false;
+
+    // Automatická aktualizace, která potřebuje práva správce: na pozadí bez dialogu UAC – verze
+    // počká na ruční aktualizaci (Dostupné aktualizace) a jednou se to klidně oznámí do zvonečku
+    if (needsAdminLater(job, result)) {
+      writeLog(job.source, "info", i18n.t("logs.msg.needsAdmin", { name: job.appName }));
+      if (job.kind === "update" && job.targetVersion && useUpdateHolds.getState().holdForManual(versionKey(job, job.targetVersion))) {
+        notifyEvent({
+          type: "info",
+          tone: "info",
+          title: job.appName,
+          message: i18n.t("autoUpdates.needsAdmin", { version: job.targetVersion }),
+          record: { kind: job.kind, source: job.source, appId },
+          popup: false,
+        });
+      }
+      return processNext();
+    }
 
     // Oznámení výsledku (včetně zdroje, přes který se instalovalo) podle Nastavení → Oznámení:
     // krátce v rohu okna / ve Windows a trvale v historii (zvoneček) – tam bez názvu aplikace,

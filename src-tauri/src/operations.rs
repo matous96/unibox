@@ -74,6 +74,9 @@ pub struct OperationRequest {
     /// Název aplikace – vodítko pro dohledání záznamu v registru (správce zná jen id).
     #[serde(default)]
     pub name: Option<String>,
+    /// Automatická operace na pozadí (nikdo se nedívá) – bez dialogu UAC.
+    #[serde(default)]
+    pub background: bool,
 }
 
 /// Fáze průběhu – stejné názvy jako OperationPhase ve frontendu.
@@ -155,6 +158,8 @@ pub struct Spec {
     pub retry_args: Option<(i32, Vec<String>)>,
     pub kind: Kind,
     pub elevated: bool,
+    /// Automatická operace na pozadí: s právy správce jen bez dialogu UAC, jinak ji nechat na uživateli.
+    pub background: bool,
     pub interactive: bool,
     /// Průběh v procentech z řádku výstupu (None = běžný řádek).
     pub parse_progress: fn(&str) -> Option<f64>,
@@ -193,6 +198,23 @@ static OPERATIONS: LazyLock<Mutex<HashMap<String, CancelToken>>> = LazyLock::new
 /// Drží ho právě běžící operace – další čekají.
 static ONE_AT_A_TIME: Mutex<()> = Mutex::new(());
 
+/// Začátek dávky s jediným dialogem UAC („Čeká na potvrzení“ → Aktualizovat jako správce).
+#[tauri::command]
+pub fn elevated_batch_begin() {
+    elevation::begin_batch();
+}
+
+/// Konec dávky – až po právě běžící operaci, která může pomocníka relace používat.
+#[tauri::command]
+pub async fn elevated_batch_end() -> Result<(), String> {
+    process::background(|| {
+        let _turn = ONE_AT_A_TIME.lock().unwrap_or_else(|e| e.into_inner());
+        elevation::end_batch();
+        Ok(())
+    })
+    .await
+}
+
 #[tauri::command]
 pub fn cancel_operation(id: String) {
     if let Some(token) = OPERATIONS.lock().unwrap_or_else(|e| e.into_inner()).get(&id) {
@@ -227,6 +249,12 @@ pub async fn execute(id: String, spec: Spec, channel: Channel<OpEvent>) -> Resul
         }
         let mut tracker = Tracker::new(&spec, channel);
 
+        // Na pozadí (automatická aktualizace) žádný dialog UAC – operaci s právy správce nechat
+        // na uživateli, ledaže ji tiše převezme už povýšený pomocník („Požádat … pouze jednou“)
+        if spec.elevated && spec.background && !elevation::elevates_silently(&spec.program, &spec.args) {
+            return Ok(needs_admin(&tracker, 0));
+        }
+
         // 0) Vlastní příkaz před instalací – když selže, instalace se nespustí
         if let Some(command) = spec.pre_command.clone() {
             tracker.notice("preCommand", Some(command.clone()));
@@ -260,20 +288,25 @@ pub async fn execute(id: String, spec: Spec, channel: Channel<OpEvent>) -> Resul
         // 2) Správce balíčků
         let mut exit = run(&spec, &spec.args, spec.elevated, &token, &mut tracker)?;
 
-        // 3) Selhání kvůli oprávněním (např. odinstalace MSI pro všechny uživatele) → znovu jako správce
+        // 3) Selhání kvůli oprávněním (např. odinstalace MSI pro všechny uživatele) → znovu jako správce;
+        //    operace spuštěná rovnou jako správce znovu jen s upravenými argumenty (MSI s ALLUSERS=1)
         //    (ne se zákazem povýšení v Nastavení; ne po pádu instalátoru – ten práva správce nespraví)
-        if !spec.elevated
+        let retry_args = match &spec.retry_args {
+            Some((code, args)) if *code == exit.code => Some(args.clone()),
+            _ => None,
+        };
+        if (!spec.elevated || retry_args.is_some())
             && !policy.elevation_prohibited
             && !exit.cancelled
             && tracker.crash().is_none()
             && (spec.interpret)(spec.kind, exit.code).retry_elevated
         {
+            let args = retry_args.unwrap_or_else(|| spec.args.clone());
+            if spec.background && !elevation::elevates_silently(&spec.program, &args) {
+                return Ok(needs_admin(&tracker, exit.code));
+            }
             tracker.notice("retryElevated", None);
-            let args = match &spec.retry_args {
-                Some((code, args)) if *code == exit.code => args,
-                _ => &spec.args,
-            };
-            exit = run(&spec, args, true, &token, &mut tracker)?;
+            exit = run(&spec, &args, true, &token, &mut tracker)?;
         }
 
         let detail = tracker.take_last_line();
@@ -296,6 +329,12 @@ pub async fn execute(id: String, spec: Spec, channel: Channel<OpEvent>) -> Resul
     result
 }
 
+/// Operace na pozadí potřebuje práva správce – bez dialogu UAC ji nechat na uživateli.
+fn needs_admin(tracker: &Tracker, code: i32) -> OperationResult {
+    tracker.notice("needsAdmin", None);
+    OperationResult { outcome: Outcome::Error, code, error_key: Some("needsAdmin"), restart_required: false, detail: None }
+}
+
 /// Spustí příkaz správce – normálně, nebo s právy správce (UAC).
 fn run(spec: &Spec, args: &[String], elevated: bool, token: &CancelToken, tracker: &mut Tracker) -> Result<Exit, String> {
     if elevated {
@@ -306,8 +345,9 @@ fn run(spec: &Spec, args: &[String], elevated: bool, token: &CancelToken, tracke
         Output::Line(line) => tracker.line(line),
     };
     if elevated {
-        // „Požádat o práva správce jen jednou“ – další operace obslouží už povýšený pomocník
-        if security::policy().cache_elevation {
+        // „Požádat o práva správce jen jednou“ a dávka s jediným dialogem UAC – další operace
+        // obslouží už povýšený pomocník
+        if security::policy().cache_elevation || elevation::batch_active() {
             elevation::run_elevated_cached(&spec.program, args, token, on_output)
         } else {
             elevation::run_elevated(&spec.program, args, token, on_output)

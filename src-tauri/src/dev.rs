@@ -825,12 +825,22 @@ pub async fn dev_setup(source: Dev) -> Result<(), String> {
 
 /// PowerShell: příkaz modulu podle operace (PSResourceGet v PowerShellu 7, jinak PowerShellGet).
 fn ps_operation_script(dev: Dev, request: &OperationRequest, version: Option<&str>, downloads: &Path) -> String {
-    let id = &request.package_id;
     let default_options = InstallOptions::default();
     let options = request.options.as_ref().unwrap_or(&default_options);
-    let scope = if options.scope.as_deref() == Some("machine") { "AllUsers" } else { "CurrentUser" };
+    let all_users = options.scope.as_deref() == Some("machine");
+    ps_module_script(dev, request.kind, &request.package_id, version, all_users, downloads)
+}
+
+/// Návratový kód skriptu, když operace potřebuje práva správce (ERROR_ELEVATION_REQUIRED).
+const PS_NEEDS_ADMIN: i32 = 740;
+
+/// Pevné argumenty PowerShellu před zakódovaným skriptem operace.
+const PS_ARGS: [&str; 6] = ["-NoLogo", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-EncodedCommand"];
+
+fn ps_module_script(dev: Dev, kind: Kind, id: &str, version: Option<&str>, all_users: bool, downloads: &Path) -> String {
+    let scope = if all_users { "AllUsers" } else { "CurrentUser" };
     let path = ps_string(&downloads.to_string_lossy());
-    let (resource, module) = match request.kind {
+    let (resource, module) = match kind {
         Kind::Install => (
             format!("Install-PSResource -Name '{id}' -Repository PSGallery -TrustRepository -Scope {scope}{}", version.map(|v| format!(" -Version '{v}'")).unwrap_or_default()),
             format!("Install-Module -Name '{id}' -Repository PSGallery -Scope {scope} -Force -AllowClobber{}", version.map(|v| format!(" -RequiredVersion '{v}'")).unwrap_or_default()),
@@ -849,12 +859,100 @@ fn ps_operation_script(dev: Dev, request: &OperationRequest, version: Option<&st
             "if (-not (Get-PackageProvider -ListAvailable -Name NuGet -ErrorAction SilentlyContinue)) {{ Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Scope CurrentUser -Force | Out-Null }}\n{module}"
         ),
     };
+    // Instalace pro všechny uživatele a změna modulu v Program Files (nainstalovaného pro všechny)
+    // potřebují práva správce – bez nich skript skončí kódem 740 a Unibox operaci zopakuje s UAC
+    let needs_admin = match kind {
+        Kind::Install if all_users => Some("$true".to_string()),
+        Kind::Update | Kind::Uninstall => {
+            let installed = match dev {
+                Dev::Pwsh => format!("if (Get-Command Get-InstalledPSResource -ErrorAction SilentlyContinue) {{ Get-InstalledPSResource -Name '{id}' -ErrorAction SilentlyContinue }} else {{ Get-InstalledModule -Name '{id}' -AllVersions -ErrorAction SilentlyContinue }}"),
+                _ => format!("Get-InstalledModule -Name '{id}' -AllVersions -ErrorAction SilentlyContinue"),
+            };
+            Some(format!("@(@({installed}) | Where-Object {{ $_.InstalledLocation -and ([string]$_.InstalledLocation).StartsWith($env:ProgramFiles, [StringComparison]::OrdinalIgnoreCase) }}).Count -gt 0"))
+        }
+        _ => None,
+    };
+    let admin_check = needs_admin
+        .map(|needs| {
+            format!(
+                "$admin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)\n\
+                 if (-not $admin -and ({needs})) {{ Write-Output 'Module is installed for all users - administrator rights are required.'; exit {PS_NEEDS_ADMIN} }}\n"
+            )
+        })
+        .unwrap_or_default();
     format!(
         "$ErrorActionPreference = 'Stop'\n$ProgressPreference = 'SilentlyContinue'\n\
          [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding $false\n\
          [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor 3072\n\
-         try {{\n{command} *>&1\nexit 0\n}} catch {{ Write-Output $_.Exception.Message; exit 1 }}"
+         try {{\n{admin_check}{command} *>&1\nexit 0\n}} catch {{ Write-Output $_.Exception.Message; exit 1 }}"
     )
+}
+
+/// Modul PowerShellu, se kterým jde pracovat jen jako správce: instalace pro všechny uživatele,
+/// aktualizace či odinstalace modulu, který PowerShellGet nainstaloval do Program Files
+/// (verze se souborem PSGetModuleInfo.xml – moduly dodané s Windows ho nemají a jejich novější
+/// verze bývá u uživatele). Ostatní případy pozná skript sám (kód 740 → opakování s UAC).
+fn ps_needs_admin(dev: Dev, kind: Kind, id: &str, all_users: bool) -> bool {
+    let modules = match dev {
+        Dev::Pwsh => r"PowerShell\Modules",
+        _ => r"WindowsPowerShell\Modules",
+    };
+    match kind {
+        Kind::Install => all_users,
+        Kind::Update | Kind::Uninstall => std::fs::read_dir(program_files().join(modules).join(id))
+            .map(|versions| versions.flatten().any(|v| v.path().join("PSGetModuleInfo.xml").is_file()))
+            .unwrap_or(false),
+        Kind::Download => false,
+    }
+}
+
+/// Argumenty PowerShellu pro skript operace (zakódovaný v UTF-16, na uvozovkách nezáleží).
+fn ps_args(script: &str) -> Vec<String> {
+    let encoded = BASE64.encode(script.encode_utf16().flat_map(u16::to_le_bytes).collect::<Vec<u8>>());
+    PS_ARGS.iter().map(|a| a.to_string()).chain([encoded]).collect()
+}
+
+/// Text mezi „prefix“ a následujícím apostrofem („-Name 'Pester'“ → „Pester“).
+fn quoted_after<'a>(script: &'a str, prefix: &str) -> Option<&'a str> {
+    let rest = &script[script.find(prefix)? + prefix.len()..];
+    rest.find('\'').map(|end| &rest[..end])
+}
+
+/// Smí běžet s právy správce? Jen operace s modulem PowerShellu přesně v podobě, jakou sestaví
+/// Unibox (instalace, aktualizace, odinstalace z PowerShell Gallery podle ověřeného id a verze),
+/// a jen systémovým Windows PowerShellem nebo PowerShellem 7 v Program Files – spustitelný
+/// soubor ve složce, kam smí zapisovat běžný uživatel, by se dal podvrhnout.
+pub fn is_module_command(program: &str, args: &[String]) -> bool {
+    let path = Path::new(program);
+    let stem = path.file_stem().map(|s| s.to_string_lossy().to_lowercase()).unwrap_or_default();
+    let dev = match stem.as_str() {
+        "powershell" if path.to_string_lossy().eq_ignore_ascii_case(&powershell_exe().to_string_lossy()) => Dev::Powershell,
+        "pwsh" if path.starts_with(program_files()) => Dev::Pwsh,
+        _ => return false,
+    };
+    if args.len() != PS_ARGS.len() + 1 || args.iter().zip(PS_ARGS).any(|(a, b)| a != b) {
+        return false;
+    }
+    let Some(script) = BASE64
+        .decode(&args[PS_ARGS.len()])
+        .ok()
+        .filter(|bytes| bytes.len() % 2 == 0)
+        .and_then(|bytes| String::from_utf16(&bytes.chunks_exact(2).map(|c| u16::from_le_bytes([c[0], c[1]])).collect::<Vec<u16>>()).ok())
+    else {
+        return false;
+    };
+    let Some(id) = quoted_after(&script, "-Name '").filter(|id| valid_id(dev, id)) else {
+        return false;
+    };
+    let version = quoted_after(&script, "-RequiredVersion '").or_else(|| quoted_after(&script, "-Version '"));
+    if version.is_some_and(|v| !valid_version(v)) {
+        return false;
+    }
+    // Stažení (Save-Module) práva správce nepotřebuje – cesta ke složce se proto neověřuje
+    [Kind::Install, Kind::Update, Kind::Uninstall]
+        .into_iter()
+        .flat_map(|kind| [false, true].map(|all_users| (kind, all_users)))
+        .any(|(kind, all_users)| ps_module_script(dev, kind, id, version, all_users, Path::new("")) == script)
 }
 
 /// Argumenty nástroje pro operaci (bez úvodních argumentů nástroje).
@@ -944,10 +1042,11 @@ fn operation_args(dev: Dev, request: &OperationRequest, version: Option<&str>, d
 }
 
 fn interpret(_kind: Kind, code: i32) -> Verdict {
-    if code == 0 {
-        Verdict::success(false)
-    } else {
-        Verdict::error("failed")
+    match code {
+        0 => Verdict::success(false),
+        // Modul PowerShellu pro všechny uživatele bez práv správce – zopakovat s UAC
+        PS_NEEDS_ADMIN => Verdict::error("requiresAdmin").retry_elevated(),
+        _ => Verdict::error("failed"),
     }
 }
 
@@ -982,9 +1081,7 @@ pub async fn dev_operation(
     let (program, args) = match source {
         Dev::Pwsh | Dev::Powershell => {
             let script = ps_operation_script(source, &request, version.as_deref(), &downloads);
-            let encoded = BASE64.encode(script.encode_utf16().flat_map(u16::to_le_bytes).collect::<Vec<u8>>());
-            let args = ["-NoLogo", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-EncodedCommand", encoded.as_str()].map(String::from).to_vec();
-            (tool.program, args)
+            (tool.program, ps_args(&script))
         }
         _ => {
             let mut args = tool.prefix.clone();
@@ -992,13 +1089,23 @@ pub async fn dev_operation(
             (tool.program, args)
         }
     };
+    // Modul PowerShellu pro všechny uživatele: rovnou jako správce (mimo vlákno asynchronního běhu)
+    let elevated = match source {
+        Dev::Pwsh | Dev::Powershell => {
+            let (kind, id) = (request.kind, request.package_id.clone());
+            let all_users = request.options.as_ref().is_some_and(|o| o.scope.as_deref() == Some("machine"));
+            background(move || Ok(ps_needs_admin(source, kind, &id, all_users))).await?
+        }
+        _ => false,
+    };
     let (pre_command, post_command) = operations::custom_commands(&request);
     let spec = Spec {
         program: program.to_string_lossy().into_owned(),
         args,
         retry_args: None,
         kind: request.kind,
-        elevated: false,
+        elevated,
+        background: request.background,
         interactive: false,
         parse_progress: no_progress,
         download_dirs: Vec::new(),
@@ -1015,7 +1122,7 @@ mod tests {
     use super::*;
 
     fn request(kind: Kind, id: &str) -> OperationRequest {
-        OperationRequest { kind, package_id: id.into(), version: None, options: None, name: None }
+        OperationRequest { kind, package_id: id.into(), version: None, options: None, name: None, background: false }
     }
 
     #[test]
@@ -1120,6 +1227,52 @@ mod tests {
         assert!(script.contains("Install-PackageProvider -Name NuGet") && script.contains("Install-Module -Name 'Pester' -Repository PSGallery -Scope CurrentUser -Force -AllowClobber"));
         let script = ps_operation_script(Dev::Pwsh, &request(Kind::Uninstall, "Pester"), None, downloads);
         assert!(script.contains("Uninstall-PSResource -Name 'Pester'") && script.contains("Uninstall-Module -Name 'Pester' -AllVersions -Force"));
+    }
+
+    #[test]
+    fn ps_modules_for_all_users_need_admin() {
+        let downloads = Path::new(r"C:\Users\u\Downloads");
+        let update = ps_operation_script(Dev::Powershell, &request(Kind::Update, "Microsoft.WinGet.Client"), None, downloads);
+        assert!(update.contains("Get-InstalledModule -Name 'Microsoft.WinGet.Client' -AllVersions") && update.contains("exit 740"));
+        assert!(!ps_operation_script(Dev::Pwsh, &request(Kind::Install, "Pester"), None, downloads).contains("exit 740"));
+        let mut machine = request(Kind::Install, "Pester");
+        machine.options = Some(InstallOptions { scope: Some("machine".into()), ..Default::default() });
+        assert!(ps_operation_script(Dev::Powershell, &machine, Some("5.6.1"), downloads).contains("if (-not $admin -and ($true))"));
+        assert!(interpret(Kind::Update, PS_NEEDS_ADMIN).retry_elevated);
+        assert!(!interpret(Kind::Update, 1).retry_elevated);
+
+        // Rovnou jako správce: instalace pro všechny uživatele; neexistující modul ani stažení ne
+        assert!(ps_needs_admin(Dev::Powershell, Kind::Install, "Pester", true));
+        assert!(!ps_needs_admin(Dev::Powershell, Kind::Install, "Pester", false));
+        assert!(!ps_needs_admin(Dev::Powershell, Kind::Update, "Unibox.Nonexistent.Module", false));
+        assert!(!ps_needs_admin(Dev::Pwsh, Kind::Download, "Pester", true));
+        assert!(!crate::elevation::elevates_silently(&powershell_exe().to_string_lossy(), &ps_args(&update)));
+    }
+
+    #[test]
+    fn only_unibox_module_scripts_may_elevate() {
+        let ps = powershell_exe().to_string_lossy().into_owned();
+        let pwsh = program_files().join(r"PowerShell\7\pwsh.exe").to_string_lossy().into_owned();
+        let downloads = Path::new(r"C:\Users\u\Downloads");
+        let script = |dev: Dev, kind: Kind, id: &str| ps_operation_script(dev, &request(kind, id), None, downloads);
+        let mut machine = request(Kind::Install, "Pester");
+        machine.options = Some(InstallOptions { scope: Some("machine".into()), ..Default::default() });
+        assert!(is_module_command(&ps, &ps_args(&script(Dev::Powershell, Kind::Update, "Microsoft.WinGet.Client"))));
+        assert!(is_module_command(&ps, &ps_args(&script(Dev::Powershell, Kind::Uninstall, "Az.Accounts"))));
+        assert!(is_module_command(&ps, &ps_args(&ps_operation_script(Dev::Powershell, &machine, Some("5.6.1"), downloads))));
+        assert!(is_module_command(&pwsh, &ps_args(&script(Dev::Pwsh, Kind::Update, "Pester"))));
+
+        // Program mimo chráněné složky, upravený skript, jiné argumenty, stažení do složky → ne
+        let update = script(Dev::Powershell, Kind::Update, "Pester");
+        assert!(!is_module_command(r"C:\Users\u\scoop\shims\powershell.exe", &ps_args(&update)));
+        assert!(!is_module_command(r"C:\Users\u\scoop\apps\pwsh\current\pwsh.exe", &ps_args(&script(Dev::Pwsh, Kind::Update, "Pester"))));
+        assert!(!is_module_command(&ps, &ps_args(&format!("{update}\nStart-Process calc"))));
+        assert!(!is_module_command(&ps, &ps_args(&update.replace("'Pester'", "'Pester'; calc; '"))));
+        let mut args = ps_args(&update);
+        args[3] = "RemoteSigned".into();
+        assert!(!is_module_command(&ps, &args));
+        assert!(!is_module_command(&ps, &ps_args(&script(Dev::Powershell, Kind::Download, "Pester"))));
+        assert!(!is_module_command(&ps, &["-Command".into(), "calc".into()]));
     }
 
     #[test]

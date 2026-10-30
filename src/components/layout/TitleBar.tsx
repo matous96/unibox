@@ -2,6 +2,7 @@ import { getCurrentWindow } from "@tauri-apps/api/window";
 import { useEffect, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
+import { TestBuildBadge } from "./TestBuildBadge";
 
 /**
  * Vlastní titulková lišta desktopové aplikace (okno nemá systémové dekorace,
@@ -13,6 +14,8 @@ import { cn } from "@/lib/utils";
  *   Windows 11 (glyfy systémového písma Segoe Fluent Icons).
  * - Zavření okna podle nastavení Unibox jen schová do oznamovací oblasti
  *   (řeší backend, tray.rs).
+ * - Testovací verze (tauri dev) má nad logem v postranním panelu oranžový štítek,
+ *   ať nejde zaměnit s nainstalovaným Uniboxem, který běží vedle.
  */
 export function TitleBar() {
   const { t } = useTranslation();
@@ -32,7 +35,9 @@ export function TitleBar() {
   return (
     <div data-tauri-drag-region className="flex h-8 shrink-0 select-none">
       {/* Nad postranním panelem stejné pozadí – panel tak opticky sahá až k hornímu okraji */}
-      <div data-tauri-drag-region className="theme-transition w-64 shrink-0 border-r border-line bg-sidebar" />
+      <div data-tauri-drag-region className="theme-transition flex w-64 shrink-0 items-end border-r border-line bg-sidebar px-5 pb-0.5">
+        <TestBuildBadge />
+      </div>
       <div data-tauri-drag-region className="flex min-w-0 flex-1 justify-end">
         <div className={cn("flex transition-opacity", !focused && "opacity-50")}>
           <CaptionButton label={t("titleBar.minimize")} onClick={() => void window.minimize()}>

@@ -1,6 +1,7 @@
 import { ArrowDownUp, Check, ChevronDown, Info, Star, TrendingUp } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ArchFilter } from "@/components/package/ArchFilter";
 import { PackageRow } from "@/components/package/PackageRow";
 import { ratingsEnabled, useRatingFormat, useRatingSummaries } from "@/components/package/RatingsSection";
 import { matchesSource, SourceFilter, type SourceFilterValue } from "@/components/package/SourceFilter";
@@ -9,7 +10,7 @@ import { getSource, isSourceId } from "@/services/managers";
 import { CATEGORIES } from "@/data/categories";
 import { useDismiss } from "@/hooks/useDismiss";
 import { useUrlState } from "@/hooks/useUrlState";
-import { useCatalog, useModeFilter } from "@/hooks/usePackages";
+import { useArchFilter, useCatalog, useModeFilter } from "@/hooks/usePackages";
 import { trendingScore } from "@/lib/trending";
 import { cn, topN } from "@/lib/utils";
 import { useSettings } from "@/store/settings";
@@ -51,14 +52,18 @@ export function TopChartsPage() {
   const language = useSettings((s) => s.language);
 
   const modeFilter = useModeFilter();
+  const { fits: fitsArch } = useArchFilter();
   // Pořadí se počítá až po filtrech – „č. 1 ve Scoopu“ je nejpopulárnější aplikace dostupná ve Scoopu.
   const filtered = useMemo(() => {
     const list = (data?.catalog.packages ?? []).filter(
-      (p) => (category === "all" || p.categories.includes(category)) && matchesSource(p.sources, sourceFilter),
+      (p) =>
+        (category === "all" || p.categories.includes(category)) &&
+        matchesSource(p.sources, sourceFilter) &&
+        fitsArch(p),
     );
     // Běžný uživatel nevidí balíčky jen pro vývojáře – ledaže si vývojářského správce vybral ve filtru
     return sourceFilter !== "all" && getSource(sourceFilter).group === "dev" ? list : modeFilter(list);
-  }, [data, category, sourceFilter, modeFilter]);
+  }, [data, category, sourceFilter, modeFilter, fitsArch]);
 
   // Skokani týdne potřebují týden historie stažení v katalogu (data pipeline)
   const hasMovers = useMemo(() => (data?.catalog.packages ?? []).some((p) => p.weeklyGrowth !== undefined), [data]);
@@ -100,6 +105,7 @@ export function TopChartsPage() {
           <div className="flex flex-wrap items-center justify-end gap-2">
             <SortMenu value={sort} options={sorts} onChange={setSort} />
             {!lock && <SourceFilter value={sourceFilter} onChange={setSourceFilter} />}
+            <ArchFilter />
           </div>
         }
       />

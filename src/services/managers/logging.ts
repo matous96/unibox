@@ -187,10 +187,11 @@ export function withLogging(manager: PackageManager): PackageManager {
         onProgress(progress);
       });
 
-      handle.done.then(({ outcome, error }) => {
+      handle.done.then(({ outcome, error, errorKey }) => {
         if (outcome === "success") log("success", i18n.t(`logs.msg.${request.kind}Done`, { seconds: seconds(start) }));
         else if (outcome === "cancelled") log("warning", i18n.t("logs.msg.cancelled"));
-        else log("error", i18n.t("logs.msg.failed", { error: error ?? "" }));
+        // Na pozadí bez dialogu UAC nespuštěno – není to chyba, vysvětlí to fronta úloh (logs.msg.needsAdmin)
+        else if (!(request.background && errorKey === "needsAdmin")) log("error", i18n.t("logs.msg.failed", { error: error ?? "" }));
       });
       return handle;
     },

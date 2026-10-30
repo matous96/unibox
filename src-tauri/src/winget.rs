@@ -487,7 +487,7 @@ fn interpret(kind: Kind, code: i32) -> Verdict {
         0x8A15_0019 => Verdict::error("requiresAdmin").retry_elevated(),
         0x8A15_0030 => Verdict::error("uninstallFailed").retry_elevated(),
         0x8A15_0006 => Verdict::error("installerFailed").retry_elevated(),
-        // Instalace MSI selhala – mj. aplikace pro všechny uživatele bez ALLUSERS=1 (machine_retry_args)
+        // Instalace MSI selhala – mj. aplikace pro všechny uživatele bez ALLUSERS=1 (viz winget_operation)
         MSI_INSTALL_FAILED => Verdict::error("installerFailed").retry_elevated(),
         other => Verdict::error(match other {
             // Odkaz na instalátor v manifestu nefunguje (HRESULT 0x8019xxxx = stav HTTP):
@@ -544,20 +544,29 @@ pub async fn winget_operation(
     };
     let (pre_command, post_command) = operations::custom_commands(&request);
     let args = operation_args(&request, &downloads);
-    // Registr se čte jen u aktualizace (mimo vlákno asynchronního běhu)
-    let retry_args = if request.kind == Kind::Update {
-        let (package_id, name, scope) = (request.package_id.clone(), request.name.clone(), options.and_then(|o| o.scope.clone()));
-        let base = args.clone();
-        crate::process::background(move || Ok(machine_retry_args(&package_id, name.as_deref(), scope.as_deref(), &base))).await?
-    } else {
-        None
+    // Aplikace pro všechny uživatele (rozsah z voleb, jinak podle registru – čte se mimo vlákno
+    // asynchronního běhu): aktualizace a odinstalace rovnou jako správce, bez neúspěšného prvního pokusu
+    let scope = options.and_then(|o| o.scope.as_deref()).filter(|s| matches!(*s, "user" | "machine"));
+    let machine = match (request.kind, scope) {
+        (Kind::Update | Kind::Uninstall, Some(scope)) => scope == "machine",
+        (Kind::Update | Kind::Uninstall, None) if !is_store_id(&request.package_id) => {
+            let (package_id, name) = (request.package_id.clone(), request.name.clone());
+            crate::process::background(move || Ok(machine_only(&package_id, name.as_deref()))).await?
+        }
+        _ => false,
     };
+    // Instalátor MSI bez určeného rozsahu se spustí jen pro aktuálního uživatele a instalaci pro všechny
+    // odmítne přepsat („This app is already installed for everyone… pass ALLUSERS=1“, msiexec 1603 →
+    // winget 0x8A150049) – po této chybě se aktualizace zopakuje s `--custom ALLUSERS=1`.
+    // Jen bez rozsahu zvoleného ve volbách (jinak ho určí winget).
+    let retry_args = (request.kind == Kind::Update && machine && scope.is_none()).then(|| (MSI_INSTALL_FAILED as i32, with_custom(&args, "ALLUSERS=1")));
     let spec = Spec {
         program: winget_exe(),
         args,
         retry_args,
         kind: request.kind,
-        elevated: options.is_some_and(|o| o.as_admin),
+        elevated: options.is_some_and(|o| o.as_admin) || machine,
+        background: request.background,
         interactive: options.is_some_and(|o| o.interactive) && matches!(request.kind, Kind::Install | Kind::Update),
         parse_progress,
         download_dirs,
@@ -569,21 +578,11 @@ pub async fn winget_operation(
     operations::execute(id, spec, on_event).await
 }
 
-/// Aktualizace aplikace nainstalované pro všechny uživatele: instalátor MSI bez určeného
-/// rozsahu se spustí jen pro aktuálního uživatele a instalaci pro všechny odmítne přepsat
-/// („This app is already installed for everyone… pass ALLUSERS=1“, msiexec 1603 → winget
-/// 0x8A150049). Opakování s právy správce po této chybě proto dostane `--custom ALLUSERS=1`.
-/// Jen bez rozsahu zvoleného ve volbách a když registr zná aplikaci jen „pro počítač“.
-fn machine_retry_args(package_id: &str, name: Option<&str>, scope: Option<&str>, args: &[String]) -> Option<(i32, Vec<String>)> {
-    if scope.is_some_and(|s| matches!(s, "user" | "machine")) {
-        return None;
-    }
+/// Zná registr aplikaci jen „pro počítač“ (nainstalovanou pro všechny uživatele)?
+fn machine_only(package_id: &str, name: Option<&str>) -> bool {
     let registry = arp::Registry::load();
     let entries = registry.matching(package_id, name.unwrap_or_default(), "");
-    if entries.is_empty() || entries.iter().any(|entry| entry.user) {
-        return None;
-    }
-    Some((MSI_INSTALL_FAILED as i32, with_custom(args, "ALLUSERS=1")))
+    !entries.is_empty() && entries.iter().all(|entry| !entry.user)
 }
 
 /// winget 0x8A150049 – instalace MSI selhala (APPINSTALLER_CLI_ERROR_MSI_INSTALL_FAILED).
@@ -731,6 +730,7 @@ mod tests {
             version: None,
             options: None,
             name: None,
+            background: false,
         };
         let args = operation_args(&request("9NKSQGP7F2NH"), Path::new("C:\\Stažené"));
         assert!(args.windows(2).any(|w| w == ["--source", "msstore"]));
@@ -746,6 +746,7 @@ mod tests {
             version: Some("3.0.0".into()),
             options,
             name: None,
+            background: false,
         };
         let plain = operation_args(&update(None), Path::new("C:\\Stažené"));
         assert!(plain.contains(&"--silent".to_string()) && !plain.contains(&"--version".to_string()));

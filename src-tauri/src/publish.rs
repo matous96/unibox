@@ -362,14 +362,18 @@ pub async fn publish_save_manifest<R: Runtime>(app: AppHandle<R>, subfolder: Str
         .split('/')
         .filter(|part| !part.is_empty() && *part != "." && *part != ".." && part.chars().all(|c| c.is_ascii_alphanumeric() || matches!(c, '.' | '-' | '_' | '+')))
         .collect();
-    let mut dialog = app.dialog().file();
-    if let Some(window) = app.get_webview_window("main") {
-        dialog = dialog.set_parent(&window);
-    }
-    let Some(folder) = dialog.blocking_pick_folder() else { return Ok(None) };
-    let dir = folder.into_path().map_err(|e| e.to_string())?.join(subfolder);
-    write_files(&dir, &files)?;
-    Ok(Some(dir.to_string_lossy().into_owned()))
+    // Dialog čeká na uživatele – ve vlákně pro blokující práci, ne ve vlákně asynchronního běhu
+    process::background(move || {
+        let mut dialog = app.dialog().file();
+        if let Some(window) = app.get_webview_window("main") {
+            dialog = dialog.set_parent(&window);
+        }
+        let Some(folder) = dialog.blocking_pick_folder() else { return Ok(None) };
+        let dir = folder.into_path().map_err(|e| e.to_string())?.join(subfolder);
+        write_files(&dir, &files)?;
+        Ok(Some(dir.to_string_lossy().into_owned()))
+    })
+    .await
 }
 
 // ── GitHub: přihlášení pro odeslání pull requestu ────────────────────────

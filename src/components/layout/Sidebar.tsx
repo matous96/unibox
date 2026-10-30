@@ -20,7 +20,7 @@ import { SourcesPanel } from "./SourcesPanel";
 import { CATEGORIES } from "@/data/categories";
 import { useInstalledItems } from "@/hooks/useInstalledItems";
 import { useInstallableStats } from "@/hooks/usePackages";
-import { isTauri } from "@/lib/tauri";
+import { isTauri, isTestBuild } from "@/lib/tauri";
 import { cn, formatAppCount } from "@/lib/utils";
 import { useBundle } from "@/store/bundle";
 import { useFavorites } from "@/store/favorites";
@@ -45,7 +45,14 @@ export function Sidebar() {
     <aside className="theme-transition flex w-64 shrink-0 flex-col border-r border-line bg-sidebar">
       {/* Logo – stejná výška (h-16) a svislý střed jako horní lišta, ať leží v jedné rovině s vyhledáváním */}
       <div className="flex h-16 shrink-0 items-center gap-2.5 px-5">
-        <Link to="/" aria-label={t("nav.home")} className="shrink-0 rounded-[9px] shadow-lg shadow-accent/30 transition-transform hover:scale-105">
+        <Link
+          to="/"
+          aria-label={t("nav.home")}
+          className={cn(
+            "shrink-0 rounded-[9px] shadow-lg transition-transform hover:scale-105",
+            isTestBuild() ? "shadow-orange-500/30" : "shadow-accent/30",
+          )}
+        >
           <UniboxLogo size={38} />
         </Link>
         <div className="leading-tight">

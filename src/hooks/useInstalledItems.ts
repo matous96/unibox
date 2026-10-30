@@ -5,6 +5,7 @@
 import { useMemo } from "react";
 import { updateOptionsFor } from "@/store/installOptions";
 import { useBusyAppIds, useJobs } from "@/store/jobs";
+import { useUpdateHolds, versionKey } from "@/store/updateHolds";
 import type { CatalogEntry, InstalledPackage, InstallOrigin, SourceId } from "@/types";
 import { fallbackEntry, isListedInstalled, useInstalled, useInstalledEntries } from "./usePackages";
 
@@ -70,4 +71,14 @@ export function useUpdates(source?: SourceId) {
   };
 
   return { updatable, pending: pending.length, running, updateAll, isLoading };
+}
+
+/**
+ * Aktualizace, které automatické aktualizace odložily, protože potřebují práva správce
+ * (na pozadí bez dialogu UAC) – „Čeká na potvrzení“ v Dostupných aktualizacích.
+ */
+export function useAdminPendingUpdates() {
+  const { updatable } = useUpdates();
+  const held = useUpdateHolds((s) => s.needsAdmin);
+  return useMemo(() => updatable.filter(({ pkg }) => held[versionKey(pkg, pkg.availableVersion!)]), [updatable, held]);
 }
