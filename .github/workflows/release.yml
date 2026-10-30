@@ -52,8 +52,9 @@ jobs:
       VITE_AUTH_PROVIDERS: ${{ vars.VITE_AUTH_PROVIDERS || 'github' }}
       VITE_GITHUB_CLIENT_ID: ${{ vars.VITE_GITHUB_CLIENT_ID }}
       VITE_GITHUB_URL: ${{ vars.VITE_GITHUB_URL }}
-      # Výchozí je katalog z workflow Katalog na GitHub Pages tohoto repozitáře
-      VITE_CATALOG_URL: ${{ vars.VITE_CATALOG_URL || format('https://{0}.github.io/{1}/catalog.json', github.repository_owner, github.event.repository.name) }}
+      # Výchozí je katalog z workflow Katalog na GitHub Pages s vlastní doménou hubget.eu
+      # (stará adresa …github.io/unibox přesměrovává – Invoke-WebRequest ale z https na http nesměruje)
+      VITE_CATALOG_URL: ${{ vars.VITE_CATALOG_URL || 'https://hubget.eu/catalog.json' }}
     steps:
       - uses: actions/checkout@v4
 
