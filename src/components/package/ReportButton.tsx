@@ -1,12 +1,14 @@
 import { ExternalLink, Flag, Mail, ShieldAlert } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import pkgJson from "../../../package.json";
 import { GitHubIcon } from "@/components/ui/BrandIcons";
 import { Modal } from "@/components/ui/Modal";
-import { CONTACT_EMAIL, GITHUB_URL } from "@/config";
+import { CONTACT_PATH, GITHUB_URL } from "@/config";
 import { cn } from "@/lib/utils";
 import { getSource, sourcePackageUrl } from "@/services/managers";
+import { useContact } from "@/store/contact";
 import { useToasts } from "@/store/toasts";
 import type { CatalogEntry, PackageSource, SourceId } from "@/types";
 
@@ -50,11 +52,14 @@ interface ReportButtonProps {
 
 /**
  * Nahlášení problému s aplikací. Hlášení se odešle jako předvyplněné issue
- * na GitHubu projektu (nebo e-mailem) včetně údajů o balíčku a verzi HubGetu.
+ * na GitHubu projektu (nebo zprávou přes kontaktní formulář) včetně údajů
+ * o balíčku a verzi HubGetu.
  */
 export function ReportButton({ entry, pkg, installedVersion }: ReportButtonProps) {
   const { t } = useTranslation();
   const toast = useToasts((s) => s.push);
+  const navigate = useNavigate();
+  const prefillContact = useContact((s) => s.prefill);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState<ProblemType>("install");
   const [details, setDetails] = useState("");
@@ -82,7 +87,14 @@ export function ReportButton({ entry, pkg, installedVersion }: ReportButtonProps
   ].join("\n");
 
   const githubUrl = `${GITHUB_URL}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}&labels=${encodeURIComponent("report")}`;
-  const mailUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(body.replace(/\*\*/g, ""))}`;
+
+  // Zpráva přes kontaktní formulář: hlášení se předvyplní, e-mail pro odpověď doplní uživatel
+  const writeToUs = () => {
+    prefillContact("bug", `${title}\n\n${body.replace(/\*\*/g, "").replace("_—_", "—")}`);
+    setOpen(false);
+    setDetails("");
+    navigate(CONTACT_PATH);
+  };
 
   const sent = () => {
     setOpen(false);
@@ -109,14 +121,14 @@ export function ReportButton({ entry, pkg, installedVersion }: ReportButtonProps
         className="max-w-lg"
         footer={
           <>
-            <a
-              href={mailUrl}
-              onClick={sent}
-              className="inline-flex h-9 items-center gap-2 rounded-full border border-line bg-surface-2 px-4 text-sm font-semibold transition-colors hover:bg-surface-3"
+            <button
+              type="button"
+              onClick={writeToUs}
+              className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-full border border-line bg-surface-2 px-4 text-sm font-semibold transition-colors hover:bg-surface-3"
             >
               <Mail className="size-4" />
-              {t("report.sendEmail")}
-            </a>
+              {t("report.sendMessage")}
+            </button>
             <a
               href={githubUrl}
               target="_blank"

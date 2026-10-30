@@ -1,11 +1,11 @@
-import { ExternalLink, Globe2, Heart, Layers, Lock, Mail, MessagesSquare } from "lucide-react";
+import { ExternalLink, Globe2, Heart, Layers, Lock, Mail } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import pkgJson from "../../package.json";
 import { SourceIcon } from "@/components/package/SourceIcon";
 import { GitHubIcon } from "@/components/ui/BrandIcons";
 import { HubGetLogo } from "@/components/ui/Logo";
-import { CONTACT_EMAIL, FORUM_URL, GITHUB_URL } from "@/config";
+import { CONTACT_PATH, GITHUB_URL } from "@/config";
 import { useInstallableStats } from "@/hooks/usePackages";
 import { cn, formatAppCount } from "@/lib/utils";
 import { SOURCES } from "@/services/managers";
@@ -37,8 +37,7 @@ export function AboutPage() {
 
   const community = [
     { label: "GitHub", href: GITHUB_URL, Icon: GitHubIcon },
-    { label: t("nav.forum"), href: FORUM_URL, Icon: MessagesSquare },
-    { label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, Icon: Mail },
+    { label: t("community.contact"), href: `#${CONTACT_PATH}`, Icon: Mail },
   ];
 
   return (
@@ -126,7 +125,7 @@ export function AboutPage() {
             <a
               key={label}
               href={href}
-              target={href.startsWith("mailto:") ? undefined : "_blank"}
+              target={href.startsWith("#") ? undefined : "_blank"}
               rel="noreferrer"
               className="flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 text-sm transition-colors hover:bg-surface-2"
             >

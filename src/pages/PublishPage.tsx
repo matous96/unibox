@@ -1,4 +1,4 @@
-import { ArrowRight, ExternalLink, Image, MessagesSquare, Palette, ShieldCheck, Sparkles, Tags, Upload, Wand2 } from "lucide-react";
+import { ArrowRight, ExternalLink, Image, Mail, Palette, ShieldCheck, Sparkles, Tags, Upload, Wand2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
@@ -7,7 +7,7 @@ import { GitHubIcon } from "@/components/ui/BrandIcons";
 import { HubGetLogo } from "@/components/ui/Logo";
 import { SourceIcon } from "@/components/package/SourceIcon";
 import { VerifiedBadge } from "@/components/package/VerifiedBadge";
-import { FORUM_URL, GITHUB_URL } from "@/config";
+import { CONTACT_PATH, GITHUB_URL } from "@/config";
 import { useInstallableStats } from "@/hooks/usePackages";
 import { cn, formatAppCount } from "@/lib/utils";
 import { getSource } from "@/services/managers";
@@ -180,15 +180,13 @@ export function PublishPage() {
           <p className="text-sm text-muted">{t("publish.questionsText")}</p>
         </div>
         <div className="flex gap-2">
-          <a
-            href={FORUM_URL}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            to={CONTACT_PATH}
             className="inline-flex h-10 items-center gap-2 rounded-full border border-line bg-surface px-5 text-sm font-semibold transition-colors hover:bg-surface-3"
           >
-            <MessagesSquare className="size-4" />
-            {t("nav.forum")}
-          </a>
+            <Mail className="size-4" />
+            {t("community.contact")}
+          </Link>
         </div>
       </section>
     </div>

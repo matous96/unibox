@@ -1,22 +1,25 @@
 import { Heart, Mail } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router";
+import { Link, NavLink, useLocation, useSearchParams } from "react-router";
 import { AccountButton } from "@/components/auth/AccountButton";
 import { GitHubIcon } from "@/components/ui/BrandIcons";
-import { CONTACT_EMAIL, FORUM_URL, GITHUB_URL } from "@/config";
+import { CONTACT_PATH, GITHUB_URL } from "@/config";
 import { cn } from "@/lib/utils";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { NotificationCenter } from "./NotificationCenter";
 import { ThemeToggle } from "./ThemeToggle";
 
 /**
- * Pravá část horní lišty: štítek Open source, odkazy na GitHub, Discord
- * a kontaktní e-mail, centrum oznámení (zvoneček), vpravo přepínač
+ * Pravá část horní lišty: štítek Open source, odkaz na GitHub
+ * a kontaktní formulář, centrum oznámení (zvoneček), vpravo přepínač
  * tmavého / světlého režimu, jazyka a přihlášení / účet.
  * (Zdroje balíčků jsou v levém panelu – viz SourcesPanel.)
  */
 export function CommunityBar() {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
+  const [params] = useSearchParams();
+  const onContact = pathname === "/settings" && params.get("section") === "contact";
 
   const iconLink =
     "flex size-8 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface-2 hover:text-fg";
@@ -30,9 +33,6 @@ export function CommunityBar() {
         <NavLink to="/publish" className={({ isActive }) => cn(textLink, isActive && "bg-surface-2 text-fg")}>
           {t("nav.publish")}
         </NavLink>
-        <a href={FORUM_URL} target="_blank" rel="noreferrer" className={textLink}>
-          {t("nav.forum")}
-        </a>
         <NavLink to="/about" className={({ isActive }) => cn(textLink, isActive && "bg-surface-2 text-fg")}>
           {t("nav.about")}
         </NavLink>
@@ -53,14 +53,15 @@ export function CommunityBar() {
       <a href={GITHUB_URL} target="_blank" rel="noreferrer" title="GitHub" aria-label="GitHub" className={iconLink}>
         <GitHubIcon className="size-[18px]" />
       </a>
-      <a
-        href={`mailto:${CONTACT_EMAIL}`}
-        title={t("community.email", { email: CONTACT_EMAIL })}
-        aria-label={t("community.emailLabel")}
-        className={iconLink}
+      {/* Kontaktní formulář (Nastavení → Kontaktovat HubGet) */}
+      <Link
+        to={CONTACT_PATH}
+        title={t("community.contact")}
+        aria-label={t("community.contact")}
+        className={cn(iconLink, onContact && "bg-surface-2 text-fg")}
       >
         <Mail className="size-[18px]" />
-      </a>
+      </Link>
 
       {/* Historie oznámení a chyb (odznak s počtem nových chyb) */}
       <NotificationCenter />

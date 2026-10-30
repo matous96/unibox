@@ -39,7 +39,6 @@
     "bundles": "Package Bundles",
     "startup": "Startup apps",
     "publish": "Publish",
-    "forum": "Forum",
     "about": "About HubGet"
   },
   "startup": {
@@ -205,7 +204,7 @@
     "verifyStep2": "or publish the package from the GitHub organization listed in the manifest.",
     "verifyCta": "Request verification",
     "questionsTitle": "Got questions?",
-    "questionsText": "Ask the community on the forum."
+    "questionsText": "Write to us – we’re happy to help."
   },
   "publishWinget": {
     "back": "Publish",
@@ -584,11 +583,11 @@
       }
     },
     "contactTitle": "Still stuck?",
-    "contactText": "Ask the community or write to us.",
-    "forumHint": "Questions, ideas and guides from the community",
+    "contactText": "Report a bug on GitHub, or write to us directly.",
     "bug": "Report a bug",
     "bugHint": "New issue on GitHub",
-    "email": "Email",
+    "contactForm": "Write to us",
+    "contactFormHint": "A form right in the app – we’ll reply by email",
     "commandsTitle": "Terminal commands",
     "commandsText": "Searching, installing, updating and maintenance for WinGet, Chocolatey, Scoop and developer package managers – with explanations."
   },
@@ -906,7 +905,7 @@
     "diagSource": "Source",
     "diagInstalled": "Installed version",
     "diagType": "Problem type",
-    "sendEmail": "Send by email",
+    "sendMessage": "Write to us",
     "sendGithub": "Report on GitHub",
     "thanks": "Thanks for the report!"
   },
@@ -1111,8 +1110,7 @@
   "community": {
     "openSource": "Open source",
     "openSourceTitle": "HubGet is open source – find the code on GitHub",
-    "email": "Email us: {{email}}",
-    "emailLabel": "Contact email",
+    "contact": "Write to us",
     "language": "Language: {{language}}",
     "translate": "Help translate into more languages",
     "sources": "Package sources",
@@ -1810,7 +1808,39 @@
     "managers": "Package managers",
     "backup": "Backup and catalog",
     "news": "What’s new",
-    "commands": "Terminal commands"
+    "commands": "Terminal commands",
+    "contact": "Contact HubGet"
+  },
+  "contact": {
+    "intro": "Got a question, found a bug, or have an idea or a collaboration offer? Write to us – we’ll reply by email.",
+    "topic": "Topic",
+    "topics": {
+      "question": "Question",
+      "bug": "Bug",
+      "idea": "Idea",
+      "collaboration": "Collaboration",
+      "other": "Other"
+    },
+    "name": "Name",
+    "optional": "optional",
+    "email": "Email",
+    "emailInvalid": "Enter a valid email address – otherwise we can’t reply.",
+    "message": "Message",
+    "messagePlaceholder": "How can we help?",
+    "messageShort": "Please write at least a few words.",
+    "attach": "Attach technical details",
+    "attachHint": "They help us find the cause of a bug faster.",
+    "diagLanguage": "Language",
+    "send": "Send",
+    "sending": "Sending…",
+    "privacy": "The message is delivered by the Web3Forms service. We’ll only use your email to reply.",
+    "sentTitle": "Message sent",
+    "sentText": "Thank you! The reply will go to {{email}}.",
+    "another": "Write another message",
+    "errorOffline": "The message couldn’t be sent. Check your internet connection.",
+    "errorRateLimit": "Another message can’t be sent right now. Please try again in a moment.",
+    "errorFailed": "The message couldn’t be sent. Please try again, or report the problem on <github>GitHub</github>.",
+    "notConfigured": "Sending messages isn’t set up in this version. For now, write to us on <github>GitHub</github>."
   },
   "notifPrefs": {
     "main": "Notifications",

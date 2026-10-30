@@ -39,7 +39,6 @@
     "bundles": "Lots de paquets",
     "startup": "Au démarrage",
     "publish": "Publier",
-    "forum": "Forum",
     "about": "À propos de HubGet"
   },
   "startup": {
@@ -205,7 +204,7 @@
     "verifyStep2": "ou publiez le paquet depuis l’organisation GitHub indiquée dans le manifeste.",
     "verifyCta": "Demander la vérification",
     "questionsTitle": "Des questions ?",
-    "questionsText": "Posez-les à la communauté sur le forum."
+    "questionsText": "Écrivez-nous – nous vous aiderons volontiers."
   },
   "publishWinget": {
     "back": "Publier",
@@ -596,11 +595,11 @@
       }
     },
     "contactTitle": "Toujours bloqué ?",
-    "contactText": "Posez la question à la communauté ou écrivez-nous.",
-    "forumHint": "Questions, idées et guides de la communauté",
+    "contactText": "Signalez un bug sur GitHub ou écrivez-nous directement.",
     "bug": "Signaler un bug",
     "bugHint": "Nouveau ticket sur GitHub",
-    "email": "E-mail",
+    "contactForm": "Écrivez-nous",
+    "contactFormHint": "Un formulaire dans l’application – nous répondons par e-mail",
     "commandsTitle": "Commandes du terminal",
     "commandsText": "Recherche, installation, mise à jour et maintenance pour WinGet, Chocolatey, Scoop et les gestionnaires de paquets pour développeurs – avec explications."
   },
@@ -921,7 +920,7 @@
     "diagSource": "Source",
     "diagInstalled": "Version installée",
     "diagType": "Type de problème",
-    "sendEmail": "Envoyer par e-mail",
+    "sendMessage": "Écrivez-nous",
     "sendGithub": "Signaler sur GitHub",
     "thanks": "Merci pour le signalement !"
   },
@@ -1128,8 +1127,7 @@
   "community": {
     "openSource": "Open source",
     "openSourceTitle": "HubGet est open source – le code est sur GitHub",
-    "email": "Écrivez-nous : {{email}}",
-    "emailLabel": "E-mail de contact",
+    "contact": "Écrivez-nous",
     "language": "Langue : {{language}}",
     "translate": "Aidez à traduire dans d’autres langues",
     "sources": "Sources de paquets",
@@ -1856,7 +1854,39 @@
     "managers": "Gestionnaires de paquets",
     "backup": "Sauvegarde et catalogue",
     "news": "Nouveautés",
-    "commands": "Commandes du terminal"
+    "commands": "Commandes du terminal",
+    "contact": "Contacter HubGet"
+  },
+  "contact": {
+    "intro": "Une question, un bug, une idée ou une proposition de collaboration ? Écrivez-nous – nous vous répondrons par e-mail.",
+    "topic": "Sujet",
+    "topics": {
+      "question": "Question",
+      "bug": "Bug",
+      "idea": "Idée",
+      "collaboration": "Collaboration",
+      "other": "Autre"
+    },
+    "name": "Nom",
+    "optional": "facultatif",
+    "email": "E-mail",
+    "emailInvalid": "Saisissez une adresse e-mail valide – sinon nous ne pourrons pas vous répondre.",
+    "message": "Message",
+    "messagePlaceholder": "Comment pouvons-nous vous aider ?",
+    "messageShort": "Écrivez au moins quelques mots.",
+    "attach": "Joindre les informations techniques",
+    "attachHint": "Elles nous aident à trouver plus vite la cause d’un bug.",
+    "diagLanguage": "Langue",
+    "send": "Envoyer",
+    "sending": "Envoi…",
+    "privacy": "Le message est acheminé par le service Web3Forms. Nous n’utiliserons votre e-mail que pour vous répondre.",
+    "sentTitle": "Message envoyé",
+    "sentText": "Merci ! La réponse arrivera à {{email}}.",
+    "another": "Écrire un autre message",
+    "errorOffline": "Le message n’a pas pu être envoyé. Vérifiez votre connexion Internet.",
+    "errorRateLimit": "Impossible d’envoyer un autre message pour le moment. Réessayez dans un instant.",
+    "errorFailed": "Le message n’a pas pu être envoyé. Réessayez ou signalez le problème sur <github>GitHub</github>.",
+    "notConfigured": "L’envoi de messages n’est pas configuré dans cette version. En attendant, écrivez-nous sur <github>GitHub</github>."
   },
   "notifPrefs": {
     "main": "Notifications",

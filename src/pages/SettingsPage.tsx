@@ -19,6 +19,7 @@ import {
   LockOpen,
   LogIn,
   LogOut,
+  Mail,
   Palette,
   RefreshCw,
   Settings2,
@@ -39,6 +40,7 @@ import { ReleaseList } from "@/components/layout/ReleaseList";
 import { formatPinUntil, unpinLabel } from "@/components/package/UpdatePin";
 import { AccentColorRow } from "@/components/settings/AccentColorRow";
 import { CommandGuide } from "@/components/settings/CommandGuide";
+import { ContactSection } from "@/components/settings/ContactSection";
 import { NotificationsSection } from "@/components/settings/NotificationsSection";
 import { PackageUpdatesSection } from "@/components/settings/PackageUpdatesSection";
 import { SecuritySection } from "@/components/settings/SecuritySection";
@@ -80,6 +82,7 @@ const SECTIONS = [
   { id: "backup", icon: Archive },
   { id: "commands", icon: Terminal },
   { id: "news", icon: Sparkles },
+  { id: "contact", icon: Mail },
 ] as const;
 
 type SectionId = (typeof SECTIONS)[number]["id"];
@@ -135,6 +138,7 @@ export function SettingsPage() {
           )}
           {section === "commands" && <CommandGuide placeholders />}
           {section === "news" && <NewsSection />}
+          {section === "contact" && <ContactSection />}
         </div>
       </div>
     </div>

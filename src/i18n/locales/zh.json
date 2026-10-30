@@ -39,7 +39,6 @@
     "bundles": "软件包合集",
     "startup": "启动应用",
     "publish": "发布",
-    "forum": "论坛",
     "about": "关于 HubGet"
   },
   "startup": {
@@ -205,7 +204,7 @@
     "verifyStep2": "或从清单中列出的 GitHub 组织发布软件包。",
     "verifyCta": "申请验证",
     "questionsTitle": "有疑问？",
-    "questionsText": "欢迎在论坛向社区提问。"
+    "questionsText": "联系我们，我们很乐意提供帮助。"
   },
   "publishWinget": {
     "back": "发布",
@@ -584,11 +583,11 @@
       }
     },
     "contactTitle": "仍然没解决？",
-    "contactText": "向社区提问，或给我们写信。",
-    "forumHint": "来自社区的问题、想法和指南",
+    "contactText": "在 GitHub 上报告错误，或直接联系我们。",
     "bug": "报告错误",
     "bugHint": "在 GitHub 上新建 issue",
-    "email": "电子邮件",
+    "contactForm": "联系我们",
+    "contactFormHint": "应用内表单，我们会通过电子邮件回复",
     "commandsTitle": "终端命令",
     "commandsText": "WinGet、Chocolatey、Scoop 及开发者包管理器的搜索、安装、更新和维护命令——附带说明。"
   },
@@ -906,7 +905,7 @@
     "diagSource": "来源",
     "diagInstalled": "已安装版本",
     "diagType": "问题类型",
-    "sendEmail": "通过电子邮件发送",
+    "sendMessage": "联系我们",
     "sendGithub": "在 GitHub 上报告",
     "thanks": "感谢你的报告！"
   },
@@ -1111,8 +1110,7 @@
   "community": {
     "openSource": "开源",
     "openSourceTitle": "HubGet 是开源的——代码在 GitHub 上",
-    "email": "给我们写信：{{email}}",
-    "emailLabel": "联系邮箱",
+    "contact": "联系我们",
     "language": "语言：{{language}}",
     "translate": "帮助翻译成更多语言",
     "sources": "软件包来源",
@@ -1810,7 +1808,39 @@
     "managers": "包管理器",
     "backup": "备份和目录",
     "news": "新功能",
-    "commands": "终端命令"
+    "commands": "终端命令",
+    "contact": "联系 HubGet"
+  },
+  "contact": {
+    "intro": "有问题、发现了错误，或者有想法、合作意向？给我们留言，我们会通过电子邮件回复你。",
+    "topic": "主题",
+    "topics": {
+      "question": "提问",
+      "bug": "错误",
+      "idea": "建议",
+      "collaboration": "合作",
+      "other": "其他"
+    },
+    "name": "姓名",
+    "optional": "选填",
+    "email": "电子邮件",
+    "emailInvalid": "请输入有效的电子邮件地址，否则我们无法回复你。",
+    "message": "留言",
+    "messagePlaceholder": "有什么可以帮你的？",
+    "messageShort": "请至少写几个字。",
+    "attach": "附上技术信息",
+    "attachHint": "有助于我们更快找到错误原因。",
+    "diagLanguage": "语言",
+    "send": "发送",
+    "sending": "正在发送…",
+    "privacy": "留言由 Web3Forms 服务投递。你的电子邮件地址仅用于回复。",
+    "sentTitle": "留言已发送",
+    "sentText": "谢谢！回复将发送到 {{email}}。",
+    "another": "再写一条留言",
+    "errorOffline": "留言发送失败。请检查网络连接。",
+    "errorRateLimit": "暂时无法再发送留言，请稍后再试。",
+    "errorFailed": "留言发送失败。请重试，或在 <github>GitHub</github> 上报告问题。",
+    "notConfigured": "此版本尚未设置留言发送。目前请在 <github>GitHub</github> 上联系我们。"
   },
   "notifPrefs": {
     "main": "通知",

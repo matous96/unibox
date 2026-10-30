@@ -39,7 +39,6 @@
     "bundles": "Pacotes de apps",
     "startup": "Inicialização",
     "publish": "Publicar",
-    "forum": "Fórum",
     "about": "Sobre o HubGet"
   },
   "startup": {
@@ -205,7 +204,7 @@
     "verifyStep2": "ou publique o pacote a partir da organização do GitHub indicada no manifesto.",
     "verifyCta": "Solicitar verificação",
     "questionsTitle": "Dúvidas?",
-    "questionsText": "Pergunte à comunidade no fórum."
+    "questionsText": "Escreva para nós – teremos prazer em ajudar."
   },
   "publishWinget": {
     "back": "Publicar",
@@ -596,11 +595,11 @@
       }
     },
     "contactTitle": "Ainda com dificuldades?",
-    "contactText": "Pergunte à comunidade ou escreva para nós.",
-    "forumHint": "Perguntas, ideias e guias da comunidade",
+    "contactText": "Relate um erro no GitHub ou escreva diretamente para nós.",
     "bug": "Relatar um bug",
     "bugHint": "Nova issue no GitHub",
-    "email": "E-mail",
+    "contactForm": "Escreva para nós",
+    "contactFormHint": "Um formulário no próprio aplicativo – respondemos por e-mail",
     "commandsTitle": "Comandos do terminal",
     "commandsText": "Busca, instalação, atualização e manutenção com WinGet, Chocolatey, Scoop e gerenciadores de pacotes para desenvolvedores – com explicações."
   },
@@ -921,7 +920,7 @@
     "diagSource": "Fonte",
     "diagInstalled": "Versão instalada",
     "diagType": "Tipo de problema",
-    "sendEmail": "Enviar por e-mail",
+    "sendMessage": "Escreva para nós",
     "sendGithub": "Relatar no GitHub",
     "thanks": "Obrigado pelo relato!"
   },
@@ -1128,8 +1127,7 @@
   "community": {
     "openSource": "Código aberto",
     "openSourceTitle": "O HubGet é de código aberto – o código está no GitHub",
-    "email": "Escreva para nós: {{email}}",
-    "emailLabel": "E-mail de contato",
+    "contact": "Escreva para nós",
     "language": "Idioma: {{language}}",
     "translate": "Ajude a traduzir para mais idiomas",
     "sources": "Fontes de pacotes",
@@ -1856,7 +1854,39 @@
     "managers": "Gerenciadores de pacotes",
     "backup": "Backup e catálogo",
     "news": "Novidades",
-    "commands": "Comandos do terminal"
+    "commands": "Comandos do terminal",
+    "contact": "Contatar o HubGet"
+  },
+  "contact": {
+    "intro": "Tem uma dúvida, encontrou um erro ou tem uma ideia ou proposta de parceria? Escreva para nós – responderemos por e-mail.",
+    "topic": "Assunto",
+    "topics": {
+      "question": "Dúvida",
+      "bug": "Erro",
+      "idea": "Ideia",
+      "collaboration": "Parceria",
+      "other": "Outro"
+    },
+    "name": "Nome",
+    "optional": "opcional",
+    "email": "E-mail",
+    "emailInvalid": "Informe um e-mail válido – caso contrário, não poderemos responder.",
+    "message": "Mensagem",
+    "messagePlaceholder": "Como podemos ajudar?",
+    "messageShort": "Escreva pelo menos algumas palavras.",
+    "attach": "Anexar dados técnicos",
+    "attachHint": "Eles nos ajudam a encontrar mais rápido a causa de um erro.",
+    "diagLanguage": "Idioma",
+    "send": "Enviar",
+    "sending": "Enviando…",
+    "privacy": "A mensagem é entregue pelo serviço Web3Forms. Usaremos seu e-mail apenas para responder.",
+    "sentTitle": "Mensagem enviada",
+    "sentText": "Obrigado! A resposta chegará em {{email}}.",
+    "another": "Escrever outra mensagem",
+    "errorOffline": "Não foi possível enviar a mensagem. Verifique sua conexão com a internet.",
+    "errorRateLimit": "Não é possível enviar outra mensagem agora. Tente novamente em instantes.",
+    "errorFailed": "Não foi possível enviar a mensagem. Tente novamente ou relate o problema no <github>GitHub</github>.",
+    "notConfigured": "O envio de mensagens não está configurado nesta versão. Por enquanto, escreva para nós no <github>GitHub</github>."
   },
   "notifPrefs": {
     "main": "Notificações",

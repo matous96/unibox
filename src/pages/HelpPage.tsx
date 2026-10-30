@@ -1,9 +1,9 @@
-import { Bug, ChevronDown, ChevronRight, CircleQuestionMark, Mail, MessagesSquare, Terminal, type LucideIcon } from "lucide-react";
+import { Bug, ChevronDown, ChevronRight, CircleQuestionMark, Mail, Terminal, type LucideIcon } from "lucide-react";
 import { useEffect, type ComponentType } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router";
 import { PageHeader } from "@/components/ui/States";
-import { CONTACT_EMAIL, FORUM_URL, GITHUB_URL } from "@/config";
+import { CONTACT_PATH, GITHUB_URL } from "@/config";
 
 /** Témata častých otázek (texty v překladech: help.faq.<id>.q / .a). Bezpečnost jako první. */
 const FAQ = ["safe", "how", "source", "uac", "bundles", "failed", "add"] as const;
@@ -23,9 +23,8 @@ export function HelpPage() {
   }, [openId]);
 
   const contacts: { label: string; hint: string; href: string; Icon: LucideIcon | ComponentType<{ className?: string }> }[] = [
-    { label: t("nav.forum"), hint: t("help.forumHint"), href: FORUM_URL, Icon: MessagesSquare },
     { label: t("help.bug"), hint: t("help.bugHint"), href: `${GITHUB_URL}/issues/new`, Icon: Bug },
-    { label: t("help.email"), hint: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, Icon: Mail },
+    { label: t("help.contactForm"), hint: t("help.contactFormHint"), href: `#${CONTACT_PATH}`, Icon: Mail },
   ];
 
   return (
@@ -83,7 +82,7 @@ export function HelpPage() {
             <a
               key={label}
               href={href}
-              target={href.startsWith("mailto:") ? undefined : "_blank"}
+              target={href.startsWith("#") ? undefined : "_blank"}
               rel="noreferrer"
               className="flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 transition-colors hover:bg-surface-2"
             >

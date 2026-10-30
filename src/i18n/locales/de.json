@@ -39,7 +39,6 @@
     "bundles": "Paketsammlungen",
     "startup": "Autostart",
     "publish": "Veröffentlichen",
-    "forum": "Forum",
     "about": "Über HubGet"
   },
   "startup": {
@@ -205,7 +204,7 @@
     "verifyStep2": "oder veröffentlichen Sie das Paket aus der im Manifest angegebenen GitHub-Organisation.",
     "verifyCta": "Verifizierung anfordern",
     "questionsTitle": "Fragen?",
-    "questionsText": "Fragen Sie die Community im Forum."
+    "questionsText": "Schreiben Sie uns – wir helfen gern."
   },
   "publishWinget": {
     "back": "Veröffentlichen",
@@ -584,11 +583,11 @@
       }
     },
     "contactTitle": "Immer noch nicht weiter?",
-    "contactText": "Fragen Sie die Community oder schreiben Sie uns.",
-    "forumHint": "Fragen, Ideen und Anleitungen aus der Community",
+    "contactText": "Melden Sie einen Fehler auf GitHub oder schreiben Sie uns direkt.",
     "bug": "Fehler melden",
     "bugHint": "Neues Issue auf GitHub",
-    "email": "E-Mail",
+    "contactForm": "Schreiben Sie uns",
+    "contactFormHint": "Formular direkt in der App – wir antworten per E-Mail",
     "commandsTitle": "Terminal-Befehle",
     "commandsText": "Suchen, Installieren, Aktualisieren und Wartung für WinGet, Chocolatey, Scoop und Paketmanager für Entwickler – mit Erklärungen."
   },
@@ -906,7 +905,7 @@
     "diagSource": "Quelle",
     "diagInstalled": "Installierte Version",
     "diagType": "Art des Problems",
-    "sendEmail": "Per E-Mail senden",
+    "sendMessage": "Schreiben Sie uns",
     "sendGithub": "Auf GitHub melden",
     "thanks": "Danke für die Meldung!"
   },
@@ -1111,8 +1110,7 @@
   "community": {
     "openSource": "Open Source",
     "openSourceTitle": "HubGet ist Open Source – den Code finden Sie auf GitHub",
-    "email": "Schreiben Sie uns: {{email}}",
-    "emailLabel": "Kontakt-E-Mail",
+    "contact": "Schreiben Sie uns",
     "language": "Sprache: {{language}}",
     "translate": "Helfen Sie bei der Übersetzung in weitere Sprachen",
     "sources": "Paketquellen",
@@ -1810,7 +1808,39 @@
     "managers": "Paketmanager",
     "backup": "Sicherung und Katalog",
     "news": "Neuigkeiten",
-    "commands": "Terminal-Befehle"
+    "commands": "Terminal-Befehle",
+    "contact": "HubGet kontaktieren"
+  },
+  "contact": {
+    "intro": "Haben Sie eine Frage, einen Fehler gefunden, eine Idee oder ein Angebot zur Zusammenarbeit? Schreiben Sie uns – wir antworten per E-Mail.",
+    "topic": "Thema",
+    "topics": {
+      "question": "Frage",
+      "bug": "Fehler",
+      "idea": "Idee",
+      "collaboration": "Zusammenarbeit",
+      "other": "Sonstiges"
+    },
+    "name": "Name",
+    "optional": "optional",
+    "email": "E-Mail",
+    "emailInvalid": "Geben Sie eine gültige E-Mail-Adresse ein – sonst können wir nicht antworten.",
+    "message": "Nachricht",
+    "messagePlaceholder": "Wie können wir helfen?",
+    "messageShort": "Bitte schreiben Sie wenigstens ein paar Worte.",
+    "attach": "Technische Angaben anhängen",
+    "attachHint": "Sie helfen uns, die Ursache eines Fehlers schneller zu finden.",
+    "diagLanguage": "Sprache",
+    "send": "Senden",
+    "sending": "Wird gesendet…",
+    "privacy": "Die Nachricht wird über den Dienst Web3Forms zugestellt. Ihre E-Mail-Adresse verwenden wir nur für die Antwort.",
+    "sentTitle": "Nachricht gesendet",
+    "sentText": "Vielen Dank! Die Antwort kommt an {{email}}.",
+    "another": "Weitere Nachricht schreiben",
+    "errorOffline": "Die Nachricht konnte nicht gesendet werden. Prüfen Sie Ihre Internetverbindung.",
+    "errorRateLimit": "Gerade kann keine weitere Nachricht gesendet werden. Bitte versuchen Sie es gleich noch einmal.",
+    "errorFailed": "Die Nachricht konnte nicht gesendet werden. Versuchen Sie es erneut oder melden Sie das Problem auf <github>GitHub</github>.",
+    "notConfigured": "Das Senden von Nachrichten ist in dieser Version nicht eingerichtet. Schreiben Sie uns vorerst auf <github>GitHub</github>."
   },
   "notifPrefs": {
     "main": "Benachrichtigungen",

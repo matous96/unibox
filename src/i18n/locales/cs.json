@@ -39,7 +39,6 @@
     "bundles": "Sady balíčků",
     "startup": "Po spuštění",
     "publish": "Publikovat",
-    "forum": "Fórum",
     "about": "O HubGetu"
   },
   "startup": {
@@ -205,7 +204,7 @@
     "verifyStep2": "nebo balíček publikujte z organizace na GitHubu, která je uvedená v manifestu.",
     "verifyCta": "Požádat o ověření",
     "questionsTitle": "Máte otázky?",
-    "questionsText": "Zeptejte se komunity na fóru."
+    "questionsText": "Napište nám – rádi poradíme."
   },
   "publishWinget": {
     "back": "Publikovat",
@@ -608,11 +607,11 @@
       }
     },
     "contactTitle": "Stále si nevíte rady?",
-    "contactText": "Zeptejte se komunity, nebo nám napište.",
-    "forumHint": "Otázky, nápady a návody od komunity",
+    "contactText": "Nahlaste chybu na GitHubu, nebo nám rovnou napište.",
     "bug": "Nahlásit chybu",
     "bugHint": "Nové hlášení na GitHubu",
-    "email": "E-mail",
+    "contactForm": "Napište nám",
+    "contactFormHint": "Formulář přímo v aplikaci, odpovíme e-mailem",
     "commandsTitle": "Příkazy pro terminál",
     "commandsText": "Hledání, instalace, aktualizace a údržba pro WinGet, Chocolatey, Scoop i správce pro vývojáře – s vysvětlením."
   },
@@ -936,7 +935,7 @@
     "diagSource": "Zdroj",
     "diagInstalled": "Nainstalovaná verze",
     "diagType": "Typ problému",
-    "sendEmail": "Poslat e-mailem",
+    "sendMessage": "Napsat nám",
     "sendGithub": "Nahlásit na GitHubu",
     "thanks": "Děkujeme za nahlášení!"
   },
@@ -1145,8 +1144,7 @@
   "community": {
     "openSource": "Open source",
     "openSourceTitle": "HubGet je open source – zdrojový kód najdete na GitHubu",
-    "email": "Napište nám: {{email}}",
-    "emailLabel": "Kontaktní e-mail",
+    "contact": "Napište nám",
     "language": "Jazyk: {{language}}",
     "translate": "Pomozte s překladem do dalších jazyků",
     "sources": "Zdroje balíčků",
@@ -1902,7 +1900,39 @@
     "managers": "Správci balíčků",
     "backup": "Záloha a katalog",
     "news": "Novinky",
-    "commands": "Příkazy pro terminál"
+    "commands": "Příkazy pro terminál",
+    "contact": "Kontaktovat HubGet"
+  },
+  "contact": {
+    "intro": "Máte dotaz, narazili jste na chybu, nebo máte nápad či nabídku spolupráce? Napište nám – odpovíme vám e-mailem.",
+    "topic": "Téma",
+    "topics": {
+      "question": "Dotaz",
+      "bug": "Chyba",
+      "idea": "Nápad",
+      "collaboration": "Spolupráce",
+      "other": "Jiné"
+    },
+    "name": "Jméno",
+    "optional": "nepovinné",
+    "email": "E-mail",
+    "emailInvalid": "Zadejte platný e-mail – jinak vám nemůžeme odpovědět.",
+    "message": "Zpráva",
+    "messagePlaceholder": "S čím vám můžeme pomoct?",
+    "messageShort": "Napište prosím aspoň pár slov.",
+    "attach": "Přiložit technické údaje",
+    "attachHint": "Pomůžou nám rychleji najít příčinu chyby.",
+    "diagLanguage": "Jazyk",
+    "send": "Odeslat",
+    "sending": "Odesílám…",
+    "privacy": "Zprávu doručí služba Web3Forms. Váš e-mail použijeme jen k odpovědi.",
+    "sentTitle": "Zpráva je odeslaná",
+    "sentText": "Děkujeme! Odpověď přijde na {{email}}.",
+    "another": "Napsat další zprávu",
+    "errorOffline": "Zprávu se nepodařilo odeslat. Zkontrolujte připojení k internetu.",
+    "errorRateLimit": "Teď nejde odeslat další zprávu. Zkuste to prosím za chvíli.",
+    "errorFailed": "Zprávu se nepodařilo odeslat. Zkuste to prosím znovu, nebo problém nahlaste na <github>GitHubu</github>.",
+    "notConfigured": "Odesílání zpráv v této verzi není nastavené. Napište nám zatím na <github>GitHubu</github>."
   },
   "notifPrefs": {
     "main": "Oznámení",

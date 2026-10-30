@@ -1,19 +1,21 @@
 /**
  * Odkazy na komunitu projektu. Hodnoty lze přepsat v souboru .env.local
- * (VITE_GITHUB_URL, VITE_FORUM_URL…).
- *
- * TODO: doplnit skutečný e-mail projektu.
+ * (VITE_GITHUB_URL, VITE_SUPPORT_URL…).
  */
 export const GITHUB_URL: string = import.meta.env.VITE_GITHUB_URL ?? "https://github.com/matous96/unibox";
-/** Fórum komunity – výchozí jsou diskuze (Discussions) v repozitáři na GitHubu. */
-export const FORUM_URL: string = import.meta.env.VITE_FORUM_URL ?? `${GITHUB_URL}/discussions`;
 /**
  * Dobrovolný příspěvek na vývoj (Revolut) – karta Podpořit HubGet v Nastavení.
  * Prázdná hodnota (VITE_SUPPORT_URL=) kartu skryje.
  */
 export const SUPPORT_URL: string = import.meta.env.VITE_SUPPORT_URL ?? "https://revolut.me/matous96";
-/** Kontaktní e-mail projektu (ikona obálky v horní liště). */
-export const CONTACT_EMAIL: string = import.meta.env.VITE_CONTACT_EMAIL ?? "YOUR-EMAIL@example.com";
+/**
+ * Přístupový klíč kontaktního formuláře (Web3Forms – zpráva přijde e-mailem autorovi).
+ * Klíč je veřejný, služba ho určuje přímo do kódu stránky. Prázdný (VITE_CONTACT_FORM_KEY=)
+ * formulář vypne a místo odeslání odkáže na fórum.
+ */
+export const CONTACT_FORM_KEY: string = import.meta.env.VITE_CONTACT_FORM_KEY ?? "b43a3256-556d-4f08-a4e2-45d6b81e0c66";
+/** Kontaktní formulář v aplikaci (Nastavení → Kontaktovat HubGet) – ikona obálky v horní liště. */
+export const CONTACT_PATH = "/settings?section=contact";
 
 /**
  * Webová adresa pro sdílené odkazy (např. https://vas-web.cz). Volitelná:

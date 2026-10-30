@@ -7,10 +7,8 @@ interface ImportMetaEnv {
   readonly VITE_GITHUB_URL?: string;
   /** Odkaz na dobrovolný příspěvek (revolut.me) – karta Podpořit HubGet v Nastavení. */
   readonly VITE_SUPPORT_URL?: string;
-  /** Kontaktní e-mail projektu. */
-  readonly VITE_CONTACT_EMAIL?: string;
-  /** Fórum komunity. */
-  readonly VITE_FORUM_URL?: string;
+  /** Přístupový klíč Web3Forms pro kontaktní formulář (veřejný). */
+  readonly VITE_CONTACT_FORM_KEY?: string;
   /** Web projektu pro sdílené odkazy na aplikace. */
   readonly VITE_SHARE_URL?: string;
   /** Adresa projektu Supabase (https://<projekt>.supabase.co) – přihlášení a hodnocení. */
