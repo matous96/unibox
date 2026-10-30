@@ -1,7 +1,8 @@
 /**
- * Příprava snímku obrazovky k nahrání (snímky aplikací od uživatelů): zmenší ho,
- * převede do WebP a vytvoří náhled. Nové zakódování zahodí metadata obrázku
- * (EXIF – fotoaparát, poloha). Server přijme jen WebP do 1 MB (bucket app-screenshots).
+ * Příprava snímku obrazovky k nahrání (snímky aplikací od uživatelů, přílohy kontaktního
+ * formuláře): zmenší ho, převede do WebP a vytvoří náhled. Nové zakódování zahodí metadata
+ * obrázku (EXIF – fotoaparát, poloha). Server přijme jen WebP do 1 MB (buckety
+ * app-screenshots a contact-attachments).
  */
 
 /** Typy obrázků, které jde vybrat, vložit nebo přetáhnout. */
@@ -50,8 +51,11 @@ async function encode(bitmap: ImageBitmap, width: number, height: number, qualit
   return blob;
 }
 
-/** Zmenší obrázek do WebP (snímek a náhled); vyhodí ScreenshotError, když nejde použít. */
-export async function prepareScreenshot(file: Blob): Promise<PreparedScreenshot> {
+/**
+ * Zmenší obrázek do WebP (snímek a náhled); vyhodí ScreenshotError, když nejde použít.
+ * `minSide` – nejmenší kratší strana (výřez chybové hlášky v kontaktním formuláři může být malý).
+ */
+export async function prepareScreenshot(file: Blob, minSide = MIN_SIDE): Promise<PreparedScreenshot> {
   if (!SCREENSHOT_TYPES.includes(file.type)) throw new ScreenshotError("type");
   if (file.size > MAX_INPUT_BYTES) throw new ScreenshotError("size");
   let bitmap: ImageBitmap;
@@ -61,7 +65,7 @@ export async function prepareScreenshot(file: Blob): Promise<PreparedScreenshot>
     throw new ScreenshotError("decode");
   }
   try {
-    if (Math.min(bitmap.width, bitmap.height) < MIN_SIDE) throw new ScreenshotError("small");
+    if (Math.min(bitmap.width, bitmap.height) < minSide) throw new ScreenshotError("small");
     let size = fit(bitmap.width, bitmap.height, MAX_SIDE);
     let full = await encode(bitmap, size.width, size.height, 0.85);
     // Hodně detailní snímek: nižší kvalita, pak menší rozměr
